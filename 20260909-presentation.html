@@ -135,6 +135,44 @@ table.mini th,table.mini td{border-bottom:1px solid var(--line);padding:.3em .7e
 table.mini th{font-weight:700;color:var(--muted);font-size:.9em}
 table.mini td.mono{font-family:var(--mono);white-space:nowrap}
 .math-term{cursor:help;border-bottom:1px dotted var(--muted)}
+/* Mobile overrides: desktop presentation styling stays unchanged. */
+#mobile-nav{display:none}
+#tip-close{display:none}
+@media(max-width:900px){
+  #deck{height:100dvh}
+  .slide{padding:22px 18px calc(90px + env(safe-area-inset-bottom));overscroll-behavior-y:contain}
+  .slide.active,.slide.cover.active,.slide[data-st="st2"].active{grid-template-columns:minmax(0,1fr);gap:28px;align-content:start}
+  .slide.active>.stage{position:static;min-height:0;max-height:none;display:block;overflow-x:auto;overflow-y:hidden;padding:10px 8px 16px;overscroll-behavior-x:contain}
+  .slide.active>.stage:empty{display:none}
+  .stage svg{width:100%;min-width:560px;max-width:none;max-height:none}
+  .stage>.eq{min-width:560px;overflow:visible}
+  .stage>.cap{min-width:560px;font-size:14px}
+  .stage>table{min-width:560px}
+  .slide.cover .stage svg{min-width:0}
+  h1{font-size:clamp(26px,6vw,36px);line-height:1.22}
+  .kicker{font-size:11px;line-height:1.5}
+  p.lead{font-size:16px;line-height:1.65}
+  .nota,#st2 .cap{font-size:13px;line-height:1.65}
+  .steps{gap:14px}
+  .steps li{font-size:15px;line-height:1.65;opacity:.5}
+  .steps li.on{opacity:1}.steps li.past{opacity:.8}
+  .symtab{font-size:13px;max-width:none;gap:6px 12px}
+  .callout{font-size:14px}
+  table.mini{font-size:13px;display:block;max-width:100%;overflow-x:auto}
+  table.bal{font-size:15px}
+  .readout{font-size:13px;max-width:100%}
+  .ctlrow{flex-wrap:wrap;gap:8px}
+  .ctl{min-height:44px;font-size:13px;padding:10px 12px}
+  .cover-title{font-size:60px}.cover-title-sub{font-size:22px}
+  .cover-num{font-size:56px}.cover-sub{font-size:18px}
+  .cover-meta{font-size:13px}.cover-hint{font-size:13px;margin-top:20px}
+  #hint,#dots,#hud{display:none}
+  #mobile-nav{display:grid;grid-template-columns:44px 56px 1fr 56px 44px;align-items:center;gap:4px;position:fixed;bottom:0;left:0;right:0;z-index:20;padding:8px 10px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--bg);color:var(--ink)}
+  #mobile-nav button{height:44px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--ink);font:600 13px var(--font);touch-action:manipulation}
+  #mobile-status{text-align:center;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+  #tipbox{max-width:calc(100vw - 24px);max-height:calc(100dvh - 110px);overflow-y:auto;font-size:14px;padding:14px;pointer-events:auto;overscroll-behavior:contain}
+  #tip-close{display:block;float:right;margin:0 0 8px 10px;min-width:44px;min-height:44px;border:1px solid #777;background:transparent;color:white;border-radius:4px;font-size:13px}
+}
 </style>
 </head>
 <body>
@@ -410,6 +448,13 @@ table.mini td.mono{font-family:var(--mono);white-space:nowrap}
 <div id="hint">← → 단계 이동 &nbsp;&nbsp;/&nbsp;&nbsp; Shift+← → 페이지 &nbsp;&nbsp;/&nbsp;&nbsp; Home / End</div>
 <div id="hud"></div>
 <div id="tipbox"></div>
+<nav id="mobile-nav" aria-label="슬라이드 이동">
+  <button id="mobile-prev-page" aria-label="이전 슬라이드">«</button>
+  <button id="mobile-prev" aria-label="이전 단계">이전</button>
+  <span id="mobile-status" aria-live="polite"></span>
+  <button id="mobile-next" aria-label="다음 단계">다음</button>
+  <button id="mobile-next-page" aria-label="다음 슬라이드">»</button>
+</nav>
 
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script>
@@ -441,6 +486,8 @@ function apply(){
   [...dots.children].forEach((d,i)=>d.classList.toggle('cur',i===S));
   history.replaceState(null,'',`#s${S+1}b${B}`);
   const rid=slides[S].dataset.st;renderers[rid]&&renderers[rid](B);
+  document.getElementById('mobile-status').textContent=`${S+1} / ${slides.length} · ${B}/${builds[S]}`;
+  document.dispatchEvent(new Event('deckchange'));
 }
 function go(ds){S=Math.max(0,Math.min(slides.length-1,S+ds));B=0;apply();slides[S].scrollTop=0}
 function next(){if(B<builds[S])B++;else if(S<slides.length-1){S++;B=0;apply();slides[S].scrollTop=0;return}else return;apply();scrollToStep()}
@@ -452,7 +499,11 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='Home'){S=0;B=0;apply()}
   else if(e.key==='End'){S=slides.length-1;B=builds[S];apply()}
 });
-document.addEventListener('click',e=>{if(e.target.closest('button, a, .tip, [data-tip], table, .readout, .symtab'))return;if(window.getSelection&&String(window.getSelection()).length)return;const x=e.clientX/innerWidth;x>0.5?next():prev()});
+document.addEventListener('click',e=>{if(innerWidth<=900||e.target.closest('button, a, .tip, [data-tip], table, .readout, .symtab, #tipbox'))return;if(window.getSelection&&String(window.getSelection()).length)return;const x=e.clientX/innerWidth;x>0.5?next():prev()});
+document.getElementById('mobile-prev-page').onclick=()=>go(-1);
+document.getElementById('mobile-next-page').onclick=()=>go(1);
+document.getElementById('mobile-prev').onclick=prev;
+document.getElementById('mobile-next').onclick=next;
 const m=location.hash.match(/s(\d+)b(\d+)/);if(m){S=Math.min(slides.length-1,+m[1]-1);B=Math.min(builds[S],+m[2])}
 
 const NS='http://www.w3.org/2000/svg';
@@ -1144,14 +1195,39 @@ const extensionTips={
 };
 Object.entries(extensionTips).forEach(([id,description])=>{const node=document.getElementById(id);if(node){node.dataset.tip=description;node.classList.add('tip')}});
 
-/* ---------- 툴팁 위임 ---------- */
+/* ---------- 툴팁 위임: 데스크톱 hover / 모바일 tap ---------- */
 (function(){
   const box=document.getElementById('tipbox');let cur=null;
-  function place(e){const pad=14;let x=e.clientX+pad,y=e.clientY+pad;const w=box.offsetWidth,h=box.offsetHeight;if(x+w>innerWidth-10)x=e.clientX-w-pad;if(y+h>innerHeight-10)y=e.clientY-h-pad;box.style.left=x+'px';box.style.top=y+'px'}
-  document.addEventListener('mouseover',e=>{const t=e.target.closest&&e.target.closest('[data-tip]');if(!t||t===cur)return;cur=t;box.innerHTML=t.getAttribute('data-tip');box.style.opacity=1;place(e)});
-  document.addEventListener('mousemove',e=>{if(cur)place(e)});
-  document.addEventListener('mouseout',e=>{const t=e.target.closest&&e.target.closest('[data-tip]');if(t&&t===cur&&!(e.relatedTarget&&t.contains(e.relatedTarget))){cur=null;box.style.opacity=0}});
+  const mobile=()=>innerWidth<=900;
+  function hide(){cur=null;box.style.opacity=0;box.style.visibility='hidden'}
+  function place(e){
+    const pad=14,w=box.offsetWidth,h=box.offsetHeight;
+    const x=Math.max(10,Math.min(e.clientX+pad,innerWidth-w-10));
+    const y=mobile()?Math.max(10,innerHeight-h-82):Math.max(10,Math.min(e.clientY+pad,innerHeight-h-10));
+    box.style.left=x+'px';box.style.top=y+'px';
+  }
+  function show(t,e){
+    cur=t;box.innerHTML=t.getAttribute('data-tip');
+    if(mobile()){
+      const close=document.createElement('button');close.id='tip-close';close.textContent='닫기';close.setAttribute('aria-label','설명 닫기');close.onclick=hide;box.prepend(close);
+    }
+    box.style.visibility='visible';box.style.opacity=1;place(e);
+  }
+  document.addEventListener('mouseover',e=>{if(mobile())return;const t=e.target.closest&&e.target.closest('[data-tip]');if(!t||t===cur)return;show(t,e)});
+  document.addEventListener('mousemove',e=>{if(cur&&!mobile())place(e)});
+  document.addEventListener('mouseout',e=>{if(mobile())return;const t=e.target.closest&&e.target.closest('[data-tip]');if(t&&t===cur&&!(e.relatedTarget&&t.contains(e.relatedTarget)))hide()});
+  document.addEventListener('click',e=>{
+    if(!mobile()||e.target.closest('#tipbox'))return;
+    const t=e.target.closest('[data-tip]');
+    // Buttons act immediately; their optional usage hints must not cover results.
+    if(t&&!t.closest('button')){if(t===cur)hide();else show(t,e)}else hide();
+  });
+  document.addEventListener('deckchange',hide);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')hide()});
+  window.addEventListener('resize',hide);
+  hide();
 })();
+
 apply();
 if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{for(const k in fitted)delete fitted[k];apply()})}
 let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{for(const k in fitted)delete fitted[k];apply()},200)});
