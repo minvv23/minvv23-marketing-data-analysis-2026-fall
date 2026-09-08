@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Experimental Ideal - MHE Ch.2</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff; --ink:#1b1b1f; --muted:#6b6b72; --line:#e4e4e8; --soft:#f4f4f6;
+  --treat:#c8553d; --treat-soft:#f7e3dd;
+  --ctrl:#2e6f95;  --ctrl-soft:#dfeaf1;
+  --aide:#8a8a92;
+  --accent:#1b1b1f;
+  --font:'Pretendard','Noto Sans KR',-apple-system,'Segoe UI',sans-serif;
+  --mono:'Pretendard','Noto Sans KR',sans-serif;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;text-wrap:pretty}
+h1{text-wrap:wrap}
+#deck{position:relative;width:100vw;height:100vh}
+.slide{position:absolute;inset:0;display:none;padding:2vh 3vw 8vh;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scroll-behavior:smooth}
+.slide.active{display:grid;grid-template-columns:minmax(0,12fr) minmax(0,10fr);gap:2.2vw;align-items:start;min-height:100%}
+.slide.active>div:first-child{align-self:start}
+.slide.active>.stage{align-self:start;position:sticky;top:0;min-height:calc(100vh - 12vh);max-height:calc(100vh - 8vh);overflow:visible}
+.slide.wide.active{grid-template-columns:1fr}
+.kicker{font-size:clamp(.6rem,1.7vh,1.1rem);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1.1em;font-weight:600}
+h1{font-size:clamp(1rem,min(3.4vw,5.8vh),3.9rem);font-weight:800;line-height:1.12;letter-spacing:-.015em;margin-bottom:.55em}
+h1 .q{color:var(--muted);font-weight:500}
+p.lead{font-size:calc(clamp(.7rem,min(1.45vw,2.5vh),1.6rem)*var(--ls,1));line-height:1.5;color:var(--ink);margin-bottom:1.1em;max-width:none;width:100%}
+p.note{font-size:clamp(.85rem,1.05vw,.98rem);line-height:1.7;color:var(--muted);max-width:34em}
+.tr{color:var(--treat);font-weight:700}.ct{color:var(--ctrl);font-weight:700}
+.steps{list-style:none;margin-top:1.3em;display:flex;flex-direction:column;gap:.55em}
+.steps li{font-size:calc(clamp(.7rem,min(1.3vw,2.25vh),1.45rem)*var(--ls,1));line-height:1.45;padding-left:1.6em;position:relative;opacity:.22;transition:opacity .45s ease,transform .45s ease;transform:translateY(4px)}
+.steps li::before{content:attr(data-n);position:absolute;left:0;top:.15em;font-size:.75em;font-weight:700;color:var(--muted);font-family:var(--mono)}
+.steps li.on{opacity:1;transform:none}
+.steps li.on::before{color:var(--ink)}
+.steps li.past{opacity:.6}
+.stage{width:100%;max-height:90vh;display:flex;flex-direction:column;justify-content:center}
+svg{display:block;width:100%;max-width:100%;height:auto;max-height:80vh;overflow:visible}
+svg circle,svg rect,svg line,svg path,svg g,svg text{transition:opacity .45s ease,cx .6s ease,cy .6s ease,x .6s ease,y .6s ease,width .6s ease,height .6s ease,r .4s ease,fill .4s ease,stroke .4s ease,stroke-dasharray .4s ease,transform .5s ease}
+@keyframes slidein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.slide.active{animation:slidein .4s ease}
+.swap{transition:opacity .25s ease}
+.slide.cover.active{grid-template-columns:minmax(0,6fr) minmax(0,5fr);align-items:center}
+.slide.cover.active>div:first-child{align-self:center}
+.cover-num{font-family:var(--mono);font-size:clamp(3.5rem,11vh,7.5rem);font-weight:800;line-height:.9;color:var(--line);letter-spacing:-.04em;margin:.1em 0 .05em -.04em}
+.cover-title{font-size:clamp(3rem,min(6.5vw,12vh),7.5rem);font-weight:800;letter-spacing:-.025em;line-height:1;margin-bottom:.35em}
+.cover-title-sub{display:block;font-size:.34em;font-weight:600;letter-spacing:-.01em;color:var(--muted);margin-top:.25em}
+.cover-sub{font-size:clamp(1.1rem,min(1.7vw,3vh),1.8rem);font-weight:500;color:var(--ink);margin-bottom:1.6em;text-wrap:balance}
+.cover-meta{font-size:clamp(.9rem,min(1.1vw,2vh),1.15rem);line-height:1.7;color:var(--muted);border-top:1.5px solid var(--ink);padding-top:1em;max-width:44em}
+.cover-hint{font-size:clamp(.9rem,1.9vh,1.15rem);color:var(--muted);margin-top:2.5em}
+.nota{font-size:calc(clamp(.6rem,min(.95vw,1.75vh),1.15rem)*var(--ls,1));line-height:1.45;color:var(--muted);margin-top:.4em;margin-bottom:.4em;max-width:none;width:100%}
+.nota b{color:var(--ink);font-weight:600}
+.symtab{display:grid;grid-template-columns:auto 1fr;gap:.12em .9em;font-size:calc(clamp(.6rem,min(1vw,1.85vh),1.2rem)*var(--ls,1));line-height:1.45;margin-top:.6em;color:var(--muted);max-width:40em}
+.symtab span:nth-child(odd){font-family:var(--mono);color:var(--ink);font-weight:600;white-space:nowrap}
+.symrow{display:contents;cursor:default}
+.symrow span{padding:.08em .3em;margin-left:-.3em;border-radius:3px;transition:background .3s}
+.symrow.hl span{background:var(--treat-soft)}
+.sym{padding:.02em .1em;border-radius:3px;transition:background .3s}
+.sym.hl{background:var(--treat-soft)}
+svg text{font-family:var(--font)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.fade{opacity:0;transition:opacity .5s ease,transform .5s ease;transform:translateY(6px)}
+.fade.on{opacity:1;transform:none}
+.eq{font-size:clamp(.8rem,min(2vw,3.5vh),2.5rem);margin:.4em 0}
+.katex{font-size:1.1em}
+#st2 .eq{font-size:clamp(.8rem,min(1.6vw,2.7vh),1.95rem)}
+.slide[data-st="st2"].active{grid-template-columns:minmax(0,11fr) minmax(0,11fr)}
+#st2 #e22{text-align:left}
+#st2 #e22 .katex-display{margin:0}
+#st2 .eq{margin:.15em 0}
+#st2 #e22{font-size:clamp(.75rem,min(1.45vw,2.45vh),1.8rem)}
+#st2 .stage{max-height:none}
+#st2 .cap{margin-top:.3em}
+#st2 #e22 .katex-display>.katex{text-align:left}
+#eq6{font-size:clamp(1rem,min(1.75vw,3vh),2.15rem)}
+#st2 #e23,#st2 #e24{font-size:clamp(.7rem,min(1.25vw,2.1vh),1.5rem)}
+#st2 .cap{font-size:clamp(.65rem,1.9vh,1.15rem);line-height:1.4}
+#st2 .cap{margin-top:.2em}
+.term{padding:.05em .18em;border-radius:3px;transition:background .35s,color .35s}
+.term.hl-t{background:var(--treat-soft)}
+.term.hl-c{background:var(--ctrl-soft)}
+.term.dim{opacity:.35}
+button.ctl{font:inherit;font-size:calc(clamp(.7rem,2.2vh,1.35rem)*var(--ls,1));font-weight:600;border:1.5px solid var(--ink);background:#fff;color:var(--ink);padding:.5em 1em;border-radius:3px;cursor:pointer}
+button.ctl:hover{background:var(--soft)}
+button.ctl.primary{background:var(--ink);color:#fff}
+.ctlrow{display:flex;gap:.6em;align-items:center;margin-top:1.2em;flex-wrap:wrap}
+.readout{font-family:var(--mono);font-size:calc(clamp(.7rem,2vh,1.2rem)*var(--ls,1));line-height:1.45;display:grid;grid-template-columns:auto auto;gap:.2em 1.4em;margin-top:.6em;color:var(--ink)}
+.readout span:nth-child(odd){color:var(--muted)}
+#ro3,#ro7{min-height:calc(4*1.5em + .6em)}
+#ro9{min-height:calc(3*1.5em + .5em)}
+#ro12{min-height:calc(3*1.5em + .5em)}
+table.bal{border-collapse:collapse;width:100%;font-size:clamp(.65rem,min(1.4vw,2.8vh),1.7rem);font-variant-numeric:tabular-nums}
+table.bal th{font-weight:600;color:var(--muted);text-align:right;padding:.45em .6em;border-bottom:1.5px solid var(--ink);font-size:.85em}
+table.bal th:first-child{text-align:left}
+table.bal td{padding:.38em .6em;text-align:right;border-bottom:1px solid var(--line)}
+table.bal td:first-child{text-align:left}
+table.bal tr{opacity:0;transform:translateX(-6px);transition:opacity .4s ease,transform .4s ease}
+table.bal tr.on{opacity:1;transform:none}
+table.bal tr.warn td{background:var(--treat-soft)}
+table.bal tr.sep td{border-top:2px solid var(--ink)}
+#bar{position:fixed;left:0;top:0;width:100%;height:3px;background:var(--line);z-index:9}
+#bar i{display:block;height:100%;background:var(--ink);width:0;transition:width .35s ease}
+#hud{position:fixed;right:20px;bottom:12px;background:#fff;padding:2px 0 2px 6px;font-family:var(--mono);font-size:.95rem;color:var(--muted);z-index:9}
+#hint{position:fixed;left:20px;bottom:12px;background:#fff;padding:2px 6px 2px 0;font-size:.95rem;color:var(--muted);z-index:9}
+#dots{position:fixed;left:50%;transform:translateX(-50%);bottom:10px;display:flex;gap:6px;z-index:9}
+#dots b{width:7px;height:7px;border-radius:50%;background:var(--line);display:block}
+#dots b.cur{background:var(--ink)}
+.cap{font-size:clamp(.7rem,2.2vh,1.35rem);color:var(--muted);margin-top:.6em;line-height:1.5;text-align:center;white-space:pre-line}
+.big{font-family:var(--mono);font-weight:700;font-size:clamp(2rem,4vw,3.4rem);line-height:1;letter-spacing:-.02em}
+.lab{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35em}
+
+.slide.end{background:var(--ink);color:#fff}
+.slide.end .kicker,.slide.end .cover-meta{color:#b9b9c0}
+.slide.end .cover-title{color:#fff}
+.slide.end .cover-meta{border-top-color:#fff}
+body.endslide #hint,body.endslide #hud{background:var(--ink);color:#b9b9c0}
+body.endslide #dots b{background:#55555c}
+body.endslide #dots b.cur{background:#fff}
+body.endslide #bar{background:#3a3a40}
+body.endslide #bar i{background:#fff}
+/* ---- 툴팁 ---- */
+.tip{border-bottom:1px dotted var(--ink);cursor:help;text-decoration:none}
+.tip:hover{background:var(--soft)}
+svg [data-tip]{cursor:help}
+#tipbox{position:fixed;z-index:50;max-width:26em;background:var(--ink);color:#fff;padding:.6em .8em;border-radius:3px;font-size:clamp(.75rem,1.05vw,1rem);line-height:1.5;pointer-events:none;opacity:0;transition:opacity .15s;white-space:normal;word-break:keep-all}
+#tipbox b{color:#ffd9cf}
+.slide .nota .tip,.slide .steps .tip,.slide .lead .tip,.slide .symtab .tip{border-bottom-color:var(--muted)}
+.callout{border-left:3px solid var(--treat);background:var(--treat-soft);padding:.55em .9em;margin:.6em 0 .8em;font-size:calc(clamp(.7rem,min(1.2vw,2.1vh),1.35rem)*var(--ls,1));line-height:1.5;max-width:44em}
+.callout b{color:var(--treat)}
+table.mini{border-collapse:collapse;margin:.5em 0 .8em;font-size:calc(clamp(.65rem,min(1vw,1.85vh),1.15rem)*var(--ls,1));line-height:1.4}
+table.mini th,table.mini td{border-bottom:1px solid var(--line);padding:.3em .7em;text-align:left;vertical-align:top}
+table.mini th{font-weight:700;color:var(--muted);font-size:.9em}
+table.mini td.mono{font-family:var(--mono);white-space:nowrap}
+.math-term{cursor:help;border-bottom:1px dotted var(--muted)}
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- ============ 0. 표지 ============ -->
+<section class="slide cover" data-st="st0" data-builds="0">
+  <div class="cover-text">
+    <div class="kicker">BME 642 마케팅자료분석론 &nbsp;&nbsp;/&nbsp;&nbsp; Week 02 &nbsp;&nbsp;/&nbsp;&nbsp; Experiment</div>
+    <div class="cover-num">Week 02</div>
+    <h1 class="cover-title">RCT<br><span class="cover-title-sub">Randomized Controlled Trial</span></h1>
+    <p class="cover-sub">실험 디자인이 해결해주는 문제와 그렇지 못한 문제들</p>
+    <p class="cover-meta">Angrist &amp; Pischke, <i>Mostly Harmless Econometrics</i>, Ch.2<br>2026년 9월 9일 &nbsp;&nbsp;/&nbsp;&nbsp; 발제 강태영 <span style="white-space:nowrap">(minvv23@gmail.com, 마케팅 박사과정)</span></p>
+    <p class="cover-hint">→ 또는 클릭으로 진행.</p>
+  </div>
+  <div class="stage" id="st0"></div>
+</section>
+<!-- ============ 6. 통제 vs 무작위 배정: 개념 ============ -->
+<section class="slide" data-st="st6" data-builds="4">
+  <div>
+    <div class="kicker">서론 1 &nbsp;&nbsp;/&nbsp;&nbsp; Control vs. random assignment</div>
+    <h1>통제와 무작위 배정은 어떻게 다를까?</h1>
+    <p class="lead">우리가 알고 싶은 것은 처치 D(입원, 소규모 학급, 쿠폰 발송)가 결과 Y를 얼마나 바꾸는지를 측정하는 것. 이 효과의 참값을 <span class="tip" data-tip="타우. 처치를 받았을 때와 받지 않았을 때의 결과 차이인 참 처치효과.">τ</span>라 지칭하자. 단, 처치를 받은 사람과 받지 않은 사람이 처음부터 다르다는 것이 문제. 이를 해결하기 위해서는 두 가지 방법이 존재함. 관측 변수 X를 조건부로 고정하는 <b>통제</b>, 그리고 처치를 동전으로 정하는 <b>무작위 배정</b>.</p>
+    <p class="nota"><b>읽는 법.</b> 원은 변수, 화살표는 인과 영향이다. X와 U는 <span class="tip" data-tip="처치 D와 결과 Y 모두에 영향을 주어, 단순 비교에 처치효과 이외의 차이를 섞는 변수.">교란요인</span>이고, 점선 원 U는 관측되지 않는 변수다. 파란 상자는 조건부 고정, 빨간 X는 무작위화로 화살표 제거. b<sub>X</sub>와 b<sub>U</sub>는 각각 D ← X → Y, D ← U → Y라는 두 우회 경로가 만드는 편향의 크기.</p>
+    <ul class="steps">
+      <li data-n="01">관찰 데이터 상황을 가정. D는 <span class="tip" data-tip="관측 변수. 나이, 소득처럼 자료에서 측정해 통제할 수 있는 특성.">X</span>와 <span class="tip" data-tip="비관측 변수(unobservables). 자료에 기록되지 않은 건강 상태나 동기처럼 직접 통제하기 어려운 특성.">U</span>에 따라 결정된다. 편향은 두 <span class="tip" data-tip="D ← X → Y와 D ← U → Y. 처치 자체의 효과(D → Y)와 달리, 공통 원인 X나 U 때문에 두 집단의 결과가 달라지는 경로.">우회 경로</span>에서 발생한다.</li>
+      <li data-n="02">통제(control). X를 '고정'해두고 비교. <span class="tip" data-tip="X가 같은 사람끼리 비교해 X로 인한 교란 경로를 차단한다는 그림 표현. 실제로 X가 D에 미치는 인과 영향 자체를 없애는 것은 아니다.">X→D는 끊기지만</span> U→D는 그대로.</li>
+      <li data-n="03">무작위 배정(random assignment). X→D, U→D 화살표가 모두 제거! U를 몰라도 <span class="tip" data-tip="Y₀와 Y₁은 각각 처치를 받지 않았을 때와 받았을 때의 잠재결과. ⊥는 독립을 뜻한다. 동전으로 처치를 정하면 두 잠재결과와 처치 여부 D가 무관해진다.">(Y<sub>0</sub>, Y<sub>1</sub>) ⊥ D</span>가 확보된다.</li>
+      <li data-n="04">즉, 통제가 연구자가 알고 있는 변수(X→D)의 영향만 차단한다면, 무작위화는 연구자한테 안 보이는 변수(unobservables, U→D)의 교란 문제까지 해결.</li>
+    </ul>
+  </div>
+  <div class="stage" id="st6"></div>
+</section>
+
+<section class="slide" data-st="st7" data-builds="4">
+  <div>
+    <div class="kicker">서론 2 &nbsp;&nbsp;/&nbsp;&nbsp; Simulation</div>
+    <h1>통제로 제거할 수 있는 편향과<br>제거할 수 없는 편향은 무엇일까?</h1>
+    <p class="lead">가상의 시뮬레이션 데이터로 앞의 Causal Graph를 테스트해보자.</p>
+    <div class="nota"><b>모형.</b>
+      <ul style="padding-left:1.4em;margin:.25em 0">
+        <li>Y<sub>0i</sub> = 3 + 0.5X<sub>i</sub> + 0.5U<sub>i</sub> + ε<sub>i</sub>, Y<sub>i</sub> = Y<sub>0i</sub> + τD<sub>i</sub>.</li>
+        <li>X와 U는 서로 독립인 표준정규 변수.</li>
+      </ul>
+      관찰 데이터에서는 0.7X<sub>i</sub> + 0.7U<sub>i</sub> + 잡음이 0보다 큰 사람이 처치를 받는다. 즉 X와 U가 큰 사람이 처치를 받는다고 설정되어 있기에, 이들은 처치가 없더라도 기본적으로 Y가 높다.
+    </div>
+    <p class="nota" style="margin-top:1.45em"><b>읽는 법.</b> 빨간 점이 추정치, 점을 관통하는 가로선이 <span class="tip" data-tip="추정치 ±1 표준오차. 표준오차(SE)는 표본을 다시 뽑을 때 추정치가 흔들리는 정도를 나타낸다. 이 선은 95% 신뢰구간이 아니다.">±1 SE</span>, 세로 점선이 참값 0.30.<br>점 아래 막대는 <span class="tip" data-tip="엄밀히는 이번 표본의 오차(추정치 − 0.30)를 분해한 것이다. 편향은 반복해서 표본을 뽑았을 때 그 오차의 평균이다.">편향의 분해</span>다. 파란 영역이 X로 인한 편향 b<sub>X</sub> = 0.5 × (처치집단 X 평균 − 통제집단 X 평균), 회색 영역이 U로 인한 편향 b<sub>U</sub>. 막대 끝이 곧 추정치가 참값으로부터 멀리 떨어진 거리다.<br><span class="tip" data-tip="한 번의 점 위치에는 편향과 우연한 표본 오차가 함께 들어 있다. 반복해서 뽑은 추정치들의 중심이 참값에서 벗어난 정도가 편향이다.">편향은 점의 위치</span>, <span class="tip" data-tip="오차범위는 ±1 SE이며, SE는 추정량 분산의 제곱근을 추정한 값이다. 선이 짧을수록 추정이 정밀하다.">분산은 오차범위 길이</span>.</p>
+    <ul class="steps">
+      <li data-n="01">단순 비교. 편향은 X, U 둘 모두에 의해 발생 중(과대추정).</li>
+      <li data-n="02">X를 통제한 회귀. X로 인한 편향(파란 영역)은 이제 사라짐. 그러나 <span class="tip" data-tip="회색 영역은 X 통제 이후의 값이기에 위 01번과는 조금 다름.">U로 인한 편향은 남아있음</span>.</li>
+      <li data-n="03">무작위 배정 후 단순 비교. X와 U의 두 편향 모두 기댓값(평균)이 0. <span class="tip" data-tip="400명 표본에서 우연히 생긴 불균형이다. ‘표본 재추출’을 여러 번 누르면 오차의 부호가 바뀌며 0 주위를 오간다.">'우연'의 오류만 남은 상황</span>.</li>
+      <li data-n="04">무작위 배정 후 X 통제. 편향은 이미 0. <span class="tip" data-tip="이 모형에서는 X가 결과를 설명하므로 잔차분산이 줄고, 오차범위(±1 SE)도 대체로 좁아진다. 한 번의 표본에서는 추정치도 조금 움직일 수 있다.">잔차분산이 줄고 오차범위만 더 좁아짐</span>.</li>
+    </ul>
+    <div class="ctlrow"><button class="ctl primary" id="b-rerun7">표본 재추출</button></div>
+    <div class="readout" id="ro7"></div>
+  </div>
+  <div class="stage" id="st7"></div>
+</section>
+
+<section class="slide" data-st="st1" data-builds="4">
+  <div>
+    <div class="kicker">본론 &nbsp;&nbsp;/&nbsp;&nbsp; MHE Ch.2 &nbsp;&nbsp;/&nbsp;&nbsp; 2.1 The Selection Problem</div>
+    <h1>병원은 사람을 더 건강하게 만들까?</h1>
+    <p class="lead">2005년 미국 국민건강면접조사(NHIS)에서 지난 12개월 입원 경험자와 비경험자의 건강 자가평가(1 나쁨, 5 매우 좋음) 비교</p>
+    <p class="nota"><b>읽는 법.</b> 오른쪽 두 막대는 각각 E[Y | D=1]과 E[Y | D=0], 즉 입원 집단과 비입원 집단의 평균 건강이다.<br>D는 입원 여부(1 입원, 0 비입원), Y는 건강 자가평가.<br>둘의 차이가 "관찰된 차이"이고, 이 장의 질문은 그 차이를 인과효과로 해석해도 되는지다.</p>
+    <ul class="steps">
+      <li data-n="01" class="">입원 경험 7,774명의 평균은 3.21, 비경험 90,049명은 3.93.</li>
+      <li data-n="02" class="">차이는 3.21 − 3.93 = −0.72, t = 58.9로 통계적으로 아주 유의함</li>
+      <li data-n="03" class="">이를 활용해 "병원에 가면 더 아파진다"고 주장하면 바보 같은 결론</li>
+      <li data-n="04" class="">Why? 이미 아픈 사람이 병원에 갔기 때문. 즉, <b>통계적 유의성은 선택편향의 문제를 전혀 해결해주지 못함</b></li>
+    </ul>
+  </div>
+  <div class="stage" id="st1"></div>
+</section>
+
+<section class="slide" data-st="st2" data-builds="6">
+  <div>
+    <div class="kicker">2.1 &nbsp;&nbsp;/&nbsp;&nbsp; Potential outcomes</div>
+    <h1>관찰된 차이를 분해하기</h1>
+    <p class="lead">각 개인(<i>i</i>)에게는 두 잠재결과가 존재. 입원했을 때의 <span class="tr">Y<sub>1i</sub></span>. 입원하지 않았을 때의 <span class="ct">Y<sub>0i</sub></span>. 그러나 관찰되는 것은 하나뿐. 같은 사람의 같은 시점에서 둘을 동시에 관찰할 수 없다!</p>
+    <p class="nota"><b>수식에서 헷갈릴 수 있는 포인트.</b> D<sub>i</sub>의 0과 1은 현실에서 실제로 선택된 처치 상태(스위치)이고, Y 아래의 0과 1은 각각 비입원과 입원이라는 가상 시나리오를 구분한다. Y<sub>0i</sub>와 Y<sub>1i</sub>는 각 시나리오에서의 건강 결과다.<br>스위치를 올렸을 때의 결과와 내렸을 때의 결과. 우리는 같은 사람의 같은 시점에서 실제로 선택한 쪽의 결과만 볼 수 있다.</p>
+    <div class="symtab" id="symtab2">
+      <div class="symrow" data-sym="D"><span>D<sub>i</sub></span><span>처치 지표. 1이면 입원, 0이면 비입원</span></div>
+      <div class="symrow" data-sym="Y1"><span>Y<sub>1i</sub>, Y<sub>0i</sub></span><span>잠재결과. 같은 사람이 입원했을 때와 하지 않았을 때의 건강</span></div>
+      <div class="symrow" data-sym="Yi"><span>Y<sub>i</sub></span><span>실제로 관찰된 결과. D<sub>i</sub>에 따라 둘 중 하나</span></div>
+      <div class="symrow" data-sym="EY1"><span>E[Y | D=1]</span><span>입원 집단의 평균 건강 (관찰 가능)</span></div>
+      <div class="symrow" data-sym="EY01"><span>E[Y<sub>0</sub> | D=1]</span><span>입원 집단이 입원하지 않았더라면 가졌을 평균 건강 (관찰 불가)</span></div>
+      <div class="symrow" data-sym="ATT"><span>ATT</span><span>E[Y<sub>1</sub> − Y<sub>0</sub> | D=1]. 처치받은 사람들에 대한 평균 처치효과</span></div>
+    </div>
+    <ul class="steps">
+      <li data-n="01">계산해보면 D<sub>i</sub>가 1이냐 0이냐에 따라서 결국 Y<sub>1i</sub>만 남냐 Y<sub>0i</sub>만 남냐의 문제. 집단 평균 차이가 아니라 개인 한 명(<i>i</i>)에 대한 수식임에 유의.</li>
+      <li data-n="02">똑같은 항 더했다가 빼는 계산 트릭</li>
+      <li data-n="03">ATT. 처치 집단 내에서 개인 효과(Y<sub>1i</sub> − Y<sub>0i</sub>)들의 평균</li>
+      <li data-n="04">선택편향. 병원에 가기로 '선택한' 사람들은 <span class="tip" data-tip="둘 다 입원하지 않았을 경우의 건강을 비교한다. E[Y₀ | D=1] − E[Y₀ | D=0]이며, 입원 전 측정값의 차이를 뜻하는 것은 아니다.">가지 않은 사람들보다 원래 얼마나 상태가 안 좋았을까?</span></li>
+      <li data-n="05">이 선택편향으로 인해 우리가 앞 슬라이드에서 '오해'를 하게 되는 상황이 발생</li>
+      <li data-n="06"><span class="tip" data-tip="실제로 일어나지 않은 처치 상태에서의 결과. 여기서는 입원한 사람들이 입원하지 않았더라면 보였을 건강 E[Y₀ | D=1]이다. 이 값은 관찰되지 않으므로, 개념을 구분하는 것만으로 ATT와 선택편향의 값을 알아낼 수는 없다.">반사실(counterfactual)</span> 개념을 포함함으로써 우리는 깔끔하게 ATT와 선택편향 개념을 구분할 수 있게 되는 것</li>
+    </ul>
+  </div>
+  <div class="stage" id="st2"></div>
+</section><!--/st2-->
+<!-- ============ 3. 무작위 배정 ============ -->
+<section class="slide" data-st="st3" data-builds="4">
+  <div>
+    <div class="kicker">2.2 &nbsp;&nbsp;/&nbsp;&nbsp; Random assignment solves the selection problem</div>
+    <h1>무작위 배정은 무엇을 보장할까?</h1>
+    <p class="lead">입원한 사람이 입원하지 않았더라면 어땠을까? 무작위 배정은 이 <span class="tip" data-tip="D ⊥ (Y₀, Y₁)이면 E[Y₀ | D=1] = E[Y₀ | D=0]. 입원한 사람들의 관찰할 수 없는 무처치 평균을 비입원 집단의 관찰된 평균으로 대신할 수 있다. 유한한 표본에서는 우연한 차이가 남는다.">반사실을 통제집단 평균으로 대신할 근거</span>를 만들어준다.</p>
+    <p class="nota"><b>읽는 법.</b> 원 하나가 사람 한 명. 진할수록 <span class="tip" data-tip="Y₀는 입원 전 측정값이 아니라 입원하지 않았을 경우 결과 시점의 건강이다. 실제 자료에서는 한 사람의 잠재결과를 둘 다 볼 수 없지만, 여기서는 시뮬레이션이라 모두 알고 있다.">입원하지 않았을 때의 건강(Y<sub>0</sub>)</span>이 나쁨.<br>위쪽은 한 번 배정한 결과, 아래쪽은 여러 번 배정한 추정치의 분포.<br>히스토그램의 빨강은 자기선택, 파랑은 무작위 배정. 점선은 참효과 +0.30.</p>
+    <ul class="steps">
+      <li data-n="01">가상의 60명. 입원 효과는 누구에게나 +0.30으로 설정. 이 예에서는 개인 효과 = ATT = <span class="tip" data-tip="전체 실험 대상자의 평균 처치효과. ATT는 처치집단의 평균 효과다. 여기서는 모든 사람의 효과가 +0.30이므로 둘이 같다.">ATE</span> = 0.30.</li>
+      <li data-n="02"><span class="tip" data-tip="건강이 나쁠수록 입원 가능성이 높게 설정. Y₀ + 0.35Z < 3.3이면 입원하며, Z는 표준정규 잡음이다. 설명용 규칙으로 실제 입원 결정 모형은 아니다.">자기선택</span>. 아픈 사람이 입원하니 진한 원이 처치집단으로 몰림. 효과는 +0.30인데 관찰된 차이는 음수!</li>
+      <li data-n="03">무작위 배정. 건강과 무관하게 동전으로 결정. 선택편향의 <span class="tip" data-tip="배정 한 번에서 두 집단이 정확히 같아진다는 뜻은 아니다. 같은 60명을 반복해서 무작위 배정하면 집단 간 우연한 차이가 평균적으로 상쇄된다.">기댓값(평균)이 0</span>. 한 번의 결과에는 우연한 차이가 남음.</li>
+      <li data-n="04">100번 반복하면? 무작위 배정은 참효과 +0.30 주위에, 자기선택은 참값에서 벗어난 곳에 모임. <b>한 번의 정확한 답이 아니라, 반복했을 때 올바른 중심을 보장.</b></li>
+    </ul>
+    <div class="ctlrow"><button class="ctl" id="b-self" data-tip="현재 60명을 건강에 따라 배정한다. 분포가 표시된 뒤에는 이 결과도 자기선택 분포에 한 번 추가된다.">자기선택으로 배정</button><button class="ctl" id="b-rand" data-tip="사람과 잠재결과는 그대로 두고 처치 여부만 동전으로 다시 정한다. 분포가 표시된 뒤에는 이 결과도 무작위 분포에 한 번 추가된다.">무작위로 다시 배정</button><button class="ctl" id="b-rep" data-tip="같은 60명을 자기선택과 무작위 방식으로 각각 100번 더 배정해 아래 분포에 누적한다. 사람 수를 늘리는 버튼은 아니다.">두 방식 각각 100회 추가</button></div>
+    <div class="readout" id="ro3"></div>
+  </div>
+  <div class="stage" id="st3"></div>
+</section><!--/st3-->
+<!-- ============ 4. STAR ============ -->
+<section class="slide" data-st="st4" data-builds="6">
+  <div>
+    <div class="kicker">2.2 &nbsp;&nbsp;/&nbsp;&nbsp; Tennessee STAR</div>
+    <h1>무작위 배정, 실제로 잘 됐을까?</h1>
+    <p class="lead">테네시 STAR 실험. 같은 학교 안에서 학생들을 세 학급 유형에 무작위 배정. <b>학급을 작게 만들면 성적이 오를까?</b></p>
+    <p class="nota"><b>실험 조건.</b> <span class="tr">소규모 13–17명</span> / <span class="ct">일반 22–25명</span> / <span style="color:var(--aide);font-weight:700">일반 + 전일제 보조교사</span>. <span class="tip" data-tip="일반+보조 조건은 일반 학급에 전일제 보조교사를 추가한 것이다. 보조교사가 아예 없는 학급과 있는 학급의 비교가 아니다.">일반 학급에도 시간제 보조교사는 있음.</span></p>
+    <p class="nota" style="margin-top:1.45em"><b>읽는 법.</b> 위 세 행은 배정 전 특성. 세 집단이 비슷하게 출발했는지 확인.<br>아래 세 행은 이탈률, 실제 학급규모, 성적. 배정 이후 무슨 일이 생겼는지 확인.<br>마지막 열의 <span class="tip" data-tip="세 집단 평균이 같다는 귀무가설의 F검정 p값. 작으면 집단 차이의 증거다. 크다고 집단이 완전히 같거나 무작위 배정이 성공했다고 증명되는 것은 아니다.">p값</span>은 세 집단 간 차이를 검정한 값.</p>
+    <ul class="steps">
+      <li data-n="01">출발점 확인. 사전 성적이 없어 무료급식, 인종, 나이로 비교.</li>
+      <li data-n="02">세 집단의 특성이 대체로 비슷함. <span class="tip" data-tip="균형표는 배정 절차에 문제가 있는지 점검하는 보조 자료다. 표만으로 무작위 배정을 증명할 수는 없다.">무작위 배정과 일치하는 모습</span>.</li>
+      <li data-n="03">그런데 <span class="tip" data-tip="3학년 전에 실험에서 빠진 비율. 소규모 .49, 일반 .52, 일반+보조 .53. 이탈률이 같아도 어떤 학생이 빠졌느냐에 따라 편향이 생길 수 있다.">이탈률</span>은 다름(p = .02). 남은 학생들만 비교하면 <b>선택편향이 다시 생길 수 있음.</b></li>
+      <li data-n="04">실제 학급규모도 약 15명 vs. 22명. 의도한 처치가 구현됨.</li>
+      <li data-n="05">소규모 학급의 성적은 <span class="tip" data-tip="표에서 소규모 54.70 − 일반 48.90 = 5.80 백분위점. 점수가 5.8% 올랐다는 뜻은 아니다.">약 5~6 백분위점 높음</span>. 전일제 보조교사 추가 효과는 작고 유의하지 않음.</li>
+      <li data-n="06">무작위 배정으로 끝이 아님. <span class="tip" data-tip="교재 각주 5에는 재배정, 학급 이동, 유급으로 인한 탈락이 언급된다. 최초 배정이 무작위여도 이후 과정에서 비교 대상이 달라질 수 있다.">이탈·학급 이동·재배정</span>까지 확인해야 함.</li>
+    </ul>
+  </div>
+  <div class="stage" id="st4"></div>
+</section><!--/st4-->
+<!-- ============ 5. 회귀분석 ============ -->
+<section class="slide" data-st="st5" data-builds="4">
+  <div>
+    <div class="kicker">2.3 &nbsp;&nbsp;/&nbsp;&nbsp; Regression analysis of experiments</div>
+    <h1>실험인데 왜 회귀분석을 사용한다고 할까?</h1>
+    <p class="lead">평균 차이만 봐도 되는데 굳이 회귀를? 통제변수 X를 추가하면 <b>편향 보정</b>과 <b>정밀도 향상</b>이라는 두 가지 일을 할 수 있음.</p>
+    <p class="nota"><b>모형.</b> Y<sub>i</sub> = <span class="tip" data-tip="처치가 없을 때의 평균 결과 E[Y₀].">α</span> + <span class="tip" data-tip="로(rho). 여기서는 모든 사람에게 같은 처치효과 Y₁ᵢ − Y₀ᵢ를 가정. 앞의 참효과 τ와 같은 역할이다.">ρ</span>D<sub>i</sub> + <span class="tip" data-tip="에타(eta). 처치가 없을 때 개인 결과가 평균에서 벗어난 정도: Y₀ᵢ − E[Y₀]. 처치집단과 통제집단의 η 평균이 다르면 그 차이가 선택편향이다.">η<sub>i</sub></span>.<br>오른쪽 식도 결국 ‘관찰된 차이 = 처치효과 + 선택편향’.<br>X를 추가하면 학교·학생·교사 특성을 통제할 수 있음.</p>
+    <p class="nota" style="margin-top:1.45em"><b>읽는 법.</b> 점은 <span class="tip" data-tip="단위는 백분위점. STAR는 세 집단 실험이므로 실제 회귀에는 소규모와 일반+보조 더미를 함께 넣는다. 그림은 소규모 더미의 계수만 보여준다.">소규모 학급의 효과 추정치(ρ̂)</span>, 세로선은 <span class="tip" data-tip="표준오차 한 개만큼의 범위. 95% 신뢰구간은 아니다. 선이 짧을수록 추정이 정밀하다.">±1 SE</span>.<br>오른쪽으로 갈수록 통제변수 추가. 점의 높이와 오차범위가 어떻게 바뀌는지 비교.</p>
+    <table class="mini"><tr><th>열</th><th>추가한 통제</th><th>효과 (SE)</th></tr>
+      <tr><td class="mono">(1)</td><td>없음</td><td class="mono">4.82 (2.19)</td></tr>
+      <tr><td class="mono">(2)</td><td>학교 고정효과</td><td class="mono">5.37 (1.26)</td></tr>
+      <tr><td class="mono">(3)</td><td>+ 학생 특성</td><td class="mono">5.36 (1.21)</td></tr>
+      <tr><td class="mono">(4)</td><td>+ 교사 특성</td><td class="mono">5.37 (1.19)</td></tr>
+    </table>
+    <ul class="steps">
+      <li data-n="01">통제 없이 시작. 효과 4.82, SE 2.19. 여기에 변수를 하나씩 더해보자.</li>
+      <li data-n="02">학교 <span class="tip" data-tip="학교별 더미를 넣어 같은 학교 안에서 비교한다. STAR는 학교 안에서 무작위 배정했고 학교마다 소규모 학급 배정 비율이 달라, 학교 간 차이가 전체 평균 비교에 섞일 수 있다. 계수 이동 전체가 곧 편향의 크기라는 뜻은 아니다.">고정효과</span>. 무작위 배정도 학교 안에서 했으니 비교도 같은 학교 안에서. 효과 4.82 → 5.37. <b>편향 보정.</b></li>
+      <li data-n="03">학생 특성 추가. 효과는 거의 그대로(5.37 → 5.36), SE는 감소(1.26 → 1.21). <b>정밀도 향상.</b> 단, <span class="tip" data-tip="예를 들어 소규모 학급 때문에 좋아진 출석률을 통제하면 처치효과가 지나가는 경로를 막을 수 있다(bad control). 총효과 추정에는 처치 이전에 정해진 적절한 공변량을 사용한다.">처치 이후 변수를 넣으면?</span></li>
+      <li data-n="04">교사 특성까지 추가해도 효과와 SE는 거의 그대로. <b>변수를 더 넣는다고 무조건 좋아지는 건 아님.</b></li>
+    </ul>
+  </div>
+  <div class="stage" id="st5"></div>
+</section><!--/st5-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ============ 9. 확장 1: 인과 연쇄 중 실험이 보여주는 것 ============ -->
+<section class="slide" data-st="st11" data-builds="3">
+  <div>
+    <div class="kicker">확장 1 &nbsp;&nbsp;/&nbsp;&nbsp; Causal description vs. causal explanation</div>
+    <h1>인과 연쇄 중 실험은 어디까지 보여줄까?</h1>
+    <p class="lead">당장 지금 이 자리에서 교수님을 소재로 내가 농담을 했다고 해보자...</p>
+    <p class="nota"><b>읽는 법.</b> 상자는 변수, 화살표는 인과 경로다.<br>빨간 테두리는 연구자가 처치와 결과로 고른 두 변수, 흐린 상자는 그 바깥의 연쇄, 회색은 구간 안에서 무작위화가 개입하지 않은 단계.<br><span class="tip" data-tip="M은 매개변수. 아래첨자 1, 2, 3은 처치에서 결과로 이어지는 중간 단계의 순서이며 처치 여부 0/1과 다르다.">M<sub>1</sub>, M<sub>2</sub>, M<sub>3</sub></span>는 <span class="tip" data-tip="mediator. 처치가 결과에 이르는 경로 위에 놓인 변수. 서론 1의 X, U는 D와 Y를 옆에서 둘 다 움직이는 교란요인이고, M은 D와 Y 사이에 있다.">매개변수</span>다. 서론 1의 교란요인 X, U는 옆에서 D와 Y를 둘 다 움직이고, M은 D와 Y 사이에 놓인다.<br>아래 식은 총효과와 매개 경로를 구분한다.</p>
+    <ul class="steps">
+      <li data-n="01">"농담을 들으면... 웃는다!" 사이에는 엄청나게 많은 인과의 연쇄(causal chain)들이 작동.</li>
+      <li data-n="02">중간 과정은 몰라도 T와 Y 간의 인과효과 식별에는 문제 없는 상황. 그런데 정확히 농담의 뭐가 우리를 웃게끔 한 거지? Shadish, Cook &amp; Campbell의 용어로 실험은 <span class="tip" data-tip="효과의 크기를 기술하는 것. T가 Y를 얼마나 바꾸는가.">causal description</span>에 강하고 <span class="tip" data-tip="효과의 경로를 설명하는 것. 어떤 층위를 거쳐 바꾸는가.">causal explanation</span>에 약하다.</li>
+      <li data-n="03">교수님 소재 농담이라면 반권위 성향(U)이 강할수록 더 편하게 웃었을 것(Y). 농담 여부(T)는 무작위 처치지만 청자의 기질은 처치되지 않음. 그래서 "U 같은 것은 없다"는 가정이 다시 필요하다(<span class="tip" data-tip="순차적 무시가능성. Imai, Keele &amp; Yamamoto (2010). 처치 T가 무작위인 것에 더해, T와 공변량 X가 같은 사람들 안에서 매개변수 M도 무작위로 정해진 것처럼 잠재결과와 무관하다는 가정. 여기서 ‘U 같은 것은 없다’는 M과 Y 사이에 통제하지 않은 교란이 없다는 뜻이다. 실험은 T의 무작위성만 보장한다.">순차적 무시가능성</span>).</li>
+    </ul>
+  </div>
+  <div class="stage" id="st11"></div>
+</section>
+<!-- ============ 10. 확장 2: 조기 중단과 표본 키우기 ============ -->
+<section class="slide" data-st="st12" data-builds="4">
+  <div>
+    <div class="kicker">확장 2 &nbsp;&nbsp;/&nbsp;&nbsp; Optional stopping and the peeking problem</div>
+    <h1>'하면 된다' 정신으로<br>실험 연구를 해버리는 사람들</h1>
+    <p class="lead">“아직 p값이 0.05보다 크네? 조금만 더 모아보자.” <b>유의하면 멈추는 실험, 뭐가 문제일까?</b></p>
+    <p class="nota"><b>읽는 법.</b> 모든 실험의 참효과는 0. 따라서 ‘효과 있음’은 전부 <span class="tip" data-tip="위양성 또는 제1종 오류. 실제 효과가 없는데 유의하다고 결론 내리는 것.">위양성(거짓 발견)</span>.<br>선 하나가 실험 하나. 가로축은 표본 수, 세로축은 <span class="tip" data-tip="추정치 ÷ 표준오차. 이 시뮬레이션은 평균 0, 분산 1인 정규표본으로 평균을 검정한다. 고정된 시점에서는 |z| > 1.96일 확률이 5%다.">z값</span>. 점선(±1.96)을 넘으면 유의.<br>빨간 선은 유의하다고 보고한 실험, 빨간 점은 멈춘 시점.</p>
+    <ul class="steps">
+      <li data-n="01">100명을 모은 뒤 한 번만 검정. 효과가 없어도 약 5%는 유의하게 나옴. <b>위양성률 5%.</b> 원래 허용한 오류.</li>
+      <li data-n="02">10명마다 확인하고 유의하면 종료. 같은 실험인데 거짓 발견이 <span class="tip" data-tip="이 그림의 모형에서 10, 20, …, 100명 시점에 검사한 경우. 중간 검정들이 자료를 공유하므로 독립 검정처럼 1 − 0.95¹⁰으로 계산하면 안 된다.">약 19%로 증가</span>. <b>계속 기회를 주면 우연도 유의해짐.</b></li>
+      <li data-n="03">크게 튄 순간에 멈췄으니 <span class="tip" data-tip="참효과는 0인데 유의한 결과만 골라 보고하면 추정 효과의 절댓값이 커진다. 양측검정이므로 방향은 양수와 음수 모두 가능하다.">효과 크기도 부풀려짐</span>. “효과가 있다”뿐 아니라 “효과가 크다”는 착각까지.</li>
+      <li data-n="04">해결. 표본 수를 미리 정하고 마지막에 한 번 검정. 중간에 봐야 한다면 <span class="tip" data-tip="집단순차설계 등으로 언제 분석할지와 유의 기준을 함께 정한다. α는 전체 오류 허용 기준이며 여기서는 0.05. 회귀식의 절편 α와 다른 뜻이다. 단순히 종료 규칙을 미리 적는 것만으로 오류율이 통제되지는 않는다.">반복검정에 맞는 기준</span>을 사용. <b>매번 p &lt; 0.05를 쓰면 안 됨.</b></li>
+    </ul>
+    <div class="ctlrow"><button class="ctl" id="b-peek" data-tip="새 자료로 경로와 2,000회 시뮬레이션 결과를 다시 계산한다. 현재 단계의 검정 규칙은 유지된다.">다시 시뮬레이션</button></div>
+    <div class="readout" id="ro12"></div>
+  </div>
+  <div class="stage" id="st12"></div>
+</section>
+<!-- ============ 12. 확장 4: 실험 참여의 선택 ============ -->
+<section class="slide" data-st="st9" data-builds="4">
+  <div>
+    <div class="kicker">확장 3 &nbsp;&nbsp;/&nbsp;&nbsp; Selection into the experiment</div>
+    <h1>배정이 무작위면 참가도 무작위일까?</h1>
+    <p class="lead">기본소득 실험에 저소득층이 더 많이 신청했다고 해보자. 참가자 안에서 지급 여부를 무작위 배정해도, <b>참가자의 소득 구성까지 국민 전체와 같아지는 건 아님.</b></p>
+    <p class="nota"><b>읽는 법.</b> X는 <span class="tip" data-tip="기본소득 지급 이전의 소득. 국민 전체 평균을 0, 표준편차를 1로 표준화했다. 음수는 음의 소득이 아니라 평균보다 낮은 소득이다. 정규분포는 설명용 가정이며 실제 소득 분포를 재현한 것이 아니다.">평소 소득수준</span>. 회색 정규분포는 국민 전체, 파란 정규분포는 참가자.<br>빨간 선은 <span class="tip" data-tip="소득 X=x인 사람에게 기본소득이 삶의 만족도를 얼마나 높이는지: E[Y₁ − Y₀ | X=x]. 만족도 자체가 아니라 만족도의 증가분이다. 분포는 왼쪽 밀도 축, 효과는 오른쪽 축을 읽는다. 같은 소득에서는 참가자와 비참가자의 평균 효과가 같다고 가정한 예시다.">소득별 기본소득 효과 τ(x)</span>. Y는 삶의 만족도. 저소득일수록 효과가 크다고 가정.<br><span class="tip" data-tip="실험 참가자의 평균 효과. S=1은 실험 참가, D=1은 기본소득 지급. 참가자 안에서 지급 여부를 무작위 배정해 τ_S를 식별한다.">τ<sub>S</sub></span>는 참가자 평균 효과, <span class="tip" data-tip="국민 전체의 평균 효과. P는 population. 실험 결과를 국민 전체에 일반화할 때 알고 싶은 값이다.">τ<sub>P</sub></span>는 국민 전체 평균 효과. 수치는 모두 가상.</p>
+    <ul class="steps">
+      <li data-n="01">누구에게나 효과가 같다면? 빨간 선이 수평. 저소득층이 더 많이 참가해도 평균 효과는 같음.</li>
+      <li data-n="02">저소득층에게 더 효과적이어도 참가자의 소득 구성이 국민 전체와 같다면? 두 정규분포가 겹침. 평균 효과도 같음.</li>
+      <li data-n="03">그런데 <b>효과가 큰 저소득층이 더 많이 참가하면?</b> 파란 정규분포가 왼쪽으로 이동. 참가자 효과는 +4.8, 국민 전체 효과는 +3.0.</li>
+      <li data-n="04">실험은 참가자 효과를 제대로 구했음. 문제는 <b>+4.8을 국민 전체의 효과로 읽는 것.</b> 전체에 적용하려면 <span class="tip" data-tip="소득별 효과를 국민 전체 소득 분포로 재가중한다. 같은 소득이면 참가자와 비참가자의 평균 효과가 같고, 각 소득층이 실험에 충분히 포함되어야 한다. 저소득층만 실험했다면 재가중만으로 고소득층 효과를 알아낼 수 없다. 전국 시행으로 세금·물가가 달라지는 문제는 다음 슬라이드의 별도 질문이다.">소득별 효과를 국민 구성으로 다시 평균</span>해야 함.</li>
+    </ul>
+    <div class="ctlrow"><button class="ctl" id="b-het" data-tip="효과의 기울기 δ를 0과 −1.2 사이에서 전환. 저소득일수록 기본소득 효과가 커지는 상황을 비교한다.">소득별 효과 차이</button><button class="ctl" id="b-sel" data-tip="참가자의 평균 소득을 0과 −1.5 사이에서 전환. 저소득층이 실험에 더 많이 참가하는 상황을 비교한다.">저소득층 참가 쏠림</button></div>
+    <div class="readout" id="ro9"></div>
+  </div>
+  <div class="stage" id="st9"></div>
+</section>
+<!-- ============ 13. 확장 5: 파일럿 규모와 실험 자체의 효과 ============ -->
+<section class="slide" data-st="st10" data-builds="4">
+  <div>
+    <div class="kicker">확장 4 &nbsp;&nbsp;/&nbsp;&nbsp; Scale, saturation, and the experiment itself</div>
+    <h1>AI로 일자리를 잃은 사람들,<br>약을 처방하면 될까?</h1>
+    <p class="lead">AI 때문에 일자리를 잃고 우울증을 겪는 사람이 늘었다고 해보자. 소규모 실험에서 약 처방이 삶의 만족도를 높였다면, <b>이들에게 처방을 확대하는 것으로 충분할까?</b></p>
+    <p class="nota"><b>읽는 법.</b> 처치는 우울증 약 처방, 결과는 삶의 만족도. <b>설명용 가상 실험.</b><br>가로축 <span class="tip" data-tip="지역 내 실업으로 우울증을 겪는 정책 대상자 중 약 처방을 제공받는 비율. 전체 국민의 투약 비율이나 실험 참가자 안의 무작위 배정 비율과 다르다.">π</span>는 대상자 중 처방 비율, 세로축 <span class="tip" data-tip="그 보급률 환경에서 약 처방이 한 사람의 삶의 만족도를 얼마나 바꾸는지: E[Y(1, π) − Y(0, π)]. 정책 전체의 효과나 실업 해소 효과가 아니다.">τ(π)</span>는 한 명당 개선 효과.<br>빨간 점은 소규모 실험(5%), 파란 점은 대상자 전체 시행(100%). <span class="tip" data-tip="처방 확대에 따라 효과가 반드시 줄어든다는 주장이 아니다. 동일한 처치라도 주변 환경이 바뀌어 효과가 달라지는 상황을 예시로 그렸다. 실업이 계속된다는 사실만으로 약의 효과가 감소한다고 결론 내릴 수는 없다.">곡선과 수치는 가상</span>.</p>
+    <ul class="steps">
+      <li data-n="01">작은 실험. 실업으로 우울증을 겪는 참가자에게 약 처방 여부를 무작위 배정. 삶의 만족도가 개선됐다고 하자. <b>실업이 남아 있어도 약은 도움이 될 수 있음.</b></li>
+      <li data-n="02">그런데 AI로 인해 실업 문제가 급증하고 있는 사회라면? 처방을 전국적으로 확대한다면? <span class="tip" data-tip="같은 수준의 약 처방을 유지하더라도 주변 사람들의 치료 여부나 사회적 관계, 지역의 지원 환경이 바뀌면 효과가 달라질 수 있다. 처방 인력 부족으로 진료 내용까지 바뀌는 문제는 다음 03에 해당한다.">사회·의료 환경</span>도 달라질 수 있음. <b>소수에게 얻은 효과가 전체 시행에서도 같은지는 별도 질문.</b> 약의 효과와 실업 문제의 해결도 다른 얘기.</li>
+      <li data-n="03">실험에서는 의사가 충분히 진료하고 매주 경과를 확인. 전국 확대 후에는 환자가 몰려 약만 처방하고 끝난다면? <span class="tip" data-tip="실험에서 평가한 것은 약과 진료·추적 관리가 결합된 처치다. 확대 후 관리 수준이 달라지면 같은 약을 쓰더라도 실험과 동일한 처치라고 보기 어렵다. 같은 진료를 유지한 채 주변 환경이 달라지는 02와 구분된다.">같은 약이어도 같은 수준의 치료는 아님.</span></li>
+      <li data-n="04">실험 참가자는 정기적으로 관심과 평가도 받음. <span class="tip" data-tip="호손 효과는 관찰받는다는 인식으로 행동이 바뀌는 현상. 연구자의 기대에 맞추려는 실험자 요구효과도 가능하다. 관심의 효과가 양쪽에 동일하게 더해지면 상쇄되지만, 반응이 다르거나 약의 효과와 상호작용하면 일상 진료의 효과와 달라질 수 있다.">관찰받는다는 인식</span>까지 결과에 영향을 줄 수 있음. <b>실험 속 약 처방과 일상 진료의 약 처방은 같을까?</b></li>
+    </ul>
+  </div>
+  <div class="stage" id="st10"></div>
+</section>
+<!-- ============ 11. 확장 3: 실험이라서 생기는 문제 ============ -->
+<section class="slide" data-st="st8" data-builds="4">
+  <div>
+    <div class="kicker">확장 5 &nbsp;&nbsp;/&nbsp;&nbsp; From experiment to policy</div>
+    <h1>결론: 실험의 장점과 한계를 명확히하자</h1>
+    <p class="lead">무작위 배정은 <b>실험 안에서 공정하게 비교할 근거</b>를 만들어줌. 그 결과를 정책으로도 확대하려면 처치 내용, 대상자, 시행 규모까지 확인해야 함.</p>
+    <p class="nota"><b>읽는 법.</b> 오른쪽은 정책 적용 전 확인할 네 질문.<br>첫째는 무작위 배정으로 해결하는 문제. 나머지는 별도 확인이 필요.</p>
+    <ul class="steps">
+      <li data-n="01">내적 타당성. <b>실험 안의 비교는 공정한가?</b> 무작위 배정으로 처치집단과 통제집단을 비교. 단, <span class="tip" data-tip="처치 배정이 무작위여도 이후 이탈이나 배정 불이행으로 분석 대상이 달라지면 원래의 비교가 훼손될 수 있다. 반복검정 같은 분석 절차도 적절해야 한다.">이탈·배정 불이행·분석 절차</span>는 계속 확인.</li>
+      <li data-n="02">구성 타당성. <b>정책에서도 같은 치료를 제공하는가?</b> 실험에서는 매주 진료했는데 전국 확대 후에는 약만 처방한다면, 같은 처치가 아님.</li>
+      <li data-n="03">외적 타당성. <b>참가자의 효과를 모두에게 적용해도 되는가?</b> 저소득층이 많이 참가한 기본소득 실험의 효과를 국민 전체에 적용해도 될까?</li>
+      <li data-n="04"><span class="tip" data-tip="규모 확대 시 보급률과 주변 환경의 변화까지 고려하는 질문. 약이 실업 자체를 해결하는지와, 같은 약의 효과가 보급률에 따라 달라지는지는 구분해야 한다.">정책 타당성</span>. <b>전국적으로 확대해도 효과가 같은가?</b> AI 실업이 늘어 처방을 확대할 때, 사회·의료 환경의 변화까지 검토.</li>
+    </ul>
+  </div>
+  <div class="stage" id="st8"></div>
+</section>
+<!-- ============ 14. 마침 ============ -->
+<section class="slide cover end" data-st="st13" data-builds="0">
+  <div class="cover-text">
+    <div class="kicker">BME 642 마케팅자료분석론 &nbsp;&nbsp;/&nbsp;&nbsp; Week 02 &nbsp;&nbsp;/&nbsp;&nbsp; Experiment</div>
+    <h1 class="cover-title">감사합니다</h1>
+    <p class="cover-meta">Angrist &amp; Pischke, <i>Mostly Harmless Econometrics</i>, Ch.2<br>2026년 9월 9일 &nbsp;&nbsp;/&nbsp;&nbsp; 발제 강태영 <span style="white-space:nowrap">(minvv23@gmail.com, 마케팅 박사과정)</span></p>
+  </div>
+  <div class="stage" id="st13"></div>
+</section>
+
+</div>
+
+<div id="bar"><i></i></div>
+<div id="dots"></div>
+<div id="hint">← → 단계 이동 &nbsp;&nbsp;/&nbsp;&nbsp; Shift+← → 페이지 &nbsp;&nbsp;/&nbsp;&nbsp; Home / End</div>
+<div id="hud"></div>
+<div id="tipbox"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script>
+/* ---------- 공통: 상태 = f(slide, build) ---------- */
+const slides=[...document.querySelectorAll('.slide')];
+const builds=slides.map(s=>+s.dataset.builds);
+let S=0,B=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const b=document.createElement('b');dots.appendChild(b)});
+const renderers={};
+function scrollToStep(){const li=slides[S].querySelectorAll('.steps li')[B-1];if(!li)return;const r=li.getBoundingClientRect();if(r.bottom>innerHeight-40||r.top<0)li.scrollIntoView({block:'center',behavior:'smooth'})}
+
+const fitted={};
+function fitLeft(sl){
+  if(fitted[sl.dataset.st]!==undefined){sl.style.setProperty('--ls',fitted[sl.dataset.st]);return}
+  if(sl.classList.contains('cover')){fitted[sl.dataset.st]=1;return}
+  sl.style.setProperty('--ls',1);fitted[sl.dataset.st]=1;
+}
+function apply(){
+  slides.forEach((s,i)=>s.classList.toggle('active',i===S));
+  document.body.classList.toggle('endslide',slides[S].classList.contains('end'));
+  fitLeft(slides[S]);
+  const li=slides[S].querySelectorAll('.steps li');
+  li.forEach((el,i)=>{el.classList.toggle('on',i<B);el.classList.toggle('past',i<B-1)});
+  const total=builds.reduce((a,b)=>a+b+1,0);
+  const done=builds.slice(0,S).reduce((a,b)=>a+b+1,0)+B;
+  document.querySelector('#bar i').style.width=(done/total*100)+'%';
+  document.getElementById('hud').textContent=`${S+1} / ${slides.length}   step ${B}/${builds[S]}`;
+  [...dots.children].forEach((d,i)=>d.classList.toggle('cur',i===S));
+  history.replaceState(null,'',`#s${S+1}b${B}`);
+  const rid=slides[S].dataset.st;renderers[rid]&&renderers[rid](B);
+}
+function go(ds){S=Math.max(0,Math.min(slides.length-1,S+ds));B=0;apply();slides[S].scrollTop=0}
+function next(){if(B<builds[S])B++;else if(S<slides.length-1){S++;B=0;apply();slides[S].scrollTop=0;return}else return;apply();scrollToStep()}
+function prev(){if(B>0)B--;else if(S>0){S--;B=builds[S]}else return;apply();scrollToStep()}
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();e.shiftKey?go(1):next()}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();e.shiftKey?go(-1):prev()}
+  else if(e.key==='Home'){S=0;B=0;apply()}
+  else if(e.key==='End'){S=slides.length-1;B=builds[S];apply()}
+});
+document.addEventListener('click',e=>{if(e.target.closest('button, a, .tip, [data-tip], table, .readout, .symtab'))return;if(window.getSelection&&String(window.getSelection()).length)return;const x=e.clientX/innerWidth;x>0.5?next():prev()});
+const m=location.hash.match(/s(\d+)b(\d+)/);if(m){S=Math.min(slides.length-1,+m[1]-1);B=Math.min(builds[S],+m[2])}
+
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs={},parent){const n=document.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,attrs[k]);parent&&parent.appendChild(n);return n}
+function txt(parent,x,y,s,attrs={}){const t=el('text',{x,y,...attrs},parent);t.textContent=s;return t}
+const easeOut=t=>1-Math.pow(1-t,3);
+function tween(dur,fn){const t0=performance.now();(function f(now){const p=Math.max(0,Math.min(1,(now-t0)/dur));fn(easeOut(p));if(p<1)requestAnimationFrame(f)})(t0)}
+function tex(node,s,disp){katex.render(s,node,{displayMode:!!disp,throwOnError:false,trust:true,strict:false})}
+
+// 같은 단계의 재렌더링은 설명을 유지하고, 빠른 단계 이동은 마지막 갱신만 적용한다.
+const stageTextUpdates=new WeakMap();
+function updateStageText(eq,cap,step,write){
+  const previous=stageTextUpdates.get(eq);
+  if(previous&&previous.step===step)return;
+  if(previous)clearTimeout(previous.timer);
+  eq.style.opacity=0;cap.style.opacity=0;
+  const state={step,timer:setTimeout(()=>{
+    eq.innerHTML='';cap.textContent='';write();
+    eq.style.opacity=1;cap.style.opacity=1;
+  },220)};
+  stageTextUpdates.set(eq,state);
+}
+
+/* ---------- 1. 병원: 두 막대 ---------- */
+(function(){
+  const host=document.getElementById('st1');
+  const W=560,H=420;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},host);
+  const y0=330,scale=62; // health 1..5 -> px
+  const groups=[{name:'입원 경험 (D = 1)',sym:'E[Y | D=1]',n:'7,774',m:3.21,se:'0.014',x:150,c:'var(--treat)'},{name:'입원 없음 (D = 0)',sym:'E[Y | D=0]',n:'90,049',m:3.93,se:'0.003',x:410,c:'var(--ctrl)'}];
+  // axis
+  for(let v=1;v<=5;v++){const yy=y0-(v-1)*scale;el('line',{x1:60,x2:W-40,y1:yy,y2:yy,stroke:'#eee'},svg);txt(svg,48,yy+4,v,{'text-anchor':'end','font-size':14,fill:'#888','font-family':'var(--mono)'})}
+  txt(svg,60,y0+62,'건강 자가평가 (1 나쁨 … 5 매우 좋음)',{'font-size':14,fill:'#888'});
+  const bars=groups.map(g=>{
+    const r=el('rect',{x:g.x-55,width:110,y:y0,height:0,fill:g.c,opacity:.9},svg);
+    const lab=txt(svg,g.x,y0+22,g.name,{'text-anchor':'middle','font-size':14,'font-weight':700,fill:'#1b1b1f'});
+    const nn=txt(svg,g.x,y0+40,`${g.sym}   N = ${g.n}`,{'text-anchor':'middle','font-size':14,fill:'#888','font-family':'var(--mono)'});
+    const val=txt(svg,g.x,y0-8,'',{'text-anchor':'middle','font-size':22,'font-weight':800,fill:'#1b1b1f','font-family':'var(--mono)'});
+    return{g,r,val};
+  });
+  const diff=el('g',{opacity:0},svg);
+  el('line',{x1:280,x2:280,y1:y0-(3.21-1)*scale,y2:y0-(3.93-1)*scale,stroke:'#1b1b1f','stroke-width':1.5},diff);
+  el('line',{x1:205,x2:355,y1:y0-(3.21-1)*scale,y2:y0-(3.21-1)*scale,stroke:'#1b1b1f','stroke-dasharray':'3 3'},diff);
+  el('line',{x1:205,x2:355,y1:y0-(3.93-1)*scale,y2:y0-(3.93-1)*scale,stroke:'#1b1b1f','stroke-dasharray':'3 3'},diff);
+  txt(diff,280,222,'차이 −0.72',{'text-anchor':'middle','font-size':16,'font-weight':800,'font-family':'var(--mono)'});
+  txt(diff,280,243,'t = 58.9',{'text-anchor':'middle','font-size':14,fill:'#888','font-family':'var(--mono)'});
+  const verdict=txt(svg,W/2,50,'',{'text-anchor':'middle','font-size':18,'font-weight':700,fill:'var(--treat)',opacity:0});verdict.style.transition='opacity .4s,fill .4s';
+  const verdict2=txt(svg,W/2,74,'',{'text-anchor':'middle','font-size':13,fill:'#888',opacity:0});
+  let shown=0;
+  renderers['st1']=b=>{
+    if(b>=1&&shown<1){shown=1;bars.forEach(({g,r,val})=>tween(900,p=>{const h=(g.m-1)*scale*p;r.setAttribute('y',y0-h);r.setAttribute('height',h);val.setAttribute('y',y0-h-8);val.textContent=(1+(g.m-1)*p).toFixed(2)}))}
+    if(b<1){shown=0;bars.forEach(({r,val})=>{r.setAttribute('height',0);r.setAttribute('y',y0);val.textContent=''})}
+    diff.setAttribute('opacity',b>=2?1:0);
+    verdict.setAttribute('opacity',b>=3?1:0);verdict2.setAttribute('opacity',b>=3?1:0);
+    if(b===3){verdict.textContent='"병원에 가면 더 아파진다"';verdict.setAttribute('fill','var(--treat)');verdict2.textContent='액면 그대로 읽은 결론'}
+    if(b>=4){verdict.textContent='아픈 사람이 병원에 간다';verdict.setAttribute('fill','#1b1b1f');verdict2.textContent='E[Y₀ | 입원] < E[Y₀ | 비입원]이면 편향이 치료효과를 가릴 수 있다. 막대는 척도 최솟값 1에서 시작한다'}
+  };
+})();
+
+/* ---------- 2. 분해식 ---------- */
+(function(){
+  const host=document.getElementById('st2');
+  host.innerHTML=`
+    <div class="eq fade" id="e21"></div>
+    <div class="fade" id="e2d" style="margin:.5em 0 0"></div>
+    <div style="height:1px;background:var(--line);margin:.9em 0"></div>
+    <div class="eq" id="e22"></div>
+    <div style="display:flex;gap:1.2em;margin-top:.8em;align-items:flex-start">
+      <div class="fade" id="lbl-att" style="flex:1"><div class="lab" style="color:var(--treat)">ATT</div><div class="cap">E[Y₁−Y₀ | D=1].<br>입원한 사람들에게 입원이 미친 평균 효과.<br>관찰되는 E[Y₁|D=1]과 관찰되지 않는 E[Y₀|D=1]의 차.</div></div>
+      <div class="fade" id="lbl-sb" style="flex:1"><div class="lab" style="color:var(--ctrl)">Selection bias</div><div class="cap">E[Y₀|D=1] − E[Y₀|D=0].<br>처치가 없었더라도 두 집단 사이에 있었을 차이.<br>실증 연구 대부분의 목표는 이 선택편향을 극복하는 것이다.</div></div>
+    </div>
+    <div class="fade" id="e23" style="margin-top:.8em"></div>
+    <div class="fade" id="e24" style="margin-top:.6em"></div>`;
+  tex(document.getElementById('e21'),String.raw`\htmlClass{sym s-Yi}{Y_i} = \begin{cases} \htmlClass{sym s-Y1}{Y_{1i}} & \htmlClass{sym s-D}{D_i=1}\\ \htmlClass{sym s-Y1}{Y_{0i}} & \htmlClass{sym s-D}{D_i=0}\end{cases} = \htmlClass{sym s-Y1}{Y_{0i}} + (\htmlClass{sym s-Y1}{Y_{1i}-Y_{0i}})\,\htmlClass{sym s-D}{D_i} \qquad (2.1.1)`,true);
+  const e2d=document.getElementById('e2d');
+  e2d.innerHTML=`<div class="cap" style="margin-bottom:.1em">빼고 더하기: 같은 값을 빼고 더했으므로 등식은 그대로다</div>`;
+  const e2db=document.createElement('div');e2db.style.fontSize='clamp(.7rem,min(1.3vw,2.2vh),1.6rem)';e2d.appendChild(e2db);
+  tex(e2db,String.raw`E[Y|D{=}1]-E[Y|D{=}0]=E[Y_1|D{=}1]\;\underbrace{-\,E[Y_0|D{=}1]+E[Y_0|D{=}1]}_{=\,0}\;-E[Y_0|D{=}0]`,true);
+  const e22=document.getElementById('e22');
+  tex(e22,String.raw`\begin{aligned}&\underbrace{\htmlClass{sym s-EY1}{E[Y_i|D_i=1]}-E[Y_i|D_i=0]}_{\text{observed difference}} \\[.7em] &= \htmlClass{term t-att}{\underbrace{\htmlClass{sym s-ATT}{E[Y_{1i}|D_i=1]-\htmlClass{sym s-EY01}{E[Y_{0i}|D_i=1]}}}_{\text{ATT}}} \\[.7em] &+ \htmlClass{term t-sb}{\underbrace{\htmlClass{sym s-EY01}{E[Y_{0i}|D_i=1]}-E[Y_{0i}|D_i=0]}_{\text{selection bias}}}\end{aligned}`,true);
+  const e23=document.getElementById('e23');
+  e23.innerHTML=`<div class="cap" style="margin-bottom:.2em">병원 사례에 대입</div>`;
+  const e23b=document.createElement('div');e23.appendChild(e23b);
+  tex(e23b,String.raw`-0.72 \;=\; \underbrace{\;+0.30\;}_{\text{ATT (가상 값)}} \;+\; \underbrace{\;(-1.02)\;}_{\text{선택편향 (가상 값)}}`,true);
+  const e23c=document.createElement('div');e23c.className='cap';e23c.textContent='+0.30과 −1.02는 설명용 가상 값이다. NHIS 자료만으로는 ATT의 부호도 크기도 식별되지 않는다.';e23.appendChild(e23c);
+  const e24=document.getElementById('e24');
+  e24.innerHTML=`<div class="cap">관찰 불가능한 항</div>`;
+  const e24b=document.createElement('div');e24.appendChild(e24b);
+  tex(e24b,String.raw`E[Y_{0i}\,|\,D_i=1] \quad\text{입원한 사람들이 입원하지 않았더라면}`,true);
+  const hostSt2=document.getElementById('st2');
+  function hl(key){document.querySelectorAll('#symtab2 .symrow, #st2 .sym').forEach(n=>n.classList.remove('hl'));if(!key)return;
+    document.querySelectorAll(`#symtab2 .symrow[data-sym="${key}"], #st2 .sym.s-${key}`).forEach(n=>n.classList.add('hl'))}
+  document.querySelectorAll('#symtab2 .symrow').forEach(r=>{r.addEventListener('mouseenter',()=>hl(r.dataset.sym));r.addEventListener('mouseleave',()=>hl(stepKey))});
+  hostSt2.addEventListener('mouseover',e=>{const t=e.target.closest('.sym');if(t){const k=[...t.classList].find(c=>c.startsWith('s-'));k&&hl(k.slice(2))}});
+  hostSt2.addEventListener('mouseleave',()=>hl(stepKey));
+  let stepKey=null;
+  renderers['st2']=b=>{
+    document.getElementById('e21').classList.toggle('on',b>=1);
+    e2d.classList.toggle('on',b>=2);
+    const att=e22.querySelector('.t-att'),sb=e22.querySelector('.t-sb');
+    if(att){att.classList.toggle('hl-t',b===3);sb.classList.toggle('hl-c',b===4);att.classList.toggle('dim',b===4);sb.classList.toggle('dim',b===3)}
+    document.getElementById('lbl-att').classList.toggle('on',b>=3);
+    document.getElementById('lbl-sb').classList.toggle('on',b>=4);
+    e23.classList.toggle('on',b>=5);
+    e24.classList.toggle('on',b>=6);
+    stepKey=b===1?'Yi':b===3?'ATT':b===6?'EY01':null;hl(stepKey);
+  };
+})();
+
+/* ---------- 3. 무작위 배정 시뮬레이션 ---------- */
+(function(){
+  const host=document.getElementById('st3');
+  const W=620,H=470;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},host);
+  const N=60,TAU=0.30;
+  // deterministic seed
+  let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+  const gauss=()=>{let u=rnd(),v=rnd();return Math.sqrt(-2*Math.log(u+1e-9))*Math.cos(2*Math.PI*v)};
+  const ppl=Array.from({length:N},(_,i)=>({i,y0:Math.min(5,Math.max(1,3.6+0.7*gauss())),d:0}));
+  const shade=y0=>{const t=(5-y0)/4;return `rgba(27,27,31,${0.12+0.78*t})`};
+  const cols=10,cell=31,gx0=170,gy0=34;
+  const dotsG=el('g',{},svg);
+  const nodes=ppl.map((p,i)=>el('circle',{cx:gx0+(i%cols)*cell,cy:gy0+Math.floor(i/cols)*cell,r:11,fill:shade(p.y0),stroke:'#fff','stroke-width':1.5},dotsG));
+  const capY=txt(svg,gx0-10,gy0+7*cell,'진할수록 무처치 잠재결과 Y₀가 낮음',{'font-size':16.9,fill:'#888'});
+  // two bins on right
+  const bx={1:205,0:415},by0=290;
+  const binLab={1:txt(svg,bx[1],40,'D = 1 (처치)  E[Y | D=1]',{'text-anchor':'middle','font-size':16.9,'font-weight':700,fill:'var(--treat)'}),0:txt(svg,bx[0],40,'D = 0 (통제)  E[Y | D=0]',{'text-anchor':'middle','font-size':16.9,'font-weight':700,fill:'var(--ctrl)'})};
+  const binMean={1:txt(svg,bx[1],by0+10,'',{'text-anchor':'middle','font-size':26.0,'font-weight':800,'font-family':'var(--mono)',fill:'var(--treat)'}),0:txt(svg,bx[0],by0+10,'',{'text-anchor':'middle','font-size':26.0,'font-weight':800,'font-family':'var(--mono)',fill:'var(--ctrl)'})};
+  const binSub={1:txt(svg,bx[1],by0+36,'',{'text-anchor':'middle','font-size':16.9,fill:'#888','font-family':'var(--mono)'}),0:txt(svg,bx[0],by0+36,'',{'text-anchor':'middle','font-size':16.9,fill:'#888','font-family':'var(--mono)'})};
+  const diffT=txt(svg,310,by0+100,'',{'text-anchor':'middle','font-size':19.5,'font-weight':700,'font-family':'var(--mono)'});
+  const diffS=txt(svg,310,by0+124,'',{'text-anchor':'middle','font-size':16.9,fill:'#888'});
+  // histogram area
+  const hg=el('g',{opacity:0},svg);
+  const hx0=40,hy0=600,hw=540,hh=130;
+  el('line',{x1:hx0,x2:hx0+hw,y1:hy0,y2:hy0,stroke:'#ccc'},hg);
+  const hmin=-1.0,hmax=0.8;const hx=v=>hx0+(v-hmin)/(hmax-hmin)*hw;
+  [-1,-0.5,0,0.3,0.5].forEach(v=>{txt(hg,hx(v),hy0+20,v.toFixed(1),{'text-anchor':'middle','font-size':18.9,fill:'#888','font-family':'var(--mono)'})});
+  el('line',{x1:hx(TAU),x2:hx(TAU),y1:hy0-hh-6,y2:hy0,stroke:'#1b1b1f','stroke-dasharray':'3 3'},hg);
+  txt(hg,hx(TAU)+10,hy0-hh-8,'참효과 +0.30',{'font-size':18.9,fill:'#1b1b1f','font-weight':700});
+  const hTitle=txt(hg,hx0,hy0-hh-8,'반복 추정치의 분포',{'font-size':15.5,fill:'#888'});
+  const hbars=el('g',{},hg);
+  const ro=document.getElementById('ro3');
+  let mode='none',reps={self:[],rand:[]};
+  function place(){
+    const cnt={1:0,0:0};
+    ppl.forEach((p,i)=>{const n=nodes[i];const k=p.d;const idx=cnt[k]++;const cx=bx[k]-62+(idx%5)*31,cy=74+Math.floor(idx/5)*28;
+      if(mode==='none'){n.setAttribute('cx',gx0+(i%cols)*cell);n.setAttribute('cy',gy0+Math.floor(i/cols)*cell);n.setAttribute('stroke','#fff')}
+      else{n.setAttribute('cx',cx);n.setAttribute('cy',cy);n.setAttribute('stroke',k?'var(--treat)':'var(--ctrl)')}});
+    nodes.forEach(n=>n.style.transition='cx .6s ease, cy .6s ease');
+    if(mode==='none'){capY.setAttribute('x',310);capY.setAttribute('y',gy0+7*cell);capY.setAttribute('text-anchor','middle')}else{capY.setAttribute('x',310);capY.setAttribute('y',by0+62);capY.setAttribute('text-anchor','middle')}
+  }
+  function stats(){
+    const t=ppl.filter(p=>p.d),c=ppl.filter(p=>!p.d);
+    const mT=t.reduce((a,p)=>a+p.y0+TAU,0)/t.length,mC=c.reduce((a,p)=>a+p.y0,0)/c.length;
+    const y0T=t.reduce((a,p)=>a+p.y0,0)/t.length;
+    return{mT,mC,y0T,diff:mT-mC,bias:y0T-mC,nT:t.length,nC:c.length};
+  }
+  function show(){
+    document.getElementById('b-self').classList.toggle('primary',mode==='self');document.getElementById('b-rand').classList.toggle('primary',mode==='rand');document.getElementById('b-rep').classList.toggle('primary',reps.rand.length>0&&hg.getAttribute('opacity')==='1');
+    if(mode==='none'){binLab[1].setAttribute('opacity',0);binLab[0].setAttribute('opacity',0);binMean[1].textContent=binMean[0].textContent='';binSub[1].textContent=binSub[0].textContent='';diffT.textContent='';diffS.textContent='';ro.innerHTML='';place();return}
+    const s=stats();place();binLab[1].setAttribute('opacity',1);binLab[0].setAttribute('opacity',1);
+    binMean[1].textContent=s.mT.toFixed(2);binMean[0].textContent=s.mC.toFixed(2);
+    binSub[1].textContent=`n=${s.nT}`;binSub[0].textContent=`n=${s.nC}`;
+    diffT.textContent=`E[Y|D=1] − E[Y|D=0] = ${s.diff>=0?'+':''}${s.diff.toFixed(2)}`;
+    diffS.textContent=mode==='self'?'= ATT(+0.30) + 선택편향('+s.bias.toFixed(2)+')':'= ATT(+0.30) + 선택편향('+(s.bias>=0?'+':'')+s.bias.toFixed(2)+')';
+    ro.innerHTML=`<span>배정 방식</span><b>${mode==='self'?'자기선택':'무작위'}</b><span>ATT = E[Y₁−Y₀ | D=1]</span><b>+0.30</b><span>선택편향 = E[Y₀|D=1] − E[Y₀|D=0]</span><b>${s.bias>=0?'+':''}${s.bias.toFixed(2)}</b><span>관찰된 차이 = ATT + 선택편향</span><b>${s.diff>=0?'+':''}${s.diff.toFixed(2)}</b>`;
+  }
+  function assignSelf(){ppl.forEach(p=>{p.d=(p.y0+0.35*gauss())<3.3?1:0});if(!ppl.some(p=>p.d))ppl[0].d=1;mode='self'}
+  function assignRand(){ppl.forEach(p=>p.d=rnd()<0.5?1:0);mode='rand'}
+  function hist(){
+    hbars.innerHTML='';
+    const binsOf=arr=>{const b={};arr.forEach(v=>{const k=(Math.round(v/0.05)*0.05).toFixed(2);b[k]=(b[k]||0)+1});return b};
+    const bs=binsOf(reps.self),br=binsOf(reps.rand);hTitle.textContent=`분포: 자기선택 ${reps.self.length}회 / 무작위 ${reps.rand.length}회 누적`;
+    const maxC=Math.max(1,...Object.values(bs),...Object.values(br));
+    const draw=(bins,color,off)=>{Object.entries(bins).forEach(([k,c])=>{const x=hx(+k);const h=c/maxC*hh;el('rect',{x:x-4+off,width:4,y:hy0-h,height:h,fill:color,opacity:.85},hbars)})};
+    draw(bs,'var(--treat)',0);draw(br,'var(--ctrl)',4);
+  }
+  document.getElementById('b-self').onclick=()=>{assignSelf();show();if(hg.getAttribute('opacity')==='1'){reps.self.push(stats().diff);hist()}};
+  document.getElementById('b-rand').onclick=()=>{assignRand();show();if(hg.getAttribute('opacity')==='1'){reps.rand.push(stats().diff);hist()}};
+  document.getElementById('b-rep').onclick=()=>{
+    for(let r=0;r<100;r++){assignSelf();reps.self.push(stats().diff);assignRand();reps.rand.push(stats().diff)}
+    hg.setAttribute('opacity',1);hist();assignRand();show();
+  };
+  renderers['st3']=b=>{
+    svg.setAttribute('viewBox',`0 0 ${W} ${H+170}`);
+    if(b===0){mode='none';show();return}
+    if(b===1){mode='none';show()}
+    if(b===2&&mode!=='self'){assignSelf();show()}
+    if(b===3&&mode!=='rand'){assignRand();show()}
+    if(b>=4){if(!reps.rand.length){document.getElementById('b-rep').click()}else{hg.setAttribute('opacity',1)}}
+    else hg.setAttribute('opacity',0);
+    document.getElementById('b-rep').classList.toggle('primary',b>=4);
+  };
+})();
+
+/* ---------- 4. STAR ---------- */
+(function(){
+  const host=document.getElementById('st4');
+  host.innerHTML=`<table class="bal"><thead><tr class="on"><th>변수</th><th style="color:var(--treat)">소규모</th><th style="color:var(--ctrl)">일반</th><th style="color:var(--aide)">일반+보조</th><th>균등성 p</th></tr></thead><tbody id="tb4"></tbody></table>
+  <div class="cap">유치원 입학 표본 · Table 2.2.1<br><span class="tip" data-tip="Krueger (1999) Table I에서 발췌. 마지막 열은 세 집단 평균 동일성 F검정의 p값. 원문의 .00은 &lt;.01로 표기.">출처·표기</span></div>
+  <div id="bars4" class="fade" style="margin-top:1.2em"></div>`;
+  const rows=[
+    ['무료급식 비율','.47','.48','.50','.09',1],
+    ['백인/아시아계','.68','.67','.66','.26',1],
+    ['1985년 나이','5.44','5.43','5.42','.32',1],
+    ['이탈률 (3학년 전)','.49','.52','.53','.02',3,'warn'],
+    ['유치원 학급규모','15.10','22.40','22.80','<.01',4,'sep'],
+    ['유치원 백분위 점수','54.70','48.90','50.00','<.01',5],
+  ];
+  const tb=document.getElementById('tb4');
+  const trs=rows.map(r=>{const tr=document.createElement('tr');tr.className=r[6]||'';tr.innerHTML=r.slice(0,5).map((c,i)=>`<td${i?' class="mono"':''}>${c}</td>`).join('');tb.appendChild(tr);return{tr,at:r[5]}});
+  // effect bars
+  const bw=document.getElementById('bars4');
+  const svg=el('svg',{viewBox:'0 0 560 150'},bw);
+  txt(svg,0,14,'유치원 백분위 점수 (Table 2.2.1). 막대는 40점을 기준선으로 그렸다',{'font-size':14,fill:'#888'});
+  const data=[{l:'소규모',v:54.7,c:'var(--treat)'},{l:'일반',v:48.9,c:'var(--ctrl)'},{l:'일반+보조',v:50.0,c:'var(--aide)'}];
+  const x0=90,sc=8; // 40..60 -> px
+  const barEls=data.map((d,i)=>{const y=32+i*38;txt(svg,x0-8,y+19,d.l,{'text-anchor':'end','font-size':14,'font-weight':700,fill:d.c});
+    const r=el('rect',{x:x0,y,height:28,width:0,fill:d.c},svg);const v=txt(svg,x0+4,y+19,'',{'font-size':14,'font-weight':700,'font-family':'var(--mono)',fill:'#fff'});return{r,v,d}});
+  const eff=txt(svg,x0+(54.7-40)*sc+22,50,'',{'font-size':13,'font-weight':800,'font-family':'var(--mono)'});
+  let drawn=false;
+  renderers['st4']=b=>{
+    trs.forEach(({tr,at})=>tr.classList.toggle('on',b>=at));
+    bw.classList.toggle('on',b>=5);
+    if(b>=5&&!drawn){drawn=true;barEls.forEach(({r,v,d},i)=>setTimeout(()=>tween(700,p=>{const w=(d.v-40)*sc*p;r.setAttribute('width',w);v.setAttribute('x',x0+w-6);v.setAttribute('text-anchor','end');v.textContent=(40+(d.v-40)*p).toFixed(1)}),i*250));
+      setTimeout(()=>{eff.textContent='E[Y|소규모] − E[Y|일반] = +5.8 ≈ 0.2σ'},1100)}
+    if(b<5){drawn=false;barEls.forEach(({r,v})=>{r.setAttribute('width',0);v.textContent=''});eff.textContent=''}
+    if(b>=6){eff.textContent='+5.8 ≈ 0.2σ  (각주 5의 문제에도 결론 유지)'}
+  };
+})();
+
+/* ---------- 5. 회귀 ---------- */
+(function(){
+  const host=document.getElementById('st5');
+  host.innerHTML=`<div class="eq" id="e51" style="font-size:clamp(.9rem,min(1.8vw,3.1vh),2.2rem)"></div>
+  <div id="coef5"></div>`;
+  tex(document.getElementById('e51'),String.raw`\begin{aligned}&E[Y_i|D_i=1]-E[Y_i|D_i=0] \\[.2em] &\qquad = \underbrace{\rho}_{\text{treatment effect}} + \underbrace{E[\eta_i|D_i=1]-E[\eta_i|D_i=0]}_{\text{selection bias}}\end{aligned}`,true);
+  const W=560,H=262;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},document.getElementById('coef5'));
+  const cols=[{n:'(1)',b:4.82,se:2.19,fe:'없음',x:'없음'},{n:'(2)',b:5.37,se:1.26,fe:'학교 FE',x:'없음'},{n:'(3)',b:5.36,se:1.21,fe:'학교 FE',x:'학생 특성'},{n:'(4)',b:5.37,se:1.19,fe:'학교 FE',x:'학생+교사'}];
+  const y0=180,sc=14; // 0..10 -> px
+  for(let v=0;v<=10;v+=2){const yy=y0-v*sc;el('line',{x1:70,x2:W-20,y1:yy,y2:yy,stroke:v===0?'#bbb':'#eee'},svg);txt(svg,60,yy+4,v,{'text-anchor':'end','font-size':15.6,fill:'#888','font-family':'var(--mono)'})}
+  txt(svg,70,14,'소규모 학급 효과 ±1 SE · Table 2.2.2',{'font-size':16.8,fill:'#888'});
+  const gs=cols.map((c,i)=>{const x=130+i*120;const g=el('g',{opacity:0},svg);
+    el('line',{x1:x,x2:x,y1:y0-(c.b-c.se)*sc,y2:y0-(c.b+c.se)*sc,stroke:'var(--treat)','stroke-width':2},g);
+    el('line',{x1:x-8,x2:x+8,y1:y0-(c.b-c.se)*sc,y2:y0-(c.b-c.se)*sc,stroke:'var(--treat)','stroke-width':2},g);
+    el('line',{x1:x-8,x2:x+8,y1:y0-(c.b+c.se)*sc,y2:y0-(c.b+c.se)*sc,stroke:'var(--treat)','stroke-width':2},g);
+    el('circle',{cx:x,cy:y0-c.b*sc,r:6,fill:'var(--treat)'},g);
+    txt(g,x,y0-(c.b+c.se)*sc-10,`${c.b.toFixed(2)} (${c.se.toFixed(2)})`,{'text-anchor':'middle','font-size':15,'font-weight':700,'font-family':'var(--mono)'});
+    txt(g,x,y0+20,c.n,{'text-anchor':'middle','font-size':16.8,'font-weight':700});
+    txt(g,x,y0+40,c.fe,{'text-anchor':'middle','font-size':17.4,fill:'#888'});
+    txt(g,x,y0+60,c.x,{'text-anchor':'middle','font-size':17.4,fill:'#888'});
+    return g});
+  const note=txt(svg,W-20,34,'',{'text-anchor':'end','font-size':16.8,'font-weight':700,fill:'var(--treat)'});
+  renderers['st5']=b=>{
+    gs.forEach((g,i)=>g.setAttribute('opacity',(b===1&&i===0)||(b===2&&i<=1)||(b===3&&i<=2)||(b>=4&&i<=3)?1:(b>=1&&i<Math.min(b,4)?1:0)));
+    note.textContent=b===2?'학교 안에서 비교':b===3?'효과는 그대로, SE는 감소':b>=4?'추가 변화는 작음':'';
+  };
+})();
+
+/* ---------- 6. DAG: 통제 vs 무작위 ---------- */
+(function(){
+  const host=document.getElementById('st6');
+  host.innerHTML='<div id="dag6"></div><div class="eq swap" id="eq6" style="margin-top:.8em;min-height:6.4em;display:flex;align-items:center;justify-content:center"></div><div class="cap swap" id="cap6" style="min-height:3.6em"></div>';
+  const W=560,H=300;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},document.getElementById('dag6'));
+  const defs=el('defs',{},svg);
+  const mk=(id,c)=>{const m=el('marker',{id,viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'},defs);el('path',{d:'M0 0L10 5L0 10z',fill:c},m)};
+  mk('ah','#1b1b1f');mk('ahT','#c8553d');mk('ahM','#c9c9cf');
+  const P={X:{x:130,y:70},U:{x:130,y:230},D:{x:300,y:150},Y:{x:470,y:150}};
+  const arrow=(a,b,attrs={})=>{const A=P[a],B=P[b];const dx=B.x-A.x,dy=B.y-A.y,L=Math.hypot(dx,dy);const r=30;return el('line',{x1:A.x+dx/L*r,y1:A.y+dy/L*r,x2:B.x-dx/L*(r+4),y2:B.y-dy/L*(r+4),stroke:'#1b1b1f','stroke-width':1.8,'marker-end':'url(#ah)',...attrs},svg)};
+  const eXD=arrow('X','D'),eUD=arrow('U','D'),eXY=arrow('X','Y'),eUY=arrow('U','Y'),eDY=arrow('D','Y',{stroke:'var(--treat)','marker-end':'url(#ahT)','stroke-width':2.4});
+  const TIPS6={X:'관측 변수. 나이, 소득처럼 데이터에 있는 교란요인. 회귀에 넣어 통제할 수 있다.',U:'비관측 변수. 건강 염려 성향처럼 데이터에 없거나 존재조차 모르는 교란요인. 통제할 수 없다.',D:'처치. 1이면 받음, 0이면 안 받음.',Y:'결과. 우리가 효과를 재려는 변수.'};
+  const node=(k,label,sub,dashed)=>{const g=el('g',{'data-tip':TIPS6[k]},svg);const c=el('circle',{cx:P[k].x,cy:P[k].y,r:28,fill:'#fff',stroke:'#1b1b1f','stroke-width':1.8},g);if(dashed)c.setAttribute('stroke-dasharray','4 3');txt(g,P[k].x,P[k].y+6,label,{'text-anchor':'middle','font-size':20.7,'font-weight':800});txt(g,P[k].x,P[k].y+48,sub,{'text-anchor':'middle','font-size':14.9,fill:'#888'});return{g,c}};
+  const nX=node('X','X','관측 변수'),nU=node('U','U','비관측 변수',true),nD=node('D','D','처치'),nY=node('Y','Y','결과');
+  const box=el('rect',{x:P.X.x-40,y:P.X.y-40,width:80,height:80,fill:'none',stroke:'var(--ctrl)','stroke-width':2,opacity:0},svg);
+  const boxLab=txt(svg,P.X.x,P.X.y-48,'조건부 고정',{'text-anchor':'middle','font-size':14.9,'font-weight':700,fill:'var(--ctrl)',opacity:0});
+  const coin=el('g',{opacity:0},svg);
+  el('circle',{cx:P.D.x,cy:P.D.y-70,r:16,fill:'#fff',stroke:'var(--treat)','stroke-width':2},coin);
+  txt(coin,P.D.x,P.D.y-65,'½',{'text-anchor':'middle','font-size':16.1,'font-weight':800,fill:'var(--treat)'});
+  el('line',{x1:P.D.x,y1:P.D.y-53,x2:P.D.x,y2:P.D.y-33,stroke:'var(--treat)','stroke-width':2,'marker-end':'url(#ahT)'},coin);
+  txt(coin,P.D.x+22,P.D.y-68,'동전',{'font-size':14.9,'font-weight':700,fill:'var(--treat)'});
+  const cut=(e)=>{const x=(+e.getAttribute('x1')+ +e.getAttribute('x2'))/2,y=(+e.getAttribute('y1')+ +e.getAttribute('y2'))/2;const g=el('g',{opacity:0},svg);el('line',{x1:x-7,y1:y-9,x2:x+7,y2:y+9,stroke:'var(--treat)','stroke-width':2.5},g);el('line',{x1:x+7,y1:y-9,x2:x-7,y2:y+9,stroke:'var(--treat)','stroke-width':2.5},g);return g};
+  const cXD=cut(eXD),cUD=cut(eUD);
+  const eq=document.getElementById('eq6'),cap=document.getElementById('cap6');
+  const dim=(e,on)=>{e.setAttribute('stroke',on?'#c9c9cf':'#1b1b1f');e.setAttribute('marker-end',on?'url(#ahM)':'url(#ah)');e.setAttribute('stroke-dasharray',on?'4 4':'')};
+  renderers['st6']=b=>{
+    [eXD,eUD].forEach(e=>dim(e,false));
+    box.setAttribute('opacity',b===2?1:0);boxLab.setAttribute('opacity',b===2?1:0);
+    coin.setAttribute('opacity',b>=3?1:0);cXD.setAttribute('opacity',b>=3?1:0);cUD.setAttribute('opacity',b>=3?1:0);
+    if(b===2){dim(eXD,true)}
+    if(b>=3){dim(eXD,true);dim(eUD,true)}
+    updateStageText(eq,cap,b,()=>{
+    if(b===1){tex(eq,String.raw`E[Y|D{=}1]-E[Y|D{=}0]=\tau+\underbrace{b_X}_{X\text{ 경로}}+\underbrace{b_U}_{U\text{ 경로}}`,true);cap.textContent='D가 X와 U에 의해 영향 받기에 여러 효과가 혼재되어 있음'}
+      if(b===2){tex(eq,String.raw`\begin{aligned}&E[Y|D{=}1,X]-E[Y|D{=}0,X]=\tau+\underbrace{0}_{X\text{ 경로}}+\underbrace{b_{U|X}}_{U\text{ 경로 (남음)}}\\[.5em]&\text{가정: }(Y_0,Y_1)\perp D\mid X\end{aligned}`,true);cap.innerHTML='X가 같아도 U가 다르면 결과 차이에 U의 영향이 남는다.<br>통제만으로 인과효과를 얻으려면 이런 숨은 교란이 없어야 한다.'}
+      if(b===3){tex(eq,String.raw`\begin{aligned}&E[Y|D{=}1]-E[Y|D{=}0]=\tau+\underbrace{0}_{X}+\underbrace{0}_{U}\\[.5em]&\text{설계: }(Y_0,Y_1)\perp D\end{aligned}`,true);cap.textContent=''}
+      if(b>=4){tex(eq,String.raw`\begin{aligned}\text{통제: }&E[\eta\,|\,D,X]\text{가 }D\text{와 무관하다고 }\textbf{가정}\\ \text{무작위화: }&E[\eta\,|\,D]=E[\eta]\text{를 }\textbf{설계}\end{aligned}`,true);cap.textContent='통제는 "무엇이 교란요인인지 안다"는 지식에 의존한다.\n무작위화는 그 지식을 요구하지 않는다.'}
+    });
+  };
+})();
+
+/* ---------- 7. 시뮬레이션: 편향 분해 ---------- */
+(function(){
+  const host=document.getElementById('st7');
+  const W=680,H=560;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},host);
+  const N=400,TAU=0.30,BX=0.5,BU=0.5;
+  let seed=11;const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+  const gauss=()=>{let u=rnd(),v=rnd();return Math.sqrt(-2*Math.log(u+1e-9))*Math.cos(2*Math.PI*v)};
+  let pop=[];
+  function draw(){pop=Array.from({length:N},()=>{const X=gauss(),U=gauss();return{X,U,y0:3+BX*X+BU*U+0.3*gauss()}})}
+  const mean=a=>a.reduce((s,v)=>s+v,0)/a.length;
+  function ols(y,d,x){ // coef of d in y~1+d+x via FWL
+    const mx=mean(x),md=mean(d),my=mean(y);
+    const bxd=x.reduce((s,v,i)=>s+(v-mx)*(d[i]-md),0)/x.reduce((s,v)=>s+(v-mx)**2,0);
+    const bxy=x.reduce((s,v,i)=>s+(v-mx)*(y[i]-my),0)/x.reduce((s,v)=>s+(v-mx)**2,0);
+    const rd=d.map((v,i)=>v-md-bxd*(x[i]-mx)),ry=y.map((v,i)=>v-my-bxy*(x[i]-mx));
+    const b=rd.reduce((s,v,i)=>s+v*ry[i],0)/rd.reduce((s,v)=>s+v*v,0);
+    const res=ry.map((v,i)=>v-b*rd[i]);const s2=res.reduce((s,v)=>s+v*v,0)/(N-3);
+    return{b,se:Math.sqrt(s2/rd.reduce((s,v)=>s+v*v,0))};
+  }
+  function diffSE(y,d){const t=y.filter((_,i)=>d[i]),c=y.filter((_,i)=>!d[i]);const v=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1)};return{b:mean(t)-mean(c),se:Math.sqrt(v(t)/t.length+v(c)/c.length)}}
+  function regime(kind){
+    const d=pop.map(p=>kind==='obs'?((0.7*p.X+0.7*p.U+0.5*gauss())>0?1:0):(rnd()<0.5?1:0));
+    const y=pop.map((p,i)=>p.y0+TAU*d[i]);
+    const t=i=>d[i]===1;
+    const bX=BX*(mean(pop.filter((_,i)=>t(i)).map(p=>p.X))-mean(pop.filter((_,i)=>!t(i)).map(p=>p.X)));
+    const bU=BU*(mean(pop.filter((_,i)=>t(i)).map(p=>p.U))-mean(pop.filter((_,i)=>!t(i)).map(p=>p.U)));
+    const X=pop.map(p=>p.X),Uv=pop.map(p=>p.U);
+    const bUadj=BU*ols(Uv,d,X).b; // X를 통제한 뒤 남는 U 기여 = 0.5 × (U를 D와 X에 회귀한 D 계수)
+    return{d,y,bX,bU,bUadj,naive:diffSE(y,d),adj:ols(y,d,X)};
+  }
+  let obs,ran;
+  function compute(){draw();obs=regime('obs');ran=regime('rand')}
+  // layout: 4 rows
+  const rows=[{k:'naive',lab:'단순 비교',f:'E[Y|D=1] − E[Y|D=0]'},{k:'adj',lab:'X 통제 회귀',f:'ρ̂,  Y = α + ρD + γX + η'},{k:'rnaive',lab:'무작위 배정',f:'E[Y|D=1] − E[Y|D=0]'},{k:'radj',lab:'무작위 + X 통제',f:'ρ̂,  Y = α + ρD + γX + η'}];
+  const x0=150,xw=340,vmin=-0.2,vmax=1.2;const vx=v=>x0+(v-vmin)/(vmax-vmin)*xw;
+  const y0=90,rh=106;
+  [0,0.3,0.6,0.9,1.2].forEach(v=>{el('line',{x1:vx(v),x2:vx(v),y1:y0-20,y2:y0+rh*4-10,stroke:v===0?'#bbb':'#eee'},svg);txt(svg,vx(v),y0-26,v.toFixed(1),{'text-anchor':'middle','font-size':16.9,fill:'#888','font-family':'var(--mono)'})});
+  el('line',{x1:vx(TAU),x2:vx(TAU),y1:y0-20,y2:y0+rh*4-10,stroke:'#1b1b1f','stroke-dasharray':'3 3'},svg);
+  txt(svg,vx(TAU),y0-40,'참효과 τ = 0.30',{'text-anchor':'middle','font-size':16.9,'font-weight':700});
+  txt(svg,x0-10,y0-40,'추정치 ± SE',{'text-anchor':'end','font-size':16.9,fill:'#888'});
+  const R=rows.map((r,i)=>{const y=y0+i*rh+10;const g=el('g',{opacity:0},svg);
+    txt(g,x0-14,y-4,r.lab,{'text-anchor':'end','font-size':16.9,'font-weight':700});txt(g,x0-14,y+20,r.f,{'text-anchor':'end','font-size':13.5,fill:'#888','font-family':'var(--mono)'});
+    const segX=el('rect',{x:vx(TAU),y:y+16,height:8,width:0,fill:'var(--ctrl)'},g);
+    const segU=el('rect',{x:vx(TAU),y:y+16,height:8,width:0,fill:'#8a8a92'},g);
+    const bar=el('rect',{y:y-1,height:2,x:0,width:0,fill:'var(--treat)'},g);
+    const dot=el('circle',{cy:y,r:6,fill:'var(--treat)'},g);
+    const val=txt(g,0,y-11,'',{'text-anchor':'middle','font-size':18.2,'font-weight':700,'font-family':'var(--mono)'});
+    const lx=txt(g,0,y+23,'',{'font-size':18.9,fill:'var(--ctrl)','font-weight':700});
+    const lu=txt(g,0,y+23,'',{'font-size':18.9,fill:'#8a8a92','font-weight':700});
+    return{g,segX,segU,bar,dot,val,lx,lu}});
+  const leg=el('g',{},svg);el('rect',{x:x0,y:y0+rh*4+4,width:12,height:8,fill:'var(--ctrl)'},leg);txt(leg,x0+16,y0+rh*4+12,'X로 인한 편향',{'font-size':16.9,fill:'#888'});el('rect',{x:x0+190,y:y0+rh*4+4,width:12,height:8,fill:'#8a8a92'},leg);txt(leg,x0+206,y0+rh*4+12,'U로 인한 편향 (관측 불가)',{'font-size':16.9,fill:'#888'});
+  const ro=document.getElementById('ro7');
+  function setRow(r,est,bX,bU){
+    r.dot.setAttribute('cx',vx(est.b));r.bar.setAttribute('x',vx(est.b-est.se));r.bar.setAttribute('width',vx(est.b+est.se)-vx(est.b-est.se));
+    r.val.setAttribute('x',vx(est.b));r.val.textContent=`${est.b.toFixed(2)} (${est.se.toFixed(2)})`;
+    const a=vx(TAU),bx=vx(TAU+bX),bu=vx(TAU+bX+bU);
+    r.segX.setAttribute('x',Math.min(a,bx));r.segX.setAttribute('width',Math.abs(bx-a));
+    r.segU.setAttribute('x',Math.min(bx,bu));r.segU.setAttribute('width',Math.abs(bu-bx));
+    const end=Math.max(a,bx,bu)+6;
+    const tX=Math.abs(bX)>0.02?`X ${bX>=0?'+':''}${bX.toFixed(2)}`:'',tU=Math.abs(bU)>0.02?`U ${bU>=0?'+':''}${bU.toFixed(2)}`:'';
+    r.lx.setAttribute('x',end);r.lx.textContent=tX;
+    r.lu.setAttribute('x',end+(tX?84:0));r.lu.textContent=tU;
+  }
+  function show(b){
+    if(!obs)compute();
+    setRow(R[0],obs.naive,obs.bX,obs.bU);
+    setRow(R[1],obs.adj,0,obs.bUadj);
+    setRow(R[2],ran.naive,ran.bX,ran.bU);
+    setRow(R[3],ran.adj,0,ran.bUadj);
+    R.forEach((r,i)=>r.g.setAttribute('opacity',b>=i+1?1:0));
+    const rows2=[['단순 비교',obs.naive],['X 통제 회귀',obs.adj],['무작위 배정',ran.naive],['무작위 + X 통제',ran.adj]];
+    ro.innerHTML=rows2.slice(0,b).map(([k,e])=>`<span>${k}</span><b>${e.b.toFixed(2)} (SE ${e.se.toFixed(2)})</b>`).join('');
+  }
+  let curB=0;
+  document.getElementById('b-rerun7').onclick=()=>{compute();show(curB)};
+  renderers['st7']=b=>{curB=b;show(b)};
+})();
+
+/* ---------- 0. 표지: 무작위 배정 점 필드 ---------- */
+(function(){
+  const host=document.getElementById('st0');
+  const W=520,H=520,cols=12,rows=12,cell=40,r=13;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,'aria-hidden':'true'},host);
+  svg.style.maxHeight='80vh';
+  let seed=2026;const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+  const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+  const dots=Array.from({length:rows*cols},(_,i)=>{
+    const x=40+(i%cols)*cell,y=40+Math.floor(i/cols)*cell;
+    const node=el('circle',{cx:x,cy:y,r,fill:rnd()<.5?'var(--treat)':'var(--ctrl)'},svg);
+    // Geometry is animated directly; color changes blend gently into the wave.
+    node.style.transition='fill 1.1s ease';
+    return{node,x,y,distance:Math.hypot(x-W/2,y-H/2),phase:rnd()*Math.PI*2,cycle:-1};
+  });
+  let frame=null,lastFrame=0,elapsed=0,lastTime=null;
+  const active=()=>slides[S].dataset.st==='st0'&&!document.hidden;
+  function stop(){if(frame!==null)cancelAnimationFrame(frame);frame=null;lastTime=null}
+  function animate(now){
+    frame=null;
+    if(!active()||reducedMotion.matches){lastTime=null;return}
+    if(lastTime!==null)elapsed+=Math.min(now-lastTime,80);
+    lastTime=now;
+    if(now-lastFrame>=1000/30){
+      lastFrame=now;
+      const t=elapsed/1000;
+      dots.forEach(d=>{
+        // A soft ripple crosses the field every seven seconds.
+        const local=t-d.distance/110,cycle=Math.floor(local/7);
+        const phase=((local%7)+7)%7;
+        const pulse=phase<2?Math.sin(Math.PI*phase/2)**2:0;
+        const drift=Math.sin(t*.65+d.phase);
+        d.node.setAttribute('cx',d.x+2.5*Math.sin(t*.5+d.phase));
+        d.node.setAttribute('cy',d.y+2.5*drift);
+        d.node.setAttribute('r',r+3*pulse+.6*drift);
+        d.node.setAttribute('opacity',.78+.22*pulse);
+        if(local>=0&&cycle!==d.cycle){
+          d.cycle=cycle;
+          if(rnd()<.42)d.node.setAttribute('fill',rnd()<.5?'var(--treat)':'var(--ctrl)');
+        }
+      });
+    }
+    frame=requestAnimationFrame(animate);
+  }
+  function start(){if(frame===null&&active()&&!reducedMotion.matches)frame=requestAnimationFrame(animate)}
+  function sync(){
+    if(!active()||reducedMotion.matches)stop();else start();
+    if(reducedMotion.matches)dots.forEach(d=>{d.node.setAttribute('cx',d.x);d.node.setAttribute('cy',d.y);d.node.setAttribute('r',r);d.node.setAttribute('opacity',1)});
+  }
+  renderers['st0']=sync;
+  new MutationObserver(sync).observe(host.closest('.slide'),{attributes:true,attributeFilter:['class']});
+  document.addEventListener('visibilitychange',sync);
+  reducedMotion.addEventListener('change',sync);
+})();
+
+/* ---------- 9. 확장 1: 인과 연쇄 ---------- */
+(function(){
+  const host=document.getElementById('st11');
+  host.innerHTML='<div id="fig11"></div><div class="eq swap" id="eq11" style="margin-top:.5em;min-height:4.5em;font-size:clamp(.8rem,min(1.6vw,2.8vh),2rem);display:flex;align-items:center;justify-content:center"></div><div class="cap swap" id="cap11" style="min-height:3.2em"></div>';
+  const W=720,H=250;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},document.getElementById('fig11'));
+  const nodes=[{k:'T',l:'농담 발화',x:135},{k:'M₁',l:'함의 해독',x:245},{k:'M₂',l:'전복 인지',x:355},{k:'M₃',l:'생리 반응',x:465},{k:'Y',l:'웃음',x:575}];
+  const cy=130,bw=84,bh=64;
+  const outer=[{k:'…',l:'',x:8},{k:'c',l:'권력 관계',x:50},{k:'h',l:'관계 변화',x:660},{k:'…',l:'',x:708}];
+  outer.forEach(n=>{const g=el('g',{opacity:.45},svg);if(n.l){el('rect',{x:n.x-30,y:cy-bh/2,width:60,height:bh,rx:4,fill:'#fff',stroke:'#d6d6db','stroke-width':1.2,'stroke-dasharray':'4 3'},g);txt(g,n.x,cy-4,n.k,{'text-anchor':'middle','font-size':20,'font-weight':700,'font-family':'var(--mono)',fill:'#8a8a92'});txt(g,n.x,cy+22,n.l,{'text-anchor':'middle','font-size':12,fill:'#8a8a92'})}else txt(g,n.x,cy+6,n.k,{'text-anchor':'middle','font-size':22,fill:'#8a8a92'})});
+  [[80,nodes[0].x-bw/2-4],[nodes[4].x+bw/2+4,630]].forEach(([a,b])=>el('line',{x1:a,y1:cy,x2:b,y2:cy,stroke:'#c9c9cf','stroke-width':1.6,'stroke-dasharray':'4 3'},svg));
+  const TIPS11={'T':'처치. 연구자가 무작위화한 변수. 농담을 들려줄지 말지.','M₁':'언어적 층위. 말의 함의를 해독하는 단계. 무작위화되지 않았다.','M₂':'사회적 층위. 누가 끌어내려지는지, 웃어도 안전한지 읽는 단계. 무작위화되지 않았다.','M₃':'생물학적 층위. 횡격막 수축, 도파민 분비. 무작위화되지 않았다.','Y':'결과. 웃음 또는 재미 평정.'};
+  const boxes=nodes.map(n=>{const g=el('g',{'data-tip':TIPS11[n.k]||''},svg);
+    const r=el('rect',{x:n.x-bw/2,y:cy-bh/2,width:bw,height:bh,rx:4,fill:'#fff',stroke:'#c9c9cf','stroke-width':1.5},g);
+    const t1=txt(g,n.x,cy-4,n.k,{'text-anchor':'middle','font-size':22,'font-weight':800,'font-family':'var(--mono)'});
+    const t2=txt(g,n.x,cy+22,n.l,{'text-anchor':'middle','font-size':14,fill:'#6b6b72'});
+    return{g,r,t1,t2}});
+  const arrows=nodes.slice(0,-1).map((n,i)=>el('line',{x1:n.x+bw/2+4,y1:cy,x2:nodes[i+1].x-bw/2-4,y2:cy,stroke:'#1b1b1f','stroke-width':2,'marker-end':'url(#ah11)'},svg));
+  const defs=el('defs',{},svg);const m=el('marker',{id:'ah11',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto'},defs);el('path',{d:'M0,0 L10,5 L0,10 z',fill:'#1b1b1f'},m);
+  // 총효과 아치
+  const arc=el('path',{d:`M ${nodes[0].x} ${cy-bh/2-6} C ${nodes[0].x} 42, ${nodes[4].x} 42, ${nodes[4].x} ${cy-bh/2-6}`,fill:'none',stroke:'var(--treat)','stroke-width':2.5,'stroke-dasharray':'6 5',opacity:0},svg);
+  const arcT=txt(svg,355,30,'E[Y₁ − Y₀]  구간의 총효과 하나로 합산',{'text-anchor':'middle','font-size':16,'font-weight':700,fill:'var(--treat)',opacity:0});
+  const fold=el('rect',{x:nodes[1].x-bw/2-10,y:cy-bh/2-10,width:nodes[3].x-nodes[1].x+bw+20,height:bh+20,rx:6,fill:'#f4f4f6',stroke:'none',opacity:0},svg);svg.insertBefore(fold,boxes[1].g);
+  const foldT=txt(svg,355,cy+bh/2+34,'미식별: 실험은 이 안을 보지 않는다',{'text-anchor':'middle','font-size':14,fill:'#8a8a92',opacity:0});
+  // 교란 U → M, U → Y
+  const U=el('g',{opacity:0},svg);
+  el('circle',{cx:520,cy:206,r:17,fill:'#fff',stroke:'var(--ctrl)','stroke-width':1.5,'stroke-dasharray':'4 3'},U);
+  txt(U,520,212,'U',{'text-anchor':'middle','font-size':18,'font-weight':800,'font-family':'var(--mono)',fill:'var(--ctrl)'});
+  el('line',{x1:507,y1:195,x2:nodes[2].x+16,y2:cy+bh/2+4,stroke:'var(--ctrl)','stroke-width':1.8,'stroke-dasharray':'4 3','marker-end':'url(#ah11c)'},U);
+  el('line',{x1:533,y1:195,x2:nodes[4].x-16,y2:cy+bh/2+4,stroke:'var(--ctrl)','stroke-width':1.8,'stroke-dasharray':'4 3','marker-end':'url(#ah11c)'},U);
+    const m2=el('marker',{id:'ah11c',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto'},defs);el('path',{d:'M0,0 L10,5 L0,10 z',fill:'var(--ctrl)'},m2);
+  const uT=txt(svg,520,243,'M과 Y의 공통 원인 (예: 반권위 성향)',{'text-anchor':'middle','font-size':13,fill:'var(--ctrl)',opacity:0});
+  const eq=document.getElementById('eq11'),cap=document.getElementById('cap11');
+  renderers['st11']=b=>{
+    boxes.forEach((bx,i)=>{const on=b>=1;bx.g.setAttribute('opacity',on?1:0.25);
+      const last=nodes.length-1,mid=i>0&&i<last;
+      const ext=b>=2&&(i===0||i===last);
+      bx.r.setAttribute('stroke',ext?'var(--treat)':(b>=2&&mid)?'#c9c9cf':'#1b1b1f');
+      bx.r.setAttribute('stroke-width',ext?2.5:1.5);
+      bx.t1.setAttribute('fill',(b>=2&&mid)?'#8a8a92':'#1b1b1f');
+      bx.t2.setAttribute('fill',(b>=2&&mid)?'#b0b0b6':'#6b6b72')});
+    arrows.forEach(a=>a.setAttribute('opacity',b>=1?1:0.25));
+    arc.setAttribute('opacity',b>=2?1:0);arcT.setAttribute('opacity',b>=2?1:0);
+    fold.setAttribute('opacity',b>=2&&b<3?1:0);foldT.setAttribute('opacity',b>=2&&b<3?1:0);
+    U.setAttribute('opacity',b>=3?1:0);uT.setAttribute('opacity',b>=3?1:0);
+    updateStageText(eq,cap,b,()=>{
+      if(b===1){tex(eq,String.raw`T\to M_1\to M_2\to M_3\to Y`,true);cap.textContent='일반적으로 실험을 하면 농담 여부(T)와 웃음 여부(Y) 간의 관계를 측정하게 된다.'}
+      if(b===2){tex(eq,String.raw`\begin{aligned}D\perp(Y_0,Y_1)\ \Rightarrow\ &E[Y|D{=}1]-E[Y|D{=}0]\\&=E[Y_1-Y_0]\end{aligned}`,true);cap.textContent='세 층위가 어떻게 작동하든 총효과는 식별된다.\n그래서 유용하고, 그래서 메커니즘은 식별되지 않은 채 남는다.\n전등 스위치를 켜면 불이 들어온다는 것은 알지만 왜인지는 모르는 상태다.'}
+      if(b===3){tex(eq,String.raw`M_2\to Y\ \text{를 보려면}\quad U\to M_2\ \text{를 끊어야 한다}`,true);cap.textContent='농담의 무작위화가 끊은 것은 T로 들어오는 화살표뿐이다.\nM₂로 들어오는 U → M₂는 그대로다.\n실험 안에서 관찰연구의 문제가 다시 나타난다.'}
+    });
+  };
+})();
+
+/* ---------- 10. 확장 2: 조기 중단 시뮬레이션 ---------- */
+(function(){
+  const host=document.getElementById('st12');
+  host.innerHTML='<div id="fig12"></div><div class="eq swap" id="eq12" style="margin-top:.3em;min-height:3.6em;font-size:clamp(.9rem,min(1.6vw,2.8vh),2rem);display:flex;align-items:center;justify-content:center"></div><div class="cap swap" id="cap12" style="min-height:3.2em"></div>';
+  const W=620,H=300,x0=50,x1=590,y0=270,yT=30,NMAX=100,NSHOW=36,NSIM=2000;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},document.getElementById('fig12'));
+  const px=n=>x0+(x1-x0)*n/NMAX, py=z=>y0-(y0-yT)*(z+4)/8;
+  el('line',{x1:x0,y1:py(0),x2:x1,y2:py(0),stroke:'#e4e4e8','stroke-width':1},svg);
+  el('line',{x1:x0,y1:py(1.96),x2:x1,y2:py(1.96),stroke:'#1b1b1f','stroke-width':1.2,'stroke-dasharray':'5 4'},svg);
+  el('line',{x1:x0,y1:py(-1.96),x2:x1,y2:py(-1.96),stroke:'#1b1b1f','stroke-width':1.2,'stroke-dasharray':'5 4'},svg);
+  txt(svg,x1+4,py(1.96)+5,'+1.96',{'font-size':12,fill:'#6b6b72','font-family':'var(--mono)'});
+  txt(svg,x1+4,py(-1.96)+5,'−1.96',{'font-size':12,fill:'#6b6b72','font-family':'var(--mono)'});
+  txt(svg,x0,H-4,'표본 크기 n',{'font-size':13,fill:'#6b6b72'});
+  txt(svg,x1,H-4,String(NMAX),{'font-size':13,fill:'#6b6b72','text-anchor':'end','font-family':'var(--mono)'});
+  txt(svg,14,yT+8,'z',{'font-size':14,fill:'#6b6b72','font-family':'var(--mono)'});
+  const ticks=el('g',{},svg);
+  const paths=el('g',{},svg);
+  const rnd=(function(){let s=20260909;return()=>{s=(s*1664525+1013904223)%4294967296;return s/4294967296}})();
+  const gauss=()=>{let u=0,v=0;while(!u)u=rnd();while(!v)v=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
+  let walks=[];
+  function draw(){walks=[];for(let i=0;i<NSIM;i++){const z=[];let s=0;for(let n=1;n<=NMAX;n++){s+=gauss();z.push(s/Math.sqrt(n))}walks.push(z)}}
+  function looksOf(k){const L=[];for(let i=1;i<=k;i++)L.push(Math.round(NMAX*i/k));return L}
+  function stopAt(z,L){for(const n of L){if(Math.abs(z[n-1])>1.96)return n}return 0}
+  const ro=document.getElementById('ro12');
+  const pels=[];
+  function render(k,showBias){
+    ticks.innerHTML='';paths.innerHTML='';
+    const L=looksOf(k);
+    L.forEach(n=>el('line',{x1:px(n),y1:yT,x2:px(n),y2:y0,stroke:'#e4e4e8','stroke-width':1},ticks));
+    let hits=0,sumEst=0;
+    walks.forEach((z,i)=>{const st=stopAt(z,L);if(st){hits++;sumEst+=Math.abs(z[st-1])/Math.sqrt(st)}
+      if(i<NSHOW){let d='';const end=st||NMAX;for(let n=1;n<=end;n++)d+=(n>1?'L':'M')+px(n).toFixed(1)+' '+py(Math.max(-4,Math.min(4,z[n-1]))).toFixed(1);
+        el('path',{d,fill:'none',stroke:st?'var(--treat)':'#c9c9cf','stroke-width':st?2:1.1,opacity:st?.95:.7},paths);
+        if(st)el('circle',{cx:px(st),cy:py(z[st-1]),r:3.5,fill:'var(--treat)'},paths)}});
+    const fp=hits/NSIM;
+    ro.innerHTML=`<span>총 검정 횟수</span><span>${k}회</span><span>위양성률 (2,000회)</span><span style="color:var(--treat);font-weight:700">${(fp*100).toFixed(1)}%</span><span>보고된 효과 크기 평균 (참값 0)</span><span style="color:var(--treat);font-weight:700">${(hits?sumEst/hits:0).toFixed(2)} SD</span>`;
+  }
+  const eq=document.getElementById('eq12'),cap=document.getElementById('cap12');
+  let curB=0;
+  function show(b){
+    if(b<=1)render(1,false);else if(b===2)render(10,false);else render(10,true);
+    updateStageText(eq,cap,b,()=>{
+      if(b<=1){tex(eq,String.raw`\text{한 번 검정: 거짓 발견}\approx 5\%`,true);cap.textContent='한 번만 보면 약 5%.\n효과가 없어도 이 정도는 우연히 유의하게 나옴.'}
+      if(b===2){tex(eq,String.raw`\text{열 번 중 한 번만 유의해도 보고}\Rightarrow 19\%`,true);cap.textContent='같은 자료, 더 많은 검정 기회.\n그중 한 번만 유의해도 보고하면 오류가 늘어남.'}
+      if(b===3){tex(eq,String.raw`\text{참효과}=0\quad\text{인데}\quad\text{보고된 효과 크기}>0`,true);cap.textContent='우연히 크게 튄 결과만 골라 보고.\n효과가 0인데도 큰 효과처럼 보일 수 있음.'}
+      if(b>=4){tex(eq,String.raw`\text{전체 거짓 발견 확률}\leq 5\%\quad\text{가 되도록 설계}`,true);cap.textContent='중간 분석 횟수에 맞춰 유의 기준도 조정해야 함.\n위 그래프는 아직 조정 전(±1.96 고정).'}
+    });
+  }
+  draw();
+  document.getElementById('b-peek').addEventListener('click',()=>{draw();render(curB<=1?1:10,curB>=3)});
+  renderers['st12']=b=>{curB=b;show(b)};
+})();
+
+/* ---------- 11. 확장 3: 타당성 사다리 ---------- */
+(function(){
+  const host=document.getElementById('st8');
+  host.innerHTML='<div id="lad8"></div><div class="eq swap" id="eq8" style="margin-top:.6em;min-height:5em;font-size:clamp(.85rem,min(1.55vw,2.7vh),1.9rem);display:flex;align-items:center;justify-content:center"></div><div class="cap swap" id="cap8" style="min-height:3.2em"></div>';
+  const W=620,H=330;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},document.getElementById('lad8'));
+  const rows=[
+    {k:'01 내적 타당성',how:'실험 안의 비교는 공정한가?',ok:true},
+    {k:'02 구성 타당성',how:'실험과 같은 치료를 제공하는가?',ok:false},
+    {k:'03 외적 타당성',how:'참가자의 효과를 모두에게 적용해도 되는가?',ok:false},
+    {k:'04 정책 타당성',how:'전국적으로 확대해도 효과가 같은가?',ok:false},
+  ];
+  const gs=rows.map((r,i)=>{const y=20+i*76;const g=el('g',{opacity:0},svg);
+    el('rect',{x:20,y,width:580,height:62,fill:r.ok?'var(--treat-soft)':'#f4f4f6',stroke:r.ok?'var(--treat)':'#c9c9cf','stroke-width':1.5},g);
+    txt(g,40,y+26,r.k,{'font-size':20.0,'font-weight':800});txt(g,40,y+48,r.how,{'font-size':15.6,fill:r.ok?'var(--treat)':'#6b6b72','font-weight':700});
+    txt(g,590,y+22,r.ok?'무작위 배정의 역할':'별도 확인 필요',{'text-anchor':'end','font-size':13.5,fill:r.ok?'var(--treat)':'#8a8a92','font-weight':700});
+    return g});
+  const eq=document.getElementById('eq8'),cap=document.getElementById('cap8');
+  const termTips={
+    "D": "D는 처치 여부. 1이면 처치를 받고, 0이면 받지 않음.",
+    "independent": "⊥는 통계적 독립. 참가자 안에서 처치 여부가 잠재결과와 무관하다는 뜻.",
+    "Y0": "Y₀는 처치를 받지 않았을 경우의 잠재결과.",
+    "Y1": "Y₁은 처치를 받았을 경우의 잠재결과.",
+    "given": "|는 조건. 뒤에 적힌 집단 안에서 앞의 관계를 본다는 뜻.",
+    "S1": "S=1은 실험 참가자. D=1(처치받음)과 구분해야 한다.",
+    "Et": "처치를 받은 실험 참가자의 관찰된 평균 결과. E는 평균, Y는 관찰된 결과, D=1은 처치, S=1은 참가를 뜻한다.",
+    "Ec": "처치를 받지 않은 실험 참가자의 관찰된 평균 결과. D=0은 통제집단이며 S=1은 실험 참가자라는 조건이다.",
+    "tauS": "τ_S는 실험 참가자의 평균 처치효과 E[Y₁ − Y₀ | S=1]. S는 sample.",
+    "tauP": "τ_P는 국민 전체의 평균 처치효과 E[Y₁ − Y₀]. P는 population.",
+    "Ttrial": "T_trial은 실험에서 실제로 제공한 처치. 약뿐 아니라 진료·상담·추적 관리까지 포함한다.",
+    "Tpolicy": "T_policy는 확대 정책에서 실제로 제공할 처치. 실험 때와 같은 내용을 유지하는지 확인한다.",
+    "question": "물음표 등호는 같은지 확인해야 한다는 질문. 같다는 결론을 미리 가정한 것이 아니다.",
+    "delta": "δ는 소득 X가 1 높아질 때 평균 처치효과가 얼마나 변하는지 나타내는 기울기. 기본소득 예시에서는 음수다.",
+    "EXs": "E[X | S=1]은 실험 참가자의 평균 소득. X는 기본소득 지급 이전의 표준화된 소득수준.",
+    "EX": "E[X]는 국민 전체의 평균 소득. 그림에서는 국민 전체 기준으로 표준화했으므로 0이다.",
+    "linear": "이 등식은 같은 소득에서는 참가 여부와 무관하게 평균 효과가 같고 τ(x)=β+δx인 선형 예시에서 성립한다. 일반적으로는 분포 전체를 고려해야 한다.",
+    "tau": "τ(·)는 괄호 안 보급률 환경에서의 한 명당 평균 처치효과. 정책 전체의 총편익과는 다르다.",
+    "pi": "π_trial은 실험 당시 정책 대상자 중 처치를 제공받는 비율. 실험 참가자 안의 배정 확률과 다르다.",
+    "one": "1은 보급률 100%, 즉 정책 대상자 전체에게 시행하는 상황.",
+    "identify": "무작위 배정으로 참가자 평균 효과를 식별하는 등식. 실제 표본의 평균 차이에는 우연한 오차가 남으며, 이탈·불이행·분석 문제는 별도 확인이 필요하다."
+};
+  renderers['st8']=b=>{
+    gs.forEach((g,i)=>g.setAttribute('opacity',b>=i+1?1:0));
+    updateStageText(eq,cap,b,()=>{
+
+      if(b===1){tex(eq,String.raw`\begin{gathered}\htmlClass{math-term term-D}{D}\htmlClass{math-term term-independent}{\perp}(\htmlClass{math-term term-Y0}{Y_0},\htmlClass{math-term term-Y1}{Y_1})\htmlClass{math-term term-given}{\mid}\htmlClass{math-term term-S1}{S=1}\\\htmlClass{math-term term-Et}{E[Y\mid D=1,S=1]}-\htmlClass{math-term term-Ec}{E[Y\mid D=0,S=1]}\htmlClass{math-term term-identify}{=}\htmlClass{math-term term-tauS}{\tau_S}\end{gathered}`,true);cap.textContent='참가자 안에서 처치를 무작위로 정하면,\n두 집단의 평균 차이로 참가자의 평균 처치효과를 알 수 있음.'}
+      if(b===2){tex(eq,String.raw`\htmlClass{math-term term-Ttrial}{T_{\mathrm{trial}}}\htmlClass{math-term term-question}{\stackrel{?}{=}}\htmlClass{math-term term-Tpolicy}{T_{\mathrm{policy}}}`,true);cap.textContent='실험에서 제공한 치료와 정책에서 제공할 치료가 같은가?\n약 이름뿐 아니라 진료·상담·관리까지 비교하는 질문.'}
+      if(b===3){tex(eq,String.raw`\htmlClass{math-term term-tauS}{\tau_S}-\htmlClass{math-term term-tauP}{\tau_P}\htmlClass{math-term term-linear}{=}\htmlClass{math-term term-delta}{\delta}\big(\htmlClass{math-term term-EXs}{E[X\mid S=1]}-\htmlClass{math-term term-EX}{E[X]}\big)`,true);cap.textContent='소득에 따라 효과가 달라지고, 참가자의 평균 소득도 다르면?\n두 차이가 곱해져 참가자 효과와 국민 전체 효과가 벌어짐.'}
+      if(b>=4){tex(eq,String.raw`\htmlClass{math-term term-tau}{\tau}(\htmlClass{math-term term-pi}{\pi_{\mathrm{trial}}})\htmlClass{math-term term-question}{\stackrel{?}{=}}\htmlClass{math-term term-tau}{\tau}(\htmlClass{math-term term-one}{1})`,true);cap.textContent='일부에게 제공할 때의 한 명당 효과가\n대상자 모두에게 제공해도 같은지 묻는 것.'}
+      eq.querySelectorAll('.math-term').forEach(node=>{const key=[...node.classList].find(c=>c.startsWith('term-')).slice(5);node.dataset.tip=termTips[key]});
+    });
+  };
+})();
+
+/* ---------- 12. 확장 4: 표본 선택 × 이질성 ---------- */
+(function(){
+  const host=document.getElementById('st9');
+  host.innerHTML='<div id="fig9"></div><div class="eq" id="eq9" style="margin-top:.2em;min-height:3.4em;font-size:clamp(1rem,min(1.8vw,3.1vh),2.2rem);display:flex;align-items:center;justify-content:center"></div>';
+  const W=660,H=296;
+  const svg=el('svg',{viewBox:`0 -36 ${W} ${H+36}`},document.getElementById('fig9'));
+  const x0=70,x1=590,y0=250,ph=150;
+  const xs=v=>x0+(v+3)/6*(x1-x0);
+  el('line',{x1:x0,x2:x1,y1:y0,y2:y0,stroke:'#bbb'},svg);
+  [-2,-1,0,1,2].forEach(v=>txt(svg,xs(v),y0+18,v,{'text-anchor':'middle','font-size':16.2,fill:'#888','font-family':'var(--mono)'}));
+  txt(svg,x1,y0+36,'평소 소득 X (낮음 ← → 높음)',{'text-anchor':'end','font-size':16.2,fill:'#888'});
+  txt(svg,x0-6,y0-ph*1.2,'사람 수',{'text-anchor':'end','font-size':14.5,fill:'#888','font-weight':700});
+  txt(svg,x0-6,y0-ph*1.2+18,'(밀도)',{'text-anchor':'end','font-size':12.5,fill:'#888'});
+  el('line',{x1:x1+8,x2:x1+8,y1:y0,y2:y0-ph*0.15-6*22,stroke:'var(--treat)','stroke-width':1.2},svg);
+  [0,2,4,6].forEach(t=>{const yy=y0-ph*0.15-t*22;el('line',{x1:x1+8,x2:x1+13,y1:yy,y2:yy,stroke:'var(--treat)'},svg);txt(svg,x1+17,yy+4,t,{'font-size':12.5,fill:'var(--treat)','font-family':'var(--mono)'})});
+  txt(svg,x1+30,y0-ph*0.15-6*22-14,'효과 τ(x)',{'text-anchor':'end','font-size':14.5,fill:'var(--treat)','font-weight':700});
+  const pdf=(x,m,sd)=>Math.exp(-0.5*((x-m)/sd)**2)/(sd*Math.sqrt(2*Math.PI));
+  const path=(m,sd,col,fillop)=>{let d='';for(let i=0;i<=120;i++){const x=-3+6*i/120;const y=y0-pdf(x,m,sd)*ph*2.2;d+=(i?'L':'M')+xs(x)+' '+y}const pth=el('path',{d:d+`L${xs(3)} ${y0}L${xs(-3)} ${y0}Z`,fill:col,opacity:fillop,stroke:col,'stroke-width':1.5},svg);pth.style.transition='d .6s ease';return pth};
+  const pP=path(0,1,'#8a8a92',.25),pS=path(0,1,'var(--ctrl)',.22);
+  const tauLine=el('path',{d:'',fill:'none',stroke:'var(--treat)','stroke-width':2.6},svg);tauLine.style.transition='d .6s ease';
+  const ty=t=>y0-ph*0.15-t*22; // tau axis (right): 0..6 -> px
+  const legend=el('g',{'data-role':'legend',transform:'translate(0,-36)'},svg);
+  el('rect',{x:x0,y:22,width:12,height:12,fill:'#8a8a92',opacity:.5},legend);txt(legend,x0+18,33,'국민 전체',{'font-size':16.2,fill:'#555'});
+  el('rect',{x:x0+130,y:22,width:12,height:12,fill:'var(--ctrl)',opacity:.5},legend);txt(legend,x0+148,33,'실험 참가자',{'font-size':16.2,fill:'#555'});
+  el('line',{x1:x0+290,x2:x0+314,y1:28,y2:28,stroke:'var(--treat)','stroke-width':2.6},legend);txt(legend,x0+320,33,'소득별 효과 τ(x)',{'font-size':16.2,fill:'#555'});
+  const markP=el('line',{y1:y0,y2:y0-ph*1.15,stroke:'#555','stroke-dasharray':'4 3','stroke-width':1.5},svg),markS=el('line',{y1:y0,y2:y0-ph*1.15,stroke:'var(--ctrl)','stroke-dasharray':'4 3','stroke-width':1.5},svg);
+  const labP=txt(svg,0,y0-ph*1.2,'',{'text-anchor':'middle','font-size':16.9,'font-weight':700,fill:'#555'}),labS=txt(svg,0,y0-ph*1.32,'',{'text-anchor':'middle','font-size':16.9,'font-weight':700,fill:'var(--ctrl)'});
+  const ro=document.getElementById('ro9'),eq=document.getElementById('eq9');
+  const BETA=3,SD=1;let delta=0,mS=0;
+  function draw(){
+    pS.setAttribute('d',(()=>{let d='';for(let i=0;i<=120;i++){const x=-3+6*i/120;const y=y0-pdf(x,mS,SD)*ph*2.2;d+=(i?'L':'M')+xs(x)+' '+y}return d+`L${xs(3)} ${y0}L${xs(-3)} ${y0}Z`})());
+    let d='';for(let i=0;i<=60;i++){const x=-3+6*i/60;d+=(i?'L':'M')+xs(x)+' '+ty(BETA+delta*x)}tauLine.setAttribute('d',d);
+    const tP=BETA,tS=BETA+delta*mS;
+    markP.setAttribute('x1',xs(0));markP.setAttribute('x2',xs(0));markS.setAttribute('x1',xs(mS));markS.setAttribute('x2',xs(mS));
+    labP.setAttribute('x',xs(0));labP.textContent=`국민 전체 효과 +${tP.toFixed(1)}`;labS.setAttribute('x',xs(mS));labS.textContent=`참가자 효과 +${tS.toFixed(1)}`;
+    ro.innerHTML=`<span>효과 차이 (기울기 δ)</span><b>${delta.toFixed(1)}</b><span>참가자 평균 소득 − 국민 평균 소득</span><b>${mS>=0?'+':''}${mS.toFixed(1)}</b><span>참가자 효과 − 국민 전체 효과</span><b>${(tS-tP)>=0?'+':''}${(tS-tP).toFixed(2)}</b>`;
+    eq.innerHTML='';tex(eq,String.raw`\tau_S-\tau_P=\underbrace{(${delta.toFixed(1)})}_{\text{효과의 기울기}}\times\underbrace{(${mS.toFixed(1)})}_{\text{소득 치우침}}=${(tS-tP)>=0?'+':''}${(tS-tP).toFixed(2)}`,true);
+    document.getElementById('b-het').classList.toggle('primary',delta!==0);document.getElementById('b-sel').classList.toggle('primary',mS!==0);
+  }
+  document.getElementById('b-het').onclick=()=>{delta=delta?0:-1.2;draw()};
+  document.getElementById('b-sel').onclick=()=>{mS=mS?0:-1.5;draw()};
+  renderers['st9']=b=>{
+    if(b<=1){delta=0;mS=b===1?-1.5:0}
+    if(b===2){delta=-1.2;mS=0}
+    if(b>=3){delta=-1.2;mS=-1.5}
+    draw();
+  };
+})();
+
+/* ---------- 13. 확장 5: τ(π) 곡선 ---------- */
+(function(){
+  const host=document.getElementById('st10');
+  host.innerHTML='<div id="fig10"></div><div class="eq swap" id="eq10" style="margin-top:.5em;min-height:5em;display:flex;align-items:center;justify-content:center"></div><div class="cap swap" id="cap10" style="min-height:3.2em"></div>';
+  const W=620,H=310;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},document.getElementById('fig10'));
+  const x0=70,x1=580,y0=250,y1=50;
+  const px=v=>x0+v*(x1-x0),py=t=>y0-t/1.1*(y0-y1);
+  el('line',{x1:x0,x2:x1,y1:y0,y2:y0,stroke:'#bbb'},svg);el('line',{x1:x0,x2:x0,y1:y0,y2:y1,stroke:'#bbb'},svg);
+  [0,.25,.5,.75,1].forEach(v=>txt(svg,px(v),y0+18,(v*100)+'%',{'text-anchor':'middle','font-size':14.4,fill:'#888','font-family':'var(--mono)'}));
+  txt(svg,x1,y0+36,'대상자 중 처방 비율 π',{'text-anchor':'end','font-size':14.4,fill:'#888'});
+  txt(svg,x0-8,y1+4,'τ(π)',{'text-anchor':'end','font-size':14.9,'font-weight':700});
+  txt(svg,x0,y1-16,'가상 예시: 처방 확대와 삶의 만족도 개선 효과',{'font-size':14.9,'font-weight':700,fill:'#1b1b1f'});
+  el('line',{x1:x0,x2:x1,y1:py(1),y2:py(1),stroke:'#ccc','stroke-dasharray':'4 4'},svg);txt(svg,x1,py(1)-6,'소규모 약 처방 실험의 효과',{'text-anchor':'end','font-size':14.4,fill:'#888'});
+  const f=p=>1-0.65*Math.pow(p,1.4);
+  const curve=el('path',{d:'',fill:'none',stroke:'var(--treat)','stroke-width':2.6,opacity:0},svg);
+  const dSmall=el('circle',{cx:px(.05),cy:py(f(.05)),r:7,fill:'var(--treat)'},svg);
+  const lSmall=txt(svg,px(.05)+12,py(1)-12,'약 처방 실험 (5%)',{'font-size':14.9,'font-weight':700,fill:'var(--treat)'});
+  const dFull=el('circle',{cx:px(1),cy:py(.35),r:7,fill:'var(--ctrl)',opacity:0},svg);
+  const lFull=txt(svg,px(1)-16,py(.35)+14,'대상자 전체 처방 (100%)',{'text-anchor':'end','font-size':14.9,'font-weight':700,fill:'var(--ctrl)',opacity:0});
+  const gap=el('g',{opacity:0},svg);el('line',{x1:px(1)+0,x2:px(1),y1:py(1),y2:py(.35),stroke:'var(--ctrl)','stroke-width':1.5,'stroke-dasharray':'3 3'},gap);txt(gap,px(1)-12,(py(1)+py(.35))/2+4,'τ(5%) ≠ τ(100%)',{'text-anchor':'end','font-size':14.9,'font-weight':700,fill:'var(--ctrl)'});
+  const shift=el('path',{d:'',fill:'none',stroke:'#8a8a92','stroke-width':2,'stroke-dasharray':'6 4',opacity:0},svg);
+  const lShift=el('g',{opacity:0},svg);txt(lShift,px(.06),py(.4)+26,'03: 진단·상담·추적 관리까지 달라지면',{'font-size':13.8,'font-weight':700,fill:'#8a8a92'});txt(lShift,px(.06),py(.4)+42,'곡선 자체도 달라질 수 있음',{'font-size':13.8,'font-weight':700,fill:'#8a8a92'});
+  let d='';for(let i=0;i<=60;i++){const p=i/60;d+=(i?'L':'M')+px(p)+' '+py(f(p))}curve.setAttribute('d',d);
+  let d2='';for(let i=0;i<=60;i++){const p=i/60;d2+=(i?'L':'M')+px(p)+' '+py(f(p)*0.4)}shift.setAttribute('d',d2);
+  const eq=document.getElementById('eq10'),cap=document.getElementById('cap10');
+  renderers['st10']=b=>{
+    curve.setAttribute('opacity',b>=2?1:0);dFull.setAttribute('opacity',b>=2?1:0);lFull.setAttribute('opacity',b>=2?1:0);gap.setAttribute('opacity',b>=2?1:0);
+    shift.setAttribute('opacity',b>=3?1:0);lShift.setAttribute('opacity',b>=3?1:0);
+    updateStageText(eq,cap,b,()=>{
+      if(b===1){tex(eq,String.raw`\text{실험이 알려주는 것: }\tau(5\%)`,true);cap.textContent='약 처방 → 삶의 만족도 개선을 확인한 실험.\nAI 실업 자체를 해결했는지는 다른 질문.'}
+      if(b===2){tex(eq,String.raw`\tau(5\%)\neq\tau(100\%)`,true);cap.textContent='실업이 남아 있다고 약의 효과가 없다는 뜻은 아님.\n다만 전체 시행의 효과를 빨간 점 하나로 알 수는 없음.'}
+      if(b===3){tex(eq,String.raw`\text{실험의 처치}\neq\text{정책의 처치}`,true);cap.textContent='실험 때의 충분한 진료·경과 확인이 전국 확대 후에도 가능한가?\n같은 약을 쓴다는 것만으로 같은 치료라고 볼 수는 없음.'}
+      if(b>=4){tex(eq,String.raw`\text{실제 경험}=\text{처치}+\text{관찰}+\text{참여}`,true);cap.textContent='관심의 영향이 두 집단에 똑같이 더해지면 상쇄.\n반응이 다르면 일상 진료에 적용할 때 추가 검토가 필요.'}
+    });
+  };
+})();
+
+/* 확장별 식의 기호와 질문을 해당 위치에서 설명한다. */
+const extensionTips={
+  eq11:'T는 처치(D와 같은 역할), M은 중간 매개변수, Y는 결과. 무작위 배정으로 T→Y의 총효과를 알아도 각 M을 거치는 효과까지 따로 알 수는 없다.',
+  eq12:'n은 현재까지 모은 표본 수, zₙ은 그 시점의 추정치÷표준오차. α는 유의수준, αₖ는 k번째 분석에 배분한 유의수준이다. 누가 처치받는지와 별개로 언제 멈추는지를 반영한 검정이 필요하다.',
+  eq9:'S는 실험 참가 여부, D는 참가 후 처치 여부. τ_S는 참가자 평균 효과, τ_P는 모집단 평균 효과. 둘을 연결하려면 X별 효과의 비교 가능성, 표본 겹침, 모집단 X 분포에 따른 재가중이 필요하다.',
+  eq10:'π는 지역 내 처치 보급률, τ(π)는 그 환경에서의 한 명당 평균 처치효과. T_trial은 실험에서 시행한 처치, T_policy는 정책으로 시행할 처치다. 이름이 같아도 인력·관리·내용이 다를 수 있다. T_actual은 참여와 관찰까지 포함해 실제 경험한 처치다.',
+};
+Object.entries(extensionTips).forEach(([id,description])=>{const node=document.getElementById(id);if(node){node.dataset.tip=description;node.classList.add('tip')}});
+
+/* ---------- 툴팁 위임 ---------- */
+(function(){
+  const box=document.getElementById('tipbox');let cur=null;
+  function place(e){const pad=14;let x=e.clientX+pad,y=e.clientY+pad;const w=box.offsetWidth,h=box.offsetHeight;if(x+w>innerWidth-10)x=e.clientX-w-pad;if(y+h>innerHeight-10)y=e.clientY-h-pad;box.style.left=x+'px';box.style.top=y+'px'}
+  document.addEventListener('mouseover',e=>{const t=e.target.closest&&e.target.closest('[data-tip]');if(!t||t===cur)return;cur=t;box.innerHTML=t.getAttribute('data-tip');box.style.opacity=1;place(e)});
+  document.addEventListener('mousemove',e=>{if(cur)place(e)});
+  document.addEventListener('mouseout',e=>{const t=e.target.closest&&e.target.closest('[data-tip]');if(t&&t===cur&&!(e.relatedTarget&&t.contains(e.relatedTarget))){cur=null;box.style.opacity=0}});
+})();
+apply();
+if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{for(const k in fitted)delete fitted[k];apply()})}
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{for(const k in fitted)delete fitted[k];apply()},200)});
+</script>
+</body>
+</html>

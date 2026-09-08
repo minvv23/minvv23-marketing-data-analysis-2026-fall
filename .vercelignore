@@ -1,0 +1,13 @@
+*.md
+.DS_Store
+.vercel/
+.claude/
+.codex/
+.agents/
+node_modules/
+*.log
+.env
+.env.*
+__pycache__/
+*.pyc
+.git/
