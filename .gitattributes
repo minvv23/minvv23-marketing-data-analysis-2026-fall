@@ -1,0 +1,9 @@
+*.pdf binary
+*.woff2 binary
+*.md text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
+
+# Preserve the upstream license verbatim.
+learning/assets/fonts/Pretendard-LICENSE.txt -whitespace

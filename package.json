@@ -1,0 +1,19 @@
+{
+  "name": "marketing-data-analysis-web",
+  "version": "1.0.0",
+  "description": "Marketing data analysis presentations and learning materials",
+  "scripts": {
+    "sync:learning": "node scripts/sync-learning.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "katex": "0.18.7",
+    "marked": "18.0.13"
+  },
+  "private": true
+}
