@@ -13,6 +13,7 @@ for(const week of fs.readdirSync(path.join(root,'learning/materials')).filter(n=
  for(const name of fs.readdirSync(path.join(root,'learning/materials',week)).filter(n=>/\.(pdf|md)$/.test(n)))fs.copyFileSync(path.join(root,'learning/materials',week,name),path.join(out,name));
 }
 fs.copyFileSync(path.join(root,'learning/materials/README.md'),path.join(dist,'learning/materials/README.md'));
+fs.cpSync(path.join(root,'learning/materials/figures'),path.join(dist,'learning/materials/figures'),{recursive:true});
 const presentations=fs.readdirSync(path.join(root,'presentation')).filter(n=>/^\d{8}.*\.html$/.test(n)).sort().reverse();
 for(const name of presentations){
  fs.copyFileSync(path.join(root,'presentation',name),path.join(dist,'presentation',name));

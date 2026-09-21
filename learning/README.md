@@ -8,6 +8,7 @@
 
 - 주차별 세로 목차에서 심층요약, 개념 퀴즈, PDF를 연다.
 - 제목과 본문을 함께 검색할 수 있다.
+- 본문 그림을 누르면 크게 열어 확대하거나 축소할 수 있다. 작은 화면에서는 그림을 밀어 축과 주석을 읽는다.
 - 퀴즈의 예상 답안은 개별 또는 전체 펼치기로 확인한다.
 - `가 −` / `가 +`로 목록·본문·수식·표의 크기를 3단계로 조절한다.
 - 읽음 표시, 글자 크기, 밝은/어두운 화면 설정은 브라우저에 저장한다.
@@ -23,9 +24,9 @@ npm run build
 npm run check
 ```
 
-`sync:learning`이 원본 Markdown/PDF를 이 폴더의 `materials/`로 복사한다. 이 사본을 Git에 포함하므로 Vercel은 외부 폴더 없이 빌드한다. 저장소만 복제한 작업자는 `materials/`를 수정하고 `npm run build`로 반영할 수 있다. 원본도 사용하는 작업환경으로 돌아올 때에는 변경사항을 원본에 반영한 뒤 동기화해야 한다.
+`sync:learning`이 원본 Markdown/PDF와 `figures/`의 SVG를 이 폴더의 `materials/`로 복사한다. 이 사본을 Git에 포함하므로 Vercel은 외부 폴더 없이 빌드한다. 저장소만 복제한 작업자는 `materials/`를 수정하고 `npm run build`로 반영할 수 있다. 원본도 사용하는 작업환경으로 돌아올 때에는 변경사항을 원본에 반영한 뒤 동기화해야 한다.
 
-빌드가 수식 구문 오류를 검사하며, `npm run check`가 PDF·내부 링크, 문서 70개, PDF별 퀴즈 10문항을 확인한다. 검사는 설명의 학술적 정확성을 대신하지 않는다.
+빌드가 수식 구문 오류를 검사하며, `npm run check`가 PDF·내부 링크, 문서 70개, PDF별 퀴즈 10문항을 확인한다. 그림 경로, 대체 설명과 SVG 배포도 검사한다. 검사는 설명의 학술적 정확성을 대신하지 않는다.
 
 ## 로컬 열기와 파일 역할
 
@@ -38,5 +39,25 @@ npm run check
 - `verification/`에는 브라우저 점검 스크립트와 과거 화면 개편 기록이 있다. 과거 경로·스크린샷은 당시 버전의 기록이다.
 
 발표자료와 별개로, 이 학습 웹은 로컬 문서·글꼴을 사용하여 인터넷 없이도 읽을 수 있다. GitHub/Vercel 배포는 [통합 README](../README.md)를 참고한다.
+
+
+## 그래프와 도식 수정
+
+13개 주차의 요약 17편에 그래프 또는 개념도를 배치했다. 각 그림 아래에 데이터 출처, 가상 예제 여부와 해석을 적었다. 기존 본문과 수식은 유지했다.
+
+- `figures.json`: 그림별 원본 문서, 배치 절, 제목과 설명
+- `materials/figures/`: Markdown과 웹에서 함께 사용하는 SVG. 한글 글꼴을 경로로 저장해 기기에 따라 깨지지 않는다.
+- `../scripts/generate-learning-figures.py`: 그래프와 도식을 재생성하는 Matplotlib 코드
+
+그림을 다시 만들 때만 Python, NumPy, Matplotlib과 한글 글꼴(NanumBarunGothic 또는 NanumGothic 등)이 필요하다. 통상적인 Vercel 빌드는 저장된 SVG를 사용한다. `web`에서 실행한다.
+
+```sh
+python scripts/generate-learning-figures.py --output ../literatures/figures
+npm run sync:learning
+npm run build
+npm run check
+```
+
+저장소만 복제한 환경에서는 `--output`을 생략하면 `learning/materials/figures/`에 생성한다. 설명 문구를 바꿀 때에는 `figures.json`과 해당 원본 Markdown을 함께 수정한다.
 
 by TaeYoung Kang

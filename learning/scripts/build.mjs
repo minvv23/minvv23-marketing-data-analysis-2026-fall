@@ -29,6 +29,22 @@ function compile(src,file){
   mathCount++;const key=`MATHPLACEHOLDER${math.length}END`;math.push(display?`<span class="math-scroll">${html}</span>`:html);return key;
  });
  const renderer=new marked.Renderer();
+ renderer.image=function({href,text,title}){
+  const abs=path.resolve(path.dirname(file),decodeURIComponent(href));
+  if(!abs.startsWith(base+path.sep)||!fs.existsSync(abs)||!abs.endsWith('.svg'))throw Error('Invalid figure: '+href);
+  const svg=fs.readFileSync(abs,'utf8');
+  const [,width,height]=svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/)||[];
+  if(!width||!height)throw Error('Missing figure dimensions: '+href);
+  const target='materials/'+path.relative(base,abs).split(path.sep).map(encodeURIComponent).join('/');
+  return `<a class="figure-image" href="${esc(target)}" target="_blank" rel="noopener"><img src="${esc(target)}" alt="${esc(text)}" width="${width}" height="${height}" loading="lazy" decoding="async"></a>`;
+ };
+ renderer.paragraph=function({tokens}){
+  if(tokens.length===1&&tokens[0].type==='image'){
+   const token=tokens[0],target='materials/'+path.relative(base,path.resolve(path.dirname(file),decodeURIComponent(token.href))).split(path.sep).map(encodeURIComponent).join('/');
+   return `<figure class="learning-figure">${this.parser.parseInline(tokens)}<figcaption><span>${esc(token.title||'설명 그림')}</span><a href="${esc(target)}" target="_blank" rel="noopener">크게 보기</a></figcaption></figure>\n`;
+  }
+  return `<p>${this.parser.parseInline(tokens)}</p>\n`;
+ };
  renderer.link=function({href,title,tokens}){let target=href; if(!/^(?:[a-z]+:|#|\/)/i.test(href)){
    const abs=path.resolve(path.dirname(file),decodeURIComponent(href));
    target=routes.has(abs)?'#/'+routes.get(abs):'materials/'+path.relative(base,abs).split(path.sep).map(encodeURIComponent).join('/');

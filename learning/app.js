@@ -42,4 +42,35 @@ function closeMenu(){document.body.classList.remove('menu-open');$('#menu').setA
 $('#search-results-button').onclick=()=>{closeMenu();main.focus();window.scrollTo(0,0)};
 $('#search').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();closeMenu();main.focus();window.scrollTo(0,0)}});
 $('#menu-backdrop').onclick=closeMenu;
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenu();$('#menu').focus()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!e.target.closest('dialog')){closeMenu();$('#menu').focus()}});
+
+// Native dialog keeps keyboard focus inside the enlarged figure and restores it on close.
+const figureDialog=document.createElement('dialog');
+figureDialog.className='figure-dialog';
+figureDialog.setAttribute('aria-labelledby','figure-dialog-title');
+figureDialog.innerHTML=`<div class="figure-dialog-content"><div class="figure-dialog-header"><h2 id="figure-dialog-title"></h2><button type="button" class="figure-close" autofocus>닫기</button></div><div class="figure-controls"><button type="button" class="figure-smaller" aria-label="그림 축소">−</button><output aria-live="polite"></output><button type="button" class="figure-larger" aria-label="그림 확대">+</button><span>그림을 밀어서 살펴보세요.</span></div><div class="figure-viewport" tabindex="0" role="region" aria-label="확대한 그림, 가로 세로 스크롤 가능"><img alt=""></div></div>`;
+document.body.append(figureDialog);
+let figureZoom=1,figureBaseWidth=640;
+function sizeFigure(){
+ figureDialog.querySelector('img').style.width=`${figureBaseWidth*figureZoom}px`;
+ figureDialog.querySelector('output').textContent=`${Math.round(figureZoom*100)}%`;
+ figureDialog.querySelector('.figure-smaller').disabled=figureZoom<=.5;
+ figureDialog.querySelector('.figure-larger').disabled=figureZoom>=2;
+}
+figureDialog.querySelector('.figure-close').onclick=()=>figureDialog.close();
+figureDialog.querySelector('.figure-smaller').onclick=()=>{figureZoom=Math.max(.5,figureZoom-.25);sizeFigure()};
+figureDialog.querySelector('.figure-larger').onclick=()=>{figureZoom=Math.min(2,figureZoom+.25);sizeFigure()};
+figureDialog.addEventListener('close',()=>document.body.classList.remove('figure-open'));
+figureDialog.addEventListener('click',e=>{if(e.target===figureDialog)figureDialog.close()});
+document.addEventListener('click',e=>{
+ const link=e.target.closest('.learning-figure a');
+ if(!link||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||typeof figureDialog.showModal!=='function')return;
+ e.preventDefault();
+ const figure=link.closest('figure'),source=figure.querySelector('img'),img=figureDialog.querySelector('img');
+ img.src=source.src;img.alt=source.alt;
+ figureDialog.querySelector('h2').textContent=figure.querySelector('figcaption>span').textContent;
+ figureBaseWidth=Math.max(640,Math.min(960,innerWidth-64));figureZoom=1;sizeFigure();
+ figureDialog.showModal();document.body.classList.add('figure-open');
+ const viewport=figureDialog.querySelector('.figure-viewport');viewport.scrollTop=0;viewport.scrollLeft=Math.max(0,(figureBaseWidth-viewport.clientWidth)/2);
+});
+window.addEventListener('hashchange',()=>{if(figureDialog.open)figureDialog.close()});

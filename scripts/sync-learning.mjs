@@ -14,4 +14,5 @@ for(const week of weeks){
  for(const file of fs.readdirSync(path.join(source,week)).filter(n=>/\.(md|pdf)$/.test(n))){fs.copyFileSync(path.join(source,week,file),path.join(target,week,file));count++;}
 }
 fs.copyFileSync(path.join(source,'README.md'),path.join(target,'README.md'));
+fs.cpSync(path.join(source,'figures'),path.join(target,'figures'),{recursive:true});
 console.log(`원본에서 ${count}개 파일을 learning/materials에 동기화했습니다.`);
