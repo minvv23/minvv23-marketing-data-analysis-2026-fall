@@ -102,7 +102,7 @@ for spec in specs:
  fig=make(spec['id']);out=args.output/(spec['id']+'.svg');fig.savefig(out,format='svg',metadata={'Date':None,'Title':spec['title'],'Description':spec['alt']+' '+spec['source']})
  # Accessible title/description also travel with the standalone SVG.
  svg=out.read_text();desc='<title>'+spec['title']+'</title><desc>'+spec['alt']+'</desc>'
- start=svg.index('>',svg.index('<svg'))+1;svg=svg[:start]+desc+svg[start:];out.write_text(svg)
+ start=svg.index('>',svg.index('<svg'))+1;svg=svg[:start]+desc+svg[start:];out.write_text('\n'.join(line.rstrip() for line in svg.splitlines())+'\n')
  ET.parse(out)
  if args.preview:
   args.preview.mkdir(parents=True,exist_ok=True);fig.savefig(args.preview/(spec['id']+'.png'),dpi=120)
