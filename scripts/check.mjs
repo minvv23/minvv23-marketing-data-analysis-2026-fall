@@ -4,7 +4,16 @@ vm.runInNewContext(fs.readFileSync(path.join(dist,'learning/assets/content.js'),
 const data=ctx.window.LEARNING_DATA;let questions=0,math=0,links=0,figures=0;
 assert.equal(data.weeks.length,13);assert.equal(Object.keys(data.pages).length,70);
 for(const [key,page] of Object.entries(data.pages)){
- if(key.endsWith('/quiz')){const n=(page.html.match(/<h2>Q\s*\d+/g)||[]).length;assert.equal(n,10,key);questions+=n;}
+ if(key.endsWith('/quiz')){
+  const blocks=[...page.html.matchAll(/<h2>Q\s*\d+[^]*?<\/h2>([^]*?)(?=<h2>|$)/g)];
+  assert.equal(blocks.length,10,key);questions+=blocks.length;
+  for(const [i,block] of blocks.entries()){
+   const parts=block[1].split('<p><strong>예상답안</strong></p>');
+   assert.equal(parts.length,2,`${key} Q${i+1}: missing answer boundary`);
+   assert(parts[0].replace(/<[^>]*>/g,'').trim().length>=90,`${key} Q${i+1}: missing question context`);
+   assert(parts[1].replace(/<[^>]*>/g,'').trim().length>=240,`${key} Q${i+1}: missing answer explanation`);
+  }
+ }
  math+=(page.html.match(/class="katex"/g)||[]).length;
  assert(!/MATHPLACEHOLDER\d+END|class="katex-error"/.test(page.html),key);
  for(const m of page.html.matchAll(/<img\s+[^>]*src="([^"]+)"[^>]*>/g)){

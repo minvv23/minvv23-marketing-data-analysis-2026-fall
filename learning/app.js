@@ -16,7 +16,14 @@ function showDoc(key,w,d,mode){const page=pages[key];main.innerHTML=`<div class=
  article.querySelectorAll('.math-scroll, table, pre').forEach(el=>{el.tabIndex=0;el.setAttribute('role','region');el.setAttribute('aria-label',el.matches('table')?'표, 가로 스크롤 가능':el.matches('pre')?'코드, 가로 스크롤 가능':'수식, 가로 스크롤 가능')});
  if(mode==='quiz'){
   const toggle=document.createElement('button');toggle.className='answer-toggle';toggle.textContent='예상 답안 모두 펼치기';article.insertBefore(toggle,article.querySelector('h2'));
-  [...article.querySelectorAll('h2')].filter(h=>/^Q\d+/i.test(h.textContent)).forEach(h=>{const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='예상 답안 보기';details.append(summary);let next=h.nextElementSibling;while(next&&!/^H[12]$/.test(next.tagName)){const move=next;next=next.nextElementSibling;details.append(move)}h.after(details);details.open=quizState.get(key)?.has(h.textContent)??false;details.addEventListener('toggle',()=>{const opened=quizState.get(key)??new Set();if(details.open)opened.add(h.textContent);else opened.delete(h.textContent);quizState.set(key,opened)})});
+  [...article.querySelectorAll('h2')].filter(h=>/^Q\d+/i.test(h.textContent)).forEach(h=>{const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='예상 답안 보기';details.append(summary);let answer=h.nextElementSibling;
+   while(answer&&!/^H[12]$/.test(answer.tagName)&&!/^(?:예상\s*답안)$/.test(answer.textContent.trim()))answer=answer.nextElementSibling;
+   // Earlier notes put the whole question in the heading. New notes add visible context before the answer marker.
+   if(!answer||/^H[12]$/.test(answer.tagName))answer=h.nextElementSibling;
+   if(answer)answer.before(details);else h.after(details);
+   let next=answer;
+   if(answer&&/^예상\s*답안$/.test(answer.textContent.trim())){next=answer.nextElementSibling;answer.remove()}
+   while(next&&!/^H[12]$/.test(next.tagName)){const move=next;next=next.nextElementSibling;details.append(move)}details.open=quizState.get(key)?.has(h.textContent)??false;details.addEventListener('toggle',()=>{const opened=quizState.get(key)??new Set();if(details.open)opened.add(h.textContent);else opened.delete(h.textContent);quizState.set(key,opened)})});
   toggle.onclick=()=>{const open=[...article.querySelectorAll('details')].some(d=>!d.open);article.querySelectorAll('details').forEach(d=>d.open=open);toggle.textContent=open?'예상 답안 모두 접기':'예상 답안 모두 펼치기'};
  }
  const headings=[...article.querySelectorAll('h2')];headings.forEach((h,i)=>h.id='section-'+i);
