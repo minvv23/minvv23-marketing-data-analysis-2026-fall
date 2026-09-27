@@ -2,7 +2,7 @@
 
 각 문항은 연구의 목적, 실제 비교 대상과 결과의 의미를 설명하는 독해 문제다. 문항에 제시한 상황을 근거로 답한 뒤 예상답안과 비교한다.
 
-[원문 PDF](<MHE Ch6 Regression Discontinuity Designs (2009).pdf>) | [심층요약](<MHE Ch6 Regression Discontinuity Designs (2009)_심층요약.md>)
+[원문 PDF](<MHE Ch6 Regression Discontinuity Designs (2009).pdf>) | [심층요약](<MHE Ch6 Regression Discontinuity Designs (2009)_심층요약.md>) | [수식·모델 퀴즈](<MHE Ch6 Regression Discontinuity Designs (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch6 Regression Discontinuity Designs (2009)_실무CheatSheet.md>)
 
 ## Q01. 장학금 수혜자 전체 대신 기준점 근처만 비교하는 이유
 

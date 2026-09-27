@@ -1,6 +1,6 @@
 # Case -- Homealarm LTV - 개념 독해 확인 퀴즈 10문항
 
-[원문 PDF](<Case -- Homealarm LTV.pdf>) | [심층요약](<Case -- Homealarm LTV_심층요약.md>)
+[원문 PDF](<Case -- Homealarm LTV.pdf>) | [심층요약](<Case -- Homealarm LTV_심층요약.md>) | [수식·모델 퀴즈](<Case -- Homealarm LTV_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Case -- Homealarm LTV_실무CheatSheet.md>)
 
 교수가 이 사례를 읽고 계산의 논리를 이해했는지 확인하는 상황을 가정한 예상 질문이다. 각 질문 뒤에 예상 답안을 붙였다. 사례에 없는 실험 설계는 제안으로 구분해 적었다.
 

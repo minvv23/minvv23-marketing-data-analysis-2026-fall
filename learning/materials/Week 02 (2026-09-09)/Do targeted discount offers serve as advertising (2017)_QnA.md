@@ -1,6 +1,6 @@
 # Do targeted discount offers serve as advertising (2017) - 개념 독해 확인 퀴즈 10문항
 
-[원문 PDF](<Do targeted discount offers serve as advertising (2017).pdf>) | [심층요약](<Do targeted discount offers serve as advertising (2017)_심층요약.md>)
+[원문 PDF](<Do targeted discount offers serve as advertising (2017).pdf>) | [심층요약](<Do targeted discount offers serve as advertising (2017)_심층요약.md>) | [수식·모델 퀴즈](<Do targeted discount offers serve as advertising (2017)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Do targeted discount offers serve as advertising (2017)_실무CheatSheet.md>)
 
 교수가 이 자료의 연구 논리와 해석을 이해했는지 확인하는 상황을 가정한 예상 질문이다. 수식 유도 대신 자료에 등장한 비교와 저자의 판단 근거를 묻고, 각 질문 바로 뒤에 예상 답안을 제시한다.
 

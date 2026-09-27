@@ -6,7 +6,7 @@
 
 Yoon과 Kim은 플로리다의 2011-2015년 입원 수술기록 약 14만 건과 병원 TV 광고자료를 연결해 이 질문에 답한다. 주된 비교 대상은 같은 병원의 같은 진료과에서 수술받았지만 TV 광고시장(DMA) 경계의 서로 다른 쪽에 살아서 그 병원의 로봇수술 광고를 다르게 접한 환자들이다. 이 문서는 1-4절에서 질문의 범위와 자료를, 5-10절에서 광고효과를 식별하는 설계를, 11-13절에서 광고효과 추정 결과를 설명한다. 14-16절은 로봇수술 환자의 입원기간, 건강결과, 청구금액을 비교한 보충 분석과, 두 분석을 연결할 때 필요한 조건을 다룬다.
 
-[원문 PDF](<The Role of Advertising in High-Tech Medical Procedures (2024).pdf>) | [독립형 QnA](<The Role of Advertising in High-Tech Medical Procedures (2024)_QnA.md>)
+[원문 PDF](<The Role of Advertising in High-Tech Medical Procedures (2024).pdf>) | [개념 퀴즈](<The Role of Advertising in High-Tech Medical Procedures (2024)_QnA.md>) | [수식·모델 퀴즈](<The Role of Advertising in High-Tech Medical Procedures (2024)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<The Role of Advertising in High-Tech Medical Procedures (2024)_실무CheatSheet.md>)
 
 ## 1. 병원을 선택한 환자가 어떤 수술 방식을 받는지 묻는다
 

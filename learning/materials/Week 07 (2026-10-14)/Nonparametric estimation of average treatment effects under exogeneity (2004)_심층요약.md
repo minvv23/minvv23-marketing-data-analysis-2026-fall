@@ -6,7 +6,7 @@ Imbens는 이런 관측자료에서 평균 처치효과(average treatment effect
 
 이 글은 노동시장 정책 평가 문헌에서 나왔다. Ashenfelter(1978), Heckman과 Robb(1984), LaLonde(1986) 등의 연구 이후 구직 지원이나 직업교육 프로그램의 효과를 추정하는 계량경제학 방법에 관심이 커졌다. 그 가운데 한 갈래는 통계학의 잠재결과(potential outcome) 연구(Rubin, Rosenbaum과 Rubin)를 바탕으로 결과의 분포나 함수형태를 덜 가정하는 추정법을 발전시켰다. Imbens는 2003년 계량경제학회 초청강연을 바탕으로 이 문헌을 다섯 부류로 묶는다. 결과의 회귀함수를 추정하는 방법, 공변량(covariate) 매칭, 가중이나 블로킹처럼 성향점수를 이용하는 방법, 이들을 결합한 방법, 베이지안 방법이다. 도구변수(instrumental variable), 이중차분(difference-in-differences), 회귀불연속(regression discontinuity)처럼 관측 공변량 조정 외의 정보를 쓰는 방법과 처치가 여러 값을 가지거나 시간에 따라 바뀌는 경우는 다루지 않는다고 범위를 밝힌다.
 
-[원문 PDF](<Nonparametric estimation of average treatment effects under exogeneity (2004).pdf>) | [독립형 QnA](<Nonparametric estimation of average treatment effects under exogeneity (2004)_QnA.md>)
+[원문 PDF](<Nonparametric estimation of average treatment effects under exogeneity (2004).pdf>) | [개념 퀴즈](<Nonparametric estimation of average treatment effects under exogeneity (2004)_QnA.md>) | [수식·모델 퀴즈](<Nonparametric estimation of average treatment effects under exogeneity (2004)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Nonparametric estimation of average treatment effects under exogeneity (2004)_실무CheatSheet.md>)
 
 ## 1. 훈련 참가자와 비참가자를 비교하기 전에 확인할 문제
 

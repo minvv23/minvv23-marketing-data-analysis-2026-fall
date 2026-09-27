@@ -2,7 +2,7 @@
 
 각 질문은 연구의 상황과 비교 대상을 포함한다. 예상답안은 계산 과정 대신 연구 목적, 설계와 결과의 연결을 설명한다.
 
-[원문 PDF](<Identification of causal effects using instrumental variables (1996) [NBER WP].pdf>) | [심층요약](<Identification of causal effects using instrumental variables (1996) [NBER WP]_심층요약.md>)
+[원문 PDF](<Identification of causal effects using instrumental variables (1996) [NBER WP].pdf>) | [심층요약](<Identification of causal effects using instrumental variables (1996) [NBER WP]_심층요약.md>) | [수식·모델 퀴즈](<Identification of causal effects using instrumental variables (1996) [NBER WP]_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Identification of causal effects using instrumental variables (1996) [NBER WP]_실무CheatSheet.md>)
 
 ## Q01. 위약을 성실히 먹은 환자의 결과가 왜 중요한가
 

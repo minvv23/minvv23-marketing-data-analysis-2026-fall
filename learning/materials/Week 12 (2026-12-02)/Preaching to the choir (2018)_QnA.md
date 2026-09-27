@@ -1,6 +1,6 @@
 # Preaching to the Choir - 개념 독해 퀴즈와 예상답안
 
-[원문 PDF](<Preaching to the choir (2018).pdf>) | [심층요약](<Preaching to the choir (2018)_심층요약.md>)
+[원문 PDF](<Preaching to the choir (2018).pdf>) | [심층요약](<Preaching to the choir (2018)_심층요약.md>) | [수식·모델 퀴즈](<Preaching to the choir (2018)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Preaching to the choir (2018)_실무CheatSheet.md>)
 
 Yazdani, Gopinath, Carson(2018)이 Amazon 상위 리뷰어와 일반 리뷰어의 평가가 음악앨범 판매에 미치는 영향을 비교한 논문을 읽고 답하는 10문제다. 각 문항은 필요한 연구 상황을 먼저 적고, 그 상황에서 왜 그런 비교와 해석을 했는지 묻는다.
 

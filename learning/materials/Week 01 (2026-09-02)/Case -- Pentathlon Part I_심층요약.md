@@ -2,7 +2,7 @@
 
 Week 01 / 2026-09-02 / Session 1
 
-[원문 PDF](<Case -- Pentathlon Part I.pdf>) | [QnA](<Case -- Pentathlon Part I_QnA.md>)
+[원문 PDF](<Case -- Pentathlon Part I.pdf>) | [개념 퀴즈](<Case -- Pentathlon Part I_QnA.md>) | [수식·모델 퀴즈](<Case -- Pentathlon Part I_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Case -- Pentathlon Part I_실무CheatSheet.md>)
 
 ## 1. 한 고객에게 여러 부서가 각각 이메일을 보내는 회사
 

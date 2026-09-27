@@ -2,7 +2,7 @@
 
 Week 01 / 2026-09-02 / Session 1
 
-[원문 PDF](<Case -- Harmony.pdf>) | [QnA](<Case -- Harmony_QnA.md>)
+[원문 PDF](<Case -- Harmony.pdf>) | [개념 퀴즈](<Case -- Harmony_QnA.md>) | [수식·모델 퀴즈](<Case -- Harmony_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Case -- Harmony_실무CheatSheet.md>)
 
 ## 1. 온라인 광고를 실제 자동차 판매와 연결했을 때 생긴 질문
 

@@ -2,7 +2,7 @@
 
 각 질문은 연구의 상황과 비교 대상을 포함한다. 예상답안은 계산 과정 대신 연구 목적, 설계와 결과의 연결을 설명한다.
 
-[원문 PDF](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009).pdf>) | [심층요약](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009)_심층요약.md>)
+[원문 PDF](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009).pdf>) | [심층요약](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009)_심층요약.md>) | [수식·모델 퀴즈](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009)_실무CheatSheet.md>)
 
 ## Q01. 쌍둥이 도구와 같은 성별 도구를 합친 2SLS는 무엇의 평균인가
 

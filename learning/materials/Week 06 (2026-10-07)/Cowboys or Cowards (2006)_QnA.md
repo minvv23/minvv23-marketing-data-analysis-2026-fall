@@ -2,7 +2,7 @@
 
 각 질문은 연구의 상황과 비교 대상을 포함한다. 예상답안은 계산 과정 대신 연구 목적, 설계와 결과의 연결을 설명한다.
 
-[원문 PDF](<Cowboys or Cowards (2006).pdf>) | [심층요약](<Cowboys or Cowards (2006)_심층요약.md>)
+[원문 PDF](<Cowboys or Cowards (2006).pdf>) | [심층요약](<Cowboys or Cowards (2006)_심층요약.md>) | [수식·모델 퀴즈](<Cowboys or Cowards (2006)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Cowboys or Cowards (2006)_실무CheatSheet.md>)
 
 ## Q01. 온라인 결제가 없는데 인터넷이 왜 차값을 바꾸는가
 

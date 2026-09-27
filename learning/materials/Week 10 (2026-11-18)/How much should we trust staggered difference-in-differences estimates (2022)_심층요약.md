@@ -6,7 +6,7 @@
 
 논문이 겨냥하는 독자는 금융, 회계, 법학 분야에서 주별 또는 국가별로 시차를 두고 도입된 법과 규제를 이용해 인과효과를 추정하는 연구자, 그리고 그런 논문을 심사하고 싣는 학술지다. 저자들이 2000-2019년 금융 5개, 회계 5개 상위 학술지를 직접 조사한 원문 Table 1에 따르면, 주된 분석에 DID를 쓴 논문 744편 가운데 407편(54.7%)이 도입 시점이 다른 설계였고 그중 394편이 2010년 이후에 나왔다. 연구자들은 도입 사건이 여러 번 있으면 특정 시기의 우연한 추세가 결과를 만들 가능성이 줄어 단일 시점 DID보다 믿을 만하다고 여겨 왔다. 저자들이 묻는 것은 이 설계의 표준 도구인 두 방향 고정효과(TWFE) 회귀계수를 처치집단(treatment group) 평균효과(ATT)로 읽어도 되는지, 읽을 수 없다면 어떤 대안을 써야 하고 기존 결론은 얼마나 달라지는지다.
 
-[원문 PDF](<How much should we trust staggered difference-in-differences estimates (2022).pdf>) | [독립형 QnA](<How much should we trust staggered difference-in-differences estimates (2022)_QnA.md>)
+[원문 PDF](<How much should we trust staggered difference-in-differences estimates (2022).pdf>) | [개념 퀴즈](<How much should we trust staggered difference-in-differences estimates (2022)_QnA.md>) | [수식·모델 퀴즈](<How much should we trust staggered difference-in-differences estimates (2022)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<How much should we trust staggered difference-in-differences estimates (2022)_실무CheatSheet.md>)
 
 ## 1. 도입 후 효과가 계속 변하면 비교집단의 변화도 처치효과를 포함한다
 

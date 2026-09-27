@@ -4,7 +4,7 @@
 
 IV는 무작위 제안이 소득을 바꾼 정도를 실제 훈련 참여를 늘린 정도로 나눈다. 그런데 훈련효과가 사람마다 다르다면 이 숫자는 누구의 효과일까? MHE 4.4는 이 질문에 답한다. 도구에 반응해 행동을 바꾼 사람들의 평균효과를 국소평균처치효과(LATE)라고 부르며, 왜 그 사람들의 효과만 관측된 비교에 나타나는지를 단계별로 설명한다.
 
-[원문 PDF](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009).pdf>) | [QnA](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009)_QnA.md>)
+[원문 PDF](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009).pdf>) | [개념 퀴즈](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009)_QnA.md>) | [수식·모델 퀴즈](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009)_실무CheatSheet.md>)
 
 ## 1. 평균효과를 구하기 전에 누구를 평균할지 정한다
 

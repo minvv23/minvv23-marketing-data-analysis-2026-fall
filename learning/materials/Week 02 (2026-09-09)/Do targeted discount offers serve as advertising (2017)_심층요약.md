@@ -2,7 +2,7 @@
 
 Week 02 / 2026-09-09 / Session 2
 
-[원문 PDF](<Do targeted discount offers serve as advertising (2017).pdf>) | [QnA](<Do targeted discount offers serve as advertising (2017)_QnA.md>)
+[원문 PDF](<Do targeted discount offers serve as advertising (2017).pdf>) | [개념 퀴즈](<Do targeted discount offers serve as advertising (2017)_QnA.md>) | [수식·모델 퀴즈](<Do targeted discount offers serve as advertising (2017)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Do targeted discount offers serve as advertising (2017)_실무CheatSheet.md>)
 
 ## 1. 쿠폰 사용률이 낮으면 실패한 캠페인인가
 

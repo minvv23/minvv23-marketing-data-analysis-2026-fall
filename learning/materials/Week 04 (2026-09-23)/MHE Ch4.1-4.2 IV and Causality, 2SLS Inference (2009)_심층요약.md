@@ -6,7 +6,7 @@
 
 문서의 순서는 다음과 같다. 1-2절은 교육연수 회귀의 기울기에 능력 차이가 섞이는 과정을, 3-6절은 도구 하나로 임금 차이를 교육 차이로 나누는 계산과 출생분기 사례를 다룬다. 7-8절은 통제변수와 여러 도구가 있을 때 같은 비율을 2SLS로 계산하는 방법과 그 과정에서 생기는 공선성(collinearity), 약한 도구(weak instrument) 문제를 설명한다. 9절과 11절은 4.2의 추론 부분(표준오차, 과잉식별 검정)이고, 10절은 징병 추첨과 자녀 수 사례다.
 
-[원문 PDF](<MHE Ch4.1-4.2 IV and Causality, 2SLS Inference (2009).pdf>) | [QnA](<MHE Ch4.1-4.2 IV and Causality, 2SLS Inference (2009)_QnA.md>)
+[원문 PDF](<MHE Ch4.1-4.2 IV and Causality, 2SLS Inference (2009).pdf>) | [개념 퀴즈](<MHE Ch4.1-4.2 IV and Causality, 2SLS Inference (2009)_QnA.md>) | [수식·모델 퀴즈](<MHE Ch4.1-4.2 IV and Causality, 2SLS Inference (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch4.1-4.2 IV and Causality, 2SLS Inference (2009)_실무CheatSheet.md>)
 
 ## 1. 교육의 수익률을 추정하려는 이유와 관측자료의 어려움
 

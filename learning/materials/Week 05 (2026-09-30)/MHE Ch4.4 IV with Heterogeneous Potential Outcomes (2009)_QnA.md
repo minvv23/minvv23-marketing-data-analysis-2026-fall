@@ -2,7 +2,7 @@
 
 각 질문은 연구의 상황과 비교 대상을 포함한다. 예상답안은 계산 과정 대신 연구 목적, 설계와 결과의 연결을 설명한다.
 
-[원문 PDF](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009).pdf>) | [심층요약](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009)_심층요약.md>)
+[원문 PDF](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009).pdf>) | [심층요약](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009)_심층요약.md>) | [수식·모델 퀴즈](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch4.4 IV with Heterogeneous Potential Outcomes (2009)_실무CheatSheet.md>)
 
 ## Q01. 징병 추첨 IV가 추정한 평균은 누구의 평균인가
 

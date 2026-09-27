@@ -2,7 +2,7 @@
 
 2026-09-16, Week 03 / Session 3. Avi Goldfarb, Catherine Tucker, Yanwen Wang (2022), Journal of Marketing 86(3), 1-20.
 
-[원문](<Conducting research in marketing with quasi-experiments (2022).pdf>) | [QnA](<Conducting research in marketing with quasi-experiments (2022)_QnA.md>)
+[원문 PDF](<Conducting research in marketing with quasi-experiments (2022).pdf>) | [개념 퀴즈](<Conducting research in marketing with quasi-experiments (2022)_QnA.md>) | [수식·모델 퀴즈](<Conducting research in marketing with quasi-experiments (2022)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Conducting research in marketing with quasi-experiments (2022)_실무CheatSheet.md>)
 
 
 ## 1. 광고를 중단했는데 방문자가 줄지 않았다면

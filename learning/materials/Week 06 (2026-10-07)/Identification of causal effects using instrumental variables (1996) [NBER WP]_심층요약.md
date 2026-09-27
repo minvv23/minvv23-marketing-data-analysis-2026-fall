@@ -4,7 +4,7 @@
 
 Angrist, Imbens, Rubin의 논문은 이런 불완전 순응 실험을 계량경제학의 도구변수(instrumental variable)법(instrumental variables, IV)으로 분석할 때 무엇을 알 수 있는지 설명한다. 무작위 배정(random assignment)과 실제 행동을 구분한 뒤, 배정 때문에 행동을 바꾼 사람들의 평균 처치효과(average treatment effect)를 식별(identification)한다. 이 과정에서 필요한 가정을 하나씩 명시하고, 가정이 조금 어긋났을 때 추정치가 얼마나 바뀌는지도 계산한다. 저자 셋 중 Angrist와 Imbens는 경제학과, Rubin은 통계학과 소속이다(원문 초록 쪽). 두 학문의 인과추론(causal inference) 방식을 하나의 틀로 묶는다는 논문의 목적이 이 구성에서도 드러난다.
 
-[원문 PDF](<Identification of causal effects using instrumental variables (1996) [NBER WP].pdf>) | [QnA](<Identification of causal effects using instrumental variables (1996) [NBER WP]_QnA.md>)
+[원문 PDF](<Identification of causal effects using instrumental variables (1996) [NBER WP].pdf>) | [개념 퀴즈](<Identification of causal effects using instrumental variables (1996) [NBER WP]_QnA.md>) | [수식·모델 퀴즈](<Identification of causal effects using instrumental variables (1996) [NBER WP]_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Identification of causal effects using instrumental variables (1996) [NBER WP]_실무CheatSheet.md>)
 
 ## 1. 무작위 실험에서도 실제 복용자를 비교하면 문제가 생긴다
 

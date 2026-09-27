@@ -2,7 +2,7 @@
 
 Week 02 / 2026-09-09 / Session 2
 
-[원문 PDF](<MHE Ch2 The Experimental Ideal (2009).pdf>) | [QnA](<MHE Ch2 The Experimental Ideal (2009)_QnA.md>)
+[원문 PDF](<MHE Ch2 The Experimental Ideal (2009).pdf>) | [개념 퀴즈](<MHE Ch2 The Experimental Ideal (2009)_QnA.md>) | [수식·모델 퀴즈](<MHE Ch2 The Experimental Ideal (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch2 The Experimental Ideal (2009)_실무CheatSheet.md>)
 
 ## 1. 왜 계량경제학 책이 무작위 실험에서 출발하는가
 

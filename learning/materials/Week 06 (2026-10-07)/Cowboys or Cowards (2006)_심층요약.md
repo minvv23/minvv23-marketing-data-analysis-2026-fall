@@ -4,7 +4,7 @@
 
 Zettelmeyer, Scott Morton, Silva-Risso는 인터넷 자동차 소개서비스 Autobytel이 실제로 구매자의 지출을 줄였는지 연구했다. 이 서비스는 온라인에서 구매요청을 받아 오프라인 딜러에게 전달한다. 저자들이 알고 싶은 것은 온라인 이용자와 비이용자 사이의 가격 차이 자체보다, 서비스를 쓴 바로 그 소비자가 서비스가 없었을 때보다 얼마나 싸게 샀는가이다. 이 차이가 크면 인터넷이 딜러의 몫 일부를 소비자에게 옮긴 것이고, 0이면 원래 싸게 사던 사람이 인터넷으로 모였을 뿐이다.
 
-[원문 PDF](<Cowboys or Cowards (2006).pdf>) | [QnA](<Cowboys or Cowards (2006)_QnA.md>)
+[원문 PDF](<Cowboys or Cowards (2006).pdf>) | [개념 퀴즈](<Cowboys or Cowards (2006)_QnA.md>) | [수식·모델 퀴즈](<Cowboys or Cowards (2006)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Cowboys or Cowards (2006)_실무CheatSheet.md>)
 
 ## 1. 오프라인 협상에 인터넷 서비스가 들어온 과정
 

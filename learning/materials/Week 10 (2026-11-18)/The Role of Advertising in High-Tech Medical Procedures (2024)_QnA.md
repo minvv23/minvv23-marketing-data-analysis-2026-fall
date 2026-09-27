@@ -2,7 +2,7 @@
 
 각 문항은 연구의 목적, 비교 대상과 결과의 의미를 묻는 독해 문제다. 문항에 적힌 연구 상황을 근거로 먼저 답한 뒤 예상답안과 비교한다.
 
-[원문 PDF](<The Role of Advertising in High-Tech Medical Procedures (2024).pdf>) | [심층요약](<The Role of Advertising in High-Tech Medical Procedures (2024)_심층요약.md>)
+[원문 PDF](<The Role of Advertising in High-Tech Medical Procedures (2024).pdf>) | [심층요약](<The Role of Advertising in High-Tech Medical Procedures (2024)_심층요약.md>) | [수식·모델 퀴즈](<The Role of Advertising in High-Tech Medical Procedures (2024)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<The Role of Advertising in High-Tech Medical Procedures (2024)_실무CheatSheet.md>)
 
 ## Q01. 광고계수는 누구의 어떤 선택을 설명하는가
 

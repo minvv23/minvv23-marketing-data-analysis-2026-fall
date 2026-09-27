@@ -2,7 +2,7 @@
 
 2026-12-02, Week 12 / Session 14. Elham Yazdani, Shyam Gopinath, Steve Carson (2018).
 
-[원문 PDF](<Preaching to the choir (2018).pdf>) | [QnA](<Preaching to the choir (2018)_QnA.md>)
+[원문 PDF](<Preaching to the choir (2018).pdf>) | [개념 퀴즈](<Preaching to the choir (2018)_QnA.md>) | [수식·모델 퀴즈](<Preaching to the choir (2018)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Preaching to the choir (2018)_실무CheatSheet.md>)
 
 
 ## 1. 상위 리뷰어에게 먼저 상품을 소개하는 전략은 타당한가

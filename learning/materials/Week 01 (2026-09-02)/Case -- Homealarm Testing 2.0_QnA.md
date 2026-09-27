@@ -1,6 +1,6 @@
 # Case -- Homealarm Testing 2.0 - 개념 독해 확인 퀴즈 10문항
 
-[원문 PDF](<Case -- Homealarm Testing 2.0.pdf>) | [심층요약](<Case -- Homealarm Testing 2.0_심층요약.md>)
+[원문 PDF](<Case -- Homealarm Testing 2.0.pdf>) | [심층요약](<Case -- Homealarm Testing 2.0_심층요약.md>) | [수식·모델 퀴즈](<Case -- Homealarm Testing 2.0_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Case -- Homealarm Testing 2.0_실무CheatSheet.md>)
 
 ## Q01. 과거 LTV 차이를 알면서 왜 다시 실험하는가
 

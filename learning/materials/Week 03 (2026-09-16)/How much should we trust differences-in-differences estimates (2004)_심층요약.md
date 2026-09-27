@@ -2,7 +2,7 @@
 
 2026-09-16, Week 03 / Session 3. Marianne Bertrand, Esther Duflo, Sendhil Mullainathan (2004), Quarterly Journal of Economics 119(1), 249-275.
 
-[원문](<How much should we trust differences-in-differences estimates (2004).pdf>) | [QnA](<How much should we trust differences-in-differences estimates (2004)_QnA.md>)
+[원문 PDF](<How much should we trust differences-in-differences estimates (2004).pdf>) | [개념 퀴즈](<How much should we trust differences-in-differences estimates (2004)_QnA.md>) | [수식·모델 퀴즈](<How much should we trust differences-in-differences estimates (2004)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<How much should we trust differences-in-differences estimates (2004)_실무CheatSheet.md>)
 
 
 ## 1. 효과 없는 법도 유의하게 나올 수 있을까

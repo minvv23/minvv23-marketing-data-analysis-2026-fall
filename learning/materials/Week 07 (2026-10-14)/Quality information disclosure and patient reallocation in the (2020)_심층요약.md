@@ -4,7 +4,7 @@
 
 이 논문은 뉴저지 관상동맥우회술(CABG) 성적표 공개 이후 환자 배분이 어떻게 달라졌는지 살펴본다. 의사별 전체 환자 수만 보지 않고, 수술을 기다릴 수 있는 환자와 빨리 수술해야 하는 환자를 나누어 센다. 분석은 세 단계로 진행된다. 먼저 긴급도별로 환자 구성이 바뀌었는지 표로 보이고, 다음으로 의사 선택모형으로 그 변화가 통계적으로 유의한지와 병원 안팎 어디에서 일어났는지 확인하며, 마지막으로 바뀐 배분이 사망자 수로 환산하면 어느 정도인지 계산한다.
 
-[원문 PDF](<Quality information disclosure and patient reallocation in the (2020).pdf>) | [독립형 QnA](<Quality information disclosure and patient reallocation in the (2020)_QnA.md>)
+[원문 PDF](<Quality information disclosure and patient reallocation in the (2020).pdf>) | [개념 퀴즈](<Quality information disclosure and patient reallocation in the (2020)_QnA.md>) | [수식·모델 퀴즈](<Quality information disclosure and patient reallocation in the (2020)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Quality information disclosure and patient reallocation in the (2020)_실무CheatSheet.md>)
 
 ## 1. 성적표가 공개되어도 좋은 의사의 수술 용량은 제한된다
 

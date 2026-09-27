@@ -4,7 +4,7 @@
 
 Gordon 등은 Facebook에서 실시한 15개 광고실험을 이용해 이 문제를 직접 평가한다. 무작위실험으로 얻은 효과를 기준으로 삼고, 같은 자료를 관측자료처럼 분석했을 때 매칭, 층화, 회귀가 얼마나 비슷한 값을 내는지 비교한다. 연구의 질문은 사용자 특성을 많이 관측하면 광고의 인과효과를 알아낼 수 있는가이다.
 
-[원문 PDF](<A comparison of approaches to advertising measurement (2019).pdf>) | [독립형 QnA](<A comparison of approaches to advertising measurement (2019)_QnA.md>)
+[원문 PDF](<A comparison of approaches to advertising measurement (2019).pdf>) | [개념 퀴즈](<A comparison of approaches to advertising measurement (2019)_QnA.md>) | [수식·모델 퀴즈](<A comparison of approaches to advertising measurement (2019)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<A comparison of approaches to advertising measurement (2019)_실무CheatSheet.md>)
 
 ## 1. 무작위실험을 기준으로 관측자료 분석의 정확성을 평가한다
 

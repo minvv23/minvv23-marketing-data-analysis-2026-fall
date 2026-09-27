@@ -4,7 +4,7 @@
 
 병원이 높은 평가를 받는 방법은 치료를 잘하는 것만이 아니다. 사망위험이 높은 환자의 수술을 거절해도 관측된 사망률은 낮아진다. 이 연구는 정보 공개가 환자의 병원 선택과 의사의 환자 선택을 동시에 바꾸는 상황에서, 실제 치료 기회와 건강결과가 어떻게 달라졌는지 추적한다.
 
-[원문 PDF](<Is more information better (2003).pdf>) | [QnA](<Is more information better (2003)_QnA.md>)
+[원문 PDF](<Is more information better (2003).pdf>) | [개념 퀴즈](<Is more information better (2003)_QnA.md>) | [수식·모델 퀴즈](<Is more information better (2003)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Is more information better (2003)_실무CheatSheet.md>)
 
 ## 1. 정보를 공개하면 병원과 환자는 어떻게 반응하는가
 

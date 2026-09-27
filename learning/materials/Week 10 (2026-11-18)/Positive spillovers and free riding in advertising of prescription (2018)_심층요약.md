@@ -4,7 +4,7 @@
 
 Shapiro는 이 경쟁사 파급효과(spillover effect)를 미국의 TV 광고시장 경계에서 추정한다. 이어서 광고가 치료시장 진입, 약물 하위분류 선택, 개별 브랜드 선택에 미치는 영향을 나누어 분석한다. 이렇게 구한 수요효과를 이용하면 광고주가 얻는 이익과 산업 전체가 얻는 이익의 차이, 경쟁사 광고에 무임승차하려는 유인을 설명할 수 있다.
 
-[원문 PDF](<Positive spillovers and free riding in advertising of prescription (2018).pdf>) | [독립형 QnA](<Positive spillovers and free riding in advertising of prescription (2018)_QnA.md>)
+[원문 PDF](<Positive spillovers and free riding in advertising of prescription (2018).pdf>) | [개념 퀴즈](<Positive spillovers and free riding in advertising of prescription (2018)_QnA.md>) | [수식·모델 퀴즈](<Positive spillovers and free riding in advertising of prescription (2018)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Positive spillovers and free riding in advertising of prescription (2018)_실무CheatSheet.md>)
 
 ## 1. 광고가 환자를 치료시장으로 데려온 뒤 어떤 약이 선택되는가
 

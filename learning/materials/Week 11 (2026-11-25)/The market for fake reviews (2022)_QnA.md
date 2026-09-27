@@ -1,6 +1,6 @@
 # The Market for Fake Reviews - 개념 독해 퀴즈와 예상답안
 
-[원문 PDF](<The market for fake reviews (2022).pdf>) | [심층요약](<The market for fake reviews (2022)_심층요약.md>)
+[원문 PDF](<The market for fake reviews (2022).pdf>) | [심층요약](<The market for fake reviews (2022)_심층요약.md>) | [수식·모델 퀴즈](<The market for fake reviews (2022)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<The market for fake reviews (2022)_실무CheatSheet.md>)
 
 He, Hollenbeck, Proserpio(2022)가 Amazon 가짜 리뷰 시장을 직접 관찰한 논문을 읽고, 거래 방식, 삭제 사건이 만든 비교, 판매자와 소비자에 관한 결과를 구분해 이해했는지 확인하는 10문제다.
 

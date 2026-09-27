@@ -1,6 +1,6 @@
 # Bertrand, Duflo, Mullainathan (2004) - 개념 독해 퀴즈와 예상답안
 
-[원문 PDF](<How much should we trust differences-in-differences estimates (2004).pdf>) | [심층요약](<How much should we trust differences-in-differences estimates (2004)_심층요약.md>)
+[원문 PDF](<How much should we trust differences-in-differences estimates (2004).pdf>) | [심층요약](<How much should we trust differences-in-differences estimates (2004)_심층요약.md>) | [수식·모델 퀴즈](<How much should we trust differences-in-differences estimates (2004)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<How much should we trust differences-in-differences estimates (2004)_실무CheatSheet.md>)
 
 ## Q01. 존재하지 않는 법을 왜 붙였는가
 

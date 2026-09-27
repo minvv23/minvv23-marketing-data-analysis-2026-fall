@@ -1,6 +1,6 @@
 # MHE Chapter 5 - 개념 독해 퀴즈와 예상답안
 
-[원문 PDF](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009).pdf>) | [심층요약](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009)_심층요약.md>)
+[원문 PDF](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009).pdf>) | [심층요약](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009)_심층요약.md>) | [수식·모델 퀴즈](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009)_실무CheatSheet.md>)
 
 노조 임금, 최저임금, 학사일정과 취업훈련 사례에서 왜 그 비교를 사용했고 무엇까지 알 수 있는지 확인하는 10문제다. 수식 전개보다 비교대상과 반사실(counterfactual)을 말로 설명하는 데 초점을 둔다.
 

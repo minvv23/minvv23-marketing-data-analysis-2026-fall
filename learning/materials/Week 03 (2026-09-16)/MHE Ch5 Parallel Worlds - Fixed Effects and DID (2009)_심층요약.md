@@ -2,7 +2,7 @@
 
 2026-09-16, Week 03 / Session 3. Joshua D. Angrist, Jörn-Steffen Pischke, Mostly Harmless Econometrics (2009).
 
-[원문](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009).pdf>) | [QnA](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009)_QnA.md>)
+[원문 PDF](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009).pdf>) | [개념 퀴즈](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009)_QnA.md>) | [수식·모델 퀴즈](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch5 Parallel Worlds - Fixed Effects and DID (2009)_실무CheatSheet.md>)
 
 
 ## 1. 5.1의 질문: 노조가 임금을 올리는가

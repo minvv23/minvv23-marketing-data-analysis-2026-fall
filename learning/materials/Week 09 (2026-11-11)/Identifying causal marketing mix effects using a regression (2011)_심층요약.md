@@ -4,7 +4,7 @@
 
 Hartmann, Nair, Narayanan은 기업의 고객 선정기준에서 이 문제를 풀 비교를 찾는다. 일정 점수나 지역 경계를 기준으로 혜택이 바뀐다면 기준점 양쪽의 비슷한 고객을 비교할 수 있다. 이런 비교를 회귀불연속(regression discontinuity, 이하 RD) 설계라고 부른다. 다만 고객이 기준을 알고 행동을 조정하면 양쪽 고객이 더는 비슷하지 않을 수 있으므로, 저자들은 고객이 무엇을 알고 어떤 비용을 들여 기준을 넘는지를 모형으로 분석한다. 실증 사례는 두 가지다. 한 직접마케팅 회사가 우편번호 단위로 보낸 우편물과, 라스베이거스의 한 카지노가 고객 등급별로 보낸 이메일 프로모션이다. 두 사례 모두 단순 비교에서는 마케팅이 결과를 크게 늘린 것처럼 보였지만, RD 추정치는 대부분 0과 구별되지 않거나 음수였다.
 
-[원문 PDF](<Identifying causal marketing mix effects using a regression (2011).pdf>) | [독립형 QnA](<Identifying causal marketing mix effects using a regression (2011)_QnA.md>)
+[원문 PDF](<Identifying causal marketing mix effects using a regression (2011).pdf>) | [개념 퀴즈](<Identifying causal marketing mix effects using a regression (2011)_QnA.md>) | [수식·모델 퀴즈](<Identifying causal marketing mix effects using a regression (2011)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Identifying causal marketing mix effects using a regression (2011)_실무CheatSheet.md>)
 
 이 문서의 2-8절은 원문 2-4.1절의 식별(identification) 논리를, 9-10절은 두 실증 사례를, 11절은 방문과 지출의 구분 및 원문 5절의 시간 RD를, 12절은 결론과 적용 범위를 다룬다.
 

@@ -2,7 +2,7 @@
 
 각 문항은 연구의 목적, 비교 대상과 결과의 의미를 묻는 독해 문제다. 문항에 적힌 상황을 근거로 먼저 답한 뒤 예상답안과 비교한다.
 
-[원문 PDF](<Positive spillovers and free riding in advertising of prescription (2018).pdf>) | [심층요약](<Positive spillovers and free riding in advertising of prescription (2018)_심층요약.md>)
+[원문 PDF](<Positive spillovers and free riding in advertising of prescription (2018).pdf>) | [심층요약](<Positive spillovers and free riding in advertising of prescription (2018)_심층요약.md>) | [수식·모델 퀴즈](<Positive spillovers and free riding in advertising of prescription (2018)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Positive spillovers and free riding in advertising of prescription (2018)_실무CheatSheet.md>)
 
 ## Q01. 광고를 본 환자가 다른 회사 약을 처방받는 일이 왜 경쟁사에 이익이 되는가
 

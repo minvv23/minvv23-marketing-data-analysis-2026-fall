@@ -6,7 +6,7 @@
 
 이어지는 4.6은 2SLS를 실제로 실행할 때 계수나 표준오차(standard error)가 잘못되는 경우, 동료효과를 오해하기 쉬운 이유, 이진 결과변수에서 2SLS와 비선형 모형의 비교, 약한 도구(weak instrument)가 만드는 편향(bias)을 다룬다. 4.5가 2SLS 계수의 해석을 다룬다면 4.6은 그 계수를 올바르게 계산했는지, 계산한 값을 믿을 만큼 자료에 정보가 있는지를 다룬다.
 
-[원문 PDF](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009).pdf>) | [QnA](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009)_QnA.md>)
+[원문 PDF](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009).pdf>) | [개념 퀴즈](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009)_QnA.md>) | [수식·모델 퀴즈](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch4.5-4.6 Generalizing LATE, IV Details (2009)_실무CheatSheet.md>)
 
 ## 1. 실제 자료의 어떤 복잡함을 순서대로 해결하는가
 

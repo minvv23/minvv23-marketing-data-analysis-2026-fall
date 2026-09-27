@@ -2,7 +2,7 @@
 
 2026-12-09, Week 13 / Session 15. Brett Hollenbeck, Sridhar Moorthy, Davide Proserpio (2019).
 
-[원문 PDF](<Advertising strategy in the presence of reviews (2019).pdf>) | [QnA](<Advertising strategy in the presence of reviews (2019)_QnA.md>)
+[원문 PDF](<Advertising strategy in the presence of reviews (2019).pdf>) | [개념 퀴즈](<Advertising strategy in the presence of reviews (2019)_QnA.md>) | [수식·모델 퀴즈](<Advertising strategy in the presence of reviews (2019)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Advertising strategy in the presence of reviews (2019)_실무CheatSheet.md>)
 
 
 ## 1. 좋은 리뷰를 얻은 호텔은 광고를 더 해야 할까

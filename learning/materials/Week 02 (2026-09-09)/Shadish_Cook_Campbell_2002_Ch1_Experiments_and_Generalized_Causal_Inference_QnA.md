@@ -1,6 +1,6 @@
 # Shadish_Cook_Campbell_2002_Ch1_Experiments_and_Generalized_Causal_Inference - 개념 독해 확인 퀴즈 10문항
 
-[원문 PDF](<Shadish_Cook_Campbell_2002_Ch1_Experiments_and_Generalized_Causal_Inference.pdf>) | [심층요약](<Shadish_Cook_Campbell_2002_Ch1_Experiments_and_Generalized_Causal_Inference_심층요약.md>)
+[원문 PDF](<Shadish_Cook_Campbell_2002_Ch1_Experiments_and_Generalized_Causal_Inference.pdf>) | [심층요약](<Shadish_Cook_Campbell_2002_Ch1_Experiments_and_Generalized_Causal_Inference_심층요약.md>) | [수식·모델 퀴즈](<Shadish_Cook_Campbell_2002_Ch1_Experiments_and_Generalized_Causal_Inference_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Shadish_Cook_Campbell_2002_Ch1_Experiments_and_Generalized_Causal_Inference_실무CheatSheet.md>)
 
 ## Q01. 성냥이 산불의 원인이라는 말은 어떤 뜻인가
 

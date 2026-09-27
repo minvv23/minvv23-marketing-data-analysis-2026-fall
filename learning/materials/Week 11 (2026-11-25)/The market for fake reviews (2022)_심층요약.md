@@ -2,7 +2,7 @@
 
 2026-11-25, Week 11 / Session 13. Sherry He, Brett Hollenbeck, Davide Proserpio (2022).
 
-[원문 PDF](<The market for fake reviews (2022).pdf>) | [QnA](<The market for fake reviews (2022)_QnA.md>)
+[원문 PDF](<The market for fake reviews (2022).pdf>) | [개념 퀴즈](<The market for fake reviews (2022)_QnA.md>) | [수식·모델 퀴즈](<The market for fake reviews (2022)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<The market for fake reviews (2022)_실무CheatSheet.md>)
 
 
 ## 1. 판매자는 왜 돈을 내고 리뷰를 사는가

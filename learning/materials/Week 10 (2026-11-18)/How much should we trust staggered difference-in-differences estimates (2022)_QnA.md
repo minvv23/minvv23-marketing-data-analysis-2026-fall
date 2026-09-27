@@ -2,7 +2,7 @@
 
 각 문항은 논문의 연구 상황을 먼저 적고 그 안에서 질문한다. 질문에 제시한 상황을 근거로 답한 뒤 예상답안과 비교한다.
 
-[원문 PDF](<How much should we trust staggered difference-in-differences estimates (2022).pdf>) | [심층요약](<How much should we trust staggered difference-in-differences estimates (2022)_심층요약.md>)
+[원문 PDF](<How much should we trust staggered difference-in-differences estimates (2022).pdf>) | [심층요약](<How much should we trust staggered difference-in-differences estimates (2022)_심층요약.md>) | [수식·모델 퀴즈](<How much should we trust staggered difference-in-differences estimates (2022)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<How much should we trust staggered difference-in-differences estimates (2022)_실무CheatSheet.md>)
 
 ## Q01. 주마다 도입 해가 다를 때 TWFE가 단순 DID와 다른 문제를 만드는 이유
 

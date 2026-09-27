@@ -2,7 +2,7 @@
 
 Hartmann, Nair, Narayanan이 2011년 Marketing Science에 발표한 논문은 기업이 고객을 점수로 나누어 마케팅을 배정하는 규칙 자체를 회귀불연속(RD) 설계로 쓰자고 제안한다. 카지노의 이메일 프로모션과 한 기업의 우편물 발송이라는 두 응용을 다루며, 고객이 기준을 알고 점수를 조정할 때 비교가 어떻게 깨지는지를 소비자 행동 모형으로 설명한다. 아래 문항은 각 비교가 왜 쓰였고 결과를 왜 그렇게 읽어야 하는지를 묻는 독해 문제다. 문항에 제시한 상황을 근거로 답한 뒤 예상답안과 비교하면 된다.
 
-[원문 PDF](<Identifying causal marketing mix effects using a regression (2011).pdf>) | [심층요약](<Identifying causal marketing mix effects using a regression (2011)_심층요약.md>)
+[원문 PDF](<Identifying causal marketing mix effects using a regression (2011).pdf>) | [심층요약](<Identifying causal marketing mix effects using a regression (2011)_심층요약.md>) | [수식·모델 퀴즈](<Identifying causal marketing mix effects using a regression (2011)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Identifying causal marketing mix effects using a regression (2011)_실무CheatSheet.md>)
 
 ## Q01. 카지노는 왜 등급별 평균 비교 대신 점수 기준점을 쓰는가
 

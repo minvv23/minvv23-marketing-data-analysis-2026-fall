@@ -2,7 +2,7 @@
 
 Week 01 / 2026-09-02 / Session 1
 
-[원문 PDF](<Case -- Homealarm LTV.pdf>) | [QnA](<Case -- Homealarm LTV_QnA.md>)
+[원문 PDF](<Case -- Homealarm LTV.pdf>) | [개념 퀴즈](<Case -- Homealarm LTV_QnA.md>) | [수식·모델 퀴즈](<Case -- Homealarm LTV_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Case -- Homealarm LTV_실무CheatSheet.md>)
 
 ## 1. 자동이체를 권하는 데 얼마까지 써도 될까
 

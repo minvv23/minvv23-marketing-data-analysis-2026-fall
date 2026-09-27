@@ -6,7 +6,7 @@
 
 이 장은 왜 기준점에서의 결과 차이를 처치효과(treatment effect)로 해석할 수 있는지 설명하고, 배정규칙이 실제 처치를 완전히 결정하지 못할 때 어떻게 계산을 바꾸는지 다룬다. 저자들은 장 첫머리에서 RD를 두 종류로 나눈다. 기준 통과가 처치를 완전히 결정하는 sharp RD는 관측된 변수 하나(배정변수)만 통제하면 되는 관측변수에 의한 선택(selection on observables) 설계로 볼 수 있다. 기준 통과가 처치를 받을 확률만 바꾸는 fuzzy RD는 도구변수(IV) 설계가 된다. 발상의 바탕은 규칙이 촘촘한 세상에서는 일부 규칙이 자의적이고, 그런 규칙이 좋은 실험을 제공한다는 생각이다. 80점이라는 숫자가 학생의 능력과 특별한 관계없이 정해졌다면 79.9점과 80.1점 학생의 운명을 가른 것은 사실상 우연이다. 장학금 예제로 기본 수식을 유도한 뒤, 학급당 최대 학생 수 규칙을 이용해 작은 학급의 효과를 추정하는 실제 응용으로 이어간다.
 
-[원문 PDF](<MHE Ch6 Regression Discontinuity Designs (2009).pdf>) | [독립형 QnA](<MHE Ch6 Regression Discontinuity Designs (2009)_QnA.md>)
+[원문 PDF](<MHE Ch6 Regression Discontinuity Designs (2009).pdf>) | [개념 퀴즈](<MHE Ch6 Regression Discontinuity Designs (2009)_QnA.md>) | [수식·모델 퀴즈](<MHE Ch6 Regression Discontinuity Designs (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch6 Regression Discontinuity Designs (2009)_실무CheatSheet.md>)
 
 ## 1. 능력과 장학금 효과를 구분할 수 있는 점수 구간
 

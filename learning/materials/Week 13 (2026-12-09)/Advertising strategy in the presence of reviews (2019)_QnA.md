@@ -1,6 +1,6 @@
 # Advertising Strategy in the Presence of Reviews - 개념 독해 퀴즈와 예상답안
 
-[원문 PDF](<Advertising strategy in the presence of reviews (2019).pdf>) | [심층요약](<Advertising strategy in the presence of reviews (2019)_심층요약.md>)
+[원문 PDF](<Advertising strategy in the presence of reviews (2019).pdf>) | [심층요약](<Advertising strategy in the presence of reviews (2019)_심층요약.md>) | [수식·모델 퀴즈](<Advertising strategy in the presence of reviews (2019)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Advertising strategy in the presence of reviews (2019)_실무CheatSheet.md>)
 
 호텔의 표시평점과 광고 선택을 연결한 RD 연구의 목적, 관측단위, 결과와 정책 해석을 확인하는 10문제다.
 

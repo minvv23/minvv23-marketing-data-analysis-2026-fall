@@ -1,6 +1,6 @@
 # Case -- Pentathlon Part I - 개념 독해 확인 퀴즈 10문항
 
-[원문 PDF](<Case -- Pentathlon Part I.pdf>) | [심층요약](<Case -- Pentathlon Part I_심층요약.md>)
+[원문 PDF](<Case -- Pentathlon Part I.pdf>) | [심층요약](<Case -- Pentathlon Part I_심층요약.md>) | [수식·모델 퀴즈](<Case -- Pentathlon Part I_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Case -- Pentathlon Part I_실무CheatSheet.md>)
 
 교수가 이 사례를 읽고 논리를 이해했는지 확인하는 상황을 가정한 예상 질문이다. 각 질문 뒤에 예상 답안을 제시한다. 사례에 없는 실험 설계는 제안으로 구분한다.
 

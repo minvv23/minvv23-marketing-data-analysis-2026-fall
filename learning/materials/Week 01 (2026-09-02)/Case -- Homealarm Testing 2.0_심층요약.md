@@ -2,7 +2,7 @@
 
 Week 01 / 2026-09-02 / Session 1
 
-[원문 PDF](<Case -- Homealarm Testing 2.0.pdf>) | [QnA](<Case -- Homealarm Testing 2.0_QnA.md>)
+[원문 PDF](<Case -- Homealarm Testing 2.0.pdf>) | [개념 퀴즈](<Case -- Homealarm Testing 2.0_QnA.md>) | [수식·모델 퀴즈](<Case -- Homealarm Testing 2.0_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Case -- Homealarm Testing 2.0_실무CheatSheet.md>)
 
 ## 1. 계산 결과를 실제 마케팅 정책으로 바꾸려는 회사
 

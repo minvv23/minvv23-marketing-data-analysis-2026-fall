@@ -1,6 +1,6 @@
 # Goldfarb, Tucker, Wang (2022) - 개념 독해 퀴즈와 예상답안
 
-[원문 PDF](<Conducting research in marketing with quasi-experiments (2022).pdf>) | [심층요약](<Conducting research in marketing with quasi-experiments (2022)_심층요약.md>)
+[원문 PDF](<Conducting research in marketing with quasi-experiments (2022).pdf>) | [심층요약](<Conducting research in marketing with quasi-experiments (2022)_심층요약.md>) | [수식·모델 퀴즈](<Conducting research in marketing with quasi-experiments (2022)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Conducting research in marketing with quasi-experiments (2022)_실무CheatSheet.md>)
 
 이 글은 마케팅 연구에서 준실험(quasi-experiment)을 설계하고 평가하는 방법을 정리한 방법론 안내문이다. 아래 10문제는 기법의 이름보다 저자들이 든 실제 사례에서 어떤 사건이 어떤 반사실(counterfactual)을 대신하는지, 저자들이 어떤 반론을 어떻게 다루었는지를 묻는다.
 

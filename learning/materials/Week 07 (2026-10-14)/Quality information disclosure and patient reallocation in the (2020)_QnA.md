@@ -2,7 +2,7 @@
 
 각 질문은 연구의 목적, 비교 대상과 결과의 의미를 설명하는 독해 문제다. 질문에 제시한 상황을 근거로 답한 뒤 예상 답안과 비교한다.
 
-[원문 PDF](<Quality information disclosure and patient reallocation in the (2020).pdf>) | [심층요약](<Quality information disclosure and patient reallocation in the (2020)_심층요약.md>)
+[원문 PDF](<Quality information disclosure and patient reallocation in the (2020).pdf>) | [심층요약](<Quality information disclosure and patient reallocation in the (2020)_심층요약.md>) | [수식·모델 퀴즈](<Quality information disclosure and patient reallocation in the (2020)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<Quality information disclosure and patient reallocation in the (2020)_실무CheatSheet.md>)
 
 ## Q01. 왜 이 논문은 정보 공개의 이익을 수술 용량 문제로 다시 묻는가
 

@@ -1,6 +1,6 @@
 # MHE Ch2 The Experimental Ideal (2009) - 개념 독해 확인 퀴즈 10문항
 
-[원문 PDF](<MHE Ch2 The Experimental Ideal (2009).pdf>) | [심층요약](<MHE Ch2 The Experimental Ideal (2009)_심층요약.md>)
+[원문 PDF](<MHE Ch2 The Experimental Ideal (2009).pdf>) | [심층요약](<MHE Ch2 The Experimental Ideal (2009)_심층요약.md>) | [수식·모델 퀴즈](<MHE Ch2 The Experimental Ideal (2009)_수식모델퀴즈.md>) | [실무 Cheat Sheet](<MHE Ch2 The Experimental Ideal (2009)_실무CheatSheet.md>)
 
 ## Q01. 병원에 다녀온 사람이 덜 건강하다는 표로 장을 여는 이유
 
