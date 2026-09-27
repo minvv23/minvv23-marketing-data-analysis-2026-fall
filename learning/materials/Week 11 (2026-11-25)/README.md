@@ -7,3 +7,5 @@
 - [원문 PDF](<The market for fake reviews (2022).pdf>)
 - [심층요약과 수식 해설](<The market for fake reviews (2022)_심층요약.md>)
 - [개념 퀴즈 10문항과 예상답안](<The market for fake reviews (2022)_QnA.md>)
+- [수식·모델 퀴즈와 예상답안](<The market for fake reviews (2022)_수식모델퀴즈.md>)
+- [실무 Cheat Sheet](<The market for fake reviews (2022)_실무CheatSheet.md>)

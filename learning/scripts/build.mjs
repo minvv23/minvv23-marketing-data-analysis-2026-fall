@@ -7,16 +7,18 @@ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const base=path.resolve(root,'materials');
 const esc=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
 const weeks=[], pages={}, routes=new Map([[path.join(base,'README.md'),'']]);let mathCount=0;
+// Summary and concept quiz are required; the model quiz and cheat sheet are added when present.
+const MODES=[['summary','_심층요약.md',true],['quiz','_QnA.md',true],['model','_수식모델퀴즈.md',false],['cheatsheet','_실무CheatSheet.md',false]];
 const labels=['기업의 의사결정','무작위 실험','고정효과와 DID','도구변수의 원리','도구변수와 효과의 해석','LATE와 실제 연구','매칭과 선택편향','RD와 광고효과','경계에서의 비교','정책 도입과 파급효과','리뷰 조작','리뷰어의 영향력','리뷰와 광고예산'];
 for(const [i,folder] of fs.readdirSync(base).filter(n=>/^Week \d/.test(n)).sort().entries()){
  const files=fs.readdirSync(path.join(base,folder));const week={id:String(i+1).padStart(2,'0'),folder,label:labels[i],date:folder.match(/\d{4}-\d{2}-\d{2}/)[0],docs:[],extras:[]};
  for(const [j,pdf] of files.filter(n=>n.endsWith('.pdf')).entries()){
   const stem=pdf.slice(0,-4),id=`w${week.id}-${j+1}`;
-  const doc={id,title:stem,pdf:'materials/'+[folder,pdf].map(encodeURIComponent).join('/')};
-  for(const [mode,suffix] of [['summary','_심층요약.md'],['quiz','_QnA.md']]){const name=stem+suffix;if(!files.includes(name))throw Error('Missing '+name);routes.set(path.join(base,folder,name),`${id}/${mode}`);}
+  const doc={id,title:stem,pdf:'materials/'+[folder,pdf].map(encodeURIComponent).join('/'),modes:[]};
+  for(const [mode,suffix,required] of MODES){const name=stem+suffix;if(!files.includes(name)){if(required)throw Error('Missing '+name);continue;}doc.modes.push(mode);routes.set(path.join(base,folder,name),`${id}/${mode}`);}
   week.docs.push(doc);
  }
- for(const name of files.filter(n=>n.endsWith('.md')&&!/_심층요약|_QnA/.test(n))){const id=`w${week.id}-${name==='README.md'?'overview':'extra'}`;week.extras.push({id,title:name==='README.md'?'이번 주 안내':'RCT 확장 쟁점',name});routes.set(path.join(base,folder,name),id+'/summary');}
+ for(const name of files.filter(n=>n.endsWith('.md')&&!MODES.some(([,suffix])=>n.endsWith(suffix)))){const id=`w${week.id}-${name==='README.md'?'overview':'extra'}`;week.extras.push({id,title:name==='README.md'?'이번 주 안내':'RCT 확장 쟁점',name});routes.set(path.join(base,folder,name),id+'/summary');}
  weeks.push(week);
 }
 function compile(src,file){
@@ -55,8 +57,8 @@ function compile(src,file){
 }
 for(const week of weeks){
  for(const doc of [...week.docs,...week.extras]){
-  for(const mode of (doc.name?['summary']:['summary','quiz'])){
-   const file=path.join(base,week.folder,doc.name??doc.title+(mode==='summary'?'_심층요약.md':'_QnA.md'));
+  for(const mode of (doc.name?['summary']:doc.modes)){
+   const file=path.join(base,week.folder,doc.name??doc.title+MODES.find(([m])=>m===mode)[1]);
    const src=fs.readFileSync(file,'utf8');const key=doc.id+'/'+mode;
    pages[key]={html:compile(src,file),text:src.replace(/[#*$>|]/g,''),title:src.match(/^# (.+)/m)?.[1]??doc.title};
   }

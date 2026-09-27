@@ -7,3 +7,5 @@
 - [원문 PDF](<Advertising strategy in the presence of reviews (2019).pdf>)
 - [심층요약과 수식 해설](<Advertising strategy in the presence of reviews (2019)_심층요약.md>)
 - [개념 퀴즈 10문항과 예상답안](<Advertising strategy in the presence of reviews (2019)_QnA.md>)
+- [수식·모델 퀴즈와 예상답안](<Advertising strategy in the presence of reviews (2019)_수식모델퀴즈.md>)
+- [실무 Cheat Sheet](<Advertising strategy in the presence of reviews (2019)_실무CheatSheet.md>)

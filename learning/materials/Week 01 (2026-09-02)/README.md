@@ -10,9 +10,9 @@ Harmony, Homealarm LTV, Homealarm Testing, Pentathlon 순서로 읽으면 관찰
 
 [전체 주차 목록](../README.md)
 
-| 자료 | 이 자료가 답하려는 질문 | 심층요약 | QnA |
-|---|---|---|---|
-| [Case -- Harmony](<Case -- Harmony.pdf>) | 광고 노출과 실제 구매를 연결한 자료만으로 광고예산 증액을 권고해도 되는가? | [읽기](<Case -- Harmony_심층요약.md>) | [퀴즈](<Case -- Harmony_QnA.md>) |
-| [Case -- Homealarm LTV](<Case -- Homealarm LTV.pdf>) | 자동이체 고객이 오래 남는다는 사실을 현재의 고객가치와 가입 권유 예산으로 어떻게 계산할까? | [읽기](<Case -- Homealarm LTV_심층요약.md>) | [퀴즈](<Case -- Homealarm LTV_QnA.md>) |
-| [Case -- Homealarm Testing 2.0](<Case -- Homealarm Testing 2.0.pdf>) | 안내 방식 변경과 가입 보상 중 어느 정책이 고객 행동과 순이익을 개선하는가? | [읽기](<Case -- Homealarm Testing 2.0_심층요약.md>) | [퀴즈](<Case -- Homealarm Testing 2.0_QnA.md>) |
-| [Case -- Pentathlon Part I](<Case -- Pentathlon Part I.pdf>) | 고객은 이메일이 많다고 불평하는데 고빈도 고객의 매출도 높다면 발송량을 어떻게 정할까? | [읽기](<Case -- Pentathlon Part I_심층요약.md>) | [퀴즈](<Case -- Pentathlon Part I_QnA.md>) |
+| 자료 | 이 자료가 답하려는 질문 | 심층요약 | QnA | 수식·모델 퀴즈 | Cheat Sheet |
+|---|---|---|---|---|---|
+| [Case -- Harmony](<Case -- Harmony.pdf>) | 광고 노출과 실제 구매를 연결한 자료만으로 광고예산 증액을 권고해도 되는가? | [읽기](<Case -- Harmony_심층요약.md>) | [퀴즈](<Case -- Harmony_QnA.md>) | [퀴즈](<Case -- Harmony_수식모델퀴즈.md>) | [보기](<Case -- Harmony_실무CheatSheet.md>) |
+| [Case -- Homealarm LTV](<Case -- Homealarm LTV.pdf>) | 자동이체 고객이 오래 남는다는 사실을 현재의 고객가치와 가입 권유 예산으로 어떻게 계산할까? | [읽기](<Case -- Homealarm LTV_심층요약.md>) | [퀴즈](<Case -- Homealarm LTV_QnA.md>) | [퀴즈](<Case -- Homealarm LTV_수식모델퀴즈.md>) | [보기](<Case -- Homealarm LTV_실무CheatSheet.md>) |
+| [Case -- Homealarm Testing 2.0](<Case -- Homealarm Testing 2.0.pdf>) | 안내 방식 변경과 가입 보상 중 어느 정책이 고객 행동과 순이익을 개선하는가? | [읽기](<Case -- Homealarm Testing 2.0_심층요약.md>) | [퀴즈](<Case -- Homealarm Testing 2.0_QnA.md>) | [퀴즈](<Case -- Homealarm Testing 2.0_수식모델퀴즈.md>) | [보기](<Case -- Homealarm Testing 2.0_실무CheatSheet.md>) |
+| [Case -- Pentathlon Part I](<Case -- Pentathlon Part I.pdf>) | 고객은 이메일이 많다고 불평하는데 고빈도 고객의 매출도 높다면 발송량을 어떻게 정할까? | [읽기](<Case -- Pentathlon Part I_심층요약.md>) | [퀴즈](<Case -- Pentathlon Part I_QnA.md>) | [퀴즈](<Case -- Pentathlon Part I_수식모델퀴즈.md>) | [보기](<Case -- Pentathlon Part I_실무CheatSheet.md>) |

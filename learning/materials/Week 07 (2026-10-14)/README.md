@@ -4,9 +4,9 @@ Imbens의 글은 비슷한 특성의 처치자와 비처치자를 비교할 때 
 
 심층요약은 연구의 질문에서 출발해 비교방법, 수식과 결과 해석을 설명한다. QnA는 PDF마다 개념 독해 퀴즈 10문항과 각 문항 바로 아래의 예상 답안으로 구성했다. 실제 연구상황을 제시하고 목적, 비교 설계, 측정과 결과의 의미를 설명하도록 묻는다. 수식의 상세 전개는 심층요약에서 확인할 수 있다.
 
-| 자료 | 심층요약 | QnA |
-|---|---|---|
-| [Nonparametric estimation of average treatment effects under exogeneity (2004)](<Nonparametric estimation of average treatment effects under exogeneity (2004).pdf>) | [심층요약](<Nonparametric estimation of average treatment effects under exogeneity (2004)_심층요약.md>) | [QnA](<Nonparametric estimation of average treatment effects under exogeneity (2004)_QnA.md>) |
-| [Quality information disclosure and patient reallocation in the (2020)](<Quality information disclosure and patient reallocation in the (2020).pdf>) | [심층요약](<Quality information disclosure and patient reallocation in the (2020)_심층요약.md>) | [QnA](<Quality information disclosure and patient reallocation in the (2020)_QnA.md>) |
+| 자료 | 심층요약 | QnA | 수식·모델 퀴즈 | Cheat Sheet |
+|---|---|---|---|---|
+| [Nonparametric estimation of average treatment effects under exogeneity (2004)](<Nonparametric estimation of average treatment effects under exogeneity (2004).pdf>) | [심층요약](<Nonparametric estimation of average treatment effects under exogeneity (2004)_심층요약.md>) | [QnA](<Nonparametric estimation of average treatment effects under exogeneity (2004)_QnA.md>) | [퀴즈](<Nonparametric estimation of average treatment effects under exogeneity (2004)_수식모델퀴즈.md>) | [보기](<Nonparametric estimation of average treatment effects under exogeneity (2004)_실무CheatSheet.md>) |
+| [Quality information disclosure and patient reallocation in the (2020)](<Quality information disclosure and patient reallocation in the (2020).pdf>) | [심층요약](<Quality information disclosure and patient reallocation in the (2020)_심층요약.md>) | [QnA](<Quality information disclosure and patient reallocation in the (2020)_QnA.md>) | [퀴즈](<Quality information disclosure and patient reallocation in the (2020)_수식모델퀴즈.md>) | [보기](<Quality information disclosure and patient reallocation in the (2020)_실무CheatSheet.md>) |
 
 설명을 위해 만든 수치 예제에는 가상 예제라고 표시했다. 보관 PDF의 판본과 별도 부록 여부는 각 문서 끝의 출처 설명에서 확인할 수 있다.

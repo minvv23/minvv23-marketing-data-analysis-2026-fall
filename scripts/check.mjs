@@ -1,9 +1,27 @@
 import fs from 'node:fs';import path from 'node:path';import vm from 'node:vm';import assert from 'node:assert/strict';import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');const dist=path.join(root,'dist');const ctx={window:{}};
 vm.runInNewContext(fs.readFileSync(path.join(dist,'learning/assets/content.js'),'utf8'),ctx);
-const data=ctx.window.LEARNING_DATA;let questions=0,math=0,links=0,figures=0;
-assert.equal(data.weeks.length,13);assert.equal(Object.keys(data.pages).length,70);
+const data=ctx.window.LEARNING_DATA;let questions=0,modelQuestions=0,sheetItems=0,math=0,links=0,figures=0;
+assert.equal(data.weeks.length,13);
+const MODES=['summary','quiz','model','cheatsheet'];
+for(const week of data.weeks)for(const doc of week.docs){assert.equal(doc.modes.join(),MODES.join(),`Missing document type: ${doc.title}`);for(const mode of MODES)assert(data.pages[`${doc.id}/${mode}`],`Missing page: ${doc.id}/${mode}`);}
+const docCount=data.weeks.reduce((n,w)=>n+w.docs.length,0),extraCount=data.weeks.reduce((n,w)=>n+w.extras.length,0);
+assert.equal(docCount,28);assert.equal(Object.keys(data.pages).length,docCount*MODES.length+extraCount);
 for(const [key,page] of Object.entries(data.pages)){
+ if(key.endsWith('/model')){
+  const blocks=[...page.html.matchAll(/<h2>Q\s*\d+[^]*?<\/h2>([^]*?)(?=<h2>|$)/g)];
+  assert(blocks.length>=10&&blocks.length<=20,`${key}: ${blocks.length} model questions`);modelQuestions+=blocks.length;
+  for(const [i,block] of blocks.entries()){
+   const parts=block[1].split('<p><strong>예상답안</strong></p>');
+   assert.equal(parts.length,2,`${key} Q${i+1}: missing answer boundary`);
+   assert(parts[0].replace(/<[^>]*>/g,'').trim().length>=15,`${key} Q${i+1}: missing question`);
+   assert(parts[1].replace(/<[^>]*>/g,'').trim().length>=300,`${key} Q${i+1}: answer too short`);
+  }
+ }
+ if(key.endsWith('/cheatsheet')){
+  const items=(page.html.match(/<li>\s*(?:<p>)?<strong>/g)||[]).length;
+  assert(items>=10&&items<=20,`${key}: ${items} cheat sheet items`);sheetItems+=items;
+ }
  if(key.endsWith('/quiz')){
   const blocks=[...page.html.matchAll(/<h2>Q\s*\d+[^]*?<\/h2>([^]*?)(?=<h2>|$)/g)];
   assert.equal(blocks.length,10,key);questions+=blocks.length;
@@ -43,4 +61,4 @@ for(const figure of figureManifest){
 for(const week of data.weeks)for(const doc of week.docs)assert(fs.existsSync(path.resolve(dist,'learning',decodeURIComponent(doc.pdf))),doc.pdf);
 const home=fs.readFileSync(path.join(dist,'index.html'),'utf8');assert(!home.includes('LEARNING_DATA'));assert(!home.includes('href="learning/'));assert(home.includes('presentation/20260909-presentation.html'));
 assert.deepEqual(fs.readFileSync(path.join(dist,'20260909-presentation.html')),fs.readFileSync(path.join(root,'presentation/20260909-presentation.html')));
-console.log(JSON.stringify({pages:70,questions,math,figures,links,root:'presentations only',legacyPresentation:'preserved'},null,2));
+console.log(JSON.stringify({pages:Object.keys(data.pages).length,questions,modelQuestions,sheetItems,math,figures,links,root:'presentations only',legacyPresentation:'preserved'},null,2));

@@ -6,7 +6,7 @@
 |---|---|---|---|
 | 발표자료 목록 | https://minvv23-marketing-data-analysis.vercel.app/ | `scripts/build.mjs`에서 생성 | 기본 진입 화면. 학습자료를 자동으로 열지 않는다. |
 | 발표자료 | https://minvv23-marketing-data-analysis.vercel.app/presentation/ | [presentation](presentation/README.md) | 수업 중 발표할 슬라이드와 발표 보조자료 |
-| 학습자료 | https://minvv23-marketing-data-analysis.vercel.app/learning/ | [learning](learning/README.md) | 13주 PDF별 심층요약, 개념 퀴즈, 원문 |
+| 학습자료 | https://minvv23-marketing-data-analysis.vercel.app/learning/ | [learning](learning/README.md) | 13주 PDF별 심층요약, 개념 퀴즈, 수식·모델 퀴즈, 실무 Cheat Sheet, 원문 |
 
 기존 `/20260909-presentation.html` 주소도 그대로 작동한다. 하위 경로를 나눈 것은 탐색 구조이며 비공개 접근 제어는 아니다.
 
