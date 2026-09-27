@@ -13,6 +13,8 @@
   const node=document.createElementNS(NS,tag);
   for(const [k,v] of Object.entries(attrs)){if(v==null)continue;if(k==='text')node.textContent=v;else node.setAttribute(k,v)}
   if(parent)parent.append(node);
+  // On narrow layouts keep SVG text at 14 or larger so it stays above ~12px on a 360px phone.
+  if(tag==='text'&&parent){const svg=node.ownerSVGElement;const fs=parseFloat(node.getAttribute('font-size'));if(svg&&svg.dataset.narrow==='1'&&fs<14)node.setAttribute('font-size',14)}
   return node;
  }
  function html(tag,attrs={},parent){
@@ -37,7 +39,7 @@
   root.append(svg);
   const st={svg,narrow:false,width,height,
    clear(){while(svg.firstChild)svg.firstChild.remove()},
-   layout(h){st.narrow=(root.clientWidth||width)<560;st.width=st.narrow?narrowWidth:width;st.height=h??(st.narrow?narrowHeight:height);svg.setAttribute('viewBox',`0 0 ${st.width} ${st.height}`);st.clear();return st},
+   layout(h){st.narrow=(root.clientWidth||width)<560;svg.dataset.narrow=st.narrow?'1':'0';st.width=st.narrow?narrowWidth:width;st.height=h??(st.narrow?narrowHeight:height);svg.setAttribute('viewBox',`0 0 ${st.width} ${st.height}`);st.clear();return st},
    id:p=>`li${++uid}-${p}`,
    // Redraw when the column crosses the narrow breakpoint (e.g. rotating a phone).
    onResize(fn){if(!('ResizeObserver' in window))return;let last=null;new ResizeObserver(()=>{const n=root.clientWidth<560;if(last!==null&&n!==last)fn();last=n}).observe(root)}};
