@@ -11,7 +11,14 @@ for(const [key,meta] of Object.entries(index.pages)){
 }
 vm.runInNewContext(fs.readFileSync(path.join(dist,'learning',index.search),'utf8'),ctx);
 assert.equal(Object.keys(searchText).join(),Object.keys(index.pages).join(),'Search index keys differ from pages');
-const data={weeks:index.weeks,pages:loadedPages,mathCount:index.mathCount};let questions=0,modelQuestions=0,sheetItems=0,math=0,links=0,figures=0;
+const data={weeks:index.weeks,pages:loadedPages,mathCount:index.mathCount};
+// Every interactive used in a page must be registered by the shared bundle.
+const bundle=fs.readFileSync(path.join(dist,'learning',index.interactives),'utf8');
+const registered=new Set([...bundle.matchAll(/LI\.register\('([a-z0-9-]+)'/g)].map(m=>m[1]));
+const usedInPages=new Set();
+for(const page of Object.values(loadedPages))for(const m of page.html.matchAll(/data-interactive="([a-z0-9-]+)"/g))usedInPages.add(m[1]);
+for(const id of usedInPages)assert(registered.has(id),`Interactive not registered: ${id}`);
+assert.equal([...usedInPages].sort().join(),index.usedInteractives.join(),'Interactive index mismatch');let questions=0,modelQuestions=0,sheetItems=0,math=0,links=0,figures=0;
 assert.equal(data.weeks.length,13);
 const MODES=['summary','quiz','model','cheatsheet'];
 for(const week of data.weeks)for(const doc of week.docs){assert.equal(doc.modes.join(),MODES.join(),`Missing document type: ${doc.title}`);for(const mode of MODES)assert(data.pages[`${doc.id}/${mode}`],`Missing page: ${doc.id}/${mode}`);}
@@ -71,4 +78,4 @@ for(const figure of figureManifest){
 for(const week of data.weeks)for(const doc of week.docs)assert(fs.existsSync(path.resolve(dist,'learning',decodeURIComponent(doc.pdf))),doc.pdf);
 const home=fs.readFileSync(path.join(dist,'index.html'),'utf8');assert(!home.includes('LEARNING_DATA'));assert(!home.includes('href="learning/'));assert(home.includes('presentation/20260909-presentation.html'));
 assert.deepEqual(fs.readFileSync(path.join(dist,'20260909-presentation.html')),fs.readFileSync(path.join(root,'presentation/20260909-presentation.html')));
-console.log(JSON.stringify({pages:Object.keys(data.pages).length,questions,modelQuestions,sheetItems,math,figures,links,root:'presentations only',legacyPresentation:'preserved'},null,2));
+console.log(JSON.stringify({pages:Object.keys(data.pages).length,interactives:[...usedInPages].length,questions,modelQuestions,sheetItems,math,figures,links,root:'presentations only',legacyPresentation:'preserved'},null,2));

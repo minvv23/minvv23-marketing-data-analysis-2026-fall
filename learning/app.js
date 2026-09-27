@@ -1,4 +1,4 @@
-const {weeks,pages:pageIndex,search:searchFile}=window.LEARNING_INDEX;
+const {weeks,pages:pageIndex,search:searchFile,interactives:interactivesFile}=window.LEARNING_INDEX;
 // Pages and search text arrive as separate scripts (script tags also work when opened from file://).
 const pages={};let searchText=null;const scripts=new Map();
 window.__learningPage=(key,data)=>{pages[key]=data};
@@ -37,6 +37,7 @@ function showDoc(key,w,d,mode){const page=pages[key];main.innerHTML=`<div class=
    while(next&&!/^H[12]$/.test(next.tagName)){const move=next;next=next.nextElementSibling;details.append(move)}details.open=quizState.get(key)?.has(h.textContent)??false;details.addEventListener('toggle',()=>{const opened=quizState.get(key)??new Set();if(details.open)opened.add(h.textContent);else opened.delete(h.textContent);quizState.set(key,opened)})});
   toggle.onclick=()=>{const open=[...article.querySelectorAll('details')].some(d=>!d.open);article.querySelectorAll('details').forEach(d=>d.open=open);toggle.textContent=open?'예상 답안 모두 접기':'예상 답안 모두 펼치기'};
  }
+ if(article.querySelector('.learning-interactive'))loadScript(interactivesFile).then(()=>window.LI&&LI.mountAll(article)).catch(()=>article.querySelectorAll('.li-mount').forEach(m=>m.textContent='인터랙티브를 불러오지 못했습니다. 새로고침해 주세요.'));
  const headings=[...article.querySelectorAll('h2')];headings.forEach((h,i)=>h.id='section-'+i);
  if(matchMedia('(max-width:1100px)').matches)$('.toc details').open=false;
  $('.toc nav').innerHTML=headings.map((h,i)=>`<a href="#section-${i}" data-section="${i}">${safe(h.textContent)}</a>`).join('');

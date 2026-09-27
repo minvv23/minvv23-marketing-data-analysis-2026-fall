@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>인터랙티브 개발 확인</title>
+<link rel="stylesheet" href="../styles.css">
+<style>body{padding:24px}main{max-width:760px;margin:auto}.prose{font-size:17px;line-height:1.78}</style>
+</head><body>
+<!-- 개발용: dev.html?id=iv-types 또는 dev.html?id=iv-types&dark=1 로 연다. 빌드에는 포함되지 않는다. -->
+<main><article class="prose">
+<figure class="learning-interactive" id="target"><div class="li-mount"></div><figcaption><p>개발용 확인 화면입니다.</p></figcaption></figure>
+</article></main>
+<script src="core.js"></script>
+<script>
+const q=new URLSearchParams(location.search),id=q.get('id');
+if(q.get('dark'))document.body.classList.add('dark');
+document.getElementById('target').dataset.interactive=id;
+const s=document.createElement('script');s.src=id+'.js';s.onload=()=>LI.mountAll(document);document.body.append(s);
+</script>
+</body></html>
