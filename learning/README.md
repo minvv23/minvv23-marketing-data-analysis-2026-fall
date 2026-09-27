@@ -31,9 +31,10 @@ npm run check
 
 ## 로컬 열기와 파일 역할
 
-- `index.html` 또는 빌드 결과 `../dist/learning/index.html`을 더블클릭해 열 수 있다.
+- 빌드 결과 `../dist/learning/index.html`을 더블클릭해 열 수 있다. `npm run build` 뒤에는 `index.html`도 같은 방식으로 열린다.
 - `materials/`는 원문과 Markdown을 담는다. 이동할 때 이 폴더도 함께 옮겨야 PDF 링크가 유지된다.
-- `assets/content.js`는 수식까지 미리 변환한 전체 문서와 검색용 본문이다.
+- `assets/data/`는 빌드가 만드는 문서 데이터이며 Git에서 제외한다. 첫 화면은 목차 색인 `index.js`(약 30KB)만 받고, 각 문서는 `immutable/` 안의 페이지 파일을 열 때 받는다. 같은 자료의 다른 탭은 여유 시간에 미리 받고, 검색 색인은 검색창을 쓸 때 받는다.
+- `immutable/` 파일명에는 내용 해시가 붙는다. `vercel.json`이 이 폴더에 1년 `immutable` 캐시를 지정하므로 한 번 본 문서는 다시 받지 않는다. 내용이 바뀌면 파일명이 바뀌고, `index.js`는 매번 서버에 변경 여부를 확인하므로 새 배포가 바로 반영된다.
 - `scripts/build.mjs`는 Markdown 처리 전에 수식을 분리하여 역슬래시·표 기호 손상을 방지한다.
 - [KaTeX](https://katex.org/docs/api)는 HTML과 MathML을 함께 제공한다. 관련 CSS·수식 글꼴은 `assets/katex`에 있다.
 - 한글·영문 본문은 `assets/fonts`의 로컬 Pretendard 가변 글꼴을 사용한다. 각 라이선스를 함께 포함한다.

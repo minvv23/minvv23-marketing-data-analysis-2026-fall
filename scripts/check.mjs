@@ -1,7 +1,17 @@
 import fs from 'node:fs';import path from 'node:path';import vm from 'node:vm';import assert from 'node:assert/strict';import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');const dist=path.join(root,'dist');const ctx={window:{}};
-vm.runInNewContext(fs.readFileSync(path.join(dist,'learning/assets/content.js'),'utf8'),ctx);
-const data=ctx.window.LEARNING_DATA;let questions=0,modelQuestions=0,sheetItems=0,math=0,links=0,figures=0;
+vm.runInNewContext(fs.readFileSync(path.join(dist,'learning/assets/data/index.js'),'utf8'),ctx);
+const index=ctx.window.LEARNING_INDEX,loadedPages={};let searchText;
+ctx.window.__learningPage=(key,value)=>{loadedPages[key]=value};ctx.window.__learningSearch=value=>{searchText=value};
+assert(!fs.existsSync(path.join(dist,'learning/assets/content.js')),'Stale bundled content.js');
+for(const [key,meta] of Object.entries(index.pages)){
+ assert(/^assets\/data\/immutable\/.+\.[0-9a-f]{10}\.js$/.test(meta.file),`Unhashed page file: ${key}`);
+ vm.runInNewContext(fs.readFileSync(path.join(dist,'learning',meta.file),'utf8'),ctx);
+ assert(loadedPages[key],`Page script did not register: ${key}`);
+}
+vm.runInNewContext(fs.readFileSync(path.join(dist,'learning',index.search),'utf8'),ctx);
+assert.equal(Object.keys(searchText).join(),Object.keys(index.pages).join(),'Search index keys differ from pages');
+const data={weeks:index.weeks,pages:loadedPages,mathCount:index.mathCount};let questions=0,modelQuestions=0,sheetItems=0,math=0,links=0,figures=0;
 assert.equal(data.weeks.length,13);
 const MODES=['summary','quiz','model','cheatsheet'];
 for(const week of data.weeks)for(const doc of week.docs){assert.equal(doc.modes.join(),MODES.join(),`Missing document type: ${doc.title}`);for(const mode of MODES)assert(data.pages[`${doc.id}/${mode}`],`Missing page: ${doc.id}/${mode}`);}

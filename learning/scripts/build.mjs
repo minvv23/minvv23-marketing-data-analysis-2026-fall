@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {marked} from 'marked';
@@ -71,5 +72,21 @@ fs.mkdirSync(katexAssets,{recursive:true});
 fs.cpSync(path.join(root,'../node_modules/katex/dist/fonts'),path.join(katexAssets,'fonts'),{recursive:true});
 fs.copyFileSync(path.join(root,'../node_modules/katex/dist/katex.min.css'),path.join(katexAssets,'katex.min.css'));
 fs.copyFileSync(path.join(root,'../node_modules/katex/LICENSE'),path.join(root,'assets/katex/LICENSE'));
-fs.writeFileSync(path.join(root,'assets/content.js'),'window.LEARNING_DATA='+JSON.stringify({weeks,pages,mathCount}).replaceAll('<','\\u003c')+';\n');
+// Split output so the first visit only downloads a small index; each page and the search text load on demand.
+// Hashed file names under data/immutable/ can be cached for a year because any content change renames the file.
+const dataDir=path.join(root,'assets/data'),immutable=path.join(dataDir,'immutable');
+fs.rmSync(dataDir,{recursive:true,force:true});fs.rmSync(path.join(root,'assets/content.js'),{force:true});
+fs.mkdirSync(immutable,{recursive:true});
+const js=v=>JSON.stringify(v).replaceAll('<','\\u003c');
+const hash=s=>crypto.createHash('sha256').update(s).digest('hex').slice(0,10);
+const pageIndex={},searchText={};
+for(const [key,page] of Object.entries(pages)){
+ const body=`window.__learningPage(${js(key)},${js({html:page.html,title:page.title})});\n`;
+ const name=`${key.replace('/','-')}.${hash(body)}.js`;
+ fs.writeFileSync(path.join(immutable,name),body);
+ pageIndex[key]={file:'assets/data/immutable/'+name,title:page.title};searchText[key]=page.text;
+}
+const searchBody=`window.__learningSearch(${js(searchText)});\n`,searchName=`search.${hash(searchBody)}.js`;
+fs.writeFileSync(path.join(immutable,searchName),searchBody);
+fs.writeFileSync(path.join(dataDir,'index.js'),`window.LEARNING_INDEX=${js({weeks,pages:pageIndex,search:'assets/data/immutable/'+searchName,mathCount})};\n`);
 console.log(`${weeks.length} weeks, ${Object.keys(pages).length} pages, ${mathCount} math expressions compiled successfully.`);
