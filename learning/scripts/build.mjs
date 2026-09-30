@@ -72,7 +72,9 @@ function compile(src,file){
    const abs=path.resolve(path.dirname(file),decodeURIComponent(href));
    target=routes.has(abs)?'#/'+routes.get(abs):'materials/'+path.relative(base,abs).split(path.sep).map(encodeURIComponent).join('/');
   }return `<a href="${esc(target)}"${/\.pdf$/i.test(target)?' target="_blank" rel="noopener"':''}>${this.parser.parseInline(tokens)}</a>`;};
- let html=marked.parse(protectedSource,{renderer,gfm:true});
+ // A lone "~" in prose is a range mark ("(1)~(4)열"); GFM would pair two of them into strikethrough.
+ const tildeSafe=protectedSource.replace(/```[\s\S]*?```|`[^`\n]+`|(?<!~)~(?!~)/g,m=>m.startsWith('`')?m:'\\~');
+ let html=marked.parse(tildeSafe,{renderer,gfm:true});
  html=html.replace(/MATHPLACEHOLDER(\d+)END/g,(_,i)=>math[Number(i)]);
  html=html.replace(/<p>INTERACTIVEPLACEHOLDER(\d+)END<\/p>/g,(_,i)=>{const b=blocks[Number(i)];return `<figure class="learning-interactive" data-interactive="${b.id}"><div class="li-mount"></div><figcaption>${b.caption}</figcaption></figure>`});
  return html;

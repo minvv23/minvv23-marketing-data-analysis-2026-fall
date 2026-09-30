@@ -6,7 +6,7 @@ Harmony의 경영진은 광고를 본 고객이 더 많이 구매한다는 결�
 
 Homealarm Testing은 그다음 단계다. 안내 방식과 가입 보상을 실제로 바꾸어 어느 정책이 이익인지 평가할 비교를 설계한다. Pentathlon은 발송 제한을 원하는 담당자와 제한에 반대하는 부서장이 서로 다른 자료를 제시하는 상황이다. 한쪽의 표를 택하기보다 각 자료가 무엇을 측정했고, 발송 횟수를 바꿀 때의 효과를 알려면 무엇이 더 필요한지 살펴본다.
 
-Harmony, Homealarm LTV, Homealarm Testing, Pentathlon 순서로 읽으면 관찰자료의 해석에서 가치 계산, 정책 실험으로 이어진다. 자료마다 필요한 개념은 본문에서 다시 설명한다.
+Harmony, Homealarm LTV, Homealarm Testing, Pentathlon 순서로 읽으면 관찰자료(observational data)의 해석에서 가치 계산, 정책 실험으로 이어진다. 자료마다 필요한 개념은 본문에서 다시 설명한다.
 
 [전체 주차 목록](../README.md)
 
