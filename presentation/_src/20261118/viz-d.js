@@ -29,10 +29,10 @@
     S('text', { x: 468, y: 412, cls: 'lb', text: '0.857 × (−0.027) + 0.143 × 0.005 = ' }, sum).innerHTML = '0.857 × (−0.027) + 0.143 × 0.005 = <tspan font-weight="700">−0.022</tspan>';
     // 대안 추정치 (원문 Table 2)
     const fx = lin(-.045, .022, 300, 720), g2 = S('g', { o: 0 }, v);
-    S('text', { x: 0, y: 512, cls: 'ttl', text: '로그 Gini에 대한 효과 추정치와 95% 구간 (원문 Table 2)' }, g2);
+    S('text', { x: 0, y: 512, cls: 'ttl', text: '로그 Gini에 대한 효과 추정치와 95% 신뢰구간 (원문 Table 2)' }, g2);
     [-.04, -.03, -.02, -.01, 0, .01, .02].forEach(n => { S('line', { x1: fx(n), x2: fx(n), y1: 530, y2: 744, cls: n === 0 ? 'axis' : 'grid' }, g2); S('text', { x: fx(n), y: 768, 'text-anchor': 'middle', cls: 'ax', text: n === 0 ? '0' : fmt(n, 2) }, g2); });
     const ref = S('line', { x1: fx(-.022), x2: fx(-.022), y1: 530, y2: 744, stroke: C.bad, 'stroke-width': 2, 'stroke-dasharray': '6 5', o: 0 }, v);
-    const rows = [coefRow(v, fx, 568, -.022, .008, { name: 'TWFE (원 논문 복제)', lx: 0, vx: 880, sig: true, col: C.bad, seTxt: '0.008' }), coefRow(v, fx, 634, .001, .007, { name: "Callaway-Sant'Anna", lx: 0, vx: 880, sig: false, seTxt: '0.007' }), coefRow(v, fx, 700, 0, .005, { name: 'Stacked', lx: 0, vx: 880, sig: false, seTxt: '0.005' })];
+    const rows = [coefRow(v, fx, 568, -.022, .008, { name: 'TWFE (원 논문 재현)', lx: 0, vx: 880, sig: true, col: C.bad, seTxt: '0.008' }), coefRow(v, fx, 634, .001, .007, { name: "Callaway-Sant'Anna", lx: 0, vx: 880, sig: false, seTxt: '0.007' }), coefRow(v, fx, 700, 0, .005, { name: 'Stacked', lx: 0, vx: 880, sig: false, seTxt: '0.005' })];
     return B => {
       const st = Math.max(0, B);
       show(g1, st >= 2); show(b1, st >= 2); tw(r1, { y: st >= 2 ? my(0) : my(0), height: st >= 2 ? my(-.027) - my(0) : 0 }, { dur: 800, ease: 'out', delay: st === 2 ? 300 : 0 }); show(t1, st >= 2, { delay: st === 2 ? 900 : 0 });
@@ -44,7 +44,7 @@
   /* ---------- 16. FHLT: 추정법별 결과 ---------- */
   viz('fhlt', (host, W, Hh) => {
     const v = svg(host, W, Hh), x = lin(-.25, .45, 290, 720);
-    S('text', { x: 0, y: 28, cls: 'ttl', text: "Tobin's Q에 대한 효과 추정치와 95% 구간 (원문 Table 3)" }, v);
+    S('text', { x: 0, y: 28, cls: 'ttl', text: "Tobin's Q에 대한 효과 추정치와 95% 신뢰구간 (원문 Table 3)" }, v);
     [-.2, 0, .2, .4].forEach(n => { S('line', { x1: x(n), x2: x(n), y1: 52, y2: 428, cls: n === 0 ? 'axis' : 'grid' }, v); S('text', { x: x(n), y: 452, 'text-anchor': 'middle', cls: 'ax', text: n === 0 ? '0' : fmt(n, 1) }, v); });
     const mk = (yy, e, se, name, sig, seTxt) => coefRow(v, x, yy, e, se, { name, lx: 28, vx: 880, sig, seTxt });
     const gA = S('text', { x: 0, y: 80, cls: 'lbb', text: '주요 개혁', o: 0 }, v), gB = S('text', { x: 0, y: 262, cls: 'lbb', text: '최초 개혁', o: 0 }, v);
@@ -72,7 +72,7 @@
       S('text', { x: 0, y: yy + 22, cls: 'big', text: name }, g); S('text', { x: 0, y: yy + 50, cls: 'lb', text: src }, g); S('text', { x: 0, y: yy + 76, cls: 'lbs', text: n }, g);
       vals.forEach((val, i) => { const r = S('rect', { x: x(0), y: yy + i * 48, width: 0, height: 38, fill: i === 0 ? C.ink : '#b9bcc6' }, g), t = S('text', { x: 0, y: yy + i * 48 + 26, cls: 'lbb', text: fmt(val, 1) + '%', tx: x(0) + 10, o: 0 }, g); bars.push({ r, t, val }); });
       return { g, bars }; };
-    const G = [grp(112, '경제학', 'Hull (2026)', '116편, 1,430개 사양', [14.9, 12.0]), grp(282, '정치학', 'Chiu 등 (2026, APSR)', '49편', []), grp(430, '경영, 마케팅', 'Proserpio (2026)', '40편, 355개 사양', [25.1, 18.0])];
+    const G = [grp(112, '경제학', 'Hull (2026)', '116편, 1,430개 회귀식', [14.9, 12.0]), grp(282, '정치학', 'Chiu 등 (2026, APSR)', '49편', []), grp(430, '경영, 마케팅', 'Proserpio (2026)', '40편, 355개 회귀식', [25.1, 18.0])];
     const pol = S('g', { o: 0 }, v); S('text', { x: x(0) + 14, y: 282 + 22, cls: 'lbb', text: '부호가 반대인 연구 0편 (49편 중)' }, pol); S('text', { x: x(0) + 14, y: 282 + 52, cls: 'lb', text: '5% 수준에서 유의하지 않은 연구는 1편에서 12편으로 증가' }, pol);
     const note = S('g', { o: 0 }, v); S('text', { x: 0, y: 676, cls: 'lbb', text: '부호가 반대이고 그 차이까지 유의한 비교의 비율' }, note);
     S('text', { x: 0, y: 708, cls: 'lb', text: '경제학 3.9%, 2.8%' }, note); S('text', { x: 240, y: 708, cls: 'lb', text: '경영과 마케팅 10.2%, 7.2%' }, note);

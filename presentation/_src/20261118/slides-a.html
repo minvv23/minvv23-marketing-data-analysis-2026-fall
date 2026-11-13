@@ -16,13 +16,13 @@
   <div class="txt">
     <div class="kicker">서론 &nbsp;/&nbsp; 논문의 질문</div>
     <h1>도입 사건이 여러 번이면<br>더 믿을 만한 설계일까?</h1>
-    <p class="lead">주나 국가가 서로 다른 해에 제도를 도입한 자료는 금융, 회계 실증연구의 표준 설계가 되었다. 추정 도구는 단위와 연도 고정효과를 포함한 <span class="tip" data-tip="Two-way fixed effects. 단위 고정효과와 시점 고정효과를 함께 넣은 회귀.">TWFE</span> 회귀다.</p>
+    <p class="lead">주나 국가가 서로 다른 해에 제도를 도입한 자료는 금융, 회계 실증연구에서 인과효과를 추정하는 표준 설계가 되었다. 추정에는 단위와 연도 고정효과를 포함한 <span class="tip" data-tip="이원 고정효과(two-way fixed effects). 단위 고정효과와 시점 고정효과를 함께 포함한 회귀.">TWFE</span> 회귀를 사용해 왔다.</p>
     <p class="nota"><b>읽는 법.</b> 점 하나가 2000-2019년 금융, 회계 상위 10개 학술지에 실린 DID 논문 한 편이다 (원문 Table 1).</p>
     <ul class="steps">
-      <li data-n="01">주된 분석에 DID를 사용한 논문은 744편.</li>
-      <li data-n="02">그중 407편(54.7%)이 도입 시점이 서로 다른 설계다.</li>
-      <li data-n="03">407편 가운데 394편이 2010년 이후에 발표되었다.</li>
-      <li data-n="04">도입 사건이 여러 번이면 특정 시기의 우연한 충격에 <span class="nw">덜 좌우된다는</span> 것이 통념이었다. 이 회귀의 계수 δ를 <span class="tip" data-tip="Average treatment effect on the treated. 처치를 받은 단위들에서 처치 결과와 무처치 결과의 차이를 평균한 값.">처치집단 평균효과(ATT)</span>로 읽어도 되는지가 논문의 질문이다.</li>
+      <li data-n="01">저자들이 직접 세어 본 결과, 주된 분석에 이중차분법(DID)을 사용한 논문은 744편이었다.</li>
+      <li data-n="02">그 가운데 407편(54.7%)은 단위마다 도입 시점이 다른 설계였다.</li>
+      <li data-n="03">이 407편 중 394편이 2010년 이후에 발표되었다. 이 설계가 표준이 된 것은 최근 10년 사이의 일이다.</li>
+      <li data-n="04">도입 사건이 여러 번이면 특정 시기의 우연한 충격에 <span class="nw">덜 좌우되므로</span> 더 믿을 만하다고 여겨져 왔다. 저자들은 그 회귀의 계수 δ를 <span class="tip" data-tip="Average treatment effect on the treated. 처치를 받은 단위들에서 처치받았을 때의 결과와 받지 않았을 때의 결과의 차이를 평균한 값.">처치집단에 대한 평균처치효과(ATT)</span>로 해석해도 되는지를 묻는다.</li>
     </ul>
   </div>
   <div class="viz" data-viz="why">
@@ -35,14 +35,14 @@
 <section class="slide" id="s-two" data-builds="4">
   <div class="txt">
     <div class="kicker">복습 &nbsp;/&nbsp; 두 집단, 두 시점</div>
-    <h1>DID가 차감하는 것은<br>무처치 상태의 변화다</h1>
-    <p class="lead">처치집단의 전후 변화에는 정책효과와, 정책이 없어도 일어났을 변화가 함께 들어 있다. 후자를 비교집단의 변화로 대신한다.</p>
+    <h1>DID가 차감하는 것은<br>처치가 없었을 때의 변화다</h1>
+    <p class="lead">문제를 보기 전에 가장 단순한 DID부터 확인한다. 처치집단의 전후 변화에는 정책효과와, 정책이 없었어도 일어났을 변화가 함께 들어 있어서 후자를 비교집단의 변화로 대신한다.</p>
     <p class="nota"><b>읽는 법.</b> 가상 수치다. <span class="k1">파란 선</span>은 처치집단 T, <span class="ku">회색 선</span>은 두 시점 모두 미처치인 비교집단 C. 점선은 T가 처치받지 않았을 때의 경로다.</p>
     <ul class="steps">
-      <li data-n="01">T는 50에서 60으로, C는 30에서 34로 변했다.</li>
-      <li data-n="02">C의 변화 +4는 정책 없이 일어난 변화다. C는 두 시점 모두 미처치이기 때문이다.</li>
-      <li data-n="03">이 +4를 T의 출발점에 더하면 T의 <span class="tip" data-tip="Counterfactual. 처치집단이 처치받지 않았다면 관측되었을 결과. 자료에서 직접 볼 수 없다.">반사실</span> 54가 된다. 두 집단의 무처치 변화가 같다는 <span class="tip" data-tip="Parallel trends. 처치가 없었다면 두 집단의 결과 변화가 평균적으로 같았을 것이라는 가정.">평행추세</span> 가정이다.</li>
-      <li data-n="04">관측 60과 반사실 54의 차이 6이 ATT다. <b>차감한 변화가 무처치 변화일 때만</b> 성립하는 계산이다.</li>
+      <li data-n="01">두 시점 사이에 T는 50에서 60으로, C는 30에서 34로 변했다.</li>
+      <li data-n="02">C는 두 시점 모두 처치를 받지 않았으므로, C의 변화 +4는 정책 없이 일어난 변화다.</li>
+      <li data-n="03">T도 정책이 없었다면 똑같이 4만큼 변했을 것이라고 가정하면(<span class="tip" data-tip="Parallel trends. 처치가 없었다면 두 집단의 결과 변화가 평균적으로 같았을 것이라는 가정.">평행추세 가정</span>) T의 <span class="tip" data-tip="Counterfactual. 처치집단이 처치받지 않았다면 관측되었을 결과. 자료에서 직접 볼 수 없다.">반사실적 결과</span>는 <span class="nw">50 + 4 = 54가</span> 된다.</li>
+      <li data-n="04">관측값 60과 반사실적 결과 54의 차이 6이 ATT다. 이 계산은 <b>차감한 변화가 처치 없이 일어난 변화일 때만</b> 성립하는데, 뒤에서 이 조건이 깨진다.</li>
     </ul>
   </div>
   <div class="viz" data-viz="two">
@@ -55,18 +55,18 @@
   <div class="txt">
     <div class="kicker">설정 &nbsp;/&nbsp; Staggered adoption</div>
     <h1>도입 시점이 여럿인 자료에<br>계수 하나를 추정한다</h1>
-    <p class="lead">도입 시점이 다르면 같은 달력 연도에도 집단마다 도입 후 경과기간이 다르다. TWFE는 이 자료 전체에서 계수 δ 하나를 추정한다.</p>
-    <p class="nota"><b>읽는 법.</b> 행은 주(state), 열은 연도, 색칠된 칸이 도입 후(D = 1)다. 원문 시뮬레이션의 세 <span class="tip" data-tip="Cohort. 같은 해에 도입한 단위들의 집단.">코호트</span>를 그렸다 (17, 18, 15개 주).</p>
+    <p class="lead">실제 자료에서는 집단마다 도입 시점이 다르다. 그러면 같은 달력 연도에도 도입 후 경과기간이 집단마다 달라지는데, TWFE는 이 자료 전체에서 계수 δ 하나만 추정한다.</p>
+    <p class="nota"><b>읽는 법.</b> 행은 주(state), 열은 연도이고 색칠된 칸이 도입 후(D = 1)다. 원문 시뮬레이션의 세 <span class="tip" data-tip="Cohort. 같은 해에 도입한 단위들의 집단.">코호트</span>를 그렸다 (17, 18, 15개 주).</p>
     <ul class="steps">
-      <li data-n="01">세 코호트가 <span class="k1">1989년</span>, <span class="k2">1998년</span>, <span class="k3">2007년</span>에 도입한다. 끝까지 미처치인 주는 없다.</li>
-      <li data-n="02">2010년 한 열에는 도입 21년 뒤, 12년 뒤, 3년 뒤가 함께 있다. 효과가 누적된다면 세 칸은 같은 처치가 아니다.</li>
-      <li data-n="03">TWFE는 도입 후 더미의 계수 δ 하나로 이 칸들을 모두 요약한다.</li>
-      <li data-n="04">Goodman-Bacon (2021)에 따르면 δ는 자료 안에서 만들 수 있는 모든 2×2 DID의 가중평균이다. 그 가운데에는 <span class="kb">이미 처치된 코호트를 비교집단으로 사용하는 2×2</span>가 있다.</li>
+      <li data-n="01">원문 시뮬레이션처럼 세 코호트가 <span class="k1">1989년</span>, <span class="k2">1998년</span>, <span class="k3">2007년</span>에 도입한다고 하자. 끝까지 처치받지 않는 주는 없다.</li>
+      <li data-n="02">2010년 한 열만 보아도 도입 21년 뒤, 12년 뒤, 3년 뒤인 주가 함께 있다. 효과가 시간이 지나며 누적된다면 이 세 칸의 처치효과는 서로 다르다.</li>
+      <li data-n="03">그런데도 TWFE는 도입 후 더미의 계수 δ 하나로 색칠된 칸 전부를 요약한다.</li>
+      <li data-n="04">Goodman-Bacon (2021)은 이 δ가 자료 안에서 만들 수 있는 모든 2×2 DID의 가중평균임을 보였다. ①처럼 아직 미처치인 코호트와 비교하는 2×2는 문제가 없지만, ②처럼 <span class="kb">이미 처치된 코호트를 비교집단으로 사용하는 2×2</span>도 함께 들어간다.</li>
     </ul>
   </div>
   <div class="viz" data-viz="stag">
     <div class="ov eq" style="top:606px" data-on="3-"><tex d>Y_{it}=\alpha_i+\lambda_t+\htmlClass{t-bad}{\delta}\,D_{it}+\varepsilon_{it},\qquad D_{it}=1\{t\ge G_i\}</tex></div>
-    <div class="ov cap" style="top:676px;text-align:center" data-on="3-">G<sub>i</sub>는 단위 i의 도입 연도. 상대시간 ℓ = t − G<sub>i</sub></div>
+    <div class="ov cap" style="top:676px;text-align:center" data-on="3-">G<sub>i</sub>는 단위 i의 도입 연도. 상대시점 ℓ = t − G<sub>i</sub></div>
   </div>
 </section>
 
@@ -75,14 +75,14 @@
   <div class="txt">
     <div class="kicker">핵심 직관 1 &nbsp;/&nbsp; 가장 작은 반례</div>
     <h1>효과가 모두 양수인데<br>계수는 음수가 된다</h1>
-    <p class="lead">두 집단, 세 시점. 정책이 없었을 결과는 모든 칸에서 0으로 둔다. 평행추세가 완벽하게 성립하는 자료다.</p>
-    <p class="nota"><b>읽는 법.</b> 가상 수치이며 원문의 예제는 아니다. <span class="k1">E</span>는 2기에, <span class="k2">L</span>은 3기에 도입한다. 무처치 결과가 0이므로 선의 높이가 곧 처치효과다.</p>
+    <p class="lead">②와 같은 비교가 왜 문제인지 가장 작은 예로 확인한다. 두 집단, 세 시점이고 정책이 없었을 때의 결과는 모든 칸에서 0이다 (평행추세 가정이 완벽하게 성립한다).</p>
+    <p class="nota"><b>읽는 법.</b> 가상 수치이며 원문의 예제는 아니다. <span class="k1">E</span>는 2기에, <span class="k2">L</span>은 3기에 도입한다. 미처치 잠재결과가 0이므로 선의 높이가 곧 처치효과다.</p>
     <ul class="steps">
-      <li data-n="01">E의 효과는 2에서 10으로 커지고 L의 첫 효과는 2다. 세 효과 모두 양수다.</li>
-      <li data-n="02">비교 ① (1기에서 2기). E가 도입하고 L은 아직 미처치다. <span class="nw">DID = 2 − 0 = 2.</span> 올바른 비교다.</li>
-      <li data-n="03">비교 ② (2기에서 3기). L이 도입하고 E는 이미 처치된 상태다. E의 변화 +8을 L의 반사실로 사용한다.</li>
-      <li data-n="04">L의 변화는 2뿐이므로 <span class="nw">DID = 2 − 8 = <span class="kb">−6</span>.</span> 이 +8은 E의 효과 증가분이다. 정책이 없었을 추세는 0이다.</li>
-      <li data-n="05">TWFE는 두 비교를 절반씩 평균한다. <span class="nw">1/2 × 2 + 1/2 × (−6) = <span class="kb">−2</span>.</span> 참효과 2, 2, 10 어느 것과도 부호가 다르다.</li>
+      <li data-n="01">E의 효과는 도입 첫 기에 2였다가 다음 기에 10으로 커지고, L의 첫 효과는 2다. 세 효과가 모두 양수다.</li>
+      <li data-n="02">비교 ①은 1기와 2기를 사용한다. E가 도입하는 동안 L은 아직 미처치이므로 <span class="nw">DID = 2 − 0 = 2로</span> E의 효과와 같다.</li>
+      <li data-n="03">비교 ②는 2기와 3기를 사용한다. L이 도입하지만 E가 이미 처치된 상태여서, E의 변화 +8이 L의 반사실적 결과로 사용된다.</li>
+      <li data-n="04">L의 실제 변화는 2이므로 <span class="nw">DID = 2 − 8 = <span class="kb">−6</span>이</span> 된다. 그런데 차감한 +8은 E의 효과 증가분이어서 앞 장의 조건을 어긴다.</li>
+      <li data-n="05">TWFE는 두 비교를 절반씩 평균하므로 계수가 <span class="nw">1/2 × 2 + 1/2 × (−6) = <span class="kb">−2</span>가</span> 된다. 참효과 2, 2, 10 어느 것과도 부호가 다르다.</li>
     </ul>
   </div>
   <div class="viz" data-viz="neg"></div>
@@ -93,14 +93,14 @@
   <div class="txt">
     <div class="kicker">핵심 직관 2 &nbsp;/&nbsp; 회귀의 계산 순서</div>
     <h1>처치된 칸이<br>음의 가중치를 받는다</h1>
-    <p class="lead">TWFE 계수는 단위 평균과 시점 평균을 제거한 처치변수 <span class="nw">D̃로</span> 결과를 가중한 값이다. 같은 예제를 회귀가 계산하는 순서대로 따라간다.</p>
-    <p class="nota"><b>읽는 법.</b> 칸 하나가 집단×시점이고 굵은 테두리가 실제로 처치된 칸이다. 칸 안의 큰 숫자가 단계마다 D, 예측값, 잔차 D̃, 가중치로 바뀐다. 오른쪽 위 작은 숫자는 결과 Y다.</p>
+    <p class="lead">같은 결과를 회귀의 계산 순서로 다시 확인한다. TWFE 계수는 D에서 단위 평균과 시점 평균을 제거한 <span class="nw">D̃로</span> 결과를 가중한 값이다.</p>
+    <p class="nota"><b>읽는 법.</b> 칸은 집단×시점이고 굵은 테두리가 처치된 칸이다. 큰 숫자는 단계마다 바뀌고 오른쪽 위 작은 숫자는 결과 Y다.</p>
     <ul class="steps">
-      <li data-n="01">처치변수 D. E는 2, 3기에, L은 3기에 1이다.</li>
-      <li data-n="02">고정효과가 만드는 D의 예측값은 단위 평균 + 시점 평균 − 전체 평균이다. E의 3기는 2/3 + 1 − 1/2 = 7/6으로 1을 넘는다.</li>
-      <li data-n="03">잔차 D̃ = D − 예측값. 실제로 처치된 E의 3기가 <span class="kb">−1/6</span>이 된다. 회귀는 이 칸을 비교집단 쪽 관측으로 사용한다.</li>
-      <li data-n="04">칸별 가중치는 D̃ / ΣD̃². 처치된 세 칸의 가중치는 1, <span class="kb">−1/2</span>, 1/2이고 합은 1이다. 가장 큰 효과 10이 음의 가중치를 받는다.</li>
-      <li data-n="05"><span class="nw">1 × 2 − 1/2 × 10 + 1/2 × 2 = <span class="kb">−2</span>.</span> 2×2 비교에 붙는 가중치(1/2, 1/2)는 양수여도 효과 칸에 붙는 가중치는 음수가 될 수 있다.</li>
+      <li data-n="01">처치변수 D는 E의 2, 3기와 L의 3기에서 1이다.</li>
+      <li data-n="02">고정효과만으로 D를 맞춘 적합값은 단위 평균 + 시점 평균 − 전체 평균이다. E의 3기는 <span class="nw">2/3 + 1 − 1/2 = 7/6으로</span> 1을 넘는다.</li>
+      <li data-n="03">D는 1을 넘을 수 없으므로 잔차 D̃(D − 적합값)는 실제로 처치된 E의 3기에서 <span class="kb">−1/6</span>이 된다. 회귀는 이 칸을 비교집단 쪽 관측처럼 사용한다.</li>
+      <li data-n="04">칸별 가중치는 D̃를 ΣD̃²으로 나눈 값이다. 처치된 세 칸은 1, <span class="kb">−1/2</span>, 1/2로 합이 1이지만 효과가 가장 큰 칸(10)이 음의 가중치를 받는다.</li>
+      <li data-n="05">그래서 계수는 <span class="nw">1 × 2 − 1/2 × 10 + 1/2 × 2 = <span class="kb">−2</span>다.</span> 2×2 비교의 가중치(1/2, 1/2)는 양수였지만 효과 칸별로 풀면 음수가 나온다.</li>
     </ul>
   </div>
   <div class="viz" data-viz="wt">

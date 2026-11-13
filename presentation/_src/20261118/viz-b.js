@@ -62,7 +62,7 @@
       ['U', 'k', 'l'].forEach((n, i) => tw(ln[n], { o: B < 0 ? 0 : (wn && n !== wn[0] && n !== wn[1]) ? .16 : 1 }, { dur: 450, delay: B === 0 ? 150 + i * 120 : 0 }));
       show(win, !!wn); show(split, !!wn);
       if (wn) { tw(win, { x: X(wn[2]) - 44, width: (wn[3] - wn[2]) * 160 + 88, fill: st === 4 ? C.bads : C.soft }, { dur: 600 }); tw(split, { tx: X(wn[4]) }, { dur: 600 }); title.innerHTML = wn[5]; title.setAttribute('class', 'ttl' + (st === 4 ? ' fb' : '')); }
-      else { title.textContent = '세 집단의 결과 (무처치 결과는 0)'; title.setAttribute('class', 'ttl'); }
+      else { title.textContent = '세 집단의 결과 (미처치 잠재결과는 0)'; title.setAttribute('class', 'ttl'); }
       show(bot, B >= 1);
       if (B < 6) { if (ch.get() !== 1) ch.set(1); else layout(false); } else if (lastB < 6) ch.set(0);
       lastB = B;
@@ -97,7 +97,7 @@
     const tF = S('g', { o: 0, tx: bx(.5) }, v); S('line', { x1: 0, x2: 0, y1: 428, y2: by0 + 6, stroke: C.ink, 'stroke-width': 2, 'stroke-dasharray': '7 5' }, tF); const tFt = S('text', { x: -8, y: 420, 'text-anchor': 'end', cls: 'lb', text: '' }, tF);
     const tO = S('g', { o: 0, tx: bx(.5) }, v); S('line', { x1: 0, x2: 0, y1: 428, y2: by0 + 6, stroke: C.muted, 'stroke-width': 2, 'stroke-dasharray': '3 4' }, tO); const tOt = S('text', { x: 8, y: 420, cls: 'lbs', text: '' }, tO);
     const mLab = S('text', { x: 0, y: 560, cls: 'lbb', text: '', tx: bx(.5), o: 0 }, v);
-    const NAME = [null, 'Sim 1  일괄 도입, 일정한 효과', 'Sim 2  일괄 도입, 커지는 효과', 'Sim 3  순차 도입, 같은 크기의 일정한 효과', 'Sim 4  순차 도입, 코호트별로 다른 일정한 효과', 'Sim 5  순차 도입, 같은 속도로 커지는 효과', 'Sim 6  순차 도입, 코호트별로 다른 속도로 커지는 효과'];
+    const NAME = [null, 'Sim 1  일괄 도입, 일정한 효과', 'Sim 2  일괄 도입, 커지는 효과', 'Sim 3  시차 도입, 같은 크기의 일정한 효과', 'Sim 4  시차 도입, 코호트별로 다른 일정한 효과', 'Sim 5  시차 도입, 같은 속도로 커지는 효과', 'Sim 6  시차 도입, 코호트별로 다른 속도로 커지는 효과'];
     const LAB = { A: ['1998년 도입', '미처치'], B: ['1989년 코호트', '1998년 코호트', '2007년 코호트'] };
     const COLS = { A: [C.c2, C.u], B: [C.c1, C.c2, C.c3] }, stK = { A: s => s < 25 ? 0 : 1, B: s => s < 17 ? 0 : s < 35 ? 1 : 2 };
     return B => {
@@ -176,7 +176,7 @@
     const band = S('rect', { x: x(-1.96), y: 96, width: x(1.96) - x(-1.96), height: y0 - 90, fill: C.soft }, v);
     S('line', { x1: 70, x2: 840, y1: y0 + 6, y2: y0 + 6, cls: 'axis' }, v);
     [-20, -10, 0, 10, 20].forEach(n => { S('line', { x1: x(n), x2: x(n), y1: y0 + 6, y2: y0 + 12, cls: 'axis' }, v); S('text', { x: x(n), y: y0 + 32, 'text-anchor': 'middle', cls: 'ax', text: String(n).replace('-', '−') }, v); });
-    S('text', { x: 840, y: y0 + 58, 'text-anchor': 'end', cls: 'lbs', text: 't값 (주 단위 군집 표준오차). 22를 넘는 값은 양 끝에 표시' }, v);
+    S('text', { x: 840, y: y0 + 58, 'text-anchor': 'end', cls: 'lbs', text: 't값 (주 단위 군집강건 표준오차). 22를 넘는 값은 양 끝에 표시' }, v);
     S('text', { x: x(1.96) + 12, y: 116, cls: 'lbs', text: '띠 안이 |t| < 1.96' }, v);
     const dots = []; for (let i = 0; i < N; i++) dots.push(S('circle', { cx: x(0), cy: y0, r: 2.9, fill: C.ink, o: 0 }, v));
     const big = S('text', { x: 70, y: 56, cls: 'big', text: '' }, v), sub = S('text', { x: 70, y: 84, cls: 'lbs', text: '' }, v);

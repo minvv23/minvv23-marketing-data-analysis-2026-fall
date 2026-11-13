@@ -13,7 +13,7 @@
     const x = lin(-5, 5, 124, 790), y = lin(-.3, .4, 404, 56);
     VZ.yAxis(v, y, [-.2, -.1, 0, .1, .2, .3, .4], 96, 820, sgn);
     for (let l = -5; l <= 5; l++) S('text', { x: x(l), y: 432, 'text-anchor': 'middle', cls: 'ax', text: String(l).replace('-', '−') }, v);
-    const axT = S('text', { x: 820, y: 458, 'text-anchor': 'end', cls: 'lbs', text: '도입 기준 상대시간 (년)', o: 1 }, v);
+    const axT = S('text', { x: 820, y: 458, 'text-anchor': 'end', cls: 'lbs', text: '도입 시점 기준 상대시점 (년)', o: 1 }, v);
     S('line', { x1: x(-.5), x2: x(-.5), y1: 56, y2: 410, stroke: C.faint, 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }, v);
     const title = S('text', { x: 96, y: 30, cls: 'ttl', text: '' }, v);
     const P = { a: [1989, 1998, 2007].map(g => ST.effPath('6b', g)), b: [1989, 1998, 2007].map(g => ST.sim7Path(g)) };
@@ -53,7 +53,7 @@
       return row.y.map((val, t) => { const on = t >= row.g; S('rect', { x: cx(t), y: cy(r), width: cw, height: ch, fill: on ? row.cs : '#fff', stroke: C.line, 'stroke-width': 1.5 }, v);
         S('text', { x: cx(t) + cw / 2, y: cy(r) + ch / 2 + 9, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, text: val }, v);
         return S('rect', { x: cx(t) + 3, y: cy(r) + 3, width: cw - 6, height: ch - 6, fill: 'none', stroke: C.ink, 'stroke-width': 4, o: 0 }, v); }); });
-    S('text', { x: x0, y: cy(3) + 14, cls: 'lbs', text: '칸의 숫자는 결과 Y (무처치 결과 0). 색칠된 칸이 도입 후' }, v);
+    S('text', { x: x0, y: cy(3) + 14, cls: 'lbs', text: '칸의 숫자는 결과 Y (미처치 잠재결과 0). 색칠된 칸이 도입 후' }, v);
     const f1 = S('text', { x: x0, y: cy(3) + 62, cls: 'ttl', text: '', o: 0 }, v), f2 = S('text', { x: x0, y: cy(3) + 94, cls: 'ttl fb', text: '', o: 0 }, v);
     // 결과 표
     const ry = cy(3) + 126, res = {};
@@ -61,7 +61,7 @@
     [[1, 1, 1], [1, 2, 3], [1, 3, 5], [1, 4, 7], [2, 3, 1], [2, 4, 3]].forEach(([r, t, val]) => { const yy = ry + (r - 1) * 56; S('rect', { x: cx(t), y: yy, width: cw, height: 50, fill: 'none', stroke: C.line, 'stroke-width': 1.5 }, v);
       res[r + '-' + t] = S('text', { x: cx(t) + cw / 2, y: yy + 35, 'text-anchor': 'middle', cls: 'big ' + R[r].k, text: val, o: 0 }, v); });
     const agg = S('g', { o: 0 }, v);
-    [['3.33', '칸 평균', '여섯 칸을 같은 비중으로', 60], ['3', '코호트 평균', `${V('k')} 4, ${V('l')} 2를 같은 비중으로`, 330], ['1, 3, 5, 7', '상대시간별', '도입 0, 1, 2, 3기 뒤', 600]].forEach(([n, a, b, xx]) => { S('text', { x: xx, y: 636, cls: 'lbb', text: a }, agg); S('text', { x: xx, y: 686, 'font-size': 40, 'font-weight': 800, text: n }, agg); S('text', { x: xx, y: 716, cls: 'lbs', html: b }, agg); });
+    [['3.33', '칸 평균', '여섯 칸을 같은 비중으로', 60], ['3', '코호트 평균', `${V('k')} 4, ${V('l')} 2를 같은 비중으로`, 330], ['1, 3, 5, 7', '상대시점별', '도입 0, 1, 2, 3기 뒤', 600]].forEach(([n, a, b, xx]) => { S('text', { x: xx, y: 636, cls: 'lbb', text: a }, agg); S('text', { x: xx, y: 686, 'font-size': 40, 'font-weight': 800, text: n }, agg); S('text', { x: xx, y: 716, cls: 'lbs', html: b }, agg); });
     const sq = sequencer();
     function focus(r, t, bad) {
       const row = R[r], ctrl = R.map((c, i) => i).filter(i => R[i].g > t || (bad && i === 1));
@@ -139,7 +139,7 @@
     SER.forEach((s, si) => { s.g = S('g', { o: 0 }, v); S('path', { pts: s.e.map((val, i) => [x(i - 5), y(val)]), stroke: s.c, 'stroke-width': 2, fill: 'none' }, s.g);
       s.e.forEach((val, i) => { const cx = x(i - 5), cy = y(val); if (si === 2) S('circle', { cx, cy, r: 11.5, fill: 'none', stroke: s.c, 'stroke-width': 2.5 }, s.g); else if (si === 3) S('rect', { x: cx - 6.5, y: cy - 6.5, width: 13, height: 13, fill: s.c, transform: `rotate(45 ${cx} ${cy})` }, s.g); else S('circle', { cx, cy, r: 7, fill: s.c }, s.g); });
       const ye = y(s.e[10]); s.lab = si === 3 ? S('text', { x: x(5) - 16, y: ye - 16, 'text-anchor': 'end', cls: 'lb', text: 'Stacked' }, s.g) : S('text', { x: x(5) + 16, y: ye + (si === 1 ? 22 : si === 2 ? 44 : 6), cls: 'lb' + (si === 0 ? ' fb' : ''), text: ['TWFE', 'CS', 'SA'][si] }, s.g); });
-    S('text', { x: 820, y: 404, 'text-anchor': 'end', cls: 'lbs', text: '도입 기준 상대시간 (년)' }, v);
+    S('text', { x: 820, y: 404, 'text-anchor': 'end', cls: 'lbs', text: '도입 시점 기준 상대시점 (년)' }, v);
     const title = S('text', { x: 96, y: 28, cls: 'ttl', text: '' }, v);
     const lg = S('g', { o: 0 }, v); S('line', { x1: 600, x2: 640, y1: 22, y2: 22, stroke: C.ink, 'stroke-width': 3.5, 'stroke-dasharray': '10 7' }, lg); S('text', { x: 648, y: 28, cls: 'lbs', text: '참 효과 경로 (1989, 1998년 코호트)' }, lg);
     // 아래: 정적 추정치 분포

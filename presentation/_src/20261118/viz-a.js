@@ -17,7 +17,7 @@
     const v = svg(host, W, H), N = 744, COLS = 31, sp = 24, x0 = (W - (COLS - 1) * sp) / 2, y0 = 16, dots = [];
     for (let i = 0; i < N; i++) dots.push(S('circle', { cx: x0 + (i % COLS) * sp, cy: y0 + Math.floor(i / COLS) * sp, r: 8.2, fill: '#d3d4d9', stroke: '#d3d4d9', 'stroke-width': 2.2, o: 0 }, v));
     const yb = y0 + 24 * sp + 14, lab = [];
-    [['744', 'DID를 사용한 논문', 150], ['407', '도입 시점이 다른 설계 (54.7%)', 440], ['394', '2010년 이후 발표 (빈 점 13편은 그 이전)', 706]].forEach(([n, t, x]) => {
+    [['744', '이중차분법(DID)을 사용한 논문', 150], ['407', '도입 시점이 다른 설계 (54.7%)', 440], ['394', '2010년 이후 발표 (빈 점 13편은 그 이전)', 706]].forEach(([n, t, x]) => {
       const g = S('g', { o: 0 }, v); S('text', { x, y: yb + 14, 'text-anchor': 'middle', cls: 'big', text: n + '편' }, g); S('text', { x, y: yb + 42, 'text-anchor': 'middle', cls: 'lbs', text: t }, g); lab.push(g);
     });
     return B => {
@@ -94,7 +94,7 @@
     const v = svg(host, W, H), X = [210, 470, 730], y = lin(-7, 11, 560, 40), dx = 6;
     VZ.yAxis(v, y, [-6, -4, -2, 0, 2, 4, 6, 8, 10], 120, 800, n => String(n).replace('-', '−'));
     ['1기', '2기', '3기'].forEach((t, i) => S('text', { x: X[i], y: 592, 'text-anchor': 'middle', cls: 'lb', text: t }, v));
-    S('text', { x: 124, y: y(0) + 24, cls: 'lbs', text: '무처치 결과 = 0' }, v);
+    S('text', { x: 124, y: y(0) + 24, cls: 'lbs', text: '미처치 잠재결과 = 0' }, v);
     // 비교 구간 음영
     const win = S('rect', { x: X[0], y: 40, width: X[1] - X[0], height: 520, fill: C.soft, o: 0 }, v); v.insertBefore(win, v.firstChild);
     const winLab = S('text', { x: (X[0] + X[1]) / 2, y: 30, 'text-anchor': 'middle', cls: 'lbb', text: '비교 ①', o: 0 }, v);
@@ -104,7 +104,7 @@
     const ghost = S('path', { pts: [[X[1], y(2)], [X[2], y(10)]], stroke: C.c1, 'stroke-width': 3, 'stroke-dasharray': '9 7', fill: 'none', o: 0, ty: 0 }, v);
     const gEnd = S('g', { o: 0 }, v); S('circle', { cx: X[2], cy: y(8), r: 7, fill: '#fff', stroke: C.c2, 'stroke-width': 3 }, gEnd);
     S('text', { x: X[2] + 16, y: y(8) + 6, cls: 'lb f2', text: '반사실 8' }, gEnd);
-    S('text', { x: X[2] - 18, y: y(3.9), 'text-anchor': 'end', cls: 'lb f2', text: 'E의 변화 +8' }, gEnd);
+    S('text', { x: X[2] - 30, y: y(3.1), 'text-anchor': 'end', cls: 'lb f2', text: 'E의 변화 +8' }, gEnd);
     const lE = S('path', { pts: E.map((e, i) => [X[i] - dx, y(e)]), stroke: C.c1, 'stroke-width': 4, fill: 'none', 'stroke-linejoin': 'round', 'stroke-linecap': 'round', draw: 0 }, v);
     const lL = S('path', { pts: L.map((e, i) => [X[i] + dx, y(e)]), stroke: C.c2, 'stroke-width': 4, fill: 'none', 'stroke-linejoin': 'round', 'stroke-linecap': 'round', draw: 0 }, v);
     const pts = S('g', { o: 0 }, v);
@@ -137,7 +137,7 @@
     };
   });
 
-  /* ---------- 5. 음의 가중치: D → 예측값 → D̃ → 가중치 ---------- */
+  /* ---------- 5. 음의 가중치: D → 적합값 → D̃ → 가중치 ---------- */
   viz('wt', (host, W, H) => {
     const v = svg(host, W, H), cw = 212, ch = 186, gp = 12, x0 = 112, y0 = 86, f = fmtFrac;
     const D = [[0, 1, 1], [0, 0, 1]], Y = [[0, 2, 10], [0, 0, 2]], rm = [2 / 3, 1 / 3], cm = [0, 1 / 2, 1], gm = 1 / 2;
@@ -161,9 +161,9 @@
     cm.forEach((m, t) => { S('text', { x: x0 + t * (cw + gp) + cw / 2, y: y0 + 2 * (ch + gp) + 24, 'text-anchor': 'middle', cls: 'lbs', text: '시점 평균 ' }, mar).innerHTML = `시점 평균 <tspan font-weight="700" fill="#1b1b1f">${f(m)}</tspan>`; });
     S('text', { x: x0 + 3 * (cw + gp) + 6, y: y0 + 2 * (ch + gp) + 24, cls: 'lbs', text: '' }, mar).innerHTML = `전체 <tspan font-weight="700" fill="#1b1b1f">1/2</tspan>`;
     const head = S('text', { x: x0, y: 40, cls: 'ttl', text: '' }, v);
-    const HEAD = ['처치변수 D', '처치변수 D', '고정효과가 만든 예측값', '잔차 D̃ = D − 예측값', '처치된 칸의 가중치 w', '가중치 × 효과'];
+    const HEAD = ['처치변수 D', '처치변수 D', '고정효과로 구한 적합값', '잔차 D̃ = D − 적합값', '처치된 칸의 가중치 w', '가중치 × 효과'];
     const flag = S('g', { o: 0 }, v); const c3 = cells[2];
-    S('text', { x: x0 + 2 * (cw + gp) + cw / 2, y: y0 + ch - 14, 'text-anchor': 'middle', cls: 'lbs fb', 'font-weight': 700, text: '1을 넘는 예측값' }, flag);
+    S('text', { x: x0 + 2 * (cw + gp) + cw / 2, y: y0 + ch - 14, 'text-anchor': 'middle', cls: 'lbs fb', 'font-weight': 700, text: '1을 넘는 적합값' }, flag);
     return B => {
       const st = Math.max(0, Math.min(5, B)); head.textContent = HEAD[st];
       const layer = st <= 1 ? 0 : st - 1;
