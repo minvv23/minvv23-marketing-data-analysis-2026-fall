@@ -22,6 +22,27 @@
   </div>
 </section>
 
+<!-- ============ Sun-Abraham 분해 ============ -->
+<section class="slide" id="s-sa" data-builds="5">
+  <div class="txt">
+    <div class="kicker">사건연구 &nbsp;/&nbsp; Sun-Abraham의 분해 (원문 식 14)</div>
+    <h1>계수 하나에<br>다른 시점의 효과가 섞인다</h1>
+    <p class="lead">앞 장의 마지막 그림은 −3기 계수 하나를 설명했다. Sun-Abraham (2021)은 사건연구의 모든 계수가 코호트별, 상대시점별 효과(CATT)의 가중합이고, 그 가중치가 회귀식의 구조만으로 정해짐을 보였다.</p>
+    <p class="nota"><b>읽는 법.</b> 앞 장의 사건연구 모형에서 계산했다. 행은 코호트, 열은 도입 후 경과연수다. 칸이 진할수록 가중치가 크고 검은색은 양, 붉은색은 음이다.</p>
+    <ul class="steps">
+      <li data-n="01">+3기 계수가 추정하려는 것은 세 코호트의 +3기 효과다. 이 세 칸의 가중치는 합이 1이다.</li>
+      <li data-n="02">그런데 다른 열에도 가중치가 있다. 1989년 코호트의 +8기는 +0.18, +12기는 −0.18이다. 구간마다 합이 0이어서 구간 안의 효과가 같아야 상쇄된다.</li>
+      <li data-n="03">이 자료에서는 효과가 계속 커지므로 상쇄되지 않는다. +3기 계수는 0.05σ로 참값 0.22σ의 4분의 1에 그친다.</li>
+      <li data-n="04">도입 전 계수도 같다. −3기 계수가 추정하려는 효과는 0인데, 도입 후 칸들의 가중치 때문에 사전추세가 없어도 0.08σ가 나온다.</li>
+      <li data-n="05">+4기 계수는 묶은 구간에서 큰 음의 가중치를 받아 부호가 바뀐다. 저자들이 효과가 같다고 볼 근거가 없는 상대시점을 묶지 말라고 권고한 이유다.</li>
+    </ul>
+  </div>
+  <div class="viz" data-viz="sa">
+    <div class="ov eq left" style="top:0;left:0;right:auto;font-size:23px"><tex d>\hat\mu_{\ell}=\sum_{g}\sum_{\ell'\ge 0} w^{\ell}_{g,\ell'}\;CATT_{g,\ell'}</tex></div>
+    <div class="ov cap" style="top:10px;left:372px">가중치의 합은 같은 상대시점(ℓ′ = ℓ)에서 1이고, 다른 구간에서는 구간마다 0이다 (원문 식 14).</div>
+  </div>
+</section>
+
 <!-- ============ 11. 대안 1: CS, SA ============ -->
 <section class="slide" id="s-cs" data-builds="5">
   <div class="txt">
@@ -84,4 +105,33 @@
     </ul>
   </div>
   <div class="viz" data-viz="alt"></div>
+</section>
+
+<!-- ============ 세 대안의 비교 ============ -->
+<section class="slide" id="s-comp" data-builds="5" data-lw="470">
+  <div class="txt">
+    <div class="kicker">대안 추정량 &nbsp;/&nbsp; 원문 4절의 비교</div>
+    <h1>세 대안은<br>무엇이 다를까?</h1>
+    <p class="lead">세 대안은 이미 처치된 단위를 비교집단에서 제외한다는 점에서 같다. 차이는 비교집단으로 허용하는 범위와 효과를 합치는 가중치에 있고, 저자들은 아직 표준이 정해지지 않았다고 보았다.</p>
+    <p class="nota"><b>읽는 법.</b> 아래 그림의 점은 모의자료 500개의 평균, 가로선은 2.5, 97.5 백분위수 범위, 세로 점선은 앞 장과 같은 기준값이다.</p>
+    <ul class="steps">
+      <li data-n="01">비교집단의 범위는 CS가 가장 넓어서, 아직 미처치인 단위까지 허용한다.</li>
+      <li data-n="02">공변량은 CS와 stacked에서 사용할 수 있다. CS는 회귀, 역확률가중(IPW), 이중강건 추정을 제공한다.</li>
+      <li data-n="03">효과를 합치는 가중치는 CS와 SA에서 표본비중이고, stacked에서는 OLS가 정하는 분산 가중이다.</li>
+      <li data-n="04">이 차이가 추정치에 나타난다. CS와 SA는 기준값 주위에 분포하고, stacked는 Sim 4와 6에서 기준값보다 크지만 폭이 절반 정도다.</li>
+      <li data-n="05">저자들은 재분석에 가장 유연한 CS를 주로 사용했고, TWFE와 가까운 방법을 원하는 연구자에게는 stacked를 권했다.</li>
+    </ul>
+  </div>
+  <div class="viz" data-viz="comp">
+    <div class="ov" style="top:0">
+      <table class="mini comp">
+        <tr><th></th><th>Callaway-Sant'Anna</th><th>Sun-Abraham</th><th>Stacked regression</th></tr>
+        <tr><td><b>추정</b></td><td>(g, t)마다 2×2로 ATT(g, t)를 추정</td><td>코호트×상대시점 더미를 포함한 회귀 하나</td><td>사건별 자료를 쌓고 자료별 고정효과를 포함한 TWFE</td></tr>
+        <tr data-on="1-"><td><b>비교집단</b></td><td>아직 미처치, 마지막 처치, 미처치 가운데 선택</td><td>미처치 또는 마지막 처치 코호트</td><td>사건창 안에서 처치받지 않은 단위</td></tr>
+        <tr data-on="2-"><td><b>공변량</b></td><td>처치 전 공변량 허용</td><td>허용하지 않음</td><td>회귀식에 포함할 수 있음</td></tr>
+        <tr data-on="3-"><td><b>집계</b></td><td>표본비중을 기본으로 연구자가 선택</td><td>코호트의 표본비중</td><td>OLS의 분산 가중</td></tr>
+        <tr data-on="5-"><td><b>저자들의 평가</b></td><td>가장 유연하다</td><td>회귀 하나여서 간단하고 빠르다</td><td>TWFE와 가깝고 효율적이지만 표본평균 ATT와 다를 수 있다</td></tr>
+      </table>
+    </div>
+  </div>
 </section>

@@ -50,27 +50,68 @@
   </div>
 </section>
 
-<!-- ============ 16. 재분석 2: FHLT ============ -->
-<section class="slide" id="s-fhlt" data-builds="4">
+<!-- ============ 16. 재분석 2: FHLT 정적 추정 ============ -->
+<section class="slide" id="s-fhlt" data-builds="5">
   <div class="txt">
     <div class="kicker">재분석 2 &nbsp;/&nbsp; Fauver, Hung, Li &amp; Taboada (2017)</div>
     <h1>이사회 개혁은<br>기업가치를 높였을까?</h1>
-    <p class="lead">두 번째 재분석 대상인 FHLT는 나라마다 도입 연도가 다른 41건의 주요 이사회 개혁을 분석해, TWFE로 Tobin's Q의 유의한 상승을 보고했다. 기업 단위 불균형 패널이라 분해할 수 없어서 추정법별 결과를 나란히 비교한다.</p>
-    <p class="nota"><b>읽는 법.</b> 점이 추정치, 가로선이 95% 신뢰구간이다 (원문 Table 3, 국가 단위 군집강건 표준오차). 채운 점은 원문에서 5% 수준으로 유의한 추정치다. 대안 추정에는 통제변수가 없으므로 통제 없는 TWFE와 비교한다.</p>
+    <p class="lead">두 번째 재분석 대상인 FHLT는 나라마다 도입 연도가 다른 41건의 주요 이사회 개혁을 분석해 Tobin's Q의 유의한 상승을 보고했다. 기업 단위 불균형 패널이라 분해할 수 없어서 추정법별 결과를 비교한다.</p>
+    <p class="nota"><b>읽는 법.</b> 위 그림은 행이 국가이고 푸른 칸이 개혁 전, 붉은 칸이 개혁 후다. 아래 그림은 점이 추정치, 가로선이 95% 신뢰구간이고 채운 점이 5% 수준에서 유의하다.</p>
     <ul class="steps">
-      <li data-n="01">주요 개혁을 기준으로 하면 TWFE의 0.110이 CS에서 0.062, stacked에서 0.063으로 감소하고 둘 다 유의하지 않다.</li>
-      <li data-n="02">최초 개혁을 기준으로 하면 CS의 0.116은 유의하지 않고 stacked의 0.166만 유의하다. 그런데 이 stacked 추정의 사건연구에는 도입 3년 전부터 계수가 상승하는 사전추세가 있다.</li>
-      <li data-n="03">FHLT의 사건연구는 개혁 후 2-6년을 한 구간으로 묶었는데, 이 묶음을 해제하면(Model 3, 4) 양의 효과가 사라진다.</li>
-      <li data-n="04">그렇다고 효과가 없다는 결론이 나오는 것은 아니다. CS의 95% 신뢰구간 <span class="nw">[−0.20, 0.33]은</span> 0도, 원래의 0.110도 포함한다. 저자들은 원래 결과의 강건성이 알려진 것보다 약하다고 결론지었다.</li>
+      <li data-n="01">FHLT는 개혁 시점을 주요 개혁과 최초 개혁, 두 가지로 정의했다. 어느 쪽이든 2007년이면 모든 나라가 개혁을 마쳐서 끝까지 미처치인 나라가 없다.</li>
+      <li data-n="02">통제변수 없이 추정한 TWFE 계수는 주요 개혁 0.110, 최초 개혁 0.136이고 둘 다 유의하다. 대안 추정과 비교할 기준이다.</li>
+      <li data-n="03">주요 개혁의 추정치는 CS에서 0.062, stacked에서 0.063으로 감소하고 둘 다 유의하지 않다.</li>
+      <li data-n="04">최초 개혁에서는 CS의 0.116이 유의하지 않고 stacked의 0.166만 유의하다. 이 값은 다음 장에서 다시 확인한다.</li>
+      <li data-n="05">그렇다고 효과가 없다는 결론은 아니다. 주요 개혁의 CS 95% 신뢰구간 <span class="nw">[−0.20, 0.33]은</span> 0도, 원래의 0.110도 포함한다.</li>
     </ul>
   </div>
   <div class="viz" data-viz="fhlt">
-    <div class="fig" style="left:60px;top:498px;width:760px" data-on="3-"><img src="img/fig12i.png" alt="원문 Fig. 12 (i). FHLT 사건연구를 네 가지 모형 설정으로 다시 추정한 그림"></div>
-    <div class="tag" style="left:78px;top:501px" data-on="3-">Model 1 (FHLT 설정)</div>
-    <div class="tag" style="left:300px;top:501px" data-on="3-">Model 2</div>
-    <div class="tag" style="left:444px;top:501px" data-on="3-">Model 3 (묶음 해제)</div>
-    <div class="tag" style="left:682px;top:501px" data-on="3-">Model 4</div>
-    <div class="ov cap" style="top:740px;left:60px" data-on="3-">원문 Fig. 12 (i). 주요 개혁의 TWFE 사건연구. Model 1이 FHLT의 모형 설정, Model 3부터 구간 묶음 해제.</div>
+    <div class="fig" style="left:120px;top:6px;width:640px" data-on="1-"><img src="img/fig11.png" alt="원문 Fig. 11. 국가별 이사회 개혁 시점. 왼쪽은 주요 개혁, 오른쪽은 최초 개혁"></div>
+    <div class="tag" style="left:266px;top:2px" data-on="1-">주요 개혁</div>
+    <div class="tag" style="left:549px;top:2px" data-on="1-">최초 개혁</div>
+    <div class="ov cap" style="top:270px;left:120px" data-on="1-">원문 Fig. 11. 색이 진할수록 기업-연도 관측치가 많은 나라다.</div>
+  </div>
+</section>
+
+<!-- ============ 재분석 2: FHLT 사건연구 ============ -->
+<section class="slide" id="s-fhlt2" data-builds="6">
+  <div class="txt">
+    <div class="kicker">재분석 2 &nbsp;/&nbsp; 사건연구 (원문 Fig. 12, 13)</div>
+    <h1>구간 묶음을 해제하면<br>양의 효과가 보이지 않는다</h1>
+    <p class="lead">FHLT의 사건연구는 개혁 전후 5년의 관측치만 사용하고 더미 네 개를 포함했다. 상대연도 −2 이전은 모두 기준기간으로 두었고 2-6년은 한 구간으로 묶었다.</p>
+    <p class="nota"><b>읽는 법.</b> 위 그림은 개혁 시행 첫 해를 1로, 아래 그림은 개혁 연도를 0으로 표기했다. 세로선은 95% 신뢰구간이다.</p>
+    <ul class="steps">
+      <li data-n="01">Model 1은 FHLT의 모형이다. 개혁 후 계수가 모두 양수이고 묶은 구간(가로축의 2)의 계수가 가장 크다.</li>
+      <li data-n="02">Model 2는 기준기간에 있던 −3, −2기 더미를 추가했다. 그림이 거의 같아서 기준기간은 원인이 아니다.</li>
+      <li data-n="03">Model 3은 2-6년 묶음을 해제했다. 양의 효과가 사라지고 계수가 0에 가까워진다. 전체 표본으로 추정한 Model 4도 같다.</li>
+      <li data-n="04">CS와 stacked로 다시 추정해도 주요 개혁 뒤의 유의한 상승은 없다. 5년 뒤에는 두 추정 모두 유의한 음수다.</li>
+      <li data-n="05">앞 장에서 유일하게 유의했던 최초 개혁의 stacked 추정에는 사전추세가 있다. stacked의 정적 계수는 개혁 후와 개혁 전 계수의 차이여서 0.166에 이 추세가 들어 있다.</li>
+      <li data-n="06">저자들은 개혁의 효과가 알려진 것만큼 강건하지 않다고 결론지었고, FHLT는 2021년에 표본을 넓혀 반론을 냈다.</li>
+    </ul>
+  </div>
+  <div class="viz">
+    <div class="fig" style="left:60px;top:0;width:760px"><img src="img/fig12i.png" alt="원문 Fig. 12 (i). FHLT의 주요 개혁 사건연구를 네 가지 모형 설정으로 다시 추정한 그림"></div>
+    <div class="dim" style="left:303px;top:0;width:517px;height:236px" data-on="1"></div>
+    <div class="dim" style="left:60px;top:0;width:243px;height:236px" data-on="2-3"></div>
+    <div class="dim" style="left:303px;top:0;width:158px;height:236px" data-on="3"></div>
+    <div class="dim" style="left:461px;top:0;width:359px;height:236px" data-on="2"></div>
+    <div class="tag" style="left:158px;top:3px" data-on="0-1,4-">Model 1 (FHLT)</div>
+    <div class="tag" style="left:345px;top:3px" data-on="0,2,4-">Model 2</div>
+    <div class="tag" style="left:462px;top:3px" data-on="0,3-">Model 3 (묶음 해제)</div>
+    <div class="tag" style="left:622px;top:3px" data-on="0,3-">Model 4 (전체 표본)</div>
+    <div class="ov cap" style="top:242px;left:60px">원문 Fig. 12 (i). 주요 개혁의 TWFE 사건연구. Model 1, 2에서 가로축의 2는 2-6년을 묶은 구간이다.</div>
+    <div class="fig" style="left:60px;top:296px;width:700px" data-on="4-"><img src="img/fig13i.png" alt="원문 Fig. 13 (i). Callaway-Sant'Anna 추정량으로 다시 추정한 FHLT 사건연구. 왼쪽 주요 개혁, 오른쪽 최초 개혁"></div>
+    <div class="fig" style="left:60px;top:512px;width:700px" data-on="4-"><img src="img/fig13ii.png" alt="원문 Fig. 13 (ii). stacked regression으로 다시 추정한 FHLT 사건연구. 왼쪽 주요 개혁, 오른쪽 최초 개혁"></div>
+    <div class="dim" style="left:400px;top:296px;width:360px;height:432px" data-on="4"></div>
+    <div class="dim" style="left:60px;top:296px;width:700px;height:214px" data-on="5"></div>
+    <div class="dim" style="left:60px;top:510px;width:340px;height:218px" data-on="5"></div>
+    <div class="tag" style="left:196px;top:298px" data-on="4-">CS, 주요 개혁</div>
+    <div class="tag" style="left:528px;top:298px" data-on="4-">CS, 최초 개혁</div>
+    <div class="tag" style="left:176px;top:514px" data-on="4-">Stacked, 주요 개혁</div>
+    <div class="tag" style="left:508px;top:514px" data-on="4-">Stacked, 최초 개혁</div>
+    <div class="hl" style="left:499px;top:606px;width:34px;height:94px" data-on="5"></div>
+    <div class="ov cap" style="top:734px;left:60px" data-on="4-">원문 Fig. 13. 비교집단은 아직 개혁하지 않은 나라의 기업이다.</div>
+    <div class="ov cap" style="top:760px;left:60px" data-on="5">붉은 테두리는 개혁 3년 전의 유의한 음의 계수다.</div>
   </div>
 </section>
 
@@ -85,11 +126,11 @@
   <div class="viz">
     <ol class="rec">
       <li><b>TWFE가 적절한 조건</b><span>도입 시점이 하나이거나 효과가 동질적이라고 볼 수 있을 때는 TWFE를 사용해도 된다. 동질성을 가정한다면 이론적 근거를 제시한다.</span><em>Sim 1-3</em></li>
-      <li><b>편향 가능성 진단</b><span>TWFE를 보고한다면 도입 시점 그림과 Goodman-Bacon 분해를 함께 보고한다. 분해할 수 없는 자료라면 미처치 관측치의 비율을 보고한다.</span><em>분해, BLL</em></li>
-      <li><b>사건연구의 모형 설정</b><span>효과가 같다고 볼 근거가 없는 상대시점은 묶지 않는다. 기준기간은 예고효과(anticipation)가 없는 도입 전 기간으로 연구자가 직접 정한다.</span><em>사건연구, BLL (A)-(D)</em></li>
-      <li><b>대안 추정량을 하나 이상</b><span>stacked regression을 기준 분석으로 사용하거나 CS의 회귀, IPW, 이중강건 추정을 적용해 결과가 유지되는지 확인한다.</span><em>대안 1, 2</em></li>
+      <li><b>편향 가능성 진단</b><span>TWFE를 보고한다면 도입 시점 그림과 Goodman-Bacon 분해를 함께 보고한다. 분해할 수 없는 자료라면 미처치 관측치의 비율을 보고한다.</span><em>분해, 가중치, BLL</em></li>
+      <li><b>사건연구의 모형 설정</b><span>효과가 같다고 볼 근거가 없는 상대시점은 묶지 않는다. 기준기간은 예고효과(anticipation)가 없는 도입 전 기간으로 연구자가 직접 정한다.</span><em>SA 분해, BLL, FHLT</em></li>
+      <li><b>대안 추정량을 하나 이상</b><span>stacked regression을 기준 분석으로 사용하거나 CS의 회귀, IPW, 이중강건 추정을 적용해 결과가 유지되는지 확인한다.</span><em>대안 1, 2, 비교</em></li>
       <li><b>비교집단의 근거</b><span>아직 미처치, 마지막 처치, 미처치 가운데 무엇을 비교집단으로 사용했는지 밝히고, 그 집단에서 평행추세 가정이 성립하고 예고효과가 없다고 보는 이유를 설명한다.</span><em>CS 예제</em></li>
-      <li><b>정적 계수와 사건연구를 함께</b><span>효과가 언제 나타나는지를 사건연구로 함께 보여 주고, 사건창의 길이는 연구 질문과 제도 지식에 근거해 정한다.</span><em>FHLT</em></li>
+      <li><b>정적 계수와 사건연구를 함께</b><span>효과가 언제 나타나는지를 사건연구로 함께 보여 주고, 사건창의 길이는 연구 질문과 제도 지식에 근거해 정한다.</span><em>FHLT 사건연구</em></li>
     </ol>
   </div>
 </section>

@@ -48,14 +48,16 @@ const SIM = (function () {
       for (let t = 0; t < T; t++) v += D[k][t] * ((k === g ? p[t] : 0) - nB[g] / N * p[t]); out.push(v); } return out; });
     const aC = noise.map(m => { const tm = new Float64Array(T); for (let s = 0; s < NST; s++) for (let t = 0; t < T; t++) tm[t] += m[s][t] / N;
       const out = new Float64Array(NST); for (let s = 0; s < NST; s++) { const k = stateGroup('B', s); let v = 0; for (let t = 0; t < T; t++) v += D[k][t] * (m[s][t] - tm[t]); out[s] = v; } return out; });
-    function tstats(h) {   // h: 기울기 표준편차 (sigma 대비 비율)
+    function tcore(tauOf) {
       const out = new Float64Array(NSIM);
-      for (let i = 0; i < NSIM; i++) { const tau = z3[i].map(z => z * h * SIG); let sum = 0; const A = new Float64Array(NST);
+      for (let i = 0; i < NSIM; i++) { const tau = tauOf(i); let sum = 0; const A = new Float64Array(NST);
         for (let s = 0; s < NST; s++) { A[s] = aC[i][s] + tau[0] * bC[0][s] + tau[1] * bC[1][s] + tau[2] * bC[2][s]; sum += A[s]; }
         const d = sum / den; let v = 0; for (let s = 0; s < NST; s++) { const sc = A[s] - d * dC[s]; v += sc * sc; }
         out[i] = d / Math.sqrt(N / (N - 1) * v / (den * den)); }
       return out;
     }
+    const tstats = h => tcore(i => z3[i].map(z => z * h * SIG));   // h: 기울기 표준편차 (sigma 대비 비율)
+    const tfix = slopes => tcore(() => slopes.map(v => v * SIG));     // 코호트별 기울기가 정해진 경우 (Sim 5, 6)
     const insig = h => { const t = tstats(h); let c = 0; for (let i = 0; i < NSIM; i++) if (Math.abs(t[i]) < 1.96) c++; return c / NSIM; };
 
     // ---- TWFE 사건연구 (Fig. 5 사양) ----
@@ -103,7 +105,7 @@ const SIM = (function () {
       const mean = DES[des].coh.map((g, k) => Array.from({ length: T }, (_, t) => year[t] + cm[des][0][k][t] + e[k][t]));
       return { st, mean, des };
     }
-    cache = { T, Y0, SIG, NSIM, NST, DES, desOf, est, twEff, truth, effY, tstats, insig, event, trueEvent, evWeights, alt, altDist, sample, groupsOf, zeros, EV_L, EV_COL, year };
+    cache = { T, Y0, SIG, NSIM, NST, DES, desOf, est, twEff, truth, effY, tstats, tfix, insig, event, trueEvent, evWeights, alt, altDist, sample, groupsOf, zeros, EV_L, EV_COL, year };
     return cache;
   }
   return { get, T, Y0, SIG, NSIM, DES, desOf };

@@ -84,6 +84,10 @@ table.mini{border-collapse:collapse;font-size:18.5px;line-height:1.4;width:100%}
 table.mini th,table.mini td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
 table.mini th{font-weight:700;color:var(--muted);font-size:16px;border-bottom:1.5px solid var(--ink)}
 table.mini td.n{text-align:right;white-space:nowrap}
+table.comp{table-layout:fixed}
+table.comp th:first-child{width:128px}
+table.comp td:first-child{white-space:nowrap}
+table.comp tr[data-on]{transition:opacity .45s ease}
 .fig{position:absolute;overflow:hidden}
 .fig img{display:block;width:100%;height:auto}
 .fig .src{position:absolute;right:0;bottom:-26px;font-size:16px;color:var(--muted)}

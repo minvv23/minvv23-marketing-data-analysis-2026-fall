@@ -43,21 +43,24 @@
 
   /* ---------- 16. FHLT: 추정법별 결과 ---------- */
   viz('fhlt', (host, W, Hh) => {
-    const v = svg(host, W, Hh), x = lin(-.25, .45, 290, 720);
-    S('text', { x: 0, y: 28, cls: 'ttl', text: "Tobin's Q에 대한 효과 추정치와 95% 신뢰구간 (원문 Table 3)" }, v);
-    [-.2, 0, .2, .4].forEach(n => { S('line', { x1: x(n), x2: x(n), y1: 52, y2: 428, cls: n === 0 ? 'axis' : 'grid' }, v); S('text', { x: x(n), y: 452, 'text-anchor': 'middle', cls: 'ax', text: n === 0 ? '0' : fmt(n, 1) }, v); });
+    const sv = svg(host, W, Hh), v = S('g', { ty: 322 }, sv), x = lin(-.25, .45, 290, 720);
+    const hd = S('g', { o: 0 }, v);
+    S('text', { x: 0, y: 28, cls: 'ttl', text: "Tobin's Q에 대한 효과 추정치와 95% 신뢰구간 (원문 Table 3)" }, hd);
+    [-.2, 0, .2, .4].forEach(n => { S('line', { x1: x(n), x2: x(n), y1: 52, y2: 412, cls: n === 0 ? 'axis' : 'grid' }, hd); S('text', { x: x(n), y: 436, 'text-anchor': 'middle', cls: 'ax', text: n === 0 ? '0' : fmt(n, 1) }, hd); });
     const mk = (yy, e, se, name, sig, seTxt) => coefRow(v, x, yy, e, se, { name, lx: 28, vx: 880, sig, seTxt });
-    const gA = S('text', { x: 0, y: 80, cls: 'lbb', text: '주요 개혁', o: 0 }, v), gB = S('text', { x: 0, y: 262, cls: 'lbb', text: '최초 개혁', o: 0 }, v);
-    const A = [mk(114, .110, .05, 'TWFE (통제 없음)', true, '0.05'), mk(158, .062, .135, "Callaway-Sant'Anna", false, '0.135'), mk(202, .063, .051, 'Stacked', false, '0.051')];
-    const Bq = [mk(296, .136, .07, 'TWFE (통제 없음)', true, '0.07'), mk(340, .116, .094, "Callaway-Sant'Anna", false, '0.094'), mk(384, .166, .055, 'Stacked', true, '0.055')];
-    const ref = S('g', { o: 0 }, v); S('line', { x1: x(.110), x2: x(.110), y1: 92, y2: 222, stroke: C.ink, 'stroke-width': 2, 'stroke-dasharray': '6 5' }, ref);
-    S('rect', { x: x(.062 - 1.96 * .135) - 8, y: 140, width: x(.062 + 1.96 * .135) - x(.062 - 1.96 * .135) + 16, height: 36, fill: 'none', stroke: C.ink, 'stroke-width': 2.5 }, ref);
-    S('text', { x: x(.110) + 8, y: 232, cls: 'lbs', text: '원래 추정치 0.110' }, ref);
+    const gA = S('text', { x: 0, y: 80, cls: 'lbb', text: '주요 개혁', o: 0 }, v), gB = S('text', { x: 0, y: 252, cls: 'lbb', text: '최초 개혁', o: 0 }, v);
+    const A = [mk(112, .110, .05, 'TWFE (통제 없음)', true, '0.05'), mk(154, .062, .135, "Callaway-Sant'Anna", false, '0.135'), mk(196, .063, .051, 'Stacked', false, '0.051')];
+    const Bq = [mk(284, .136, .07, 'TWFE (통제 없음)', true, '0.07'), mk(326, .116, .094, "Callaway-Sant'Anna", false, '0.094'), mk(368, .166, .055, 'Stacked', true, '0.055')];
+    const ref = S('g', { o: 0 }, v); S('line', { x1: x(.110), x2: x(.110), y1: 92, y2: 214, stroke: C.ink, 'stroke-width': 2, 'stroke-dasharray': '6 5' }, ref);
+    S('rect', { x: x(.062 - 1.96 * .135) - 8, y: 136, width: x(.062 + 1.96 * .135) - x(.062 - 1.96 * .135) + 16, height: 36, fill: 'none', stroke: C.ink, 'stroke-width': 2.5 }, ref);
+    S('text', { x: x(.110) + 8, y: 228, cls: 'lbs', text: '원래 추정치 0.110' }, ref);
     return B => {
       const st = Math.max(0, B);
-      show(gA, st >= 1); A.forEach((r, i) => show(r, st >= 1, { delay: st === 1 ? 200 + i * 350 : 0 }));
-      show(gB, st >= 2); Bq.forEach((r, i) => show(r, st >= 2, { delay: st === 2 ? 200 + i * 350 : 0 }));
-      show(ref, st >= 4, { delay: 200 });
+      show(hd, st >= 2); show(gA, st >= 2); show(gB, st >= 2);
+      show(A[0], st >= 2, { delay: st === 2 ? 200 : 0 }); show(Bq[0], st >= 2, { delay: st === 2 ? 550 : 0 });
+      [A[1], A[2]].forEach((r, i) => show(r, st >= 3, { delay: st === 3 ? 200 + i * 350 : 0 }));
+      [Bq[1], Bq[2]].forEach((r, i) => show(r, st >= 4, { delay: st === 4 ? 200 + i * 350 : 0 }));
+      show(ref, st >= 5, { delay: 200 });
     };
   });
 
