@@ -6,7 +6,7 @@
     <h1>Staggered DID<small>How much should we trust staggered<br>difference-in-differences estimates?</small></h1>
     <p class="sub">도입 시점이 다른 정책에서 고정효과 회귀가 실제로 비교하는 것</p>
     <p class="meta">Baker, Larcker &amp; Wang (2022), <i>Journal of Financial Economics</i> 144<br>2026년 11월 18일 &nbsp;/&nbsp; 발제 강태영 <span class="nw">(minvv23@gmail.com, 마케팅 박사과정)</span></p>
-    <p class="hint">→ 또는 Space로 진행.</p>
+    <p class="hint">→ 또는 Space로 진행. 밑줄 친 용어에 마우스를 올리면 설명이 나온다.</p>
   </div>
   <div class="viz" data-viz="cover" data-w="640" data-h="620"></div>
 </section>
@@ -16,10 +16,10 @@
   <div class="txt">
     <div class="kicker">서론 &nbsp;/&nbsp; 논문의 질문</div>
     <h1>도입 사건이 여러 번이면<br>더 믿을 만한 설계일까?</h1>
-    <p class="lead">주나 국가가 서로 다른 해에 제도를 도입한 자료는 금융, 회계 실증연구에서 인과효과를 추정하는 표준 설계가 되었다. 추정에는 단위와 연도 고정효과를 포함한 <span class="tip" data-tip="이원 고정효과(two-way fixed effects). 단위 고정효과와 시점 고정효과를 함께 포함한 회귀.">TWFE</span> 회귀를 사용해 왔다.</p>
+    <p class="lead">주나 국가가 서로 다른 해에 제도를 도입한 자료(시차 도입, staggered adoption)는 금융, 회계 실증연구에서 인과효과를 추정하는 표준 설계가 되었다. 추정에는 단위와 연도 고정효과를 포함한 <span class="tip" data-tip="이원 고정효과(two-way fixed effects). 단위 고정효과와 시점 고정효과를 함께 포함한 회귀.">TWFE</span> 회귀를 사용해 왔다.</p>
     <p class="nota"><b>읽는 법.</b> 점 하나가 2000-2019년 금융, 회계 상위 10개 학술지에 실린 DID 논문 한 편이다 (원문 Table 1).</p>
     <ul class="steps">
-      <li data-n="01">저자들이 직접 세어 본 결과, 주된 분석에 이중차분법(DID)을 사용한 논문은 744편이었다.</li>
+      <li data-n="01">저자들이 직접 세어 본 결과, 주된 분석에 <span class="tip" data-tip="Difference-in-differences. 처치집단의 전후 변화에서 비교집단의 전후 변화를 빼서 정책효과를 추정하는 방법.">이중차분법(DID)</span>을 사용한 논문은 744편이었다.</li>
       <li data-n="02">그 가운데 407편(54.7%)은 단위마다 도입 시점이 다른 설계였다.</li>
       <li data-n="03">이 407편 중 394편이 2010년 이후에 발표되었다. 이 설계가 표준이 된 것은 최근 10년 사이의 일이다.</li>
       <li data-n="04">도입 사건이 여러 번이면 특정 시기의 우연한 충격에 <span class="nw">덜 좌우되므로</span> 더 믿을 만하다고 여겨져 왔다. 저자들은 그 회귀의 계수 δ를 <span class="tip" data-tip="Average treatment effect on the treated. 처치를 받은 단위들에서 처치받았을 때의 결과와 받지 않았을 때의 결과의 차이를 평균한 값.">처치집단에 대한 평균처치효과(ATT)</span>로 해석해도 되는지를 묻는다.</li>
@@ -39,7 +39,7 @@
     <p class="lead">앞 장의 질문에 저자들은 도입 시점이 다르고 효과가 단위나 시간에 따라 달라지면 δ가 ATT와 달라진다고 답했다. 이 결과는 계량경제학에서 먼저 나왔고, 이 논문은 그것이 금융, 회계 연구의 실제 자료와 출판된 결과에서도 문제가 됨을 보였다.</p>
     <p class="nota"><b>읽는 법.</b> 위의 띠는 본문 26쪽을 절별로 나눈 것이고, 아래에 각 절의 내용과 그림, 표 번호를 적었다. 이 발표도 같은 순서로 진행한다.</p>
     <ul class="steps">
-      <li data-n="01">2절과 3절은 문제를 설명한다. TWFE 계수가 어떤 비교들의 평균인지를 분해로 보이고, Compustat 자료로 만든 시뮬레이션에서 편향이 생기는 조건을 찾았다.</li>
+      <li data-n="01">2절과 3절은 문제를 설명한다. TWFE 계수가 어떤 비교들의 평균인지를 <span class="tip" data-tip="Goodman-Bacon (2021)의 분해. TWFE 계수를 두 집단, 두 기간짜리 DID들의 가중평균으로 나누어 적는다.">분해</span>로 보이고, <span class="tip" data-tip="미국 상장기업의 재무제표 자료를 모은 데이터베이스.">Compustat</span> 자료로 만든 시뮬레이션에서 편향이 생기는 조건을 찾았다.</li>
       <li data-n="02">시뮬레이션의 결론은 세 가지다. 도입 시점이 하나면 효과가 변해도 편향이 없고, 도입 시점이 여럿이어도 효과가 같고 일정하면 편향이 없다. 두 조건이 함께 깨지면 계수가 표본평균 ATT와 달라진다.</li>
       <li data-n="03">4절은 대안 추정량 세 가지를 소개하고, 같은 시뮬레이션에 적용해 참값이 복원되는지 확인했다.</li>
       <li data-n="04">5절은 상위 학술지에 출판된 논문 두 편을 다시 분석했고, 6절은 연구자가 따를 권고 여섯 가지를 제시했다.</li>
@@ -54,7 +54,7 @@
     <div class="kicker">복습 &nbsp;/&nbsp; 두 집단, 두 시점</div>
     <h1>DID가 차감하는 것은<br>처치가 없었을 때의 변화다</h1>
     <p class="lead">문제를 보기 전에 가장 단순한 DID부터 확인한다. 처치집단의 전후 변화에는 정책효과와, 정책이 없었어도 일어났을 변화가 함께 들어 있어서 후자를 비교집단의 변화로 대신한다.</p>
-    <p class="nota"><b>읽는 법.</b> 가상 수치다. <span class="k1">파란 선</span>은 처치집단 T, <span class="ku">회색 선</span>은 두 시점 모두 미처치인 비교집단 C. 점선은 T가 처치받지 않았을 때의 경로다.</p>
+    <p class="nota"><b>읽는 법.</b> 가상 수치다. 처치는 정책이나 제도의 도입을 가리킨다. <span class="k1">파란 선</span>은 처치집단 T, <span class="ku">회색 선</span>은 두 시점 모두 미처치인 비교집단 C. 점선은 T가 처치받지 않았을 때의 경로다.</p>
     <ul class="steps">
       <li data-n="01">두 시점 사이에 T는 50에서 60으로, C는 30에서 34로 변했다.</li>
       <li data-n="02">C는 두 시점 모두 처치를 받지 않았으므로, C의 변화 +4는 정책 없이 일어난 변화다.</li>
@@ -78,7 +78,7 @@
       <li data-n="01">원문 시뮬레이션처럼 세 코호트가 <span class="k1">1989년</span>, <span class="k2">1998년</span>, <span class="k3">2007년</span>에 도입한다고 하자. 끝까지 처치받지 않는 주는 없다.</li>
       <li data-n="02">2010년 한 열만 보아도 도입 21년 뒤, 12년 뒤, 3년 뒤인 주가 함께 있다. 효과가 시간이 지나며 누적된다면 이 세 칸의 처치효과는 서로 다르다.</li>
       <li data-n="03">그런데도 TWFE는 도입 후 더미의 계수 δ 하나로 색칠된 칸 전부를 요약한다.</li>
-      <li data-n="04">Goodman-Bacon (2021)은 이 δ가 자료 안에서 만들 수 있는 모든 2×2 DID의 가중평균임을 보였다. ①처럼 아직 미처치인 코호트와 비교하는 2×2는 문제가 없지만, ②처럼 <span class="kb">이미 처치된 코호트를 비교집단으로 사용하는 2×2</span>도 함께 들어간다.</li>
+      <li data-n="04">Goodman-Bacon (2021)은 이 δ가 자료 안에서 만들 수 있는 모든 2×2 DID(두 집단과 두 기간만으로 계산한 DID)의 가중평균임을 보였다. ①처럼 아직 미처치인 코호트와 비교하는 2×2는 문제가 없지만, ②처럼 <span class="kb">이미 처치된 코호트를 비교집단으로 사용하는 2×2</span>도 함께 들어간다.</li>
     </ul>
   </div>
   <div class="viz" data-viz="stag">

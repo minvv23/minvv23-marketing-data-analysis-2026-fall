@@ -3,19 +3,19 @@
   <div class="txt">
     <div class="kicker">분해 &nbsp;/&nbsp; Goodman-Bacon (2021)</div>
     <h1>계수 하나에 들어 있는<br>네 개의 2×2 비교</h1>
-    <p class="lead">한 번도 처치되지 않는 <span class="ku"><i class="v">U</i></span>를 더해 세 집단을 다섯 시점 동안 관측한다. <span class="k1"><i class="v">k</i></span>와 <span class="k2"><i class="v">l</i></span>의 효과는 도입 후 1, 3, 5, 7로 커지고, 처치된 여섯 칸의 평균효과는 3.33이다.</p>
+    <p class="lead">한 번도 처치되지 않는 <span class="ku"><i class="v">U</i></span>, 2기에 도입하는 <span class="k1"><i class="v">k</i></span>, 4기에 도입하는 <span class="k2"><i class="v">l</i></span>을 다섯 시점 동안 관측한다. 두 집단의 효과는 도입 후 1, 3, 5, 7로 커지고, 처치된 여섯 칸의 평균효과는 3.33이다.</p>
     <p class="nota"><b>읽는 법.</b> 가상 수치다. 위 그림의 음영은 각 2×2가 사용하는 기간이고, 아래 그림은 가로가 가중치, 세로가 DID다.</p>
     <ul class="steps">
       <li data-n="01"><i class="v">k</i> 대 <i class="v">U</i>는 <i class="v">U</i>가 끝까지 미처치이므로 전 기간을 사용한다. DID는 <i class="v">k</i>의 평균효과 4다 (가중치 1/4).</li>
       <li data-n="02"><i class="v">l</i> 대 <i class="v">U</i>도 같아서 DID는 <i class="v">l</i>의 평균효과 2다 (가중치 3/8).</li>
       <li data-n="03"><i class="v">k</i> 대 <i class="v">l</i>은 <i class="v">l</i>이 아직 미처치인 1-3기만 사용한다. DID는 2다 (가중치 1/8).</li>
       <li data-n="04"><i class="v">l</i> 대 <i class="v">k</i>에서는 <span class="kb">이미 처치된 <i class="v">k</i>가 비교집단이다.</span> 그 기간에 커진 <i class="v">k</i>의 효과 4가 차감되어 DID가 −2가 된다 (가중치 1/4).</li>
-      <li data-n="05">네 면적을 더한 TWFE 계수는 1.5다. 평행추세 가정이 성립하는데도 참 평균효과 3.33의 절반에 못 미친다.</li>
+      <li data-n="05">네 면적을 더한 TWFE 계수는 1.5로, 참 평균효과 3.33의 절반에 못 미친다. 평행추세 가정은 성립하므로(VWCT = 0) 이 차이는 이미 처치된 <i class="v">k</i>의 효과 변화가 차감된 항(ΔATT)에서 나온다.</li>
       <li data-n="06"><i class="v">U</i>의 단위 수를 바꾸면 <i class="v">l</i> 대 <i class="v">k</i>의 가중치가 달라진다. <i class="v">U</i>가 없으면 −0.67로 부호가 바뀌고, 열 배로 늘려도 2.60이다.</li>
     </ul>
   </div>
   <div class="viz" data-viz="bacon">
-    <div class="ov eq" style="top:330px" data-on="5-"><tex d>\operatorname{plim}\hat\delta=\underbrace{VWATT}_{2.5}+\underbrace{VWCT}_{0}-\htmlClass{t-bad}{\underbrace{\Delta ATT}_{1}}=1.5</tex></div>
+    <div class="ov eq" style="top:330px" data-on="5-"><tex d>\operatorname{plim}\hat\delta=\htmlData{tip=Variance-weighted ATT. 2×2마다 처치집단의 도입 후 효과를 구해 분산 가중치로 평균한 값.}{\underbrace{VWATT}_{2.5}}+\htmlData{tip=Variance-weighted common trend. 처치가 없었을 때의 추세가 집단마다 다른 정도를 가중평균한 값. 평행추세 가정이 성립하면 0이다.}{\underbrace{VWCT}_{0}}-\htmlClass{t-bad}{\htmlData{tip=이미 처치된 집단이 비교집단이 될 때 그 집단의 효과 변화가 차감되어 생기는 항. 효과가 시간에 따라 변하지 않으면 0이다.}{\underbrace{\Delta ATT}_{1}}}=1.5</tex></div>
   </div>
 </section>
 
@@ -42,11 +42,11 @@
   <div class="txt">
     <div class="kicker">시뮬레이션 &nbsp;/&nbsp; 자료 생성 (원문 3.1.1절)</div>
     <h1>모의자료는<br>어떻게 만들었을까?</h1>
-    <p class="lead">저자들은 이 문제가 실제 자료에서도 나타나는지 확인하려고 금융 연구의 전형적인 설계를 모방했다. 주(state)의 법률이 서로 다른 해에 바뀌고, 그 주에 설립된 기업의 ROA를 여러 해 관측하는 설계다.</p>
+    <p class="lead">저자들은 이 문제가 실제 자료에서도 나타나는지 확인하려고 금융 연구의 전형적인 설계를 모방했다. 주(state)의 법률이 서로 다른 해에 바뀌고, 그 주에 설립된 기업의 <span class="tip" data-tip="Return on assets. 이익을 총자산으로 나눈 총자산이익률. 기업 성과의 지표로 사용한다.">ROA</span>를 여러 해 관측하는 설계다.</p>
     <p class="nota"><b>읽는 법.</b> 절차를 보여 주는 도식이고 칸의 농도는 실제 자료가 아니다. 행은 기업, 열은 연도다.</p>
     <ul class="steps">
-      <li data-n="01">Compustat의 1980-2015년 미국 비금융 기업 가운데 관측치가 5개 이상인 기업을 모았다. 불균형 패널이다.</li>
-      <li data-n="02">ROA를 기업 고정효과, 연도 고정효과, 잔차로 분해했다. 이 세 성분의 실제 분포가 모의자료의 재료다.</li>
+      <li data-n="01"><span class="tip" data-tip="미국 상장기업의 재무제표 자료를 모은 데이터베이스.">Compustat</span>의 1980-2015년 미국 비금융 기업 가운데 관측치가 5개 이상인 기업을 모았다. 불균형 패널이다.</li>
+      <li data-n="02">ROA를 <span class="tip" data-tip="기업 고정효과는 그 기업의 평균적인 ROA 수준이고, 연도 고정효과는 그 해 모든 기업에 공통으로 나타난 수준이다.">기업 고정효과, 연도 고정효과</span>, 잔차로 분해했다. 이 세 성분의 실제 분포가 모의자료의 재료다.</li>
       <li data-n="03">세 분포에서 값을 다시 뽑아 새 패널을 만들었다 (Bertrand, Duflo &amp; Mullainathan 2004의 방식).</li>
       <li data-n="04">기업에는 50개 주 가운데 하나를, 주에는 도입 시점을 무작위로 배정했다. 그래서 평행추세 가정이 설계상 성립한다.</li>
       <li data-n="05">도입 후 관측치에 처치효과를 더한 자료를 500개 만들고, 각각에 TWFE를 추정했다.</li>
@@ -69,7 +69,7 @@
       <li data-n="01"><b>Sim 1</b>은 한 해에 일괄 도입하고 효과가 0.5σ로 일정한 경우다. 추정치가 참값 주위에 분포한다.</li>
       <li data-n="02"><b>Sim 2</b>는 효과가 매년 0.05σ씩 커진다. 도입 시점이 하나면 효과가 변해도 편향이 없다.</li>
       <li data-n="03"><b>Sim 3</b>은 세 코호트가 시차를 두고 도입하되 효과는 모두 0.5σ다. 효과가 같으면 편향이 없다.</li>
-      <li data-n="04"><b>Sim 4</b>는 코호트별 효과가 0.5σ, 0.3σ, 0.1σ다. OLS의 분산가중 평균이라 관측치평균 ATT와 다르다.</li>
+      <li data-n="04"><b>Sim 4</b>는 코호트별 효과가 0.5σ, 0.3σ, 0.1σ다. TWFE는 분산으로 가중해 평균하므로 관측치평균 ATT와 다르다.</li>
       <li data-n="05"><b>Sim 5</b>는 모든 코호트의 효과가 매년 0.03σ씩 커진다. 추정치가 <span class="nw">0 근처에</span> 집중된다.</li>
       <li data-n="06"><b>Sim 6</b>은 속도도 코호트마다 다르다 (0.05σ, 0.03σ, 0.01σ). 참효과는 모두 양수인데 <span class="kb">추정치는 음수다.</span></li>
     </ul>
@@ -104,7 +104,7 @@
     <ul class="steps">
       <li data-n="01">Sim 5에서는 세 코호트의 효과가 모두 매년 0.03σ씩 커진다. 기업평균 ATT는 0.290σ이고 ROA로는 약 9%p에 해당한다.</li>
       <li data-n="02">그런데 TWFE 추정치의 평균은 0.013σ로 참값의 20분의 1에도 미치지 못한다.</li>
-      <li data-n="03">주 단위 군집강건 표준오차로 검정하면 모의자료의 83%에서 계수가 유의하지 않다.</li>
+      <li data-n="03">주 단위 <span class="tip" data-tip="Cluster-robust standard error. 같은 주 안의 관측치끼리 오차가 상관될 수 있음을 반영한 표준오차.">군집강건 표준오차</span>로 검정하면 모의자료의 83%에서 계수가 유의하지 않다.</li>
       <li data-n="04">저자들은 이 오류가 연구 주제의 선택에도 영향을 준다고 보았다. 유의한 결과가 출판되기 쉽다고 예상하는 연구자는 이런 과제를 중단하게 되고, 실제로 효과가 있는 정책의 증거가 남지 않는다.</li>
       <li data-n="05">Sim 6에서는 계수가 500개 모두에서 유의하고 부호가 음수다. 이 경우 연구자는 효과가 양수인 정책을 해롭다고 결론짓게 된다.</li>
     </ul>
@@ -117,7 +117,7 @@
   <div class="txt">
     <div class="kicker">시뮬레이션 &nbsp;/&nbsp; 원문 Fig. 4</div>
     <h1>평균효과가 0이어도<br>유의한 계수가 나온다</h1>
-    <p class="lead">편향은 효과가 없는데 있다고 판단하는 오류로도 이어진다. 저자들은 Sim 6을 바꿔 코호트별 증가 속도를 평균 0인 정규분포에서 추출했다. 기대 ATT는 0이고, t값은 주 단위 <span class="tip" data-tip="Cluster-robust standard error. 같은 주 안의 관측치끼리 오차가 상관될 수 있음을 반영한 표준오차.">군집강건 표준오차</span>로 계산한다.</p>
+    <p class="lead">편향은 효과가 없는데 있다고 판단하는 제1종 오류로도 이어진다. 저자들은 Sim 6을 바꿔 코호트별 증가 속도를 평균 0인 정규분포에서 추출했다. 효과가 양수인 코호트와 음수인 코호트가 섞여 기대 ATT가 0인 자료이고, t값은 주 단위 <span class="tip" data-tip="Cluster-robust standard error. 같은 주 안의 관측치끼리 오차가 상관될 수 있음을 반영한 표준오차.">군집강건 표준오차</span>로 계산한다.</p>
     <p class="nota"><b>읽는 법.</b> 위는 모의자료 500개의 t값이고 가운데 띠가 |t| &lt; 1.96이다. 아래는 증가 속도의 표준편차를 σ의 0%에서 10%까지 키울 때 유의하지 않은 모의자료의 비율이다. 이 화면에서 다시 계산한 값이다.</p>
     <ul class="steps">
       <li data-n="01">코호트 간 차이가 없으면 t값의 95%가 띠 안에 있다. 검정이 설계대로 작동하는 상태다.</li>

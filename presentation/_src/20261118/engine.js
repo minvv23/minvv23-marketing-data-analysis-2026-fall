@@ -117,6 +117,15 @@ const DK = (function () {
 
   /* ---------- 상태 기계 ---------- */
   let slides = [], builds = [], Sx = 0, B = 0;
+  /* ---------- 대본, 발표자 화면 ----------
+     대본은 빌드가 넣는 DECK_NOTES = {장 id: [0단계, 1단계, ...]}. N 키는 무대 아래에 대본을 띄우고, P 키는 발표자 화면(?presenter)을 새 창으로 연다.
+     창 사이에는 postMessage로 {deck:'state'|'go'|'cmd'|'hello'}를 주고받는다 (file:// 에서도 동작). */
+  const NOTES = (typeof DECK_NOTES !== 'undefined') ? DECK_NOTES : {};
+  const QS = new URLSearchParams(location.search), PRES = QS.has('presenter'), EMBED = QS.has('embed'), BASE = location.href.split(/[?#]/)[0];
+  let pw = null;
+  const noteOf = (s, b) => { const a = slides[s] && NOTES[slides[s].id]; return (a && a[b]) || ''; };
+  function tell() { const m = { deck: 'state', s: Sx, b: B }; try { if (pw && !pw.closed) pw.postMessage(m, '*'); if (parent !== window) parent.postMessage(m, '*'); } catch (e) { } }
+  function sync(s, b) { if (s === Sx && b === B) return; if (s === Sx && b === B + 1) next(); else if (s === Sx && b === B - 1) prev(); else go(s, b); }
   function renderer(sl) {
     const host = $('.viz', sl); if (!host || !host.dataset.viz || !VIZ[host.dataset.viz]) return null;
     if (!host.__r) {
@@ -137,6 +146,8 @@ const DK = (function () {
     $('#hud').textContent = `${Sx + 1} / ${slides.length}` + (builds[Sx] ? `  ·  ${B}/${builds[Sx]}` : '');
     document.body.classList.toggle('dark', sl.classList.contains('end'));
     try { history.replaceState(null, '', `#s${Sx + 1}b${B}`); } catch (e) { }
+    const nb = $('#notes'); if (nb) nb.textContent = noteOf(Sx, B);
+    tell();
     const r = renderer(sl); if (!r) return;
     if (noAnim || (enter && back)) instant(() => r(B, { enter: true }));
     else if (enter) { instant(() => r(-1, { enter: true })); r(B, { enter: true }); }
@@ -146,8 +157,56 @@ const DK = (function () {
   function prev() { if (B > 0) { B--; apply(false); } else if (Sx > 0) { Sx--; B = builds[Sx]; apply(true, true); } }
   function go(s, b, noAnim) { Sx = clamp(s, 0, slides.length - 1); B = clamp(b || 0, 0, builds[Sx]); apply(true, false, noAnim); }
 
+  function presenter() {
+    document.body.classList.add('presenter', 'ready');
+    const pv = $('#pv'), CPM = 320, len = t => t.replace(/\s/g, '').length;
+    pv.innerHTML = `<div class="pv-top"><span id="pv-pos"></span><span id="pv-est"></span><span class="sp"></span><button id="pv-timer" type="button" title="누르면 0으로">00:00</button><span id="pv-clock"></span></div>
+      <div class="pv-main"><div class="pv-left"><div class="pv-frame"><iframe id="pv-if" src="${BASE}?embed" title="현재 화면" tabindex="-1"></iframe></div>
+      <div class="pv-next"><b>다음</b><p id="pv-nx"></p></div><p class="pv-help">→ Space 다음, ← 이전, Shift와 화살표는 장 이동, R은 시간 초기화. 이 창에서 넘기면 발표 화면도 함께 넘어간다.</p></div>
+      <div class="pv-right"><h2 id="pv-title"></h2><ol id="pv-list"></ol></div></div>`;
+    const fr = $('#pv-if'), own = () => { try { return window.opener && !window.opener.closed ? window.opener : null; } catch (e) { return null; } };
+    const tgt = () => own() || fr.contentWindow;
+    const flat = []; slides.forEach((sl, s) => { for (let b = 0; b <= builds[s]; b++) flat.push(len(noteOf(s, b))); });
+    const idx = (s, b) => { let i = 0; for (let k = 0; k < s; k++) i += builds[k] + 1; return i + b; }, total = flat.reduce((a, b) => a + b, 0);
+    const titleOf = s => { const h = $('h1', slides[s]); if (!h) return ''; const c = h.cloneNode(true); $$('small', c).forEach(x => x.remove()); return c.innerHTML.replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, '').trim(); };
+    let cur = [-1, -1], t0 = 0, first = true;
+    const mmss = ms => { const v = Math.max(0, Math.floor(ms / 1000)); return String(Math.floor(v / 60)).padStart(2, '0') + ':' + String(v % 60).padStart(2, '0'); };
+    function render(s, b) {
+      if (!first && !t0 && (s !== cur[0] || b !== cur[1])) t0 = Date.now(); first = false;
+      if (s !== cur[0]) { $('#pv-title').textContent = `${s + 1}. ${titleOf(s)}`;
+        $('#pv-list').innerHTML = Array.from({ length: builds[s] + 1 }, (_, k) => `<li data-k="${k === 0 ? '시작' : k}">${noteOf(s, k).replace(/&/g, '&amp;').replace(/</g, '&lt;') || '(대본 없음)'}</li>`).join(''); }
+      cur = [s, b];
+      $$('#pv-list li').forEach((li, k) => { li.classList.toggle('cur', k === b); li.classList.toggle('past', k < b); });
+      const li = $$('#pv-list li')[b]; if (li) li.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      $('#pv-pos').textContent = `${s + 1} / ${slides.length} 장,  ${b} / ${builds[s]} 단계`;
+      const rest = flat.slice(idx(s, b)).reduce((x, y) => x + y, 0);
+      $('#pv-est').textContent = `대본 분량 약 ${Math.round(total / CPM)}분,  남은 분량 약 ${Math.max(0, Math.round(rest / CPM))}분`;
+      const last = s === slides.length - 1 && b === builds[s], ns = b < builds[s] ? s : s + 1, nb2 = b < builds[s] ? b + 1 : 0;
+      $('#pv-nx').textContent = last ? '마지막입니다.' : (ns !== s ? `[${ns + 1}. ${titleOf(ns)}] ` : '') + noteOf(ns, nb2);
+      if (own()) fr.contentWindow.postMessage({ deck: 'go', s, b }, '*');
+    }
+    addEventListener('message', e => { const m = e.data; if (!m || m.deck !== 'state' || e.source !== tgt()) return; render(m.s, m.b); });
+    const hello = first => { const o = own(); if (o) o.postMessage({ deck: 'hello', first: !!first }, '*'); };
+    hello(true); setInterval(hello, 3000);
+    setInterval(() => { $('#pv-timer').textContent = t0 ? mmss(Date.now() - t0) : '00:00'; const d = new Date(); $('#pv-clock').textContent = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }, 500);
+    $('#pv-timer').addEventListener('click', e => { t0 = 0; e.target.blur(); });
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return; const k = e.key; let c = null;
+      if (k === 'ArrowRight' || k === ' ' || k === 'PageDown' || k === 'Enter' || k === 'ArrowDown') c = e.shiftKey ? 'ns' : 'next';
+      else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace' || k === 'ArrowUp') c = e.shiftKey ? 'ps' : 'prev';
+      else if (k === 'Home') c = 'first'; else if (k === 'End') c = 'last'; else if (k === 'r' || k === 'R') { t0 = 0; return; }
+      if (c) { e.preventDefault(); tgt().postMessage({ deck: 'cmd', k: c }, '*'); }
+    });
+  }
+
   function boot() {
     slides = $$('.slide'); builds = slides.map(s => +(s.dataset.builds || 0));
+    if (PRES) { presenter(); return; }
+    if (EMBED) document.body.classList.add('embed');
+    addEventListener('message', e => { const m = e.data; if (!m || !m.deck) return;
+      if (m.deck === 'go') sync(m.s, m.b);
+      else if (m.deck === 'cmd') { const f = { next, prev, first: () => go(0, 0), last: () => go(slides.length - 1, 0), ns: () => go(Sx + 1, 0), ps: () => go(Sx - 1, 0) }[m.k]; if (f) f(); }
+      else if (m.deck === 'hello' && e.source && e.source !== window && e.source !== parent) { const fresh = pw !== e.source || m.first; pw = e.source; if (fresh) tell(); } });
     slides.forEach(s => { if (s.dataset.lw) s.style.setProperty('--lw', s.dataset.lw + 'px'); });
     document.addEventListener('keydown', e => {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
@@ -156,6 +215,8 @@ const DK = (function () {
       else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace' || k === 'ArrowUp') { e.preventDefault(); e.shiftKey ? go(Sx - 1, 0) : prev(); }
       else if (k === 'Home') go(0, 0); else if (k === 'End') go(slides.length - 1, 0);
       else if (k === 'f' || k === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+      else if ((k === 'n' || k === 'N') && !EMBED) document.body.classList.toggle('shownotes');
+      else if ((k === 'p' || k === 'P') && !EMBED) { pw = window.open(BASE + '?presenter', 'deck-presenter', 'width=1240,height=800'); }
     });
     let acc = 0, lock = 0;
     addEventListener('wheel', e => { e.preventDefault(); const now = Date.now(); if (now < lock) return; acc += e.deltaY; if (Math.abs(acc) < 40) return; acc > 0 ? next() : prev(); acc = 0; lock = now + 450; }, { passive: false });

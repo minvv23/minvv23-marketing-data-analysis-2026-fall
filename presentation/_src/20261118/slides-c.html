@@ -3,10 +3,10 @@
   <div class="txt">
     <div class="kicker">사건연구 &nbsp;/&nbsp; 원문 Fig. 5</div>
     <h1>도입 전 계수도<br>믿을 수 없게 된다</h1>
-    <p class="lead">계수 하나 대신 상대시점별 계수를 그리는 사건연구(event study)에서도 같은 문제가 생긴다. 도입 전후 5년의 더미를 포함하고 −1기를 기준으로 제외해 추정했다.</p>
+    <p class="lead">계수 하나 대신 상대시점별 계수를 그리는 사건연구(event study)에서도 같은 문제가 생긴다. 도입 전후 5년의 더미를 포함하고 <span class="tip" data-tip="상대시점 더미를 모두 넣으면 완전공선성이 생기므로 한 시점을 뺀다. 나머지 계수는 그 시점(도입 직전 해)과의 차이로 해석한다.">−1기를 기준으로 제외</span>해 추정했다.</p>
     <p class="nota"><b>읽는 법.</b> 검은 점선이 상대시점별 참 평균효과, 붉은 점이 TWFE 추정치의 기댓값, 세로선이 모의자료 500개의 2.5, 97.5 백분위수 범위다 (균형패널로 다시 계산).</p>
     <ul class="steps">
-      <li data-n="01">먼저 사전추세가 없는 자료다. 효과가 코호트별로 매년 0.10σ, 0.05σ, 0.01σ씩 커진다.</li>
+      <li data-n="01">먼저 <span class="tip" data-tip="Pre-trend. 도입 전부터 처치집단과 비교집단의 결과가 다르게 움직이는 것. 도입 전 계수가 0에서 벗어나면 평행추세 가정을 의심한다.">사전추세</span>가 없는 자료다. 효과가 코호트별로 매년 0.10σ, 0.05σ, 0.01σ씩 커진다.</li>
       <li data-n="02">TWFE로 추정하면 도입 전 계수가 0에서 벗어나고 4-5년 뒤 계수는 <span class="kb">음수</span>가 된다. 연구자는 이를 평행추세 위반으로 판단해 실제 효과를 폐기하게 된다.</li>
       <li data-n="03">반대로 효과는 0인데 도입 전 추세가 코호트마다 다른, 평행추세 가정을 위반한 자료도 만들었다.</li>
       <li data-n="04">같은 방식으로 추정하면 실제로 있는 사전추세가 계수에서 보이지 않는다 (원문에서는 3-5년 뒤 음의 효과까지 나타났다).</li>
@@ -27,7 +27,7 @@
   <div class="txt">
     <div class="kicker">사건연구 &nbsp;/&nbsp; Sun-Abraham의 분해 (원문 식 14)</div>
     <h1>계수 하나에<br>다른 시점의 효과가 섞인다</h1>
-    <p class="lead">앞 장의 마지막 그림은 −3기 계수 하나를 설명했다. Sun-Abraham (2021)은 사건연구의 모든 계수가 코호트별, 상대시점별 효과(CATT)의 가중합이고, 그 가중치가 회귀식의 구조만으로 정해짐을 보였다.</p>
+    <p class="lead">앞 장의 마지막 그림은 −3기 계수 하나를 설명했다. Sun-Abraham (2021)은 사건연구의 모든 계수가 코호트별, 상대시점별 효과(<span class="tip" data-tip="Cohort-specific ATT. g년에 도입한 코호트의 도입 ℓ년 뒤 평균효과.">CATT</span>)의 가중합이고, 그 가중치가 회귀식의 구조만으로 정해짐을 보였다.</p>
     <p class="nota"><b>읽는 법.</b> 앞 장의 사건연구 모형에서 계산했다. 행은 코호트, 열은 도입 후 경과연수다. 칸이 진할수록 가중치가 크고 검은색은 양, 붉은색은 음이다.</p>
     <ul class="steps">
       <li data-n="01">+3기 계수가 추정하려는 것은 세 코호트의 +3기 효과다. 이 세 칸의 가중치는 합이 1이다.</li>
@@ -62,7 +62,7 @@
     <div class="ov" style="top:572px;left:60px;right:20px" data-on="5">
       <table class="mini">
         <tr><th></th><th>Callaway-Sant'Anna</th><th>Sun-Abraham</th></tr>
-        <tr><td><b>비교집단</b></td><td>아직 미처치, 마지막 처치, 미처치 가운데 선택</td><td>미처치 또는 마지막 처치 코호트</td></tr>
+        <tr><td><b>비교집단</b></td><td><span class="tip" data-tip="Not-yet-treated. 그 시점까지 아직 도입하지 않은 단위. 나중에 도입할 코호트도 여기에 들어간다.">아직 미처치</span>, <span class="tip" data-tip="Last-treated. 표본에서 가장 늦게 도입하는 코호트. 그 코호트가 도입하기 전까지의 기간만 비교에 사용한다.">마지막 처치</span>, <span class="tip" data-tip="Never-treated. 표본 기간이 끝날 때까지 도입하지 않는 단위.">미처치</span> 가운데 선택</td><td>미처치 또는 마지막 처치 코호트</td></tr>
         <tr><td><b>추정</b></td><td>(g, t)마다 2×2 회귀</td><td>코호트×상대시점 더미를 포함한 회귀 하나</td></tr>
         <tr><td><b>공변량</b></td><td>처치 전 공변량 허용</td><td>허용하지 않음</td></tr>
       </table>
@@ -76,7 +76,7 @@
   <div class="txt">
     <div class="kicker">대안 추정량 &nbsp;/&nbsp; Stacked regression</div>
     <h1>사건마다 자료를<br>따로 만들어 쌓는다</h1>
-    <p class="lead">세 번째 대안인 stacked regression은 응용연구자들이 고안했다. 도입 사건마다 그 코호트와, 사건창 안에서 처치받지 않은 단위만 모아 자료를 따로 만든 다음, 이 자료들을 쌓고 자료별 고정효과를 포함해 TWFE를 추정한다.</p>
+    <p class="lead">세 번째 대안인 stacked regression은 응용연구자들이 고안했다. 도입 사건마다 그 코호트와, <span class="tip" data-tip="Event window. 도입 시점 전후로 분석에 포함하는 기간.">사건창</span> 안에서 처치받지 않은 단위만 모아 자료를 따로 만든 다음, 이 자료들을 쌓고 <span class="tip" data-tip="쌓은 자료마다 단위 고정효과와 시점 고정효과를 따로 둔다. 그래서 서로 다른 사건의 자료끼리는 비교되지 않는다.">자료별 고정효과</span>를 포함해 TWFE를 추정한다.</p>
     <p class="nota"><b>읽는 법.</b> 가상 예제다. <i class="v">U</i> 1단위, <i class="v">k</i> 1단위, <i class="v">l</i> 3단위이고 효과는 <i class="v">k</i>가 항상 2, <i class="v">l</i>이 항상 6이다. 사건창은 도입 1기 전부터 1기 후까지다.</p>
     <ul class="steps">
       <li data-n="01">원자료에서 <i class="v">k</i>는 2기에, <i class="v">l</i>은 4기에 도입한다.</li>
@@ -95,7 +95,7 @@
     <div class="kicker">시뮬레이션 &nbsp;/&nbsp; 원문 Fig. 6, 7</div>
     <h1>같은 자료에서<br>대안은 참값을 복원한다</h1>
     <p class="lead">저자들은 TWFE의 부호가 바뀌었던 Sim 6에 세 대안을 적용했다. 비교 기준은 유효한 비교집단이 있는 두 코호트(1989, 1998년)의 도입 후 5년 평균효과다.</p>
-    <p class="nota"><b>읽는 법.</b> 위는 상대시점별 추정치의 기댓값과 참 효과 경로(점선)다. 아래는 모의자료 250개의 정적 추정치이고 세로 점선이 기준값이다. 이 화면에서 다시 계산한 값이다.</p>
+    <p class="nota"><b>읽는 법.</b> 위는 상대시점별 추정치의 기댓값과 참 효과 경로(점선)다. 아래는 모의자료 250개의 <span class="tip" data-tip="도입 후 기간 전체의 효과를 값 하나로 요약한 추정치. 상대시점마다 계수를 구하는 사건연구와 구분한다.">정적 추정치</span>이고 세로 점선이 기준값이다. 이 화면에서 다시 계산한 값이다.</p>
     <ul class="steps">
       <li data-n="01">TWFE 사건연구는 참 경로와 어긋나고 4-5년 뒤에는 음수가 된다.</li>
       <li data-n="02">Callaway-Sant'Anna는 아직 미처치인 코호트와만 비교하므로 추정 경로가 <span class="nw">참 경로와</span> 겹친다.</li>
@@ -116,7 +116,7 @@
     <p class="nota"><b>읽는 법.</b> 아래 그림의 점은 모의자료 500개의 평균, 가로선은 2.5, 97.5 백분위수 범위, 세로 점선은 앞 장과 같은 기준값이다.</p>
     <ul class="steps">
       <li data-n="01">비교집단의 범위는 CS가 가장 넓어서, 아직 미처치인 단위까지 허용한다.</li>
-      <li data-n="02">공변량은 CS와 stacked에서 사용할 수 있다. CS는 회귀, 역확률가중(IPW), 이중강건 추정을 제공한다.</li>
+      <li data-n="02">공변량은 CS와 stacked에서 사용할 수 있다. CS는 회귀, <span class="tip" data-tip="Inverse probability weighting. 공변량으로 처치받을 확률을 추정하고 그 역수로 비교집단을 가중해 처치집단과 비슷하게 만든다.">역확률가중(IPW)</span>, <span class="tip" data-tip="Doubly robust. 결과의 회귀모형과 처치확률 모형 가운데 하나만 맞아도 일치추정량이 되는 방법.">이중강건</span> 추정을 제공한다.</li>
       <li data-n="03">효과를 합치는 가중치는 CS와 SA에서 표본비중이고, stacked에서는 OLS가 정하는 분산 가중이다.</li>
       <li data-n="04">이 차이가 추정치에 나타난다. CS와 SA는 기준값 주위에 분포하고, stacked는 Sim 4와 6에서 기준값보다 크지만 폭이 절반 정도다.</li>
       <li data-n="05">저자들은 재분석에 가장 유연한 CS를 주로 사용했고, TWFE와 가까운 방법을 원하는 연구자에게는 stacked를 권했다.</li>
@@ -127,7 +127,7 @@
       <table class="mini comp">
         <tr><th></th><th>Callaway-Sant'Anna</th><th>Sun-Abraham</th><th>Stacked regression</th></tr>
         <tr><td><b>추정</b></td><td>(g, t)마다 2×2로 ATT(g, t)를 추정</td><td>코호트×상대시점 더미를 포함한 회귀 하나</td><td>사건별 자료를 쌓고 자료별 고정효과를 포함한 TWFE</td></tr>
-        <tr data-on="1-"><td><b>비교집단</b></td><td>아직 미처치, 마지막 처치, 미처치 가운데 선택</td><td>미처치 또는 마지막 처치 코호트</td><td>사건창 안에서 처치받지 않은 단위</td></tr>
+        <tr data-on="1-"><td><b>비교집단</b></td><td><span class="tip" data-tip="Not-yet-treated. 그 시점까지 아직 도입하지 않은 단위. 나중에 도입할 코호트도 여기에 들어간다.">아직 미처치</span>, <span class="tip" data-tip="Last-treated. 표본에서 가장 늦게 도입하는 코호트. 그 코호트가 도입하기 전까지의 기간만 비교에 사용한다.">마지막 처치</span>, <span class="tip" data-tip="Never-treated. 표본 기간이 끝날 때까지 도입하지 않는 단위.">미처치</span> 가운데 선택</td><td>미처치 또는 마지막 처치 코호트</td><td>사건창 안에서 처치받지 않은 단위</td></tr>
         <tr data-on="2-"><td><b>공변량</b></td><td>처치 전 공변량 허용</td><td>허용하지 않음</td><td>회귀식에 포함할 수 있음</td></tr>
         <tr data-on="3-"><td><b>집계</b></td><td>표본비중을 기본으로 연구자가 선택</td><td>코호트의 표본비중</td><td>OLS의 분산 가중</td></tr>
         <tr data-on="5-"><td><b>저자들의 평가</b></td><td>가장 유연하다</td><td>회귀 하나여서 간단하고 빠르다</td><td>TWFE와 가깝고 효율적이지만 표본평균 ATT와 다를 수 있다</td></tr>
