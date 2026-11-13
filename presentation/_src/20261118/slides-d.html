@@ -1,0 +1,127 @@
+<!-- ============ 14. 재분석 1: BLL 정적 추정 ============ -->
+<section class="slide" id="s-bll" data-builds="4">
+  <div class="txt">
+    <div class="kicker">재분석 1 &nbsp;/&nbsp; Beck, Levine &amp; Levkov (2010)</div>
+    <h1>은행 규제완화는<br>불평등을 줄였을까?</h1>
+    <p class="lead">미국 주들이 서로 다른 해에 은행 지점 설립 규제를 완화했다. BLL은 TWFE로 로그 Gini 계수 −0.022를 얻어 규제완화가 소득 불평등을 낮췄다고 보고했다.</p>
+    <p class="nota"><b>읽는 법.</b> 가운데 그림은 앞의 분해와 같은 문법이다. 가로가 가중치, 세로가 2×2 DID의 가중평균. 아래 그림은 점이 추정치, 가로선이 95% 구간이다 (원문 Table 2, 주 단위 군집 표준오차).</p>
+    <ul class="steps">
+      <li data-n="01">도입 시점 그림. 1999년까지 모든 주가 규제를 완화했다. 끝까지 미처치인 주가 없다.</li>
+      <li data-n="02">분해. <span class="kb">이미 완화한 주를 비교집단으로 사용한 2×2</span>가 가중치의 85.7%를 차지하고 평균 DID는 −0.027이다.</li>
+      <li data-n="03">먼저 완화한 주를 아직 완화하지 않은 주와 비교한 2×2는 가중치 14.3%, 평균 DID +0.005. 두 면적을 더하면 −0.022가 재현된다.</li>
+      <li data-n="04">대안 추정치는 CS 0.001, stacked 0.000. 두 구간 모두 −0.022를 포함하지 않는다. 다만 ±1% 안팎의 효과는 배제하지 못한다.</li>
+    </ul>
+  </div>
+  <div class="viz" data-viz="bll">
+    <div class="fig" style="left:0;top:34px;width:372px" data-on="1-"><img src="img/fig8i.png" alt="원문 Fig. 8 (i). 주별 규제완화 시점. 푸른 칸은 완화 전, 붉은 칸은 완화 후"></div>
+    <div class="ov cap" style="top:458px;right:auto;width:420px;font-size:16.5px" data-on="1-">원문 Fig. 8 (i). 행은 주, 푸른 칸이 완화 전, 붉은 칸이 완화 후.</div>
+  </div>
+</section>
+
+<!-- ============ 15. 재분석 1: BLL 사건연구 ============ -->
+<section class="slide" id="s-bll2" data-builds="4">
+  <div class="txt">
+    <div class="kicker">재분석 1 &nbsp;/&nbsp; 사건연구 (원문 Fig. 9, 10)</div>
+    <h1>그림의 모양은 정규화와<br>구간 묶음에서 나왔다</h1>
+    <p class="lead">BLL의 사건연구는 사전추세가 없고 규제완화 직후부터 불평등이 감소하는 모습이다. 사양을 하나씩 바꾸면 그림이 달라진다.</p>
+    <p class="nota"><b>읽는 법.</b> 가로축은 규제완화 기준 상대시간(년), 세로축은 Gini의 변화율, 세로선은 95% 구간이다. 네 그림 모두 TWFE 사건연구다.</p>
+    <ul class="steps">
+      <li data-n="01"><b>(A)</b> 원 논문의 방식. 양 끝을 구간으로 묶고, 사전계수의 평균을 모든 계수에서 차감한다. 사전계수가 0 주위에 집중된다.</li>
+      <li data-n="02"><b>(B)</b> 정규화를 제거한다. 그림 전체가 위로 이동하고 사후계수 구간 대부분이 0을 포함한다.</li>
+      <li data-n="03"><b>(C)</b> 구간 묶음을 해제하고 모든 상대시간 더미를 포함한다. <b>(D)</b> 처음부터 완화되어 있던 주와 1999년 이후 관측치를 제외한다. 불평등이 오히려 상승하는 추세가 나타난다.</li>
+      <li data-n="04">CS 추정 (아래). 규제완화 뒤 불평등 감소는 보이지 않는다. 저자들은 위의 네 TWFE 그림 가운데 어느 것도 정확하지 않을 수 있다고 덧붙인다.</li>
+    </ul>
+  </div>
+  <div class="viz">
+    <div class="fig" style="left:60px;top:0;width:720px"><img src="img/fig9.png" alt="원문 Fig. 9. BLL 사건연구를 네 가지 사양으로 다시 추정한 그림"></div>
+    <div class="dim" style="left:60px;top:0;width:360px;height:222px" data-on="2,3"></div>
+    <div class="dim" style="left:420px;top:0;width:360px;height:222px" data-on="1,3"></div>
+    <div class="dim" style="left:60px;top:222px;width:360px;height:220px" data-on="1,2"></div>
+    <div class="dim" style="left:420px;top:222px;width:360px;height:220px" data-on="1,2"></div>
+    <div class="tag" style="left:176px;top:0" data-on="0-1,4">(A) 원 논문의 방식</div>
+    <div class="tag" style="left:540px;top:0" data-on="0,2,4">(B) 정규화 제거</div>
+    <div class="tag" style="left:172px;top:221px" data-on="0,3-4">(C) 구간 묶음 해제</div>
+    <div class="tag" style="left:536px;top:221px" data-on="0,3-4">(D) 일부 관측치 제외</div>
+    <div class="ov cap" style="top:448px;left:60px">원문 Fig. 9. TWFE 사건연구, 도입 10년 전부터 15년 후.</div>
+    <div class="fig" style="left:60px;top:508px;width:720px" data-on="4"><img src="img/fig10i.png" alt="원문 Fig. 10 (i). Callaway-Sant'Anna 추정량으로 다시 추정한 BLL 사건연구"></div>
+    <div class="tag" style="left:128px;top:513px" data-on="4">CS, 마지막에 완화한 주와 비교</div>
+    <div class="tag" style="left:500px;top:513px" data-on="4">CS, 아직 미완화 주와 비교</div>
+    <div class="ov cap" style="top:748px;left:60px" data-on="4">원문 Fig. 10 (i). Callaway-Sant'Anna 추정, 도입 5년 전부터 10년 후.</div>
+  </div>
+</section>
+
+<!-- ============ 16. 재분석 2: FHLT ============ -->
+<section class="slide" id="s-fhlt" data-builds="4">
+  <div class="txt">
+    <div class="kicker">재분석 2 &nbsp;/&nbsp; Fauver, Hung, Li &amp; Taboada (2017)</div>
+    <h1>이사회 개혁은<br>기업가치를 높였을까?</h1>
+    <p class="lead">FHLT는 나라마다 도입 연도가 다른 41건의 주요 이사회 개혁을 분석해, TWFE로 Tobin's Q의 유의한 상승을 보고했다. 기업 단위 불균형 패널이라 분해 대신 추정법별 결과를 나란히 놓는다.</p>
+    <p class="nota"><b>읽는 법.</b> 점이 추정치, 가로선이 95% 구간이다 (원문 Table 3, 국가 단위 군집 표준오차). 채운 점은 원문에서 5% 수준으로 유의한 추정치. 대안 추정에는 통제변수가 없으므로 통제 없는 TWFE와 비교한다.</p>
+    <ul class="steps">
+      <li data-n="01">주요 개혁. TWFE 0.110에서 CS 0.062, stacked 0.063으로 감소하고 둘 다 유의하지 않다.</li>
+      <li data-n="02">최초 개혁. CS 0.116은 유의하지 않고 stacked 0.166만 유의하다. 이 stacked 추정의 사건연구에는 도입 3년 전부터 계수가 상승하는 사전추세가 있다.</li>
+      <li data-n="03">FHLT의 사건연구는 개혁 후 2-6년을 한 구간으로 묶었다. 묶음을 해제하면(Model 3, 4) 양의 효과가 사라진다.</li>
+      <li data-n="04">'효과가 없다'는 결론은 나오지 않는다. CS의 구간 <span class="nw">[−0.20, 0.33]은</span> 0도, 원래의 0.110도 포함한다. 저자들은 원래 결과의 강건성이 알려진 것보다 약하다고 결론짓는다.</li>
+    </ul>
+  </div>
+  <div class="viz" data-viz="fhlt">
+    <div class="fig" style="left:60px;top:498px;width:760px" data-on="3-"><img src="img/fig12i.png" alt="원문 Fig. 12 (i). FHLT 사건연구를 네 가지 사양으로 다시 추정한 그림"></div>
+    <div class="tag" style="left:78px;top:501px" data-on="3-">Model 1 (FHLT 사양)</div>
+    <div class="tag" style="left:300px;top:501px" data-on="3-">Model 2</div>
+    <div class="tag" style="left:444px;top:501px" data-on="3-">Model 3 (묶음 해제)</div>
+    <div class="tag" style="left:682px;top:501px" data-on="3-">Model 4</div>
+    <div class="ov cap" style="top:740px;left:60px" data-on="3-">원문 Fig. 12 (i). 주요 개혁의 TWFE 사건연구. Model 1이 FHLT의 사양, Model 3부터 구간 묶음 해제.</div>
+  </div>
+</section>
+
+<!-- ============ 17. 권고 ============ -->
+<section class="slide" id="s-rec" data-builds="0" data-lw="470">
+  <div class="txt">
+    <div class="kicker">정리 &nbsp;/&nbsp; 원문 6절의 권고</div>
+    <h1>도입 시점이 다른<br>설계에서 보고할 것</h1>
+    <p class="lead">저자들의 여섯 권고를 이 발표의 그림과 연결했다.</p>
+    <div class="box ink">군집 표준오차는 불확실성을 측정한다. <b>잘못된 비교로 이동한 계수의 중심</b>은 비교집단을 바꿔야 바로잡힌다.</div>
+  </div>
+  <div class="viz">
+    <ol class="rec">
+      <li><b>TWFE가 적절한 조건</b><span>도입 시점이 하나이거나 효과가 동질적일 때 적절하다. 동질성을 가정한다면 이론적 근거를 제시한다.</span><em>Sim 1-3</em></li>
+      <li><b>편향 가능성 진단</b><span>도입 시점 그림을 그리고 Goodman-Bacon 분해를 보고한다. 분해할 수 없으면 미처치 관측치의 비율을 보고한다.</span><em>분해, BLL</em></li>
+      <li><b>사건연구 사양</b><span>근거 없이 상대시간을 묶지 않는다. 기준기간은 예고효과가 없는 도입 전 기간으로 직접 정한다.</span><em>사건연구, BLL (A)-(D)</em></li>
+      <li><b>대안 추정량을 하나 이상</b><span>stacked regression을 기준 분석으로 사용하거나 CS의 회귀, IPW, 이중강건 추정을 적용한다.</span><em>대안 1, 2</em></li>
+      <li><b>비교집단의 근거</b><span>아직 미처치, 마지막 처치, 미처치 가운데 무엇을 사용했는지, 왜 평행추세가 성립하는지, 예고효과는 없는지 설명한다.</span><em>CS 예제</em></li>
+      <li><b>정적 계수와 사건연구를 함께</b><span>효과가 언제 나타나는지 보여 주고, 사건창의 길이를 연구 질문과 제도 지식으로 정한다.</span><em>FHLT</em></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 18. 확장: 논문 이후 ============ -->
+<section class="slide" id="s-after" data-builds="4">
+  <div class="txt">
+    <div class="kicker">확장 &nbsp;/&nbsp; 논문 이후의 재분석</div>
+    <h1>출판된 논문에서는<br>얼마나 달라졌을까?</h1>
+    <p class="lead">이 논문은 시뮬레이션과 두 편의 재분석으로 TWFE가 실패할 수 있음을 보였다. 이후 연구들은 출판된 논문을 대량으로 다시 추정해 실제 빈도를 쟀다.</p>
+    <p class="nota"><b>읽는 법.</b> 막대는 TWFE와 새 추정치의 부호가 반대인 비교의 비율이다. 진한 막대는 CS 계열, 연한 막대는 imputation 계열 추정량과의 비교. Hull과 Proserpio는 2026년 11월 현재 심사 전 원고다.</p>
+    <ul class="steps">
+      <li data-n="01"><b>경제학.</b> Hull (2026), 116편 1,430개 사양. <span class="nw">부호 반전 14.9%, 12.0%.</span></li>
+      <li data-n="02"><b>정치학.</b> Chiu 등 (2026, APSR), 49편. 부호는 모두 같았지만 5% 수준에서 유의하지 않은 연구가 1편에서 12편으로 증가했다.</li>
+      <li data-n="03"><b>경영, 마케팅.</b> Proserpio (2026), <i>Management Science</i>와 <i>Marketing Science</i> 40편 355개 사양. 부호 반전 25.1%, 18.0%.</li>
+      <li data-n="04">Proserpio의 불일치는 불균형 패널과 미처치 집단이 없는 설계에 집중된다. 이 논문이 경고한 조건과 같다.</li>
+    </ul>
+  </div>
+  <div class="viz" data-viz="after"></div>
+</section>
+
+<!-- ============ 19. 마무리 ============ -->
+<section class="slide end" id="s-end" data-builds="0">
+  <div class="txt">
+    <div class="kicker">토론할 것</div>
+    <ol>
+      <li>마케팅에서 효과가 도입 직후부터 일정한 개입과 시간이 지나며 누적되는 개입은 각각 무엇일까? 후자를 순차 출시했다면 TWFE 계수는 어느 방향으로 편향될까?</li>
+      <li>순차 출시를 직접 설계한다면, 끝까지 출시하지 않는 보류 집단을 얼마나 남겨야 할까?</li>
+      <li>새 추정법에서 부호가 같고 크기만 절반이 되었다면, 원래의 결론은 유지된 걸까?</li>
+    </ol>
+    <h1>감사합니다</h1>
+    <div class="rule"></div>
+    <p class="meta">Baker, Larcker &amp; Wang (2022), How much should we trust staggered difference-in-differences estimates? <i>Journal of Financial Economics</i> 144, 370-395.<br>발제 강태영 (minvv23@gmail.com)</p>
+  </div>
+</section>

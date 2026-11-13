@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staggered DID - Baker, Larcker &amp; Wang (2022)</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../learning/assets/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/katex.min.css'">
+<style>
+/*CSS*/
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="bar"><i></i></div>
+<!--SLIDES-->
+<div id="hud"></div>
+<div id="tipbox"></div>
+</div>
+<script>
+/* 무대 맞춤: 다른 스크립트보다 먼저 실행해 첫 화면이 튀지 않게 한다 */
+(function(){var st=document.getElementById('stage');
+ function fit(){var k=Math.min(innerWidth/1600,innerHeight/900);st.style.transform='scale('+k+') translate(-50%, -50%)';}
+ fit();addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,250)});
+ if(window.visualViewport)visualViewport.addEventListener('resize',fit);})();
+</script>
+<script>
+/*JS*/
+</script>
+</body>
+</html>

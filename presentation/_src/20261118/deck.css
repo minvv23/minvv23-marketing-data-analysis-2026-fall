@@ -1,0 +1,130 @@
+@font-face{font-family:'Pretendard';font-weight:100 900;font-display:block;
+  src:url('../learning/assets/fonts/PretendardVariable.woff2') format('woff2'),
+      url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2')}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff; --ink:#1b1b1f; --body:#33343a; --muted:#6b6b72; --faint:#a4a5ab; --line:#e4e4e8; --soft:#f4f4f6;
+  --c1:#2e6f95; --c1-soft:#dfeaf1;   /* 먼저 도입한 코호트 (E, k, 1989) */
+  --c2:#b9822a; --c2-soft:#f5ead6;   /* 나중에 도입한 코호트 (L, l, 1998) */
+  --c3:#5a7d4d; --c3-soft:#e3ecdf;   /* 세 번째 코호트 (2007) */
+  --u:#8a8a92;  --u-soft:#ececef;    /* 한 번도 처치되지 않는 집단 */
+  --bad:#c8553d; --bad-soft:#f7e3dd; /* 문제 소지 비교, 음의 가중치, 편향 */
+  --font:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+body{word-break:keep-all;overflow-wrap:break-word;font-variant-numeric:tabular-nums}
+#stage{position:fixed;left:50%;top:50%;width:1600px;height:900px;transform-origin:0 0;overflow:hidden;background:var(--bg)}
+body:not(.ready) #stage{visibility:hidden}
+
+/* ---------- 슬라이드 골격 ---------- */
+.slide{position:absolute;inset:0;display:none;padding:54px 64px 54px;--lw:548px}
+.slide.on{display:grid;grid-template-columns:var(--lw) minmax(0,1fr);gap:44px;align-items:start}
+.slide.wide.on{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:14px}
+.slide>.txt{min-width:0}
+.kicker{font-size:16.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:18px;white-space:nowrap}
+h1{font-size:44px;font-weight:800;line-height:1.17;letter-spacing:-.012em;margin-bottom:20px;text-wrap:balance}
+.lead{font-size:22px;line-height:1.52;color:var(--body);margin-bottom:16px;text-wrap:pretty}
+.nota{font-size:17.5px;line-height:1.55;color:var(--muted);margin:6px 0 4px;text-wrap:pretty}
+.nota b{color:var(--ink);font-weight:600}
+.steps{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:11px}
+.steps li{font-size:20px;line-height:1.46;padding-left:38px;position:relative;opacity:.2;transition:opacity .4s ease;color:var(--ink);text-wrap:pretty}
+.steps li::before{content:attr(data-n);position:absolute;left:0;top:.18em;font-size:15px;font-weight:700;color:var(--muted)}
+.steps li.on{opacity:1}
+.steps li.past{opacity:.55}
+.steps li b{font-weight:700}
+.k1{color:var(--c1);font-weight:700}.k2{color:var(--c2);font-weight:700}.k3{color:var(--c3);font-weight:700}.ku{color:var(--u);font-weight:700}.kb{color:var(--bad);font-weight:700}
+.nw{white-space:nowrap}
+.v{font-family:'KaTeX_Math','Times New Roman',serif;font-style:italic;font-size:1.13em;font-weight:inherit}
+.steps .v,.lead .v,.nota .v{padding:0 .04em}
+.slide.on .txt>.lead,.slide.on .txt>.nota,.slide.on .txt>.steps,.slide.on .txt>.box{animation:rise .36s ease backwards}
+.slide.on .txt>.nota{animation-delay:.06s}.slide.on .txt>.steps{animation-delay:.12s}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+@media (prefers-reduced-motion:reduce){.slide.on .txt>*{animation:none}}
+
+/* ---------- 도식 영역 ---------- */
+.viz{position:relative;width:100%;height:792px;min-width:0}
+.slide.wide .viz{height:auto;align-self:stretch}
+.viz svg{position:absolute;left:0;top:0;display:block;overflow:visible}
+.viz svg text{font-family:var(--font);fill:var(--ink)}
+.ax{font-size:17px;fill:var(--muted) !important}
+.lb{font-size:17.5px}
+.lbs{font-size:17px;fill:var(--muted) !important}
+.lbb{font-size:19px;font-weight:700}
+.big{font-size:30px;font-weight:800}
+.ttl{font-size:19px;font-weight:700}
+.f1{fill:var(--c1) !important}.f2{fill:var(--c2) !important}.f3{fill:var(--c3) !important}.fu{fill:var(--u) !important}.fb{fill:var(--bad) !important}.fm{fill:var(--muted) !important}
+.s1{stroke:var(--c1)}.s2{stroke:var(--c2)}.s3{stroke:var(--c3)}.su{stroke:var(--u)}.sb{stroke:var(--bad)}.si{stroke:var(--ink)}
+.grid{stroke:var(--line);stroke-width:1;shape-rendering:crispEdges}
+.axis{stroke:var(--ink);stroke-width:1.5;shape-rendering:crispEdges}
+.zero{stroke:var(--faint);stroke-width:1.5;shape-rendering:crispEdges}
+.halo{paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round}
+
+/* 도식 위에 얹는 HTML (수식, 설명, 버튼) */
+.ov{position:absolute;left:0;right:0;z-index:2}
+.eq{font-size:25px;color:var(--ink);line-height:1.5}
+.eq .katex-display{margin:0}
+.eq.left .katex-display,.eq.left .katex-display>.katex{text-align:left}
+.cap{font-size:17.5px;line-height:1.5;color:var(--muted);text-wrap:pretty}
+.cap b{color:var(--ink);font-weight:600}
+.swap{display:grid}.swap>*{grid-area:1/1}
+[data-on]{opacity:0;transition:opacity .45s ease;pointer-events:none}
+[data-on].on{opacity:1;pointer-events:auto}
+.box{border-left:3px solid var(--bad);background:var(--bad-soft);padding:10px 16px;font-size:19px;line-height:1.5;margin-top:16px}
+.box b{color:var(--bad)}
+.box.ink{border-left-color:var(--ink);background:var(--soft)}
+.box.ink b{color:var(--ink)}
+.chips{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chips .lab{font-size:16.5px;color:var(--muted);margin-right:4px}
+button.chip{font:inherit;font-size:17px;font-weight:600;border:1.5px solid var(--ink);background:#fff;color:var(--ink);padding:6px 14px;border-radius:3px;cursor:pointer;line-height:1.3}
+button.chip:hover{background:var(--soft)}
+button.chip.sel{background:var(--ink);color:#fff}
+button.chip small{display:block;font-size:16px;font-weight:500;margin-top:1px}
+.tag{position:absolute;background:#fff;font-size:16.5px;font-weight:600;color:var(--ink);padding:1px 7px 2px;z-index:2;white-space:nowrap;line-height:1.4}
+table.mini{border-collapse:collapse;font-size:18.5px;line-height:1.4;width:100%}
+table.mini th,table.mini td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+table.mini th{font-weight:700;color:var(--muted);font-size:16px;border-bottom:1.5px solid var(--ink)}
+table.mini td.n{text-align:right;white-space:nowrap}
+.fig{position:absolute;overflow:hidden}
+.fig img{display:block;width:100%;height:auto}
+.fig .src{position:absolute;right:0;bottom:-26px;font-size:16px;color:var(--muted)}
+.hl{position:absolute;border:2.5px solid var(--bad);opacity:0;transition:opacity .4s ease,left .5s ease,top .5s ease,width .5s ease,height .5s ease;pointer-events:none}
+.dim{position:absolute;background:#fff;opacity:0;transition:opacity .4s ease;pointer-events:none;z-index:1}
+.dim[data-on].on{opacity:.86}
+.rec{list-style:none;counter-reset:r;margin-top:4px}
+.rec li{counter-increment:r;display:grid;grid-template-columns:62px minmax(0,1fr) 196px;column-gap:10px;align-items:baseline;padding:17px 0 18px;border-bottom:1px solid var(--line)}
+.rec li:first-child{border-top:1.5px solid var(--ink)}
+.rec li::before{content:counter(r,decimal-leading-zero);font-size:30px;font-weight:800;color:var(--faint);grid-row:1/3}
+.rec b{font-size:23.5px;font-weight:700;grid-column:2}
+.rec span{font-size:18.5px;line-height:1.5;color:var(--body);grid-column:2;margin-top:5px;text-wrap:pretty}
+.rec em{font-style:normal;font-size:16.5px;color:var(--muted);grid-column:3;grid-row:1/3;text-align:right;align-self:center}
+
+/* 수식 항 강조 */
+.katex .tm{transition:color .35s ease,opacity .35s ease}
+.t-u{color:var(--u)}.t-c3{color:var(--c3)}.t-c1{color:var(--c1)}.t-c2{color:var(--c2)}.t-bad{color:var(--bad)}
+
+/* ---------- 표지, 마지막 장 ---------- */
+.slide.cover.on{grid-template-columns:minmax(0,7fr) minmax(0,6fr);align-items:center;gap:56px;padding:70px 76px}
+.cover .week{font-size:104px;font-weight:800;line-height:.92;color:var(--line);letter-spacing:-.04em;margin:8px 0 6px -4px}
+.cover h1{font-size:74px;line-height:1.04;letter-spacing:-.022em;margin-bottom:22px}
+.cover h1 small{display:block;font-size:27px;font-weight:600;letter-spacing:-.005em;color:var(--muted);margin-top:16px;line-height:1.35}
+.cover .sub{font-size:25px;font-weight:500;line-height:1.45;margin-bottom:34px;text-wrap:balance}
+.cover .meta{font-size:18px;line-height:1.7;color:var(--muted);border-top:1.5px solid var(--ink);padding-top:16px}
+.cover .hint{font-size:16.5px;color:var(--muted);margin-top:34px}
+.slide.end{background:var(--ink);color:#fff}
+.slide.end.on{grid-template-columns:minmax(0,1fr);align-items:end;padding:76px 96px 96px}
+.end .kicker{color:#b9b9c0}
+.end h1{font-size:78px;color:#fff;margin-bottom:26px}
+.end .rule{width:100%;height:1.5px;background:#fff;margin-bottom:20px}
+.end .meta{font-size:19px;line-height:1.7;color:#b9b9c0}
+.end ol{list-style:none;counter-reset:q;margin:0 0 54px;display:flex;flex-direction:column;gap:18px;max-width:1180px}
+.end ol li{counter-increment:q;font-size:25px;line-height:1.5;padding-left:54px;position:relative;color:#fff}
+.end ol li::before{content:counter(q,decimal-leading-zero);position:absolute;left:0;top:.2em;font-size:17px;font-weight:700;color:#8f9098}
+
+/* ---------- 진행 표시, 툴팁 ---------- */
+#bar{position:absolute;left:0;top:0;width:100%;height:3px;background:var(--line);z-index:9}
+#bar i{display:block;height:100%;background:var(--ink);width:0;transition:width .35s ease}
+#hud{position:absolute;right:22px;bottom:14px;font-size:14.5px;color:var(--faint);z-index:9}
+body.dark #bar{background:#3a3a40}body.dark #bar i{background:#fff}body.dark #hud{color:#77787f}
+.tip{border-bottom:1px dotted var(--muted);cursor:help}
+#tipbox{position:absolute;z-index:50;max-width:440px;background:var(--ink);color:#fff;padding:10px 13px;border-radius:3px;font-size:16.5px;line-height:1.5;pointer-events:none;opacity:0;transition:opacity .15s}
+#tipbox b{color:#ffd9cf}
