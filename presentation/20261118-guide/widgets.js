@@ -25,7 +25,7 @@
       <div class="presets"></div><div class="ctrls"></div>
       <div class="wout"><svg class="wsvg" viewBox="0 0 330 210" role="img" aria-label="E와 L의 결과 경로"></svg><div class="res"></div></div>
       <div class="tbl"><table><thead><tr><th>비교</th><th>사용 기간</th><th class="n">처치집단 변화</th><th class="n">비교집단 변화</th><th class="n">DID</th><th class="n">가중치</th></tr></thead><tbody></tbody></table></div>
-      <p class="wnote">미처치 잠재결과를 모든 칸에서 0으로 두었으므로 평행추세 가정은 정확히 성립하고, 선의 높이가 곧 그 칸의 처치효과다. 계수는 stats.js의 TWFE 계산(이중 평균제거 후 OLS)으로 구한 값이다.</p>`;
+      <p class="wnote">미처치 잠재결과를 모든 칸에서 0으로 설정했으므로 평행추세 가정은 정확히 성립하며 선의 높이가 곧 그 칸의 처치효과다. 계수는 stats.js의 TWFE 계산(이중 평균제거 후 OLS)으로 구한 값이다.</p>`;
     const P = host.querySelector('.presets');
     [['덱 6장 예제 (2, 10, 2)', [2, 10, 2]], ['효과가 일정 (2, 2, 2)', [2, 2, 2]], ['코호트별로 다르지만 일정 (4, 4, 2)', [4, 4, 2]], ['E의 효과가 감소 (10, 2, 2)', [10, 2, 2]]].forEach(([t, v]) => {
       const b = document.createElement('button'); b.type = 'button'; b.textContent = t;
@@ -83,7 +83,7 @@
       <div class="ctrls"></div>
       <div class="wout"><svg class="wsvg" viewBox="0 0 340 230" role="img" aria-label="2×2 비교의 가중치와 DID"></svg><div class="res"></div></div>
       <div class="tbl"><table><thead><tr><th>2×2 비교</th><th>사용 기간</th><th class="n">가중치</th><th class="n">DID</th><th class="n">처치집단의 참효과</th><th class="n">가중치 × DID</th></tr></thead><tbody></tbody></table></div>
-      <p class="wnote">그림의 막대 하나가 2×2 하나다. 가로 폭이 가중치, 세로 높이가 그 2×2의 DID이므로 막대 면적이 계수에 더해지는 기여분이고, 면적을 부호대로 더한 값이 TWFE 계수다. "처치집단의 참효과"는 그 2×2에서 처치집단이 사후 구간에 실제로 받은 평균효과다. k와 l은 각각 1단위다.</p>`;
+      <p class="wnote">그림의 막대 하나가 2×2 하나다. 가로 폭이 가중치, 세로 높이가 그 2×2의 DID이므로 막대 면적이 계수에 더해지는 기여분이며 면적을 부호대로 더한 값이 TWFE 계수다. "처치집단의 참효과"는 그 2×2에서 처치집단이 사후 구간에 실제로 받은 평균효과다. k와 l은 각각 1단위다.</p>`;
     const C = host.querySelector('.ctrls');
     C.appendChild(seg('U의 단위 수', [0, 1, 2, 4, 10].map(v => [v, String(v)]), st.nU, v => { st.nU = v; draw(); }));
     C.appendChild(seg('효과 형태', [['grow', '도입 후 1, 3, 5, 7로 증가 (덱 8장)'], ['flat', 'k는 4, l은 2로 일정 (덱 9장)']], st.shape, v => { st.shape = v; draw(); }));
@@ -139,12 +139,12 @@
   function simW(host) {
     const st = { sim: 6 };
     const desc = {
-      1: '1998년에 25개 주가 한꺼번에 도입하고 25개 주는 끝까지 미처치다. 효과는 도입 후 0.5σ로 일정하다.',
-      2: '도입 방식은 Sim 1과 같고, 효과가 도입 후 매년 0.05σ씩 커진다.',
+      1: '1998년에 25개 주가 동시에 도입하고 25개 주는 끝까지 미처치다. 효과는 도입 후 0.5σ로 일정하다.',
+      2: '도입 방식은 Sim 1과 같고 효과가 도입 후 매년 0.05σ씩 커진다.',
       3: '세 코호트(17, 18, 15개 주)가 1989, 1998, 2007년에 도입한다. 효과는 모두 0.5σ로 일정하다.',
-      4: '도입 방식은 Sim 3과 같고, 효과가 코호트별로 0.5σ, 0.3σ, 0.1σ로 다르지만 시간에 따라 변하지 않는다.',
-      5: '도입 방식은 Sim 3과 같고, 모든 코호트의 효과가 도입 후 매년 0.03σ씩 커진다.',
-      6: '도입 방식은 Sim 3과 같고, 효과가 커지는 속도가 코호트별로 매년 0.05σ, 0.03σ, 0.01σ로 다르다.'
+      4: '도입 방식은 Sim 3과 같고 효과가 코호트별로 0.5σ, 0.3σ, 0.1σ로 다르지만 시간에 따라 변하지 않는다.',
+      5: '도입 방식은 Sim 3과 같고 모든 코호트의 효과가 도입 후 매년 0.03σ씩 커진다.',
+      6: '도입 방식은 Sim 3과 같고 효과가 커지는 속도가 코호트별로 매년 0.05σ, 0.03σ, 0.01σ로 다르다.'
     };
     host.innerHTML = `<p class="wt">계산기</p><p class="wh">원문 Sim 1-6을 잡음 없이 다시 계산하기 (σ 단위, 균형패널 단순화)</p>
       <div class="ctrls"></div><p class="sim-d" style="font-size:15px;margin:0 0 1rem"></p>

@@ -3,56 +3,56 @@
 
 <section class="sub" id="p0-use">
 <h3>무엇을 위한 자료인가</h3>
-<p>이 가이드는 11월 18일 발제를 준비하는 발표자 한 사람을 위한 독해 자료다. 발제 논문은 Baker, Larcker &amp; Wang (2022) "How much should we trust staggered difference-in-differences estimates?"(Journal of Financial Economics 144(2), 370-395)이고, 슬라이드는 27장 115단계, 대본은 약 35분 분량이다. 슬라이드와 대본에는 한 줄로 지나간 내용이 많다. 이 가이드는 그 한 줄이 왜 성립하는지를 OLS와 2×2 DID에서 출발해 끝까지 따라갈 수 있게 풀어 쓴 것이다.</p>
-<p>구성은 다섯 부분이다. 1-3부는 논문의 내용을 덱의 순서대로 설명하고, 4부는 덱을 한 장씩 넘기며 무엇을 말할지 정리하며, 5부는 질의응답과 다른 수업 자료와의 연결을 다룬다. 각 절 제목 옆의 <strong>읽음</strong> 버튼을 누르면 왼쪽 목차에 표시가 남는다. 이 표시는 지금 사용하는 브라우저에만 저장된다.</p>
+<p>이 가이드는 11월 18일 발제를 더 풍부하게 이해할 수 있게끔 돕는 자료이다. 발제 논문은 Baker, Larcker &amp; Wang (2022) "How much should we trust staggered difference-in-differences estimates?"(Journal of Financial Economics 144(2), 370-395)이다. 슬라이드는 27장 115단계이고 대본은 약 35분 분량이다. 슬라이드와 대본에는 한 줄로 지나간 내용이 많다. 이 가이드는 그 한 줄이 왜 성립하는지를 OLS와 2×2 DID에서 출발해 끝까지 따라갈 수 있도록 풀어 썼다.</p>
+<p>구성은 다섯 부분이다. 1-3부는 논문의 내용을 덱의 순서대로 설명한다. 4부는 덱 27장을 한 장씩 넘기며 각 장의 화면과 흐름을 정리하고 5부는 질의응답과 다른 수업 자료의 연결 지점을 다룬다. 각 절 제목 옆의 <strong>읽음</strong> 버튼을 누르면 왼쪽 목차에 표시가 남는다. 이 표시는 지금 사용하는 브라우저에만 저장된다.</p>
 <div class="tbl"><table>
 <thead><tr><th>부분</th><th>내용</th><th>덱의 장</th></tr></thead>
 <tbody>
-<tr><td><a href="#p1">1부</a></td><td>잠재결과와 ATT, 2×2 DID, TWFE와 FWL 정리, 이미 처치된 단위를 비교집단으로 쓰는 문제, 음의 가중치, Goodman-Bacon 분해</td><td>2-9장</td></tr>
+<tr><td><a href="#p1">1부</a></td><td>잠재결과와 ATT, 2×2 DID, TWFE와 FWL 정리, 이미 처치된 단위를 비교집단으로 사용하는 문제, 음의 가중치, Goodman-Bacon 분해</td><td>2-9장</td></tr>
 <tr><td><a href="#p2">2부</a></td><td>Compustat 시뮬레이션, Sim 1-6, 제1종 오류와 제2종 오류, 사건연구와 Sun-Abraham 분해</td><td>10-16장</td></tr>
 <tr><td><a href="#p3">3부</a></td><td>Callaway-Sant'Anna, Sun-Abraham, stacked regression, 두 편의 재분석, 6절의 권고, 논문 이후의 연구</td><td>17-26장</td></tr>
 <tr><td><a href="#p4">4부</a></td><td>27장 각각의 화면 읽는 법, 단계별 흐름, 막히기 쉬운 지점, 예상 질문</td><td>1-27장</td></tr>
 <tr><td><a href="#p5">5부</a></td><td>예상 질문과 답, 수업의 다른 자료와의 연결, 용어집</td><td>전체</td></tr>
 </tbody></table></div>
-<p>본문 곳곳의 <a class="deck" data-s="1" data-b="0">덱 1장</a> 같은 단추는 발표 슬라이드의 해당 장을 새 창으로 연다. 슬라이드에서 N 키를 누르면 그 단계의 대본이 화면 아래에 나타난다.</p>
+<p>본문 곳곳의 <a class="deck" data-s="1" data-b="0">덱 1장</a> 같은 단추는 발표 슬라이드의 해당 장을 새 창으로 연다. 슬라이드에서 N 키를 누르면 그 단계의 대본이 화면 아래에 나타난다. 본문의 도식은 다음 버튼이나 자동 재생으로 단계를 넘기고 속도 버튼으로 재생 속도를 바꾼다. 4부의 각 장에는 해당 슬라이드를 가이드 안에 불러와 단계별로 넘겨 보는 미리보기가 있다.</p>
 </section>
 
 <section class="sub" id="p0-path">
-<h3>남은 시간에 맞춘 읽기 순서</h3>
-<p>발표까지 남은 시간에 따라 세 가지 순서를 제안한다. 어느 순서든 1부의 계산 세 개(<a href="#p1-toy">E와 L 반례</a>, <a href="#p1-negw">음의 가중치</a>, <a href="#p1-bacon">Goodman-Bacon 분해</a>)를 손으로 따라가는 것이 가장 중요하다. 나머지 내용은 모두 이 세 계산의 응용이다.</p>
+<h3>읽을 시간에 맞춘 순서</h3>
+<p>읽을 시간에 따라 세 가지 순서를 제안한다. 어느 순서로 읽든 1부의 계산 세 개(<a href="#p1-toy">E와 L 반례</a>, <a href="#p1-negw">음의 가중치</a>, <a href="#p1-bacon">Goodman-Bacon 분해</a>)는 먼저 손으로 따라 계산한다. 2부 이후의 내용은 모두 이 세 계산을 응용한 것이다.</p>
 <div class="tbl"><table>
-<thead><tr><th>남은 시간</th><th>읽을 것</th></tr></thead>
+<thead><tr><th>시간</th><th>읽을 것</th></tr></thead>
 <tbody>
-<tr><td>하루 이상</td><td>1부부터 5부까지 순서대로 읽고, 각 부 끝의 점검 질문에 먼저 답한 뒤 답을 펼쳐 확인한다. 이어서 덱을 옆에 열고 4부를 따라 한 번 소리 내어 리허설한다.</td></tr>
-<tr><td>반나절</td><td>1부의 <a href="#p1-did">2×2 DID</a>부터 <a href="#p1-when">편향이 생기는 조건</a>까지, 2부의 <a href="#p2-six">Sim 1-6</a>과 <a href="#p2-es">사건연구의 기초</a>, 3부의 <a href="#p3-cs">CS</a>, <a href="#p3-stacked">stacked</a>, <a href="#p3-bll">BLL</a>, <a href="#p3-fhlt">FHLT</a>, 그리고 5부의 <a href="#p5-qa-core">기본 질문</a>.</td></tr>
-<tr><td>발표 직전 30분</td><td>아래의 <a href="#p0-gist">세 문장 요약</a>과 <a href="#p0-nums">기억해 둘 수치</a>, 4부 각 장의 "이 장의 한 문장", 5부의 <a href="#p5-qa-core">기본 질문</a>.</td></tr>
+<tr><td>하루 이상</td><td>1부부터 5부까지 순서대로 읽는다. 각 부 끝의 점검 질문은 스스로 먼저 답한 뒤 답을 펼쳐 확인한다. 마지막으로 덱을 옆에 열고 4부를 따라 한 장씩 넘겨 본다.</td></tr>
+<tr><td>반나절</td><td>1부의 <a href="#p1-did">2×2 DID</a>부터 <a href="#p1-when">편향이 생기는 조건</a>까지, 2부의 <a href="#p2-six">Sim 1-6</a>과 <a href="#p2-es">사건연구의 기초</a>, 3부의 <a href="#p3-cs">CS</a>, <a href="#p3-stacked">stacked</a>, <a href="#p3-bll">BLL</a>, <a href="#p3-fhlt">FHLT</a>, 5부의 <a href="#p5-qa-core">기본 질문</a>.</td></tr>
+<tr><td>30분</td><td>아래의 <a href="#p0-gist">세 문장 요약</a>과 <a href="#p0-nums">기억해 둘 수치</a>, 4부 각 장의 "이 장의 한 문장", 5부의 <a href="#p5-qa-core">기본 질문</a>.</td></tr>
 </tbody></table></div>
 </section>
 
 <section class="sub" id="p0-gist">
 <h3>논문을 세 문장으로</h3>
 <ol>
-<li>도입 시점이 단위마다 다르고 처치효과가 코호트나 경과 시간에 따라 달라지면, TWFE 회귀의 계수에는 이미 처치된 단위를 비교집단으로 사용하는 2×2 비교가 포함되고, 그 결과 계수가 ATT와 달라지며 부호가 바뀔 수도 있다.</li>
-<li>저자들은 실제 기업 자료(Compustat)로 만든 시뮬레이션에서 이 편향이 언제 생기는지 확인하고, 이미 처치된 단위를 비교집단에서 제외하는 대안 추정량 세 가지(Callaway-Sant'Anna, Sun-Abraham, stacked regression)가 참값을 복원함을 보였다.</li>
-<li>상위 학술지에 출판된 두 연구(은행 규제완화와 소득 불평등, 이사회 개혁과 기업가치)를 다시 분석하자 원래의 결론이 유지되지 않았고, 저자들은 시차 도입 설계에서 보고해야 할 사항 여섯 가지를 권고했다.</li>
+<li>도입 시점이 단위마다 다르고 처치효과가 코호트나 경과 시간에 따라 달라지면 TWFE 회귀의 계수에는 이미 처치된 단위를 비교집단으로 사용하는 2×2 비교가 포함되며 그 결과 계수가 ATT와 달라지고 부호까지 바뀌는 경우가 있다.</li>
+<li>저자들은 실제 기업 자료(Compustat)로 만든 시뮬레이션에서 이 편향이 생기는 조건을 확인했다. 이미 처치된 단위를 비교집단에서 제외하는 대안 추정량 세 가지(Callaway-Sant'Anna, Sun-Abraham, stacked regression)는 같은 자료에서 참값을 복원했다.</li>
+<li>상위 학술지에 출판된 두 연구(은행 규제완화와 소득 불평등, 이사회 개혁과 기업가치)를 다시 분석하자 원래의 결론이 유지되지 않았다. 저자들은 이를 근거로 시차 도입 설계에서 보고할 사항 여섯 가지를 권고했다.</li>
 </ol>
 <aside class="note say" data-label="발표에서는">
-<p>"이 논문의 메시지는 한 문장입니다. 도입 시점이 다른 자료에서 효과가 시간에 따라 변하면, 고정효과 회귀는 이미 처치된 집단을 비교집단으로 쓰게 되고, 그래서 계수의 크기와 부호까지 틀릴 수 있습니다."</p>
+<p>"이 논문의 결론은 한 문장으로 정리됩니다. 도입 시점이 다른 자료에서 효과가 시간에 따라 변하면 고정효과 회귀는 이미 처치된 집단을 비교집단으로 사용하게 되므로 계수의 크기와 부호가 모두 틀릴 수 있습니다."</p>
 </aside>
 </section>
 
 <section class="sub" id="p0-nums">
 <h3>기억해 둘 수치</h3>
-<p>질문을 받았을 때 바로 꺼낼 수 있어야 하는 수치다. 출처 열은 그 수치가 원문의 값인지, 설명을 위해 만든 가상 수치인지, 덱이 브라우저에서 다시 계산한 값인지, 논문 이후 연구의 값인지를 구분한다.</p>
+<p>논문과 발표의 논지를 받치는 수치들이다. 출처 열은 그 수치가 원문의 값인지, 설명을 위해 만든 가상 수치인지, 덱이 브라우저에서 다시 계산한 값인지, 논문 이후 연구의 값인지를 구분한다.</p>
 <div class="tbl"><table>
 <thead><tr><th>수치</th><th>무엇인가</th><th>출처</th><th>덱</th></tr></thead>
 <tbody>
 <tr><td class="n">744, 407, 394</td><td>2000-2019년 금융, 회계 상위 10개 학술지에서 DID를 주된 분석으로 사용한 논문 수, 그중 시차 도입 설계(54.7%), 그중 2010년 이후 발표</td><td>원문 Table 1</td><td><a class="deck" data-s="2" data-b="0">2장</a></td></tr>
 <tr><td class="n">−2</td><td>효과가 2, 10, 2로 모두 양수인 E와 L 반례의 TWFE 계수</td><td>가상 수치</td><td><a class="deck" data-s="6" data-b="0">6장</a></td></tr>
 <tr><td class="n">1.5 대 3.33</td><td>U, k, l 예제의 TWFE 계수와 처치된 여섯 칸의 평균효과</td><td>가상 수치</td><td><a class="deck" data-s="8" data-b="0">8장</a></td></tr>
-<tr><td class="n">0.013σ 대 0.290σ</td><td>Sim 5의 TWFE 추정치 평균과 기업평균 ATT, 주 단위 군집강건 표준오차로 83%가 유의하지 않음</td><td>덱 계산(균형패널)</td><td><a class="deck" data-s="13" data-b="0">13장</a></td></tr>
-<tr><td class="n">21%</td><td>효과 증가 속도의 표준편차가 σ의 3%일 때, 기대 ATT가 0인데도 유의하지 않게 나온 모의자료의 비율</td><td>원문 Fig. 4</td><td><a class="deck" data-s="14" data-b="0">14장</a></td></tr>
-<tr><td class="n">−0.022, 85.7%</td><td>BLL의 TWFE 계수(로그 Gini), 이미 규제를 완화한 주를 비교집단으로 쓴 2×2의 가중치 비중</td><td>원문 Table 2, Fig. 8</td><td><a class="deck" data-s="21" data-b="0">21장</a></td></tr>
+<tr><td class="n">0.013σ 대 0.290σ</td><td>Sim 5의 TWFE 추정치 평균과 기업평균 ATT. 주 단위 군집강건 표준오차로 검정하면 83%가 유의하지 않음</td><td>덱 계산(균형패널)</td><td><a class="deck" data-s="13" data-b="0">13장</a></td></tr>
+<tr><td class="n">21%</td><td>효과 증가 속도의 표준편차가 σ의 3%일 때 기대 ATT가 0인데도 유의하지 않게 나온 모의자료의 비율</td><td>원문 Fig. 4</td><td><a class="deck" data-s="14" data-b="0">14장</a></td></tr>
+<tr><td class="n">−0.022, 85.7%</td><td>BLL의 TWFE 계수(로그 Gini)와, 이미 규제를 완화한 주를 비교집단으로 사용한 2×2의 가중치 비중</td><td>원문 Table 2, Fig. 8</td><td><a class="deck" data-s="21" data-b="0">21장</a></td></tr>
 <tr><td class="n">0.001, 0.000</td><td>BLL을 CS와 stacked로 다시 추정한 값</td><td>원문 Table 2</td><td><a class="deck" data-s="21" data-b="0">21장</a></td></tr>
 <tr><td class="n">0.110 대 0.062, 0.063</td><td>FHLT 주요 개혁의 TWFE 계수(Tobin's Q) 대 CS, stacked 추정치(둘 다 유의하지 않음)</td><td>원문 Table 3</td><td><a class="deck" data-s="23" data-b="0">23장</a></td></tr>
 <tr><td class="n">25.1%, 18.0%</td><td>Management Science와 Marketing Science 논문 40편을 다시 추정했을 때 TWFE와 새 추정치의 부호가 반대인 비교의 비율</td><td>Proserpio (2026), 심사 전 원고</td><td><a class="deck" data-s="26" data-b="0">26장</a></td></tr>
@@ -61,7 +61,7 @@
 
 <section class="sub" id="p0-colors">
 <h3>색과 표시의 약속</h3>
-<p>가이드의 그림과 계산기는 덱과 같은 색을 사용한다. 덱을 보면서 읽어도 같은 대상이 같은 색으로 보인다.</p>
+<p>가이드의 그림과 계산기는 덱과 같은 색을 사용하므로 덱을 함께 보아도 같은 대상이 같은 색으로 보인다.</p>
 <div class="legend">
 <div><i style="background:var(--c1)"></i><span>먼저 도입한 코호트 (E, k, 1989년 코호트)</span></div>
 <div><i style="background:var(--c2)"></i><span>나중에 도입한 코호트 (L, l, 1998년 코호트)</span></div>
@@ -71,7 +71,7 @@
 </div>
 <p>본문의 상자는 다섯 종류다. 파란 상자는 그 절의 핵심 정리, 붉은 상자는 헷갈리기 쉬운 점, 회색 상자는 손계산, 황색 상자는 발표에서 그대로 말할 수 있는 문장, 점선 상자는 화면 수치의 출처다.</p>
 <aside class="note src" data-label="수치의 출처">
-<p>가이드의 수치는 네 종류다. <strong>원문</strong>은 논문의 표와 그림 번호를 함께 적었다. <strong>가상 수치</strong>는 심층요약과 덱이 설명을 위해 만든 작은 예제다. <strong>덱 계산</strong>은 원문 3절의 시뮬레이션 설정을 균형패널로 단순화해 브라우저에서 다시 계산한 값으로, 원문 그림과 조금 다르다. <strong>논문 이후</strong>는 후속논의 문서(2026-11-13 조사)에 근거한 2026년 연구의 값이고 일부는 심사 전 원고다.</p>
+<p>가이드의 수치는 네 종류다. <strong>원문</strong>은 논문의 표와 그림 번호를 함께 적었다. <strong>가상 수치</strong>는 심층요약과 덱이 설명을 위해 만든 작은 예제다. <strong>덱 계산</strong>은 원문 3절의 시뮬레이션 설정을 균형패널로 단순화해 브라우저에서 다시 계산한 값이라 원문 그림과 조금 다르다. <strong>논문 이후</strong>는 후속논의 문서(2026-11-13 조사)에 근거한 2026년 연구의 값이고 일부는 심사 전 원고다.</p>
 </aside>
 </section>
 </section>

@@ -48,9 +48,15 @@
     }
     if (live.size) raf = requestAnimationFrame(loop);
   }
+  /* ---------- 재생 속도: 모든 도식이 공유한다. 단계 간격과 전환 시간을 같은 비율로 줄인다. 브라우저에 기억한다. ---------- */
+  const SPEEDS = [0.5, 1, 1.5, 2, 3], SKEY = 'sdid-guide-speed';
+  let speed = 1; try { const v = parseFloat(localStorage.getItem(SKEY)); if (SPEEDS.includes(v)) speed = v; } catch (e) { }
+  const speedSubs = new Set();
+  function setSpeed(v) { speed = v; try { localStorage.setItem(SKEY, String(v)); } catch (e) { } speedSubs.forEach(f => f(v)); }
+
   /* to(e, {attr: 목표}, {dur, delay, done}) : 숫자 속성, opacity, pts(점 배열, 같은 길이), tx/ty/sc/rot를 보간한다. 나머지는 즉시 바꾼다. */
   function to(e, a, o) {
-    o = o || {}; const dur = reduce || o.dur === 0 ? 0 : (o.dur || 650), delay = reduce ? 0 : (o.delay || 0);
+    o = o || {}; const dur = reduce || o.dur === 0 ? 0 : (o.dur || 650) / speed, delay = reduce ? 0 : (o.delay || 0) / speed;
     for (const t of [...live]) if (t.e === e) { for (const k in a) delete t.to[k]; }
     const tw = { e, to: {}, from: {}, t0: performance.now() + delay, dur: Math.max(dur, 1), done: o.done }, inst = {};
     for (const k in a) {
@@ -68,7 +74,7 @@
   /* 숫자 라벨이 값을 따라 세며 바뀐다 */
   function count(e, v, d, o) { o = o || {}; const from = e.__num == null ? v : e.__num; e.__num = v; const pre = o.pre || '', post = o.post || '';
     if (reduce || from === v) { e.textContent = pre + fmt(v, d) + post; return; }
-    const t0 = performance.now() + (o.delay || 0), dur = o.dur || 600; const step = now => { const u = clamp((now - t0) / dur, 0, 1); e.textContent = pre + fmt(from + (v - from) * smooth(u), d) + post; if (u < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+    const t0 = performance.now() + (o.delay || 0) / speed, dur = (o.dur || 600) / speed; const step = now => { const u = clamp((now - t0) / dur, 0, 1); e.textContent = pre + fmt(from + (v - from) * smooth(u), d) + post; if (u < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
 
   /* ---------- 축 ---------- */
   function yAxis(g, y, ticks, x0, x1, f) { ticks.forEach(v => { s('line', { x1: x0, x2: x1, y1: y(v), y2: y(v), cls: v === 0 ? 'zero' : 'ax' }, g); s('text', { x: x0 - 7, y: y(v) + 4, 'text-anchor': 'end', text: f ? f(v) : String(v).replace('-', '−') }, g); }); }
@@ -99,8 +105,15 @@
     const first = b('처음', () => { stop(); go(0); }), prev = b('이전', () => { stop(); go(cur - 1); });
     const pos = h('span', { cls: 'vpos' }, F.bar);
     const dots = h('span', { cls: 'vdots' }, F.bar); const ds = o.steps.map((_, i) => h('i', { onclick: () => { stop(); go(i); } }, dots));
-    const next = b('다음', () => { stop(); go(cur + 1); }, 'pri'), play = b('자동 재생', () => { if (timer) stop(); else { if (cur >= N - 1) go(0); timer = setInterval(() => { if (cur >= N - 1) stop(); else go(cur + 1); }, o.interval || 2800); play.textContent = '멈춤'; } });
-    function stop() { if (timer) clearInterval(timer); timer = 0; play.textContent = '자동 재생'; }
+    const next = b('다음', () => { stop(); go(cur + 1); }, 'pri'), play = b('자동 재생', () => { if (timer) stop(); else { if (cur >= N - 1) go(0); play.textContent = '멈춤'; tick(); } });
+    // 다음 단계까지의 간격은 그때의 속도로 정한다. 재생 중에 속도를 바꾸면 남은 간격을 새 속도로 다시 잡는다.
+    function tick() { clearTimeout(timer); timer = setTimeout(() => { go(cur + 1); if (cur < N - 1) tick(); else stop(); }, (o.interval || 2800) / speed); }
+    function stop() { if (timer) clearTimeout(timer); timer = 0; play.textContent = '자동 재생'; }
+    const spw = h('span', { cls: 'vspeed' }, F.bar); h('span', { cls: 'seg-l', text: '속도' }, spw);
+    const spg = h('span', { cls: 'seg', role: 'group', 'aria-label': '자동 재생 속도' }, spw);
+    const spb = SPEEDS.map(v => h('button', { type: 'button', text: v + '×', onclick: () => setSpeed(v) }, spg));
+    const paintSpeed = v => spb.forEach((x, i) => x.setAttribute('aria-pressed', String(SPEEDS[i] === v)));
+    paintSpeed(speed); speedSubs.add(v => { paintSpeed(v); if (timer) tick(); });
     function go(i, anim = true) {
       cur = clamp(i, 0, N - 1); render(cur, anim);
       F.cap.innerHTML = `<span class="vn">${cur + 1}</span><span class="vt">${o.steps[cur]}</span>`;
@@ -128,5 +141,5 @@
     return { input: inp, set(v) { inp.value = v; upd(); } };
   }
 
-  window.GV = { reg: (n, fn) => { R[n] = fn; }, R, s, h, to, show, count, lin, C, fmt, clamp, smooth, reduce, yAxis, xTicks, frame, stepper, seg, slider };
+  window.GV = { reg: (n, fn) => { R[n] = fn; }, R, get speed() { return speed; }, setSpeed, s, h, to, show, count, lin, C, fmt, clamp, smooth, reduce, yAxis, xTicks, frame, stepper, seg, slider };
 })();

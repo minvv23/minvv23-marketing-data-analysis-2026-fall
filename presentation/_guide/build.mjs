@@ -86,15 +86,15 @@ const nSubs = toc.reduce((a, p) => a + p.subs.length, 0);
 // ---------- 머리와 꼬리 ----------
 const cells = (() => { const rows = [3, 3, 8, 8, 13, 13], cls = ['a', 'a', 'b', 'b', 'c', 'c']; let s = ''; rows.forEach((g, r) => { for (let c = 0; c < 18; c++) s += `<i${c >= g ? ` class="${cls[r]}"` : ''}></i>`; }); return s; })();
 const header = `<header class="top">
-<p class="kicker">BME 642 마케팅자료분석론 / Week 10 / 발표 준비</p>
+<p class="kicker">BME 642 마케팅자료분석론 / Week 10 / 발제 독해가이드</p>
 <h1>Staggered DID 발표 독해가이드</h1>
-<p class="dek">Baker, Larcker &amp; Wang (2022)을 OLS와 2×2 DID에서 출발해 끝까지 따라가고, 27장의 발표를 한 장씩 준비하기 위한 자료</p>
+<p class="dek">Baker, Larcker &amp; Wang (2022)을 OLS와 2×2 DID에서 출발해 끝까지 따라가고 27장의 발표를 한 장씩 해설하는 자료</p>
 <div class="meta"><span><b>발표</b> 2026년 11월 18일(수)</span><span><b>덱</b> <a href="${DECK}" target="_blank" rel="noopener">27장 115단계</a>, 대본 약 35분</span><span><b>원문</b> Journal of Financial Economics 144(2), 370-395</span></div>
 <div class="grid-cells" aria-hidden="true">${cells}</div>
 <p class="grid-cap">행은 단위, 열은 시점이고 색칠된 칸이 도입 이후(D = 1)다. 세 코호트가 서로 다른 시점에 도입하는 것이 시차 도입이다.</p>
 </header>`;
 const footer = `<footer class="end">
-<p>근거 자료는 원문 PDF, 같은 폴더의 심층요약과 Cheat Sheet, 덱 원고(<code>presentation/_src/20261118</code>)와 대본, 슬라이드 작업기록, 후속논의 문서(2026-11-13 조사)다. 계산기는 덱의 계산 코어 <code>stats.js</code>를 그대로 사용한다.</p>
+<p>근거 자료는 원문 PDF, 수업 자료 폴더의 심층요약과 Cheat Sheet, 덱 원고(<code>presentation/_src/20261118</code>)와 대본, 슬라이드 작업기록, 후속논의 문서(2026-11-13 조사)다. 계산기와 도식은 덱의 계산 코어 <code>stats.js</code>, <code>simcore.js</code>를 그대로 사용한다.</p>
 <p>원본은 <code>presentation/_guide/parts/</code>에 있고, <code>web</code> 폴더에서 <code>node presentation/_guide/build.mjs</code>로 이 폴더를 다시 만든다.</p>
 </footer>`;
 
