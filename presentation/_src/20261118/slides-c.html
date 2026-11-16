@@ -22,7 +22,7 @@
 <section class="slide" id="s-event" data-builds="5">
   <div class="txt">
     <div class="kicker">사건연구 &nbsp;/&nbsp; 원문 Fig. 5</div>
-    <h1>도입 전 계수도<br>믿을 수 없게 된다</h1>
+    <h1>사건연구에서 나타나는<br>도입 전 계수의 오염</h1>
     <p class="lead">앞 장의 사건연구 회귀를 모의자료에 적용하면 계수 하나일 때와 같은 문제가 생긴다. 도입 전후 5년의 더미를 포함하고 −1기를 기준으로 제외한 모형이다.</p>
     <p class="nota"><b>읽는 법.</b> 검은 점선이 상대시점별 참 평균효과, 붉은 점이 TWFE 추정치의 기댓값, 세로선이 모의자료 500개의 2.5, 97.5 백분위수 범위다 (균형패널로 다시 계산).</p>
     <ul class="steps">
@@ -46,7 +46,7 @@
 <section class="slide" id="s-sa" data-builds="5">
   <div class="txt">
     <div class="kicker">사건연구 &nbsp;/&nbsp; Sun-Abraham의 분해 (원문 식 14)</div>
-    <h1>계수 하나에<br>다른 시점의 효과가 섞인다</h1>
+    <h1>단일 계수에는 다양한<br>시점의 효과들이 혼재</h1>
     <p class="lead">앞 장의 마지막 그림은 −3기 계수 하나를 설명했다. Sun-Abraham (2021)은 사건연구의 모든 계수가 코호트별, 상대시점별 효과(<span class="tip" data-tip="Cohort-specific ATT. g년에 도입한 코호트의 도입 ℓ년 뒤 평균효과.">CATT</span>)의 가중합이고, 그 가중치가 회귀식의 구조만으로 정해짐을 보였다.</p>
     <p class="nota"><b>읽는 법.</b> 앞 장의 사건연구 모형에서 계산했다. 행은 코호트, 열은 도입 후 경과연수다. 칸이 진할수록 가중치가 크고 검은색은 양, 붉은색은 음이다.</p>
     <ul class="steps">
@@ -95,7 +95,7 @@
 <section class="slide" id="s-stack" data-builds="5">
   <div class="txt">
     <div class="kicker">대안 추정량 &nbsp;/&nbsp; Stacked regression</div>
-    <h1>사건마다 자료를<br>따로 만들어 쌓는다</h1>
+    <h1>사건별 하위 자료를<br>쌓아 올린 회귀 추정</h1>
     <p class="lead">세 번째 대안인 stacked regression은 응용연구자들이 고안했다. 도입 사건마다 그 코호트와, <span class="tip" data-tip="Event window. 도입 시점 전후로 분석에 포함하는 기간.">사건창</span> 안에서 처치받지 않은 단위만 모아 자료를 따로 만든 다음, 이 자료들을 쌓고 <span class="tip" data-tip="쌓은 자료마다 단위 고정효과와 시점 고정효과를 따로 둔다. 그래서 서로 다른 사건의 자료끼리는 비교되지 않는다.">자료별 고정효과</span>를 포함해 TWFE를 추정한다.</p>
     <p class="nota"><b>읽는 법.</b> 가상 예제다. <i class="v">U</i> 1단위, <i class="v">k</i> 1단위, <i class="v">l</i> 3단위이고 효과는 <i class="v">k</i>가 항상 2, <i class="v">l</i>이 항상 6이다. 사건창은 도입 1기 전부터 1기 후까지다.</p>
     <ul class="steps">
@@ -113,7 +113,7 @@
 <section class="slide" id="s-alt" data-builds="5">
   <div class="txt">
     <div class="kicker">시뮬레이션 &nbsp;/&nbsp; 원문 Fig. 6, 7</div>
-    <h1>같은 자료에서<br>대안은 참값을 복원한다</h1>
+    <h1>대안적 기법들을 활용한<br>참값 도출</h1>
     <p class="lead">저자들은 TWFE의 부호가 바뀌었던 Sim 6에 세 대안을 적용했다. 비교 기준은 유효한 비교집단이 있는 두 코호트(1989, 1998년)의 도입 후 5년 평균효과다.</p>
     <p class="nota"><b>읽는 법.</b> 위는 상대시점별 추정치의 기댓값과 참 효과 경로(점선)다. 아래는 모의자료 250개의 <span class="tip" data-tip="도입 후 기간 전체의 효과를 값 하나로 요약한 추정치. 상대시점마다 계수를 구하는 사건연구와 구분한다.">정적 추정치</span>이고 세로 점선이 기준값이다. 이 화면에서 다시 계산한 값이다.</p>
     <ul class="steps">
@@ -131,7 +131,7 @@
 <section class="slide" id="s-comp" data-builds="5" data-lw="470">
   <div class="txt">
     <div class="kicker">대안 추정량 &nbsp;/&nbsp; 원문 4절의 비교</div>
-    <h1>세 대안은<br>무엇이 다를까?</h1>
+    <h1>세 가지 대안적 기법들은<br>무엇이 달랐던걸까?</h1>
     <p class="lead">세 대안은 이미 처치된 단위를 비교집단에서 제외한다는 점에서 같다. 차이는 비교집단으로 허용하는 범위와 효과를 합치는 가중치에 있고, 저자들은 아직 표준이 정해지지 않았다고 보았다.</p>
     <p class="nota"><b>읽는 법.</b> 아래 그림의 점은 모의자료 500개의 평균, 가로선은 2.5, 97.5 백분위수 범위, 세로 점선은 앞 장과 같은 기준값이다.</p>
     <ul class="steps">
