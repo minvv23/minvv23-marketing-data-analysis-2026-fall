@@ -14,7 +14,7 @@
   const meanOf = a => { let t = 0; for (let i = 0; i < a.length; i++) t += a[i]; return t / a.length; };
   const T_ = (x, y, text, css, anchor) => ({ x, y, text, css: css || '', 'text-anchor': anchor || 'start' });
 
-  /* ---------- 1. sim-flow (p2-design): 모의자료를 만드는 절차 (덱 10장 도식을 줄인 것) ---------- */
+  /* ---------- 1. sim-flow (p2-design): 모의자료를 만드는 절차 (덱 11장 도식을 줄인 것) ---------- */
   GV.reg('sim-flow', host => {
     const W = 640, H = 372, T = 36, CW = 13, X0 = 92, Y0 = 50, PH = 19, CH = 15;
     // 기업 14개: [주(0-6), 첫 관측 연도 인덱스, 마지막 인덱스]. 주 0-2는 1989년, 3-4는 1998년, 5-6은 2007년에 도입한다 (덱과 같은 배치)
@@ -75,7 +75,7 @@
     });
   });
 
-  /* ---------- 2. sim-cloud (p2-six): Sim 1-6의 TWFE 추정치 500개 (덱 11장) ---------- */
+  /* ---------- 2. sim-cloud (p2-six): Sim 1-6의 TWFE 추정치 500개 (덱 12장) ---------- */
   GV.reg('sim-cloud', host => {
     const W = 640, H = 300, M = SIM.get(), N = M.NSIM;
     const F = GV.frame(host, { kind: '도식', title: '모의자료 500개의 TWFE 추정치와 참 ATT (덱 계산, 균형패널 단순화)', w: W, h: H, controls: true,
@@ -110,7 +110,7 @@
     draw(1, false);
   });
 
-  /* ---------- 3. t-band (p2-type1): 코호트 간 차이가 커질수록 t값이 띠 밖으로 퍼진다 (원문 Fig. 4, 덱 14장) ---------- */
+  /* ---------- 3. t-band (p2-type1): 코호트 간 차이가 커질수록 t값이 띠 밖으로 퍼진다 (원문 Fig. 4, 덱 15장) ---------- */
   function tStrip(svg, W, x, y0, ticks, label) {
     const band = s('rect', { x: x(-1.96), y: y0 - 150, width: x(1.96) - x(-1.96), height: 156, css: 'fill:var(--soft)' }, svg);
     s('line', { x1: x.x0, x2: x.x1, y1: y0 + 6, y2: y0 + 6, css: 'stroke:var(--faint)' }, svg);
@@ -151,7 +151,7 @@
     draw(0.03, false);
   });
 
-  /* ---------- 3b. t-fix (p2-type2): Sim 5와 Sim 6의 t값 (덱 13장) ---------- */
+  /* ---------- 3b. t-fix (p2-type2): Sim 5와 Sim 6의 t값 (덱 14장) ---------- */
   GV.reg('t-fix', host => {
     const W = 640, H = 250, M = SIM.get(), N = M.NSIM;
     const F = GV.frame(host, { kind: '도식', title: 'Sim 5와 Sim 6에서 TWFE 계수의 t값 500개 (덱 계산)', w: W, h: H, controls: true,
@@ -180,12 +180,12 @@
     const W = 640, H = 300, T = 36, CW = 15, X0 = 78, RY = [64, 120, 176], RH = 42, xOf = t => X0 + t * CW;
     const relOf = (k, t) => 1980 + t - COH[k].g;
     stepper(host, {
-      kind: '도식', title: '사건연구의 더미가 가리키는 칸 (덱 15장 사양, 코호트 셋)', w: W, h: H,
+      kind: '도식', title: '사건연구의 더미가 가리키는 칸 (덱 17장 사양, 코호트 셋)', w: W, h: H,
       steps: [
         '행은 코호트, 열은 달력 연도다. 진한 칸이 도입 이후이고 정적 TWFE는 이 칸 전체를 더미 하나로 요약했다.',
         '칸마다 상대시점 ℓ = t − G(달력 연도 − 도입 연도)를 적는다. 같은 2010년이라도 1989년 코호트는 +21, 1998년 코호트는 +12, 2007년 코호트는 +3이다. 그림에는 −5부터 +5까지만 숫자로 적었다.',
         '기준기간 ℓ = −1(도입 직전 해)의 칸은 더미에서 제외한다. 사건연구의 모든 계수는 이 해와 비교한 차이로 읽는다.',
-        '양 끝은 구간으로 묶는다. ℓ ≤ −6인 칸은 모두 더미 하나, ℓ ≥ 6인 칸도 모두 더미 하나다(덱 15장과 원문 Fig. 5의 사양). 묶인 칸들의 효과가 같다고 가정한 것이다.',
+        '양 끝은 구간으로 묶는다. ℓ ≤ −6인 칸은 모두 더미 하나, ℓ ≥ 6인 칸도 모두 더미 하나다(덱 17장과 원문 Fig. 5의 사양). 묶인 칸들의 효과가 같다고 가정한 것이다.',
         '같은 상대시점의 칸은 코호트와 달력 연도가 달라도 한 더미로 들어간다. ℓ = +3 더미는 1992년, 2001년, 2010년 칸을 함께 가리키고 그 계수는 세 코호트의 +3기 효과를 대표하도록 의도된 값이다.',
         '그런데 회귀가 이 계수를 계산할 때는 표시한 칸만 사용하지 않는다. 연도 고정효과를 통해 같은 해의 이미 처치된 코호트 칸도 비교에 들어간다. 이 문제가 아래 Fig. 5와 Sun-Abraham 분해의 주제다.'
       ],
@@ -239,7 +239,7 @@
     });
   });
 
-  /* ---------- 5. es-plot (p2-fig5): TWFE 사건연구 계수의 기댓값과 참 경로 (원문 Fig. 5, 덱 15장) ---------- */
+  /* ---------- 5. es-plot (p2-fig5): TWFE 사건연구 계수의 기댓값과 참 경로 (원문 Fig. 5, 덱 17장) ---------- */
   GV.reg('es-plot', host => {
     const W = 640, H = 338, M = SIM.get();
     const F = GV.frame(host, { kind: '도식', title: 'TWFE 사건연구 계수와 참 경로 (덱 계산, 균형패널 단순화)', w: W, h: H, controls: true,
@@ -274,11 +274,11 @@
     draw('a', false);
   });
 
-  /* ---------- 6. sa-heat (p2-sa): 사건연구 계수 하나가 (코호트, 경과연수) 칸에 주는 가중치 (덱 16장) ---------- */
+  /* ---------- 6. sa-heat (p2-sa): 사건연구 계수 하나가 (코호트, 경과연수) 칸에 주는 가중치 (덱 18장) ---------- */
   GV.reg('sa-heat', host => {
     const W = 640, H = 300, M = SIM.get(), SIG = M.SIG, NL = COH.map(c => 2016 - c.g);
-    const F = GV.frame(host, { kind: '도식', title: '사건연구 계수 하나가 각 CATT 칸에 주는 가중치 (덱 16장, 덱 계산)', w: W, h: H, controls: true,
-      note: '칸 하나가 (코호트, 도입 후 경과연수)의 효과 CATT다. 칸의 농도가 가중치의 크기이고, 무채색은 양, 붉은색은 음이다. 계수 = Σ 가중치 × CATT이고, 효과 값은 15장(위 Fig. 5 도식)의 사전추세 없는 자료다. 가중치는 덱과 같은 사건연구 사양에서 칸 하나만 1인 결과를 넣어 계산했다.' });
+    const F = GV.frame(host, { kind: '도식', title: '사건연구 계수 하나가 각 CATT 칸에 주는 가중치 (덱 18장, 덱 계산)', w: W, h: H, controls: true,
+      note: '칸 하나가 (코호트, 도입 후 경과연수)의 효과 CATT다. 칸의 농도가 가중치의 크기이고, 무채색은 양, 붉은색은 음이다. 계수 = Σ 가중치 × CATT이고, 효과 값은 17장(위 Fig. 5 도식)의 사전추세 없는 자료다. 가중치는 덱과 같은 사건연구 사양에서 칸 하나만 1인 결과를 넣어 계산했다.' });
     F.bar.remove();
     const svg = F.svg, CW = 19, X0 = 86, RY = [46, 104, 162], RH = 34, cxOf = e => X0 + e * CW + CW / 2;
     const P = COH.map(c => ST.effPath('6b', c.g)), eff = (k, e) => P[k][COH[k].g - 1980 + e] / SIG, tr = M.trueEvent(P);

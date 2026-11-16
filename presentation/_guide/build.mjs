@@ -88,8 +88,8 @@ const cells = (() => { const rows = [3, 3, 8, 8, 13, 13], cls = ['a', 'a', 'b', 
 const header = `<header class="top">
 <p class="kicker">BME 642 마케팅자료분석론 / Week 10 / 발제 독해가이드</p>
 <h1>Staggered DID 발표 독해가이드</h1>
-<p class="dek">Baker, Larcker &amp; Wang (2022)을 OLS와 2×2 DID에서 출발해 끝까지 따라가고 27장의 발표를 한 장씩 해설하는 자료</p>
-<div class="meta"><span><b>발표</b> 2026년 11월 18일(수)</span><span><b>덱</b> <a href="${DECK}" target="_blank" rel="noopener">27장 115단계</a>, 대본 약 35분</span><span><b>원문</b> Journal of Financial Economics 144(2), 370-395</span></div>
+<p class="dek">Baker, Larcker &amp; Wang (2022)을 OLS와 2×2 DID에서 출발해 끝까지 따라가고 29장의 발표를 한 장씩 해설하는 자료</p>
+<div class="meta"><span><b>발표</b> 2026년 11월 18일(수)</span><span><b>덱</b> <a href="${DECK}" target="_blank" rel="noopener">29장 124단계</a>, 대본 약 38분</span><span><b>원문</b> Journal of Financial Economics 144(2), 370-395</span></div>
 <div class="grid-cells" aria-hidden="true">${cells}</div>
 <p class="grid-cap">행은 단위, 열은 시점이고 색칠된 칸이 도입 이후(D = 1)다. 세 코호트가 서로 다른 시점에 도입하는 것이 시차 도입이다.</p>
 </header>`;

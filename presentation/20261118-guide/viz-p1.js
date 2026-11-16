@@ -269,7 +269,7 @@
     draw(false);
   });
 
-  /* ---------- weights-curve (p1-weights): 관측 기간만 바꾸면 가중치와 계수가 달라진다 (덱 9장) ---------- */
+  /* ---------- weights-curve (p1-weights): 관측 기간만 바꾸면 가중치와 계수가 달라진다 (덱 10장) ---------- */
   GV.reg('weights-curve', host => {
     const W = 660, H = 400, cfg = { base: [5, 1, 3], post: [10, 1, 3], pre: [10, 6, 8] };
     const st = { k: 'base' };

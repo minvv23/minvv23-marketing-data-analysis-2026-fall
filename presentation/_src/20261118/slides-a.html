@@ -129,3 +129,25 @@
     </div>
   </div>
 </section>
+
+<!-- ============ FWL 산점도 (2026-11-16 추가) ============ -->
+<section class="slide" id="s-fwl" data-builds="4">
+  <div class="txt">
+    <div class="kicker">핵심 직관 2 &nbsp;/&nbsp; 회귀선으로 다시 보기</div>
+    <h1>계수 −2는<br>회귀선의 기울기다</h1>
+    <p class="lead">앞 장의 공식은 OLS의 <span class="tip" data-tip="Frisch-Waugh-Lovell 정리. 다른 설명변수(여기서는 단위와 시점 고정효과)를 먼저 제거한 잔차끼리 회귀해도 관심 계수가 그대로 나온다는 성질.">FWL 정리</span>다. 고정효과를 제거한 잔차 D̃를 가로축, 결과 Y를 세로축에 놓으면 TWFE 계수는 이 산점도에 맞춘 회귀선의 기울기와 같다.</p>
+    <p class="nota"><b>읽는 법.</b> 위는 앞 장의 여섯 칸(큰 숫자가 D̃, 작은 숫자가 Y)이고 아래 점 하나가 칸 하나다. 채운 점이 처치된 칸이다. 가상 수치.</p>
+    <ul class="steps">
+      <li data-n="01">여섯 칸을 (D̃, Y) 점으로 옮긴다. 처치되지 않은 세 칸은 Y = 0에, 처치된 세 칸은 효과만큼 위에 놓인다.</li>
+      <li data-n="02">점들에 맞춘 회귀선의 기울기는 <span class="nw">ΣD̃Y / ΣD̃² = <span class="kb">−2</span>로</span> 앞 장의 계수와 같다.</li>
+      <li data-n="03">기울기를 음수로 만든 점은 E의 3기다. 효과가 가장 큰 칸(Y = 10)인데 잔차가 −1/6이라 왼쪽 위에 놓이고 회귀선의 왼쪽 끝을 끌어올린다.</li>
+      <li data-n="04">E의 3기 효과가 2로 일정했다면 이 점이 내려오고 기울기는 +2가 된다. 음의 가중치가 있어도 효과가 모두 같으면 가중치의 합이 1이므로 계수가 참효과와 같다.</li>
+    </ul>
+  </div>
+  <div class="viz" data-viz="fwl">
+    <div class="ov swap eq" style="top:190px">
+      <div data-on="2-3"><tex d>\hat\delta=\frac{\sum_{i,t}\tilde D_{it}\,Y_{it}}{\sum_{i,t}\tilde D_{it}^{2}}=\frac{-2/3}{1/3}=\htmlClass{t-bad}{-2}</tex></div>
+      <div data-on="4"><tex d>\hat\delta=\frac{\sum_{i,t}\tilde D_{it}\,Y_{it}}{\sum_{i,t}\tilde D_{it}^{2}}=\frac{2/3}{1/3}=2</tex></div>
+    </div>
+  </div>
+</section>
