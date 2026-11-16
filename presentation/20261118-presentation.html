@@ -637,7 +637,7 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
 <section class="slide" id="s-stack" data-builds="5">
   <div class="txt">
     <div class="kicker">대안 추정량 &nbsp;/&nbsp; Stacked regression</div>
-    <h1>사건별 하위 자료를<br>쌓아 올린 회귀 추정</h1>
+    <h1>사건별 하위 자료를<br>결합해 추정한 회귀 계수</h1>
     <p class="lead">세 번째 대안인 stacked regression은 응용연구자들이 고안했다. 도입 사건마다 그 코호트와, <span class="tip" data-tip="Event window. 도입 시점 전후로 분석에 포함하는 기간.">사건창</span> 안에서 처치받지 않은 단위만 모아 자료를 따로 만든 다음, 이 자료들을 쌓고 <span class="tip" data-tip="쌓은 자료마다 단위 고정효과와 시점 고정효과를 따로 둔다. 그래서 서로 다른 사건의 자료끼리는 비교되지 않는다.">자료별 고정효과</span>를 포함해 TWFE를 추정한다.</p>
     <p class="nota"><b>읽는 법.</b> 가상 예제다. <i class="v">U</i> 1단위, <i class="v">k</i> 1단위, <i class="v">l</i> 3단위이고 효과는 <i class="v">k</i>가 항상 2, <i class="v">l</i>이 항상 6이다. 사건창은 도입 1기 전부터 1기 후까지다.</p>
     <ul class="steps">
@@ -722,7 +722,7 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
 <section class="slide" id="s-bll2" data-builds="4">
   <div class="txt">
     <div class="kicker">재분석 1 &nbsp;/&nbsp; 사건연구 (원문 Fig. 9, 10)</div>
-    <h1>사건연구 그림의 형태를<br>좌우한 정규화와 구간 묶음</h1>
+    <h1>사건연구 그림의 형태를<br>결정지은 정규화와 구간 묶음</h1>
     <p class="lead">BLL의 사건연구 그림에서는 사전추세가 없고 규제완화 직후부터 불평등이 감소했다. 저자들이 모형 설정을 하나씩 바꾸자 그림이 달라졌다.</p>
     <p class="nota"><b>읽는 법.</b> 가로축은 규제완화 기준 상대시점(년), 세로축은 Gini의 변화율, 세로선은 95% 신뢰구간이다. 네 그림 모두 TWFE 사건연구다.</p>
     <ul class="steps">
