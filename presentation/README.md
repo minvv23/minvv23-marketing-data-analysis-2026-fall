@@ -5,7 +5,7 @@
 | 날짜 | 슬라이드 | 발표 보조자료 |
 |---|---|---|
 | 2026-09-09 | [RCT 발표](20260909-presentation.html) | [발표보조자료.md](발표보조자료.md) |
-| 2026-11-18 | [Staggered DID 발표](20261118-presentation.html) | [발표 대본](20261118_발표대본.md), [후속 논의와 발제 자료](20261113_Staggered_DID_후속논의와_발제자료.md) |
+| 2026-11-18 | [Staggered DID 발표](20261118-presentation.html) | [발표 대본](20261118_발표대본.md), [후속 논의와 발제 자료](20261113_Staggered_DID_후속논의와_발제자료.md), [발표자용 독해가이드](20261118-guide/index.html) |
 
 - 기본 주소: https://minvv23-marketing-data-analysis.vercel.app/
 - 슬라이드: https://minvv23-marketing-data-analysis.vercel.app/presentation/20260909-presentation.html
@@ -14,6 +14,10 @@
 20260909 슬라이드 파일의 내용과 조작법은 통합 과정에서 변경하지 않았다. 이 슬라이드는 기존처럼 Pretendard와 KaTeX를 CDN에서 가져오므로 인터넷 연결이 필요하다. 학습 웹의 글꼴은 별도로 로컬 파일을 사용한다.
 
 새 슬라이드는 이 폴더에 `YYYYMMDD-presentation.html` 형태로 추가하고 상위 `web`에서 `npm run build`를 실행한다. 날짜 순 발표 목록과 기존 형식의 루트 URL이 자동 생성된다. 배포 절차는 [통합 README](../README.md)를 따른다.
+
+## 20261118 발표자용 독해가이드
+
+`20261118-guide/`는 OLS와 2×2 DID만 아는 상태에서 논문과 덱 27장을 끝까지 따라가기 위한 발표자용 웹 문서다. 기초부터 핵심 직관, 시뮬레이션과 사건연구, 대안 추정량과 재분석, 장별 발표 가이드, 예상 질문과 용어집의 다섯 부분으로 되어 있다. 덱의 `stats.js`로 돌아가는 계산기 세 개가 들어 있다. 발표 목록에는 넣지 않았고 `/presentation/20261118-guide/` 주소로만 연다. 이 폴더도 생성물이므로 `_guide/parts/`의 조각을 고친 뒤 `web` 폴더에서 `node presentation/_guide/build.mjs`로 다시 만든다. 조각의 마크업 규격은 `_guide/SPEC.md`에 있다.
 
 ## 20261118 슬라이드 (Baker, Larcker & Wang 2022)
 
