@@ -188,8 +188,35 @@
     draw();
   }
 
-  const W = { 'toy-el': toyEL, 'bacon-ukl': baconUKL, 'sim': simW };
-  document.querySelectorAll('.widget[data-w]').forEach(h => { const fn = W[h.dataset.w]; if (fn && ST) { try { fn(h); } catch (e) { h.textContent = '계산기를 불러오지 못했다: ' + e.message; } } });
+  /* ---------- 4부 슬라이드 미리보기 (덱의 ?embed 모드를 iframe으로, 단계는 postMessage로 넘긴다) ---------- */
+  const DECK = '../20261118-presentation.html';
+  function slidePreview(host) {
+    const n = +host.dataset.s;
+    host.className = 'slidebox';
+    host.innerHTML = `<div class="sbhead"><span class="sbt">덱 ${n}장 미리보기</span><button type="button" class="vb pri sbopen">슬라이드 불러오기</button></div>`;
+    host.querySelector('.sbopen').onclick = () => {
+      const head = host.querySelector('.sbhead');
+      head.innerHTML = `<span class="sbt">덱 ${n}장, 단계를 넘기며 확인</span>`;
+      const fr = document.createElement('div'); fr.className = 'sbframe';
+      const ifr = document.createElement('iframe'); ifr.src = `${DECK}?embed#s${n}b0`; ifr.title = `덱 ${n}장`; ifr.loading = 'lazy';
+      fr.appendChild(ifr); host.appendChild(fr);
+      const send = k => { try { ifr.contentWindow.postMessage({ deck: 'cmd', k }, '*'); } catch (e) { } };
+      const b = (t, k, pri) => { const x = document.createElement('button'); x.type = 'button'; x.className = 'vb' + (pri ? ' pri' : ''); x.textContent = t; x.onclick = () => k === 'first' ? (ifr.contentWindow.postMessage({ deck: 'go', s: n - 1, b: 0 }, '*')) : send(k); head.appendChild(x); };
+      b('처음', 'first'); b('이전 단계', 'prev'); b('다음 단계', 'next', true);
+      const a = document.createElement('a'); a.href = `${DECK}#s${n}b0`; a.target = '_blank'; a.rel = 'noopener'; a.className = 'deck'; a.textContent = '새 창'; head.appendChild(a);
+    };
+  }
+
+  const W = { 'toy-el': toyEL, 'bacon-ukl': baconUKL, 'sim': simW, 'slide': slidePreview };
+  const initW = h => { if (h.__done) return; h.__done = true; const name = h.dataset.w, fn = (window.GV && window.GV.R[name]) || W[name];
+    if (!fn) { h.textContent = '도식 이름을 찾지 못했다: ' + name; return; }
+    try { fn(h); } catch (e) { console.error(e); h.textContent = '도식을 불러오지 못했다: ' + e.message; } };
+  const hosts = [...document.querySelectorAll('.widget[data-w]')];
+  if ('IntersectionObserver' in window) {
+    const wio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { wio.unobserve(e.target); initW(e.target); } }), { rootMargin: '600px 0px' });
+    hosts.forEach(h => wio.observe(h));
+  } else hosts.forEach(initW);
+  window.__initAllWidgets = () => hosts.forEach(initW);
 
   /* ---------- 읽음 표시와 목차 ---------- */
   const KEY = 'sdid-guide-read-v1';

@@ -54,6 +54,9 @@ body = body.replace(/<a class="deck"([^>]*)>/g, (m, attrs) => {
   return `<a class="deck" href="${DECK}#s${s}b${b}" target="_blank" rel="noopener"${attrs}>`;
 });
 
+// ---------- 4부 슬라이드 미리보기: 장 소절마다 제목 다음 첫 문단 뒤에 넣는다 ----------
+body = body.replace(/(<section class="sub" id="p4-s(\d+)"[^>]*>\s*<h3>[\s\S]*?<\/h3>[\s\S]*?<\/p>)/g, (m, head, n) => `${head}\n<div class="widget" data-w="slide" data-s="${n}"></div>`);
+
 // ---------- 장 번호 ----------
 body = body.replace(/<section class="part" id="(p\d)"([^>]*)>\s*<h2>/g, (m, id, rest) => {
   const n = +id.slice(1); const lab = n === 0 ? '시작하기' : `${n}부`;
@@ -74,7 +77,7 @@ const tocHTML = '<ol>' + toc.map(p => {
   if (p.id === 'p4') {
     const isS = s => /^p4-s\d+$/.test(s.id), first = p.subs.findIndex(isS);
     const before = p.subs.slice(0, first).filter(s => !isS(s)), slides = p.subs.filter(isS), after = p.subs.slice(first).filter(s => !isS(s));
-    subs = `<ol>${before.map(li).join('')}</ol><ol class="grid">${slides.map(s => `<li data-id="${s.id}"><a href="#${s.id}" title="${s.t.replace(/"/g, '&quot;')}">${s.id.slice(4)}</a></li>`).join('')}</ol><ol>${after.map(li).join('')}</ol>`;
+    subs = `<ol>${before.map(li).join('')}</ol><ol class="grid">${slides.map(s => `<li data-id="${s.id}"><a href="#${s.id}" aria-label="${s.t.replace(/"/g, '&quot;')}">${s.id.slice(4)}</a></li>`).join('')}</ol><ol>${after.map(li).join('')}</ol>`;
   } else subs = `<ol>${p.subs.map(li).join('')}</ol>`;
   return `<li><a class="pt" href="#${p.id}">${lab}${p.t}</a>${p.subs.length ? subs : ''}</li>`;
 }).join('') + '</ol>';
@@ -95,6 +98,8 @@ const footer = `<footer class="end">
 <p>원본은 <code>presentation/_guide/parts/</code>에 있고, <code>web</code> 폴더에서 <code>node presentation/_guide/build.mjs</code>로 이 폴더를 다시 만든다.</p>
 </footer>`;
 
+// 스크립트 순서: 계산 코어, 시뮬레이션 코어, 도식 도구, 부별 도식, 마지막에 초기화(widgets.js)
+const SCRIPTS = ['stats.js', 'simcore.js', 'viz-kit.js', ...['viz-p1.js', 'viz-p2.js', 'viz-p3.js'].filter(n => fs.existsSync(path.join(G, n))), 'widgets.js'];
 const tocBlock = `<p class="ttl">목차</p>${tocHTML}<div class="prog">읽은 절 <span class="pc">0</span> / <span class="tot">${nSubs}</span><div class="bar"><i></i></div></div>`;
 const html = `<!doctype html>
 <html lang="ko">
@@ -116,8 +121,7 @@ ${body}
 ${footer}
 </main>
 </div>
-<script src="stats.js"></script>
-<script src="widgets.js"></script>
+${SCRIPTS.map(n => `<script src="${n}"></script>`).join('\n')}
 </body>
 </html>
 `;
@@ -128,8 +132,7 @@ const fontCSS = `@font-face{font-family:'PretendardGuide';font-weight:100 900;fo
 `;
 fs.writeFileSync(path.join(OUT, 'index.html'), html);
 fs.writeFileSync(path.join(OUT, 'guide.css'), fontCSS + fs.readFileSync(path.join(G, 'guide.css'), 'utf8'));
-fs.copyFileSync(path.join(SRC, 'stats.js'), path.join(OUT, 'stats.js'));
-fs.copyFileSync(path.join(G, 'widgets.js'), path.join(OUT, 'widgets.js'));
+for (const n of SCRIPTS) fs.copyFileSync(path.join(['stats.js', 'simcore.js'].includes(n) ? SRC : G, n), path.join(OUT, n));
 
 const plain = body.replace(/<span class="katex[\s\S]*?<\/span><\/span><\/span>/g, '').replace(/<[^>]+>/g, ' ');
 console.log(JSON.stringify({

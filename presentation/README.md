@@ -17,7 +17,7 @@
 
 ## 20261118 발표자용 독해가이드
 
-`20261118-guide/`는 OLS와 2×2 DID만 아는 상태에서 논문과 덱 27장을 끝까지 따라가기 위한 발표자용 웹 문서다. 기초부터 핵심 직관, 시뮬레이션과 사건연구, 대안 추정량과 재분석, 장별 발표 가이드, 예상 질문과 용어집의 다섯 부분으로 되어 있다. 덱의 `stats.js`로 돌아가는 계산기 세 개가 들어 있다. 발표 목록에는 넣지 않았고 `/presentation/20261118-guide/` 주소로만 연다. 이 폴더도 생성물이므로 `_guide/parts/`의 조각을 고친 뒤 `web` 폴더에서 `node presentation/_guide/build.mjs`로 다시 만든다. 조각의 마크업 규격은 `_guide/SPEC.md`에 있다.
+`20261118-guide/`는 OLS와 2×2 DID만 아는 상태에서 논문과 덱 27장을 끝까지 따라가기 위한 발표자용 웹 문서다. 기초부터 핵심 직관, 시뮬레이션과 사건연구, 대안 추정량과 재분석, 장별 발표 가이드, 예상 질문과 용어집의 다섯 부분으로 되어 있다. 덱의 `stats.js`, `simcore.js`로 계산하는 계산기와 단계형 도식 23개(`_guide/widgets.js`, `viz-kit.js`, `viz-p1.js`-`viz-p3.js`)가 본문 곳곳에 있고, 4부의 장마다 덱을 `?embed`로 불러와 단계를 넘겨 보는 미리보기가 붙는다. 발표 목록에는 넣지 않았고 `/presentation/20261118-guide/` 주소로만 연다. 이 폴더도 생성물이므로 `_guide/parts/`의 조각을 고친 뒤 `web` 폴더에서 `node presentation/_guide/build.mjs`로 다시 만든다. 조각의 마크업 규격은 `_guide/SPEC.md`, 도식 규격은 `_guide/VIZSPEC.md`에 있고, `node presentation/_guide/tools/viz-sheet.mjs <도식이름> <출력폴더>`로 도식의 단계별 캡처를 만든다.
 
 ## 20261118 슬라이드 (Baker, Larcker & Wang 2022)
 
