@@ -53,7 +53,7 @@
       return row.y.map((val, t) => { const on = t >= row.g; S('rect', { x: cx(t), y: cy(r), width: cw, height: ch, fill: on ? row.cs : '#fff', stroke: C.line, 'stroke-width': 1.5 }, v);
         S('text', { x: cx(t) + cw / 2, y: cy(r) + ch / 2 + 9, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, text: val }, v);
         return S('rect', { x: cx(t) + 3, y: cy(r) + 3, width: cw - 6, height: ch - 6, fill: 'none', stroke: C.ink, 'stroke-width': 4, o: 0 }, v); }); });
-    S('text', { x: x0, y: cy(3) + 14, cls: 'lbs', text: '칸의 숫자는 결과 Y (미처치 잠재결과 0). 색칠된 칸이 도입 후' }, v);
+    S('text', { x: x0, y: cy(3) + 14, cls: 'lbs', text: '칸의 숫자는 종속변수 Y (미처치 잠재결과 0). 색칠된 칸이 도입 후' }, v);
     const f1 = S('text', { x: x0, y: cy(3) + 62, cls: 'ttl', text: '', o: 0 }, v), f2 = S('text', { x: x0, y: cy(3) + 94, cls: 'ttl fb', text: '', o: 0 }, v);
     // 결과 표
     const ry = cy(3) + 126, res = {};
@@ -98,7 +98,7 @@
     const mkCell = (parent, r, t) => { const g = S('g', { tx: 0, ty: 0 }, parent); S('rect', { x: X(t), y: Y(r), width: cw, height: ch, fill: t >= rows[r].g ? rows[r].c : '#fff', stroke: '#cfd1d6', 'stroke-width': 1.5 }, g);
       S('text', { x: X(t) + cw / 2, y: Y(r) + ch / 2 + 7, 'text-anchor': 'middle', 'font-size': 19, 'font-weight': 700, text: val(r, t) }, g); return g; };
     rows.forEach((row, r) => { S('text', { x: x0 - 20, y: Y(r) + ch / 2 + 8, 'text-anchor': 'middle', cls: 'lbb ' + row.k, html: V(row.n) }, v); for (let t = 0; t < 5; t++) mkCell(v, r, t); });
-    S('text', { x: X(5) + 10, y: Y(0) + 26, cls: 'lbs', text: '칸의 숫자는 결과 Y' }, v); S('text', { x: X(5) + 10, y: Y(0) + 52, cls: 'lbs', text: '색칠된 칸이 도입 후' }, v);
+    S('text', { x: X(5) + 10, y: Y(0) + 26, cls: 'lbs', text: '칸의 숫자는 종속변수 Y' }, v); S('text', { x: X(5) + 10, y: Y(0) + 52, cls: 'lbs', text: '색칠된 칸이 도입 후' }, v);
     const ex = S('g', { o: 0 }, v); S('rect', { x: X(2) - 2, y: Y(1) - 2, width: 3 * (cw + gp), height: ch + 4, fill: 'none', stroke: C.bad, 'stroke-width': 3, 'stroke-dasharray': '8 5' }, ex);
     S('text', { x: X(5) + 10, y: Y(1) + ch / 2 + 7, cls: 'lb fb', html: `이미 처치된 ${V('k')}는 제외` }, ex);
     // 사건별 자료 (복사본이 원자료 자리에서 내려온다)

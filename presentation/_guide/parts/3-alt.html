@@ -245,7 +245,7 @@
 <div class="widget" data-w="stack-build"></div>
 
 <aside class="note calc" data-label="손계산">
-<p>답은 OLS의 계산 방식에 있다. 고정효과를 제거한 뒤 설명변수가 하나인 회귀의 계수는 Frisch-Waugh-Lovell 정리에 따라 다음과 같다(<a href="#p1-fwl">1부 FWL 절</a>).</p>
+<p>답은 OLS의 계산 방식에 있다. 고정효과를 제거한 뒤 독립변수가 하나인 회귀의 계수는 Frisch-Waugh-Lovell 정리에 따라 다음과 같다(<a href="#p1-fwl">1부 FWL 절</a>).</p>
 <tex class="d">\hat\delta = \frac{\sum \tilde D_{it} Y_{it}}{\sum \tilde D_{it}^2}</tex>
 <p>Stacked에서는 고정효과가 자료마다 따로 있으므로 처치변수의 평균 제거도 자료 안에서 이루어진다. 분자와 분모가 자료별 합으로 나뉘며 계수는 자료별 DID의 가중평균이 된다.</p>
 <tex class="d">\hat\delta = \sum_s w_s \hat\delta_s, \qquad w_s = \frac{\sum_{(i,t)\in s} \tilde D_{it}^2}{\sum_{\text{all}} \tilde D_{it}^2}</tex>
@@ -337,7 +337,7 @@
 
 <h4>연구 배경</h4>
 
-<p>첫 번째 대상은 Beck, Levine and Levkov (2010, <em>Journal of Finance</em>), 줄여서 BLL이다. 미국에서는 주마다 서로 다른 해에 은행의 지점 설립 제한을 철폐했다(bank branching deregulation). BLL은 이 시차를 이용해 규제완화가 소득 불평등을 낮췄다고 보고했다. 결과변수는 주별 소득 불평등 지표이고 원문은 그중 주별 Gini 계수의 자연로그를 결과변수로 삼는다. 자료는 1977-2007년 미국 Current Population Survey(CPS) 3월 부가조사로 계산한 25-54세 개인 소득의 Gini이며 48개 주와 워싱턴 D.C.의 31년, 1519개 주-연도 관측치다(원문 각주 13).</p>
+<p>첫 번째 대상은 Beck, Levine and Levkov (2010, <em>Journal of Finance</em>), 줄여서 BLL이다. 미국에서는 주마다 서로 다른 해에 은행의 지점 설립 제한을 철폐했다(bank branching deregulation). BLL은 이 시차를 이용해 규제완화가 소득 불평등을 낮췄다고 보고했다. 종속변수는 주별 소득 불평등 지표이고 원문은 그중 주별 Gini 계수의 자연로그를 종속변수로 삼는다. 자료는 1977-2007년 미국 Current Population Survey(CPS) 3월 부가조사로 계산한 25-54세 개인 소득의 Gini이며 48개 주와 워싱턴 D.C.의 31년, 1519개 주-연도 관측치다(원문 각주 13).</p>
 
 <tex class="d">\log(\text{Gini})_{st} = \alpha_s + \lambda_t + \delta^{DD} D_{st} + \epsilon_{st}</tex>
 

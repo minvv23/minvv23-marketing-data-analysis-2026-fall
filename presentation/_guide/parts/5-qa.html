@@ -60,7 +60,7 @@
 <details class="qa">
 <summary>실제로 처치된 칸의 처치변수 잔차 D̃가 왜 음수가 되나?</summary>
 <div class="ans">
-<p>FWL 정리(Frisch-Waugh-Lovell theorem, 다른 설명변수를 먼저 제거한 잔차끼리 회귀해도 같은 계수를 얻는다는 정리)에 따르면 TWFE 계수는 처치 더미 D에서 단위 평균과 시점 평균을 제거한 잔차 D̃로 결과를 가중한 값이다 (<a href="#p1-fwl">1부</a>). 균형패널에서 D̃는 다음과 같다.</p>
+<p>FWL 정리(Frisch-Waugh-Lovell theorem, 다른 독립변수를 먼저 제거한 잔차끼리 회귀해도 같은 계수를 얻는다는 정리)에 따르면 TWFE 계수는 처치 더미 D에서 단위 평균과 시점 평균을 제거한 잔차 D̃로 종속변수를 가중한 값이다 (<a href="#p1-fwl">1부</a>). 균형패널에서 D̃는 다음과 같다.</p>
 <tex class="d">\tilde D_{it}=D_{it}-\left(\bar D_i+\bar D_t-\bar D\right),\qquad \hat\delta=\frac{\sum_{i,t}\tilde D_{it}Y_{it}}{\sum_{i,t}\tilde D_{it}^2}</tex>
 <p>괄호 안의 값은 단위 고정효과와 시점 고정효과만으로 D를 예측한 값이다. 오래전에 처치된 단위를 대부분의 단위가 처치된 늦은 시점에 관측하면 그 단위의 처치 비율 D̄<sub>i</sub>도 크고 그 시점의 처치 비율 D̄<sub>t</sub>도 커서 예측값이 1을 초과할 수 있다. 실제 D는 1을 초과할 수 없으므로 잔차가 음수가 된다.</p>
 <p>E, L 예제에서 E의 3기는 D̄<sub>E</sub> = 2/3, D̄<sub>3</sub> = 1, D̄ = 1/2이므로 예측값이 2/3 + 1 − 1/2 = 7/6이고 D̃ = 1 − 7/6 = −1/6이다 (<a class="deck" data-s="7" data-b="0">덱 7장</a>). 회귀는 실제로 처치된 이 칸을 예상보다 덜 처치된 관측, 곧 비교집단 쪽 관측처럼 사용한다. 그 칸의 결과가 클수록 계수는 낮아진다.</p>
@@ -471,7 +471,7 @@
 
 <h4>3주차 Bertrand, Duflo, Mullainathan (2004)</h4>
 <p>BLW의 제목 "How much should we trust staggered difference-in-differences estimates?"는 BDM(Bertrand, Duflo, Mullainathan)의 제목 "How much should we trust differences-in-differences estimates?"에 staggered 한 단어를 더한 형태다. 방법도 닮았다. BDM은 실제 CPS 여성 임금자료에 존재하지 않는 주별 법(가짜 법, placebo law)을 무작위로 부여해 참효과가 0인 자료를 만들고 회귀가 얼마나 자주 유의한 효과를 잘못 보고하는지 측정했다. BLW도 실제 Compustat 자료의 변동 구조를 유지한 채 주별 도입 시점을 무작위로 배정했고 BLW 심층요약 8절은 이를 BDM과 같은 발상이라고 설명한다.</p>
-<p>두 논문이 측정한 문제는 다르다. BDM이 측정한 것은 추론의 문제다. 결과변수의 시계열 상관과 한 번 시행되면 계속 1인 처치변수가 겹치면 독립 오차를 가정한 표준오차가 너무 작아져 효과가 없는 법도 자주 유의하게 나온다. 주-연도 단위 군집으로도 기각률이 44% 안팎에 머물렀고(Table II 행 2) 주의 모든 연도를 한 군집으로 묶는 주 단위 군집이 해법 가운데 하나로 제시되었다 (BDM 심층요약 8절, 10절). 계수의 중심은 맞고 그 불확실성을 잘못 계산하는 문제다. BLW가 측정한 것은 중심의 문제다. 주 단위 군집강건 표준오차를 사용해도 제1종 오류가 약 80%였다 (원문 Fig. 4).</p>
+<p>두 논문이 측정한 문제는 다르다. BDM이 측정한 것은 추론의 문제다. 종속변수의 시계열 상관과 한 번 시행되면 계속 1인 처치변수가 겹치면 독립 오차를 가정한 표준오차가 너무 작아져 효과가 없는 법도 자주 유의하게 나온다. 주-연도 단위 군집으로도 기각률이 44% 안팎에 머물렀고(Table II 행 2) 주의 모든 연도를 한 군집으로 묶는 주 단위 군집이 해법 가운데 하나로 제시되었다 (BDM 심층요약 8절, 10절). 계수의 중심은 맞고 그 불확실성을 잘못 계산하는 문제다. BLW가 측정한 것은 중심의 문제다. 주 단위 군집강건 표준오차를 사용해도 제1종 오류가 약 80%였다 (원문 Fig. 4).</p>
 <p>BDM의 실험에서 TWFE 편향이 나타나지 않은 이유도 BLW로 설명된다. 가짜 법의 효과는 0이고 검정력 실험에서 주입한 효과도 모든 처치 주에서 같은 2%였다 (BDM 심층요약 8절). 효과가 동질적이고 일정하면 이미 처치된 비교집단이 있어도 ΔATT가 0이다. BDM이 주마다 도입 연도가 다른 시차 도입 가짜 법으로도 비슷한 결과를 얻었다고 적은 것(BDM 각주 10)도 같은 이유로 이해된다. BLW는 무작위 배정을 유지하면서 효과의 이질성과 동학을 더해 편향을 만들었다. 이 마지막 연결은 이 가이드의 해석이다.</p>
 <aside class="note say" data-label="발표에서는"><p>3주차에 읽은 Bertrand, Duflo, Mullainathan의 논문과 제목이 거의 같습니다. 그 논문은 표준오차가 너무 작게 계산되는 문제를 다뤘고 주 단위 군집이 해법이었습니다. 이 논문은 같은 가짜 정책 시뮬레이션 방식으로 군집 표준오차로도 고칠 수 없는 추정치 중심의 문제를 보였습니다.</p></aside>
 
@@ -533,7 +533,7 @@
 <tr><td>두 방향 고정효과 회귀</td><td>two-way fixed effects, TWFE</td><td>단위 고정효과와 시점 고정효과를 함께 포함하고 도입 후 더미 하나의 계수 δ를 추정하는 회귀.</td><td><a href="#p1-twfe">1부 TWFE</a></td></tr>
 <tr><td>단위 고정효과</td><td>unit fixed effects</td><td>단위마다 다른 절편. 시간에 따라 변하지 않는 수준 차이를 흡수한다.</td><td><a href="#p1-twfe">1부 TWFE</a></td></tr>
 <tr><td>시점(연도) 고정효과</td><td>time (year) fixed effects</td><td>시점마다 다른 절편. 모든 단위에 공통인 충격을 흡수한다.</td><td><a href="#p1-twfe">1부 TWFE</a></td></tr>
-<tr><td>FWL 정리</td><td>Frisch-Waugh-Lovell theorem</td><td>다른 설명변수를 먼저 제거한 잔차끼리 회귀해도 같은 계수를 얻는다는 정리.</td><td><a href="#p1-fwl">1부 FWL</a></td></tr>
+<tr><td>FWL 정리</td><td>Frisch-Waugh-Lovell theorem</td><td>다른 독립변수를 먼저 제거한 잔차끼리 회귀해도 같은 계수를 얻는다는 정리.</td><td><a href="#p1-fwl">1부 FWL</a></td></tr>
 <tr><td>처치변수 잔차</td><td>residualized treatment, D̃</td><td>D에서 단위 평균과 시점 평균을 제거하고 전체 평균을 더한 값. TWFE 계수는 ΣD̃Y / ΣD̃²이다.</td><td><a href="#p1-fwl">1부 FWL</a></td></tr>
 <tr><td>음의 가중치</td><td>negative weights</td><td>TWFE 계수를 처치된 칸별 효과의 가중합으로 썼을 때 일부 처치된 칸이 받는 음수 가중치.</td><td><a href="#p1-negw">1부 음의 가중치</a></td></tr>
 <tr><td>이미 처치된 단위</td><td>already-treated unit</td><td>비교 기간에 이미 처치 상태인 단위. TWFE에서는 나중 코호트의 비교집단으로도 사용된다.</td><td><a href="#p1-bad">1부 잘못된 비교</a></td></tr>
@@ -581,9 +581,9 @@
 <tr><td>승수 부트스트랩</td><td>multiplier bootstrap</td><td>CS가 상대시점 계수 여러 개의 동시 신뢰구간을 구할 때 사용하는 부트스트랩.</td><td><a href="#p3-cs">3부 CS</a></td></tr>
 <tr><td>imputation 추정량</td><td>imputation estimator</td><td>미처치 관측으로 고정효과 모형을 추정해 처치 관측의 반사실적 결과를 대입하는 방법 (Borusyak, Jaravel, Spiess 2024).</td><td><a href="#p3-after">3부 논문 이후</a></td></tr>
 <tr><td>Compustat</td><td>Compustat</td><td>미국 상장기업 재무자료 데이터베이스. 원문 시뮬레이션 자료의 출처다.</td><td><a href="#p2-design">2부 자료 생성</a></td></tr>
-<tr><td>ROA</td><td>return on assets</td><td>자산 대비 이익의 비율(자산수익률). 원문 시뮬레이션의 결과변수이며 표본 표준편차 σ는 30.9%다.</td><td><a href="#p2-design">2부 자료 생성</a></td></tr>
-<tr><td>Gini 계수</td><td>Gini coefficient</td><td>소득 불평등 지표. BLL 재분석은 주별 Gini의 자연로그를 결과변수로 사용했다.</td><td><a href="#p3-bll">3부 BLL</a></td></tr>
-<tr><td>Tobin's Q</td><td>Tobin's Q</td><td>기업의 시장가치를 자산의 대체원가로 나눈 값. FHLT의 결과변수이며 로그를 취하지 않은 수준 변수다.</td><td><a href="#p3-fhlt">3부 FHLT</a></td></tr>
+<tr><td>ROA</td><td>return on assets</td><td>자산 대비 이익의 비율(자산수익률). 원문 시뮬레이션의 종속변수이며 표본 표준편차 σ는 30.9%다.</td><td><a href="#p2-design">2부 자료 생성</a></td></tr>
+<tr><td>Gini 계수</td><td>Gini coefficient</td><td>소득 불평등 지표. BLL 재분석은 주별 Gini의 자연로그를 종속변수로 사용했다.</td><td><a href="#p3-bll">3부 BLL</a></td></tr>
+<tr><td>Tobin's Q</td><td>Tobin's Q</td><td>기업의 시장가치를 자산의 대체원가로 나눈 값. FHLT의 종속변수이며 로그를 취하지 않은 수준 변수다.</td><td><a href="#p3-fhlt">3부 FHLT</a></td></tr>
 <tr><td>BLL</td><td>Beck, Levine, Levkov (2010)</td><td>미국 주들의 은행 지점 규제완화가 소득 불평등을 줄였다고 보고한 연구. 원문의 첫 번째 재분석 대상이다.</td><td><a href="#p3-bll">3부 BLL</a></td></tr>
 <tr><td>FHLT</td><td>Fauver, Hung, Li, Taboada (2017)</td><td>국가별로 시점이 다른 41건의 이사회 개혁이 기업가치를 높였다고 보고한 연구. 원문의 두 번째 재분석 대상이다.</td><td><a href="#p3-fhlt">3부 FHLT</a></td></tr>
 </tbody></table></div>

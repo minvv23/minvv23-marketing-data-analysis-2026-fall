@@ -65,8 +65,11 @@
     [0, .5, 1].forEach(n => S('text', { x: px(n), y: py(0) + 26, 'text-anchor': 'middle', cls: 'ax', text: n === .5 ? '0.5' : n }, gp));
     S('text', { x: 258, y: py(0) + 52, 'text-anchor': 'middle', cls: 'lbs', text: 'D̄ (관측 기간 중 처치된 기간의 비율)' }, gp);
     { const pts = []; for (let i = 0; i <= 50; i++) pts.push([px(i / 50), py(i / 50 * (1 - i / 50))]); S('path', { pts, stroke: C.ink, 'stroke-width': 2.5, fill: 'none' }, gp); }
+    // 점은 D̄ 하나만 보간하고 매 프레임 곡선 위 좌표 (D̄, D̄(1 − D̄))로 옮긴다. tx, ty를 따로 보간하면 이동 중에 곡선을 벗어난다.
     const mk = (n, col, k, dy) => { const g = S('g', { tx: px(.5), ty: py(.25) }, gp); S('circle', { cx: 0, cy: 0, r: 8.5, fill: col, stroke: '#fff', 'stroke-width': 2.5 }, g);
-      const t = S('text', { x: 0, y: dy, 'text-anchor': 'middle', cls: 'lb halo ' + k, 'font-weight': 700, html: '' }, g); return { g, t, n }; };
+      const t = S('text', { x: 0, y: dy, 'text-anchor': 'middle', cls: 'lb halo ' + k, 'font-weight': 700, html: '' }, g);
+      const place = d => { const x = px(d), y = py(d * (1 - d)); g.__s.tx = x; g.__s.ty = y; g.setAttribute('transform', `translate(${x.toFixed(2)} ${y.toFixed(2)})`); t.innerHTML = `${V(n)}  D̄ = ${fmt(d, 2).replace(/0$/, '')}`; return ''; };
+      const h = S('text', { fmt: place, num: .5, o: 0 }, gp); return { g, t, n, h }; };
     const mK = mk('k', C.c1, 'f1', -16), mL = mk('l', C.c2, 'f2', 31);
     // 네 2x2의 가중치
     const bw = lin(0, .5, 462, 300), BX = [556, 642, 728, 814], gb = S('g', { o: 0 }, v);
@@ -97,8 +100,7 @@
       cols.forEach((g, c) => show(g, B >= 0 && c >= s.c0 && c <= s.c1, { dur: 400, delay: (c < 5 || c > 9) && (st === 3 || st === 4) ? 120 + Math.abs(c - 7) * 40 : 0 }));
       show(bBase, B >= 0); show(bPost, key === 'post'); show(bPre, key === 'pre');
       show(gb, st >= 1); bars.forEach((b, i) => { const w = st >= 1 ? d.w[i] : 0; tw(b.r, { y: bw(w), height: 462 - bw(w) }, o); tw(b.t, { ty: bw(w) - 8, num: w }, o); });
-      show(gp, st >= 2); tw(mK.g, { tx: px(d.dk), ty: py(d.dk * (1 - d.dk)) }, o); tw(mL.g, { tx: px(d.dl), ty: py(d.dl * (1 - d.dl)) }, o);
-      mK.t.innerHTML = `${V('k')}  D̄ = ${fmt(d.dk, 1)}`; mL.t.innerHTML = `${V('l')}  D̄ = ${fmt(d.dl, 1)}`; mL.t.setAttribute('text-anchor', d.dl < .5 ? 'start' : 'end'); mL.t.setAttribute('x', d.dl < .5 ? 16 : -16);
+      show(gp, st >= 2); tw(mK.h, { num: d.dk }, o); tw(mL.h, { num: d.dl }, o); mL.t.setAttribute('text-anchor', d.dl < .5 ? 'start' : 'end'); mL.t.setAttribute('x', d.dl < .5 ? 16 : -16);
       show(gc, st >= 1 && st <= 4); const a = d.w[0] + d.w[1];
       eq.innerHTML = `TWFE 계수 = 4 × ${fmt(a, 3)} + 2 × ${fmt(1 - a, 3)} = <tspan class="big">${fmt(d.delta, 2)}</tspan>`;
       MK.forEach(m => { const on = st <= 4 && (m.key === 'base' ? st >= 1 : m.key === 'post' ? st >= 3 : st >= 4), cur = m.key === key; show(m.g, on, { delay: on && cur && st >= 3 ? 500 : 0 }); tw(m.c, { fill: cur ? C.ink : '#a4a5ab' }, { dur: 400 }); m.t.style.fill = cur ? C.ink : C.muted; });

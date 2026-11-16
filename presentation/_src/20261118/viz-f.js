@@ -22,7 +22,7 @@
       S('text', { x: x + 14, y: y + ch / 2 + 9, 'font-size': 26, 'font-weight': 800, fill: c.d < 0 && c.tr ? C.bad : C.ink, text: f(c.d) }, top);
       S('text', { x: x + cw - 12, y: y + ch / 2 + 7, 'text-anchor': 'end', cls: 'lbs', text: 'Y = ' + c.y }, top);
     });
-    S('text', { x: gx0 + 3 * (cw + gp) - gp, y: gy0 + 2 * (ch + gp) + 14, 'text-anchor': 'end', cls: 'lbs', text: '큰 숫자: 잔차 D̃ (앞 장 3단계),  작은 숫자: 결과 Y' }, top);
+    S('text', { x: gx0 + 3 * (cw + gp) - gp, y: gy0 + 2 * (ch + gp) + 14, 'text-anchor': 'end', cls: 'lbs', text: '큰 숫자: 잔차 D̃ (앞 장 3단계),  작은 숫자: 종속변수 Y' }, top);
 
     // 아래: 산점도
     const x = lin(-0.42, 0.42, 110, 850), y = lin(-1, 11, 742, 268);
@@ -31,7 +31,7 @@
     S('line', { x1: x(0), x2: x(0), y1: y(11), y2: y(-1), cls: 'zero' }, ax);
     [-1 / 3, -1 / 6, 1 / 6, 1 / 3].forEach(d => S('text', { x: x(d), y: y(-1) + 26, 'text-anchor': 'middle', cls: 'ax', text: f(d) }, ax));
     S('text', { x: x(0), y: y(-1) + 26, 'text-anchor': 'middle', cls: 'ax', text: '0' }, ax);
-    S('text', { x: 850, y: y(-1) + 50, 'text-anchor': 'end', cls: 'lbs', text: '가로축: 잔차 D̃,  세로축: 결과 Y' }, ax);
+    S('text', { x: 850, y: y(-1) + 50, 'text-anchor': 'end', cls: 'lbs', text: '가로축: 잔차 D̃,  세로축: 종속변수 Y' }, ax);
 
     // 회귀선 (기울기 b, 평균점 (0, ȳ)을 지난다)
     const lineOf = (b, ybar) => [[x(-0.42), y(ybar + b * -0.42)], [x(0.42), y(ybar + b * 0.42)]];

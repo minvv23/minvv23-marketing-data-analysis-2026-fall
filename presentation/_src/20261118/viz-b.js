@@ -135,15 +135,16 @@
     const marks = D[4].parts.map((p, i) => {
       const badp = p.type === 'LvE', col = badp ? C.bad : C.ink, g = S('g', { o: 0 }, v);
       const arrow = S('line', { x1: 0, x2: 0, y1: 0, y2: 0, stroke: col, 'stroke-width': 2, 'stroke-dasharray': '3 4', tx: x(p.w) }, g);
-      const hollow = badp ? S('path', { pts: tri(0, 0, 10), close: true, fill: '#fff', stroke: col, 'stroke-width': 2.5, tx: x(p.w), ty: y(0) }, g) : S('circle', { cx: 0, cy: 0, r: 8.5, fill: '#fff', stroke: col, 'stroke-width': 2.5, tx: x(p.w), ty: y(0) }, g);
+      // 빈 표시(참 ATT)는 채운 표시(DID)보다 크게, 위에 그린다. 둘이 같으면 채운 표시를 감싼 테두리로 보인다.
       const solid = badp ? S('path', { pts: tri(0, 0, 10), close: true, fill: col, tx: x(p.w), ty: y(0) }, g) : S('circle', { cx: 0, cy: 0, r: 8.5, fill: col, tx: x(p.w), ty: y(0) }, g);
+      const hollow = badp ? S('path', { pts: tri(0, -1, 17), close: true, fill: 'none', stroke: col, 'stroke-width': 2.5, tx: x(p.w), ty: y(0) }, g) : S('circle', { cx: 0, cy: 0, r: 14, fill: 'none', stroke: col, 'stroke-width': 2.5, tx: x(p.w), ty: y(0) }, g);
       const lab = S('text', { x: 0, y: badp ? 31 : -17, 'text-anchor': 'middle', cls: 'lb' + (badp ? ' fb' : ''), text: `'${yy[p.treat]} 대 '${yy[p.ctrl]}`, tx: x(p.w), ty: y(0) }, g);
       return { g, arrow, hollow, solid, lab, badp };
     });
     // 범례
     const lg = S('g', {}, v); S('circle', { cx: 104, cy: 20, r: 7, fill: C.ink }, lg); S('text', { x: 118, y: 26, cls: 'lbs', text: '먼저 도입 대 아직 미처치' }, lg);
     S('path', { pts: tri(332, 21, 8.5), close: true, fill: C.bad }, lg); S('text', { x: 346, y: 26, cls: 'lbs', text: '나중 도입 대 이미 처치' }, lg);
-    S('circle', { cx: 546, cy: 20, r: 6.5, fill: '#fff', stroke: C.muted, 'stroke-width': 2 }, lg); S('text', { x: 560, y: 26, cls: 'lbs', text: '참 ATT' }, lg);
+    S('circle', { cx: 546, cy: 20, r: 9, fill: 'none', stroke: C.ink, 'stroke-width': 2 }, lg); S('path', { pts: tri(572, 22, 10), close: true, fill: 'none', stroke: C.bad, 'stroke-width': 2 }, lg); S('text', { x: 590, y: 26, cls: 'lbs', text: '참 ATT (빈 테두리)' }, lg);
     // 수치 줄
     const ro = [['TWFE (면적의 합)', 96], ['기업평균 ATT', 390], ['세모 셋의 가중치 합', 640]].map(([t, xx]) => { const g = S('g', { o: 0 }, v); S('text', { x: xx, y: 484, cls: 'lbs', text: t }, g); const n = S('text', { x: xx, y: 518, cls: 'big', text: '' }, g); return { g, n }; });
     // 아래: 가장 나쁜 2x2 (2007년 코호트 대 1989년 코호트)
