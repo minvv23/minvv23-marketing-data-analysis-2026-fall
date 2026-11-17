@@ -218,28 +218,16 @@
   } else hosts.forEach(initW);
   window.__initAllWidgets = () => hosts.forEach(initW);
 
-  /* ---------- 읽음 표시와 목차 ---------- */
-  const KEY = 'sdid-guide-read-v1';
-  let done = new Set();
-  try { done = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch (e) { }
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify([...done])); } catch (e) { } };
-  const subs = [...document.querySelectorAll('main section.sub[id]')];
-  function paint() {
-    document.querySelectorAll('.toc li[data-id], .toc-m li[data-id]').forEach(li => li.classList.toggle('done', done.has(li.dataset.id)));
-    const n = subs.filter(s => done.has(s.id)).length;
-    document.querySelectorAll('.pc').forEach(e => e.textContent = n);
-    document.querySelectorAll('.toc .bar i').forEach(e => e.style.width = (100 * n / subs.length) + '%');
+  /* ---------- 화면 테마: 자동(기기 설정), 밝게, 어둡게. 선택은 이 브라우저에만 기억한다 ---------- */
+  const TKEY = 'sdid-guide-theme', root = document.documentElement;
+  const curTheme = () => root.getAttribute('data-theme') || 'auto';
+  function setTheme(t) {
+    if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme');
+    try { if (t === 'auto') localStorage.removeItem(TKEY); else localStorage.setItem(TKEY, t); } catch (e) { }
+    document.querySelectorAll('.theme button[data-t]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.t === t)));
   }
-  subs.forEach(s => {
-    const h = s.querySelector(':scope>h3'); if (!h) return;
-    const span = document.createElement('span'); span.className = 'h'; while (h.firstChild) span.appendChild(h.firstChild); h.appendChild(span);
-    const b = document.createElement('button'); b.type = 'button'; b.className = 'read'; b.textContent = '읽음';
-    b.setAttribute('aria-pressed', String(done.has(s.id))); b.title = '';
-    b.onclick = () => { done.has(s.id) ? done.delete(s.id) : done.add(s.id); b.setAttribute('aria-pressed', String(done.has(s.id))); save(); paint(); };
-    h.appendChild(b);
-  });
-  document.querySelectorAll('.tot').forEach(e => e.textContent = subs.length);
-  paint();
+  document.querySelectorAll('.theme button[data-t]').forEach(b => { b.onclick = () => setTheme(b.dataset.t); });
+  setTheme(curTheme());
 
   // 질문이 많은 절에는 모두 펼치기 버튼
   document.querySelectorAll('main section').forEach(sec => {

@@ -17,6 +17,7 @@
   --bg:#15161a; --ink:#ececf0; --body:#d0d1d7; --muted:#9c9ea7; --faint:#6c6e77; --line:#2d2f36; --soft:#1e2025;
   --c1:#74abd0; --c1-soft:#1c2a34; --c2:#d6a352; --c2-soft:#2e2619; --c3:#93b783; --c3-soft:#1f2a1c;
   --u:#9a9ba4; --u-soft:#25262b; --bad:#e3826b; --bad-soft:#35211c; --fig:#f4f4f2; color-scheme:dark}}
+:root[data-theme="light"]{color-scheme:light}
 :root[data-theme="dark"]{
   --bg:#15161a; --ink:#ececf0; --body:#d0d1d7; --muted:#9c9ea7; --faint:#6c6e77; --line:#2d2f36; --soft:#1e2025;
   --c1:#74abd0; --c1-soft:#1c2a34; --c2:#d6a352; --c2-soft:#2e2619; --c3:#93b783; --c3-soft:#1f2a1c;
@@ -42,14 +43,8 @@ main{min-width:0;max-width:var(--measure)}
 .toc .pt .no{color:var(--muted);font-weight:600;margin-right:.35rem;font-variant-numeric:tabular-nums}
 .toc ol ol{margin:.2rem 0 0 .55rem;border-left:1px solid var(--line);padding-left:.35rem}
 .toc ol ol a{color:var(--muted)}
-.toc li.done>a::after{content:"읽음";font-size:10.5px;color:var(--c3);border:1px solid currentColor;border-radius:3px;padding:0 .25rem;margin-left:.35rem;vertical-align:1px;font-weight:600}
 .toc .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin:.35rem 0 0 .55rem}
 .toc .grid a{text-align:center;padding:.15rem 0;font-variant-numeric:tabular-nums;color:var(--muted);border:1px solid var(--line)}
-.toc .grid li.done>a{background:var(--c3-soft);color:var(--c3);border-color:transparent}
-.toc .grid li.done>a::after{content:none}
-.toc .prog{margin-top:1.1rem;font-size:12.5px;color:var(--muted)}
-.toc .bar{height:4px;background:var(--line);border-radius:2px;margin-top:.35rem;overflow:hidden}
-.toc .bar i{display:block;height:100%;background:var(--c3);width:0;transition:width .3s}
 .toc-m{display:none}
 
 /* ---------- 머리 ---------- */
@@ -69,8 +64,7 @@ section.part{margin:0 0 5rem}
 section.part>h2{font-size:clamp(1.6rem,3.4vw,2.1rem);line-height:1.25;letter-spacing:-.015em;color:var(--ink);font-weight:800;margin:0 0 1.5rem;padding-top:1.75rem;border-top:2px solid var(--ink);text-wrap:balance}
 section.part>h2 .no{display:block;font-size:13px;letter-spacing:.12em;color:var(--muted);font-weight:700;margin-bottom:.5rem;text-transform:uppercase}
 section.sub{margin:3.25rem 0 0}
-section.sub>h3{font-size:1.35rem;line-height:1.35;letter-spacing:-.01em;color:var(--ink);font-weight:750;margin:0 0 1rem;text-wrap:balance;display:flex;gap:.75rem;align-items:baseline;justify-content:space-between}
-section.sub>h3 .h{min-width:0}
+section.sub>h3{font-size:1.35rem;line-height:1.35;letter-spacing:-.01em;color:var(--ink);font-weight:750;margin:0 0 1rem;text-wrap:balance}
 h4{font-size:1.06rem;color:var(--ink);font-weight:700;margin:2rem 0 .6rem;line-height:1.45}
 p{margin:0 0 1rem;text-wrap:pretty}
 main ul,main ol{margin:0 0 1rem;padding-left:1.35rem}
@@ -84,9 +78,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 a.deck{display:inline-flex;align-items:center;gap:.3rem;font-size:13px;font-weight:600;text-decoration:none;color:var(--c1);border:1px solid var(--c1);border-radius:999px;padding:.05rem .6rem .1rem;line-height:1.5;white-space:nowrap;vertical-align:1px}
 a.deck::before{content:"";width:.7em;height:.45em;border:1.5px solid currentColor;border-radius:1px}
 a.deck:hover{background:var(--c1-soft)}
-.read{flex:none;font:inherit;font-size:12px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:.1rem .6rem;cursor:pointer;line-height:1.6}
-.read:hover{color:var(--ink);border-color:var(--faint)}
-.read[aria-pressed="true"]{color:var(--c3);border-color:var(--c3);background:var(--c3-soft)}
 
 /* ---------- 상자 ---------- */
 aside.note{margin:1.5rem 0;padding:1rem 1.15rem 1.05rem;background:var(--soft);border-radius:6px;font-size:16px;line-height:1.7}
@@ -211,7 +202,7 @@ footer.end{border-top:1px solid var(--line);padding-top:1.25rem;font-size:13.5px
 @media (max-width:600px){
   body{font-size:16px}
   .wout{grid-template-columns:minmax(0,1fr)}
-  section.sub>h3{font-size:1.2rem;flex-direction:column;gap:.35rem}
+  section.sub>h3{font-size:1.2rem}
   details.qa>summary{padding-left:1.7rem;padding-right:1.6rem}
   details.qa .ans{padding-left:1.2rem}
 }
@@ -290,3 +281,10 @@ html.dv-run{view-transition-name:none}
 /* KaTeX의 세로 배치 상자(vlist)가 분모의 기호를 덮어 마우스가 닿지 않는 문제: 기호 태그만 포인터를 받게 한다 */
 .katex .katex-html *{pointer-events:none}
 .katex .katex-html .tk{pointer-events:auto}
+
+/* ---------- 화면 테마 전환 (자동, 밝게, 어둡게) ---------- */
+.theme{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.theme .seg button{font-size:12.5px;padding:.2rem .6rem}
+.toc .theme{margin:0 0 1.1rem}
+header.top .theme{margin:1rem 0 0}
+@media (min-width:961px){header.top .theme{display:none}}

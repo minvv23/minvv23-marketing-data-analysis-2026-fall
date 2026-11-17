@@ -120,6 +120,8 @@ const nSubs = toc.reduce((a, p) => a + p.subs.length, 0);
 
 // ---------- 머리와 꼬리 ----------
 const cells = (() => { const rows = [3, 3, 8, 8, 13, 13], cls = ['a', 'a', 'b', 'b', 'c', 'c']; let s = ''; rows.forEach((g, r) => { for (let c = 0; c < 18; c++) s += `<i${c >= g ? ` class="${cls[r]}"` : ''}></i>`; }); return s; })();
+// 화면 테마 단추(자동은 기기 설정을 따른다). 넓은 화면에서는 목차 위, 좁은 화면에서는 머리말 아래에 보인다.
+const themeCtl = `<div class="theme"><span class="seg-l">화면</span><span class="seg" role="group" aria-label="화면 테마"><button type="button" data-t="auto">자동</button><button type="button" data-t="light">밝게</button><button type="button" data-t="dark">어둡게</button></span></div>`;
 const header = `<header class="top">
 <p class="kicker">BME 642 마케팅자료분석론 / Week 10 / 발제 독해가이드</p>
 <h1>Staggered DID 발표 독해가이드</h1>
@@ -127,6 +129,7 @@ const header = `<header class="top">
 <div class="meta"><span><b>발표</b> 2026년 11월 18일(수)</span><span><b>덱</b> <a href="${DECK}" target="_blank" rel="noopener">29장 124단계</a>, 대본 약 38분</span><span><b>원문</b> Journal of Financial Economics 144(2), 370-395</span></div>
 <div class="grid-cells" aria-hidden="true">${cells}</div>
 <p class="grid-cap">행은 단위, 열은 시점이고 색칠된 칸이 도입 이후(D = 1)다. 세 코호트가 서로 다른 시점에 도입하는 것이 시차 도입이다.</p>
+${themeCtl}
 </header>`;
 const footer = `<footer class="end">
 <p>근거 자료는 원문 PDF, 수업 자료 폴더의 심층요약과 Cheat Sheet, 덱 원고(<code>presentation/_src/20261118</code>)와 대본, 슬라이드 작업기록, 후속논의 문서(2026-11-13 조사)다. 계산기와 도식은 덱의 계산 코어 <code>stats.js</code>, <code>simcore.js</code>를 그대로 사용한다.</p>
@@ -135,7 +138,7 @@ const footer = `<footer class="end">
 
 // 스크립트 순서: 계산 코어, 시뮬레이션 코어, 도식 도구, 부별 도식, 마지막에 초기화(widgets.js)
 const SCRIPTS = ['stats.js', 'simcore.js', 'viz-kit.js', 'viz-math.js', ...['viz-p1.js', 'viz-p2.js', 'viz-p3.js', 'viz-p4.js', 'viz-p5.js'].filter(n => fs.existsSync(path.join(G, n))), 'widgets.js'];
-const tocBlock = `<p class="ttl">목차</p>${tocHTML}<div class="prog">읽은 절 <span class="pc">0</span> / <span class="tot">${nSubs}</span><div class="bar"><i></i></div></div>`;
+const tocBlock = `<p class="ttl">목차</p>${tocHTML}`;
 const html = `<!doctype html>
 <html lang="ko">
 <head>
@@ -143,12 +146,13 @@ const html = `<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Staggered DID 독해가이드</title>
 <link rel="icon" href="data:,">
+<script>try{var t=localStorage.getItem('sdid-guide-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="stylesheet" href="../../learning/assets/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@${KVER}/dist/katex.min.css'">
 <link rel="stylesheet" href="guide.css">
 </head>
 <body>
 <div class="wrap">
-<nav class="toc" aria-label="목차">${tocBlock}</nav>
+<nav class="toc" aria-label="목차">${themeCtl}${tocBlock}</nav>
 <main>
 ${header}
 <details class="toc-m"><summary>목차</summary><div class="tocbody toc">${tocBlock}</div></details>
