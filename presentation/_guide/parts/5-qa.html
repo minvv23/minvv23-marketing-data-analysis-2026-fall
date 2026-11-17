@@ -48,8 +48,8 @@
 <div class="ans">
 <p>두 가중치는 서로 다른 대상에 붙는다. Goodman-Bacon 분해의 가중치는 2×2 DID 비교 하나하나에 붙는다. 이 가중치는 모두 양수이고 합이 1이다. 음의 가중치는 그 비교들을 다시 풀어 처치된 칸 하나하나의 효과 τ를 기준으로 정리했을 때 일부 칸에 붙는다.</p>
 <aside class="note calc" data-label="손계산">
-<p>E는 2기에, L은 3기에 도입하고 미처치 결과는 모두 0이다. 첫 비교(1-2기, L이 아직 미처치)의 DID는 τ<sub>E2</sub>이고 둘째 비교(2-3기, E가 이미 처치됨)의 DID는 τ<sub>L3</sub> − (τ<sub>E3</sub> − τ<sub>E2</sub>)다. TWFE는 두 비교를 절반씩 평균한다.</p>
-<tex class="d">\hat\delta=\tfrac12\,\tau_{E2}+\tfrac12\left[\tau_{L3}-(\tau_{E3}-\tau_{E2})\right]=1\cdot\tau_{E2}-\tfrac12\,\tau_{E3}+\tfrac12\,\tau_{L3}</tex>
+<p>E는 2기에, L은 3기에 도입하고 미처치 결과는 모두 0이다. 첫 비교(1-2기, L이 아직 미처치)의 DID는 τ<sub>E2</sub>이고 둘째 비교(2-3기, E가 이미 처치됨)의 DID는 τ<sub>L3</sub> − (τ<sub>E3</sub> − τ<sub>E2</sub>)다. 둘째 DID가 이 형태가 되는 과정은 <a href="#p4-s6">4부 6장</a>의 유도 단계에 있다. TWFE는 두 비교를 절반씩 평균한다.</p>
+<div class="sym"><tex class="d">\hat\delta=\tfrac12\,\tau_{E2}+\tfrac12\left[\tau_{L3}-(\tau_{E3}-\tau_{E2})\right]=1\cdot\tau_{E2}-\tfrac12\,\tau_{E3}+\tfrac12\,\tau_{L3}</tex></div>
 <p>첫 식에서 비교의 가중치는 ½, ½로 양수다. 둘째 식에서 효과 칸의 가중치는 1, −½, ½이고 합은 여전히 1이다. τ<sub>E2</sub> = 2, τ<sub>E3</sub> = 10, τ<sub>L3</sub> = 2를 대입하면 2 − 5 + 1 = −2다 (심층요약 6.1절의 교육용 수치, <a class="deck" data-s="7" data-b="0">덱 7장</a>).</p>
 </aside>
 <p>τ<sub>E3</sub> 앞에 음수가 붙는 이유는 둘째 비교에서 E의 효과 변화 τ<sub>E3</sub> − τ<sub>E2</sub>를 차감하기 때문이다. τ<sub>E2</sub>의 가중치가 1인 이유도 같다. 첫 비교에서 한 번 더하고 둘째 비교에서 −τ<sub>E2</sub>를 차감하면서 다시 더한다. 합이 1인 가중치라도 일부가 음수이면 평균이 효과들의 최솟값과 최댓값 사이에 놓인다는 보장이 사라진다. 세 효과 2, 10, 2가 모두 양수인데 계수가 −2인 이유다.</p>
@@ -61,7 +61,7 @@
 <summary>실제로 처치된 칸의 처치변수 잔차 D̃가 왜 음수가 되나?</summary>
 <div class="ans">
 <p>FWL 정리(Frisch-Waugh-Lovell theorem, 다른 독립변수를 먼저 제거한 잔차끼리 회귀해도 같은 계수를 얻는다는 정리)에 따르면 TWFE 계수는 처치 더미 D에서 단위 평균과 시점 평균을 제거한 잔차 D̃로 종속변수를 가중한 값이다 (<a href="#p1-fwl">1부</a>). 균형패널에서 D̃는 다음과 같다.</p>
-<tex class="d">\tilde D_{it}=D_{it}-\left(\bar D_i+\bar D_t-\bar D\right),\qquad \hat\delta=\frac{\sum_{i,t}\tilde D_{it}Y_{it}}{\sum_{i,t}\tilde D_{it}^2}</tex>
+<div class="sym"><tex class="d">\tilde D_{it}=D_{it}-\left(\bar D_i+\bar D_t-\bar D\right),\qquad \hat\delta=\frac{\sum_{i,t}\tilde D_{it}Y_{it}}{\sum_{i,t}\tilde D_{it}^2}</tex></div>
 <p>괄호 안의 값은 단위 고정효과와 시점 고정효과만으로 D를 예측한 값이다. 오래전에 처치된 단위를 대부분의 단위가 처치된 늦은 시점에 관측하면 그 단위의 처치 비율 D̄<sub>i</sub>도 크고 그 시점의 처치 비율 D̄<sub>t</sub>도 커서 예측값이 1을 초과할 수 있다. 실제 D는 1을 초과할 수 없으므로 잔차가 음수가 된다.</p>
 <p>E, L 예제에서 E의 3기는 D̄<sub>E</sub> = 2/3, D̄<sub>3</sub> = 1, D̄ = 1/2이므로 예측값이 2/3 + 1 − 1/2 = 7/6이고 D̃ = 1 − 7/6 = −1/6이다 (<a class="deck" data-s="7" data-b="0">덱 7장</a>). 회귀는 실제로 처치된 이 칸을 예상보다 덜 처치된 관측, 곧 비교집단 쪽 관측처럼 사용한다. 그 칸의 결과가 클수록 계수는 낮아진다.</p>
 <aside class="note warn" data-label="헷갈리기 쉬운 점"><p>D̃가 음수인 칸도 실제로는 처치된 칸이다. 음수 부호는 단위와 시점의 평균적 패턴을 제거한 뒤의 값에 붙은 것이다 (심층요약 4절).</p></aside>
@@ -134,7 +134,7 @@
 <details class="qa">
 <summary>기업평균 ATT와 관측치평균 ATT 가운데 무엇을 목표로 해야 하나?</summary>
 <div class="ans">
-<p>불균형 패널에서는 표본평균 ATT가 하나로 정해지지 않는다. 기업평균 ATT는 처치기업마다 사후 기간 효과의 평균을 먼저 구한 뒤 기업 사이에서 평균한다. 관측치평균 ATT는 모든 사후 처치 관측치를 같은 비중으로 평균하므로 사후 관측이 많은 기업이 더 크게 반영된다. 원문은 균형패널이거나 효과가 일정하면 둘이 같다고 적었다. 다만 시차 도입에서는 균형패널이어도 코호트마다 사후 기간의 길이가 달라서 코호트별 효과가 다르면 두 값이 달라진다(덱의 균형패널 Sim 4에서 0.308σ와 0.371σ, <a href="#p2-design">2부</a>). 저자들은 두 정의 가운데 하나가 더 옳다고 하지 않고 Fig. 1, 2에 두 기준선을 함께 그렸다 (원문 3.1절, 심층요약 8절).</p>
+<p>불균형 패널에서는 표본평균 ATT가 하나로 정해지지 않는다. 기업평균 ATT는 처치기업마다 사후 기간 효과의 평균을 먼저 구한 뒤 기업 사이에서 평균한다. 관측치평균 ATT는 모든 사후 처치 관측치를 같은 비중으로 평균하므로 사후 관측이 많은 기업이 더 크게 반영된다. 원문은 균형패널이거나 효과가 일정하면 둘이 같다고 적었다. 다만 시차 도입에서는 균형패널이어도 코호트마다 사후 기간의 길이가 달라서 코호트별 효과가 다르면 두 값이 달라진다(덱의 균형패널 Sim 4에서 0.308σ와 0.371σ, <a href="#p2-design">2부</a>). 저자들은 두 정의 가운데 하나가 더 옳다고 하지 않고 Fig. 1, 2에 두 기준선을 함께 그렸다 (원문 3.1절, 심층요약 8절). Sim 4, 5, 6의 두 값을 코호트별 평균효과에서 직접 계산한 표는 <a href="#p4-s12">4부 12장</a>의 손계산에 있다.</p>
 <p>선택은 연구 질문에 달려 있다. 전형적인 처치기업이 얻는 효과를 묻는다면 기업평균이, 처치된 기업-연도 전체의 평균 변화를 묻는다면 관측치평균이 질문에 가깝다. 같은 원리가 집단 가중에도 적용된다. 가상으로 A 집단(80명)의 효과가 2, B 집단(20명)의 효과가 8이면 사람 수로 가중한 평균은 0.8(2) + 0.2(8) = 3.2이고 두 집단을 동일하게 가중하면 5다 (심층요약 11절의 교육용 수치). 두 계산 모두 정확하지만 답하는 질문이 다르다.</p>
 <p>TWFE의 문제는 이 선택을 연구자 대신 OLS의 분산 가중이 정한다는 데 있다. CS는 집계 방식을 연구자가 정하게 하고 전체 효과 하나를 원하면 코호트별 사후 평균을 구한 뒤 코호트 표본비중으로 평균하라고 권한다 (<a href="#p3-cs">3부</a>).</p>
 </div>
@@ -166,6 +166,7 @@
 <li>공변량. CS는 처치 전에 고정된 공변량을 허용하고 회귀, IPW(역확률가중, inverse probability weighting), 이중강건(doubly robust) 추정을 제공한다. SA는 공변량을 허용하지 않는다.</li>
 <li>추론. CS는 승수 부트스트랩으로 동시 신뢰구간을 구하고 SA는 점근식 표준오차로 점별 추론을 한다 (심층요약 10.1절).</li>
 </ul>
+<p>셋째 항목의 용어는 다음과 같다. 점별 신뢰구간(pointwise confidence interval)은 상대시점 계수 하나하나가 구간 안에 들어갈 확률을 95%로 맞춘다. 사건연구 그림처럼 계수가 열 개 남짓이면 점별 구간으로는 적어도 하나가 우연히 구간 밖에 놓일 확률이 5%보다 커진다. 동시 신뢰구간(simultaneous confidence band)은 모든 계수가 동시에 구간 안에 들어갈 확률을 95%로 맞추므로 점별 구간보다 넓다. 승수 부트스트랩(multiplier bootstrap)은 자료를 다시 추출하는 대신 관측치마다 추정치에 미치는 기여분에 평균 0인 무작위 가중을 곱하는 방식으로 추정치의 분포를 근사하므로 계산이 빠르다. 점근식 표준오차는 표본이 클 때 성립하는 공식으로 계산한 표준오차이며 OLS의 일반적인 표준오차가 여기에 해당한다.</p>
 <p>저자들은 SA를 회귀 하나로 끝나는 간단하고 빠른 방법으로, CS를 가장 유연한 방법으로 평가했고 재분석에는 CS를 주로 사용했다 (<a class="deck" data-s="22" data-b="0">덱 22장</a>).</p>
 </div>
 </details>
@@ -178,7 +179,7 @@
 <p>심층요약 12절의 교육용 예제다. U 1단위, k 1단위(2기 도입), l 3단위(4기 도입)이고 효과는 k가 항상 2, l이 항상 6이다. 사건창은 도입 1기 전부터 1기 후까지다. k의 사건 자료(1-3기)에서는 U와 아직 미처치인 l이 비교집단이 되어 DID가 2이다. l의 사건 자료(3-5기)에서는 이미 처치된 k가 제외되고 U만 비교집단으로 남아 DID가 6이다. 두 DID 모두 정확하다.</p>
 <p>그런데 쌓은 자료의 계수는 122/31 ≈ 3.94다. 처치 단위 수로 평균한 ATT는 (1 × 2 + 3 × 6)/4 = 5다. 각 사건 자료의 가중치는 (관측치 수) × p(1 − p) × q(1 − q)에 비례한다. p는 처치 단위의 비율, q는 사후 기간의 비율이다. k 자료는 15 × (1/5)(4/5) × (2/3)(1/3), l 자료는 12 × (3/4)(1/4) × (2/3)(1/3)이어서 비율이 16:15다. 처치 단위의 4분의 1에 불과한 k가 16/31 ≈ 0.52의 가중치를 받는다.</p>
 </aside>
-<p>l 자료는 처치 단위 3개에 비교 단위가 1개뿐이라 처치변수의 분산이 작아서 가중치가 낮다 (<a href="#p3-stacked">3부</a>, <a class="deck" data-s="20" data-b="0">덱 20장</a>).</p>
+<p>l 자료는 처치 단위 3개에 비교 단위가 1개뿐이므로 처치변수의 분산이 작고 가중치도 낮다 (<a href="#p3-stacked">3부</a>, <a class="deck" data-s="20" data-b="0">덱 20장</a>). 두 사건 자료의 <tex>N_s, T_s, p_s, q_s</tex>와 가중치를 한 표에 정리한 계산은 <a href="#p4-s20">4부 20장</a>의 손계산에 있다.</p>
 </div>
 </details>
 
@@ -186,7 +187,7 @@
 <summary>도입 시점의 종류가 많을수록 문제 소지가 있는 비교는 얼마나 늘어나나?</summary>
 <div class="ans">
 <p>도입 시점 집단이 G개이고 미처치 집단이 하나이면 2×2 비교는 G²개다. 그 가운데 G개는 처치 코호트를 미처치 집단과 비교하고 나머지 G² − G개는 처치 시점의 차이만 이용하는 비교다. 그 절반이 이미 처치된 코호트를 비교집단으로 사용하므로 문제 소지가 있는 비교의 비율은 다음과 같다 (원문 3.1절, 심층요약 6절).</p>
-<tex class="d">\frac{(G^2-G)/2}{G^2}=\frac{1}{2}\left(1-\frac{1}{G}\right)</tex>
+<div class="sym"><tex class="d">\frac{(\gl{qNg}{G}^2-\gl{qNg}{G})/2}{\gl{qNg}{G}^2}=\frac{1}{2}\left(1-\frac{1}{\gl{qNg}{G}}\right)</tex></div>
 <p>G = 2이면 네 비교 가운데 하나(25%), G = 10이면 45%다. 이것은 비교의 개수 비율이고 가중치 비율과 다르다. 실제 계수에 미치는 영향은 각 비교의 가중치와 효과 변화의 크기에 달려 있다. BLL 자료에서는 이미 규제를 완화한 주를 비교집단으로 사용한 2×2가 가중치의 85.7%를 차지했다 (원문 Fig. 8, <a class="deck" data-s="23" data-b="0">덱 23장</a>).</p>
 </div>
 </details>
@@ -239,6 +240,13 @@
 <div class="ans">
 <p>그 기간의 효과는 DID로 식별되지 않는다. 심층요약 13.1절의 예가 이유를 보여 준다. 마지막 시점에 E의 결과가 10, L의 결과가 2로 관측되었다고 하자. 정책이 없었다면 두 집단 모두 변화가 0이었을 수도 있고 1이었을 수도 있다. 평행추세는 두 경우를 모두 허용한다.</p>
 <tex class="d">10=0+10=1+9,\qquad 2=0+2=1+1</tex>
+<p>두 등식에서는 관측값을 정책이 없었어도 일어났을 공통 변화와 처치효과의 합으로 분해했다. 표로 나타내면 두 해석이 관측값을 똑같이 재현한다.</p>
+<div class="tbl"><table>
+<thead><tr><th>해석</th><th class="n">공통 미처치 변화</th><th class="n">E의 효과</th><th class="n">L의 효과</th><th class="n">E의 관측값</th><th class="n">L의 관측값</th></tr></thead>
+<tbody>
+<tr><td>가</td><td class="n">0</td><td class="n">10</td><td class="n">2</td><td class="n">0 + 10 = 10</td><td class="n">0 + 2 = 2</td></tr>
+<tr><td>나</td><td class="n">1</td><td class="n">9</td><td class="n">1</td><td class="n">1 + 9 = 10</td><td class="n">1 + 1 = 2</td></tr>
+</tbody></table></div>
 <p>관측값은 같은데 효과는 다르다. 그 시점의 공통 변화를 알려 줄 미처치 관측이 없기 때문이다. 이 문제를 해결하려면 미처치 집단을 추가하거나 미처치 추세를 외삽하거나 효과가 일정하다는 추가 가정을 두어야 한다. 표준오차를 줄이거나 회귀식을 바꾸는 방법으로는 해결되지 않는다.</p>
 <p>저자들도 BLL 자료에서 모든 주가 규제를 완화한 1999년 이후 관측치, FHLT 자료에서 마지막 개혁 이후 관측치를 사건연구와 대안 추정에서 사용하지 않았다 (원문 각주 15, 16). TWFE는 이 기간을 계수 계산에 사용하지만 그 계산은 이미 처치된 단위끼리의 비교에 의존한다. 대안 추정량이 이 기간을 추정하지 않는 것은 현재 자료와 가정으로 답할 수 없는 질문을 구분한 결과다.</p>
 </div>
@@ -283,7 +291,7 @@
 <details class="qa">
 <summary>군집 수가 적으면 대안 추정량을 사용해도 추론이 불안정하지 않나?</summary>
 <div class="ans">
-<p>불안정할 수 있다. 이는 이 논문이 다룬 편향과 별개의 문제다. 처치가 배정되는 단위의 수, 특히 처치된 군집의 수가 적으면 군집강건 표준오차가 신뢰구간을 너무 좁게 계산할 수 있다. 논문 이후 연구는 CS에서도 군집 수가 적을 때 과잉기각이 심할 수 있음을 보이고 군집 잭나이프(cluster jackknife)를 제안했다 (Karim 등 2026, 후속논의 6절).</p>
+<p>불안정할 수 있다. 이 논문이 다룬 편향과는 별개의 문제다. 처치가 배정되는 단위의 수, 특히 처치된 군집의 수가 적으면 군집강건 표준오차가 신뢰구간을 지나치게 좁게 계산할 수 있다. 논문 이후 연구는 CS에서도 군집 수가 적을 때 과잉기각이 심할 수 있음을 보이고 군집 잭나이프(cluster jackknife)를 제안했다 (Karim 등 2026, 후속논의 6절). 과잉기각(over-rejection)은 효과가 없는데도 명목 수준(5%)보다 자주 귀무가설을 기각하는 현상이다. 군집 잭나이프는 군집을 하나씩 제외하고 추정을 반복한 뒤 그 추정치들이 흩어진 정도로 표준오차를 계산하는 방법이다.</p>
 <p>대안 추정량을 사용할 때도 처치 군집 수를 보고하고 그 수가 적으면 보완적인 추론 방법을 검토한다. 답할 때는 편향의 문제(추정치의 중심)와 추론의 문제(신뢰구간의 폭)를 구분한다.</p>
 </div>
 </details>
@@ -315,7 +323,9 @@
 <summary>처치가 광고비나 지원금처럼 연속형이면 이 논문의 논의가 그대로 적용되나?</summary>
 <div class="ans">
 <p>그대로 적용되지는 않는다. BLW와 Goodman-Bacon 분해는 한 번 도입되면 유지되는 이진 처치(흡수적 처치, absorbing treatment)를 전제한다. 처치가 연속형이면 새로운 문제가 추가된다.</p>
-<p>Callaway, Goodman-Bacon, Sant'Anna의 연속형 DID 논문(AER forthcoming)은 처치량 d를 받은 단위에게 d가 0 대비 미친 효과 ATT(d|d)와, 그 단위들의 처치량을 d 근처에서 조금 늘리는 효과 ACRT(d|d)를 구분한다. 앞의 것은 일반적인 평행추세 아래에서 식별되지만 뒤의 것은 처치량을 선택한 단위들의 반응에 관한 추가 제한이 필요하다. 서로 다른 처치량의 ATT를 비교하면 처치량과 단위의 구성이 함께 바뀌기 때문이다. 이 문제는 이진 처치의 음의 가중치 문제와 다르며 가중치가 모두 양수여도 선택 항이 남을 수 있다 (<code>20261111_Continuous_DID_최신논의.md</code> 2절).</p>
+<p>Callaway, Goodman-Bacon, Sant'Anna의 연속형 DID 논문(AER forthcoming)은 처치량 d를 받은 단위에 d가 0 대비 미친 효과 ATT(d|d)와 그 단위들의 처치량을 d에서 한계적으로 늘리는 효과 ACRT(d|d)를 구분한다. 앞의 것은 일반적인 평행추세 아래에서 식별되지만 뒤의 것은 처치량을 선택한 단위들의 반응에 관한 추가 제한이 필요하다. 서로 다른 처치량의 ATT를 비교하면 처치량과 단위의 구성이 함께 바뀌기 때문이다. <tex>ATT(a \mid b)</tex>를 처치량 <tex>b</tex>를 실제로 받은 단위들에게 처치량 <tex>a</tex>가 미치는 효과로 표기하면 두 처치량 <tex>d</tex>와 <tex>d'</tex>의 효과 차이는 다음과 같이 분해된다.</p>
+<div class="sym"><tex class="d">\begin{aligned}\gl{qAtdd}{ATT(d \mid d)} - \gl{qAtdd}{ATT(d' \mid d')} &= \underbrace{\big[\gl{qAtdd}{ATT(d \mid d)} - \gl{qAtdd}{ATT(d' \mid d)}\big]}_{\text{causal response}} \\[4pt] &\quad + \underbrace{\big[\gl{qAtdd}{ATT(d' \mid d)} - \gl{qAtdd}{ATT(d' \mid d')}\big]}_{\text{selection}}\end{aligned}</tex></div>
+<p>첫 괄호는 같은 단위들(처치량 <tex>d</tex>를 받은 단위)에서 처치량만 <tex>d'</tex>에서 <tex>d</tex>로 바꾼 효과다. 둘째 괄호는 같은 처치량 <tex>d'</tex>의 효과가 <tex>d</tex>를 선택한 단위와 <tex>d'</tex>을 선택한 단위 사이에서 다른 정도, 곧 선택 항이다. 일반적인 평행추세 가정은 각 <tex>ATT(d \mid d)</tex>를 식별하지만 둘째 괄호를 0으로 만들지 않는다. 앞에서 ACRT에 추가 제한이 붙는다고 한 것은 이 둘째 괄호를 제거하기 위해서다. 이 문제는 이진 처치의 음의 가중치 문제와 다르며 가중치가 모두 양수여도 선택 항이 남을 수 있다 (<code>20261111_Continuous_DID_최신논의.md</code> 2절).</p>
 <p>처치량이 매 시점 변하는 경우에는 처치량이 바뀐 단위와 그대로인 단위를 같은 기저 처치량에서 비교하는 de Chaisemartin과 D'Haultfœuille 계열의 방법이 관련된다 (같은 문서 3.3절). 같은 주차의 Shapiro (2018)와 Yoon and Kim (2024)이 연속형 광고 처치를 다루므로 이 질문은 <a href="#p5-qa-prof">다음 절</a>과 연결된다.</p>
 </div>
 </details>
@@ -330,7 +340,7 @@
 <details class="qa">
 <summary>음의 가중치는 걱정할 필요가 없다는 논문도 있지 않나?</summary>
 <div class="ans">
-<p>Borusyak and Hull (2024, AEA Papers and Proceedings)의 "Negative Weights Are No Concern in Design-Based Specifications"가 그 논문이다. 처치 배정의 조건부 기대값을 통제하는 설계 기반(design-based) 사양에서는 실현된 음의 가중치가 배정 분포 전체로 평균하면 음수가 아니게 된다는 결과다. 이 결과는 처치 배정 과정을 알고 그 기대값을 통제하는 경우에 해당한다. 평행추세만 가정하는 일반적인 관찰자료 DID에 자동으로 적용되는 면책 논리로 사용할 수 없다 (후속논의 2.2절).</p>
+<p>Borusyak and Hull (2024, AEA Papers and Proceedings)의 "Negative Weights Are No Concern in Design-Based Specifications"가 그 논문이다. 이 논문에 따르면 처치 배정의 조건부 기대값을 통제하는 설계 기반(design-based) 사양에서는 실현된 음의 가중치를 배정 분포 전체로 평균하면 음수가 되지 않는다. 설계 기반 사양은 추첨처럼 배정 방식이 알려진 처치에서 각 단위가 처치받을 기대 수준을 연구자가 계산해 회귀에서 통제하는 방식을 가리킨다. 이 결과는 처치 배정 과정을 알고 그 기대값을 통제하는 경우에 해당하므로 평행추세만 가정하는 일반적인 관찰자료 DID에 자동으로 적용되는 면책 논리로 사용할 수 없다 (후속논의 2.2절).</p>
 </div>
 </details>
 
@@ -351,7 +361,7 @@
 <details class="qa">
 <summary>Yoon and Kim (2024)의 로봇수술 광고 분석에도 이 논문이 지적한 문제가 생기나?</summary>
 <div class="ans">
-<p>먼저 설계를 정확히 확인한다. Yoon and Kim은 플로리다의 2011-2015년 입원 수술기록과 병원 TV 광고자료를 연결해 병원의 로봇수술 광고가 환자의 수술 방식 선택을 바꾸는지 추정한다. 처치변수는 환자가 거주하는 TV 광고시장(DMA)에서 접할 수 있는 해당 병원의 로봇수술 광고비다. 인구 100명당 달러로 표준화하고 퇴원 분기와 직전 분기의 평균을 사용한다. 연속형 변수이고 분기마다 값이 변한다. 로봇수술 광고는 15개 병원에 집중되어 있고 분기당 평균 0.049달러, 표준편차 0.252달러로 대부분의 병원-분기에서 0에 가깝다 (Yoon and Kim 심층요약 4절).</p>
+<p>먼저 설계를 정확히 확인한다. Yoon and Kim은 플로리다의 2011-2015년 입원 수술기록과 병원 TV 광고자료를 연결해 병원의 로봇수술 광고가 환자의 수술 방식 선택에 영향을 미치는지 추정한다. 처치변수는 환자가 거주하는 TV 광고시장(DMA, designated market area, 같은 방송과 광고를 수신하도록 묶인 카운티 집합)에서 접할 수 있는 해당 병원의 로봇수술 광고비다. 이 값은 인구 100명당 달러로 표준화하고 퇴원 분기와 직전 분기를 평균한 것으로 분기마다 값이 변하는 연속형 변수다. 로봇수술 광고는 15개 병원에 집중되어 있고 분기당 평균 0.049달러, 표준편차 0.252달러로 대부분의 병원-분기에서 0에 가깝다 (Yoon and Kim 심층요약 4절).</p>
 <p>식별은 같은 병원, 같은 진료과, 같은 분기에 수술받은 환자 가운데 DMA 경계 20마일 이내에 사는 환자들의 비교에서 나온다. 병원과 같은 DMA에 사는 환자는 그 병원의 광고에 노출되고 경계 건너편 DMA에 사는 환자는 노출되지 않는다. 회귀식에는 병원-진료과-경계-카운티 고정효과와 병원-진료과-경계-분기 고정효과가 들어간다 (같은 문서 6-8절). 주 분석의 광고계수는 0.139 (병원 군집 표준오차 0.026)다 (같은 문서 11절).</p>
 <p>BLW의 분해는 이 설계에 그대로 적용되지 않는다. BLW는 한 번 도입되면 유지되는 이진 처치가 단위마다 다른 시점에 시작되는 설계를 다룬다. Yoon and Kim의 처치는 연속형이고 켜졌다 꺼질 수 있다. 비교는 같은 병원을 이용하는 경계 양쪽의 환자 사이에서 이루어지며 도입 시점이 다른 코호트를 서로 비교하지 않는다.</p>
 <p>그래도 BLW에서 배운 질문 두 가지는 이 설계에도 던질 수 있다. 아래 두 항목은 Yoon and Kim이 직접 분석한 내용과 구분되는 이 가이드의 해석이다.</p>
@@ -368,7 +378,9 @@
 <summary>Shapiro (2018)의 DMA 경계 설계는 이 논문과 어떻게 연결되나?</summary>
 <div class="ans">
 <p>Shapiro는 1997-2003년 월별 항우울제 처방자료와 제품별 TV 광고 지출을 DMA 경계 양쪽의 카운티 묶음 단위로 연결한다. 처치는 인구 100명당 광고 지출이라는 연속형 변수다. 제품-경계-분기 고정효과가 경계 양쪽에 공통인 시간 변화를, 경계 한쪽의 고정효과가 지속적인 수준 차이를 제거한다. 그 결과 광고계수는 경계 양쪽의 광고 차이가 시간에 따라 변할 때만 식별된다 (Shapiro 심층요약 2-3절). 이 설계도 이진 시차 도입이 아니므로 BLW의 분해가 직접 적용되지 않는다.</p>
-<p>연결 지점은 효과의 동학을 다루는 방식이다. Shapiro는 과거 광고가 이후 처방에 남기는 효과를 광고 stock과 잔존계수로 모형에 직접 포함한다 (같은 문서 8절). BLW에서 TWFE가 실패한 이유는 시간에 따라 커지는 효과를 도입 후 더미 하나로 요약해서 그 동학이 비교집단의 변화에 혼입되었기 때문이다. 효과의 시간 경로를 명시적으로 모형화하면 그 경로가 맞는 한 이런 혼입을 줄일 수 있지만 그 대가로 잔존 구조에 대한 함수형태 가정을 받아들여야 한다. 이 대비는 이 가이드의 해석이다.</p>
+<p>연결 지점은 효과의 동학을 다루는 방식이다. Shapiro는 과거 광고가 이후 처방에 미치는 효과를 광고 stock과 잔존계수로 모형에 직접 포함한다 (같은 문서 8절). 한 단계, 한 시장의 광고 stock은 다음과 같다 (원문 식 14를 첨자를 줄여 적은 형태).</p>
+<div class="sym"><tex class="d">\gl{qAst}{A_t} = \sum_{r=0}^{t} \gl{qLam}{\lambda}^{\,t-r}\, \log\!\big(1 + \gl{qAdv}{a_r}\big)</tex></div>
+<p><tex>r</tex>월의 광고는 <tex>t</tex>월의 stock에 <tex>\lambda</tex>를 <tex>t - r</tex>번 곱한 크기로만 반영된다. 이번 달 광고(<tex>r = t</tex>)는 감쇠 없이 들어가고 오래된 광고일수록 기여가 줄어든다. BLW에서 TWFE가 실패한 이유는 시간에 따라 커지는 효과를 도입 후 더미 하나로 요약해서 그 동학이 비교집단의 변화에 혼입되었기 때문이다. 효과의 시간 경로를 명시적으로 모형화하면 그 경로가 맞는 한 이런 혼입을 줄일 수 있지만 그 대가로 잔존 구조의 함수형태 가정을 받아들여야 한다. 이 대비는 이 가이드의 해석이다.</p>
 </div>
 </details>
 
@@ -447,7 +459,10 @@
 <li>사전계수의 해석과 평행추세 위반에 대한 민감도 분석.</li>
 <li>처치 군집 수와 추론 방법, 소프트웨어 버전과 옵션.</li>
 </ol>
-<aside class="note warn" data-label="헷갈리기 쉬운 점"><p>같은 CS라도 소프트웨어 기본값이 다르다. 후속논의 문서 8.5절에 따르면 R의 did 패키지는 기본 비교집단이 미처치, 기준기간이 varying이고 Stata의 csdid 2.0 이상은 기본 비교집단이 아직 미처치, 기준기간이 universal이다. 옵션을 명시해 고정하지 않으면 R과 Stata의 결과가 다를 수 있다. 다음 주 Stata 실습에서 바로 부딪힐 수 있는 문제다.</p></aside>
+<aside class="note warn" data-label="헷갈리기 쉬운 점"><p>같은 CS라도 소프트웨어 기본값이 다르다. 후속논의 문서 8.5절에 따르면 R의 did 패키지는 기본 비교집단이 미처치, 기준기간이 varying이고 Stata의 csdid 2.0 이상은 기본 비교집단이 아직 미처치, 기준기간이 universal이다. 옵션을 명시해 고정하지 않으면 R과 Stata의 결과가 다를 수 있다. 다음 주 Stata 실습에서도 발생할 수 있는 문제다.</p>
+<p>두 기준기간 설정은 도입 전 칸을 계산하는 기준 시점이 다르다. 도입 3년 전 칸(<tex>t = g-3</tex>)을 예로 들면 varying은 그 한 해 전(<tex>g-4</tex>)을, universal은 도입 직전 해(<tex>g-1</tex>)를 기준으로 삼는다. 두 경우 모두 비교집단에서도 같은 두 시점의 차이를 구해 차감한다. 도입 후 칸은 두 설정 모두 <tex>g-1</tex>기를 기준으로 하므로 같다.</p>
+<div class="sym"><tex class="d">\text{varying: } \gl{qYbar}{\bar Y_{g,g-3}} - \gl{qYbar}{\bar Y_{g,g-4}}, \qquad \text{universal: } \gl{qYbar}{\bar Y_{g,g-3}} - \gl{qYbar}{\bar Y_{g,g-1}}</tex></div>
+<p>varying으로 그린 사건연구 그림에서는 도입 전 점들이 인접한 두 해의 차이이고 도입 후 점들이 도입 직전 해와의 차이이므로 두 구간의 점을 같은 눈금으로 읽을 수 없다 (<a href="#p3-after">3부 논문 이후 절</a>의 기준기간 비대칭).</p></aside>
 </div>
 </details>
 </section>
@@ -508,6 +523,7 @@
 <tr><td>코호트</td><td>cohort</td><td>같은 시점에 도입한 단위들의 집단. 원문 시뮬레이션의 1989, 1998, 2007년 코호트가 예다.</td><td><a href="#p1-setting">1부 설정</a></td></tr>
 <tr><td>달력시점</td><td>calendar time</td><td>모든 단위가 공유하는 연도나 분기. 연도 고정효과는 달력시점마다 하나씩 있다.</td><td><a href="#p1-setting">1부 설정</a></td></tr>
 <tr><td>상대시점</td><td>relative time, event time</td><td>단위별 도입 시점을 0으로 둔 시간. 도입 연도가 G<sub>i</sub>이면 ℓ = t − G<sub>i</sub>다.</td><td><a href="#p1-setting">1부 설정</a></td></tr>
+<tr><td>지시함수</td><td>indicator function</td><td>중괄호 안의 조건이 참이면 1, 거짓이면 0인 함수 <tex>\mathbf{1}\{\cdot\}</tex>. 도입 후 더미 <tex>D_{it} = \mathbf{1}\{t \ge G_i\}</tex>가 예다.</td><td><a href="#p4-s5">4부 5장</a></td></tr>
 <tr><td>잠재결과</td><td>potential outcome</td><td>같은 단위가 처치를 받았을 때와 받지 않았을 때 각각 보였을 결과. Y(1), Y(0)으로 쓴다.</td><td><a href="#p1-po">1부 잠재결과</a></td></tr>
 <tr><td>반사실적 결과</td><td>counterfactual outcome</td><td>실제로 처치된 단위가 처치받지 않았다면 보였을 결과. 관측되지 않으므로 비교집단의 변화로 대신한다.</td><td><a href="#p1-po">1부 잠재결과</a></td></tr>
 <tr><td>평균처치효과(처치집단)</td><td>average treatment effect on the treated, ATT</td><td>처치를 받은 단위들에서 Y(1) − Y(0)을 평균한 값.</td><td><a href="#p1-po">1부 잠재결과</a></td></tr>
@@ -540,7 +556,8 @@
 <tr><td>문제 소지가 있는 2×2 (금지된 비교)</td><td>potentially problematic 2×2, forbidden comparison</td><td>나중 코호트를 이미 처치된 코호트와 비교하는 2×2.</td><td><a href="#p1-bad">1부 잘못된 비교</a></td></tr>
 <tr><td>미처치</td><td>never-treated</td><td>관측 기간 끝까지 처치받지 않는 단위.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
 <tr><td>Goodman-Bacon 분해</td><td>Goodman-Bacon decomposition</td><td>정적 TWFE 계수를 자료 안의 모든 2×2 DID의 가중평균으로 나누는 방법 (Goodman-Bacon 2021).</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
-<tr><td>VWATT</td><td>variance-weighted ATT</td><td>각 2×2에서 처치집단의 실제 효과를 분해 가중치로 평균한 값. 편향이 없다면 TWFE 계수가 추정하는 값이다.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
+<tr><td>확률극한</td><td>probability limit, plim</td><td>표본이 한없이 커질 때 추정치가 가까워지는 값. Goodman-Bacon 분해식이 TWFE 계수의 확률극한을 세 항으로 나눈다.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
+<tr><td>VWATT</td><td>variance-weighted ATT</td><td>각 2×2에서 처치집단의 실제 효과를 분해 가중치로 평균한 값. VWCT와 ΔATT가 모두 0이면 TWFE 계수가 이 값으로 수렴한다.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
 <tr><td>VWCT</td><td>variance-weighted common trends</td><td>각 2×2에서 두 집단의 미처치 추세 차이를 가중평균한 값. 평행추세가 성립하면 0이다.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
 <tr><td>ΔATT</td><td>change in ATT</td><td>이미 처치된 비교집단의 효과가 비교 기간 동안 변한 정도의 가중합. 효과가 누적되면 0이 아니다.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
 <tr><td>분산 가중</td><td>variance weighting</td><td>OLS가 처치변수의 분산이 큰 비교에 큰 가중치를 주는 방식. 표본비중 가중과 다르다.</td><td><a href="#p1-weights">1부 가중치</a></td></tr>
@@ -561,6 +578,9 @@
 <tr><td>제2종 오류</td><td>Type II error</td><td>효과가 있는데 없다고 판단하는 오류.</td><td><a href="#p2-type2">2부 제2종 오류</a></td></tr>
 <tr><td>검정력</td><td>statistical power</td><td>실제 효과가 있을 때 이를 유의하게 검출할 확률.</td><td><a href="#p2-type2">2부 제2종 오류</a></td></tr>
 <tr><td>군집강건 표준오차</td><td>cluster-robust standard error</td><td>같은 군집 안 관측치의 오차 상관을 허용해 계산한 표준오차. 추정치 중심의 편향은 바로잡지 못한다.</td><td><a href="#p2-type1">2부 제1종 오류</a></td></tr>
+<tr><td>점별 신뢰구간, 동시 신뢰구간</td><td>pointwise confidence interval, simultaneous confidence band</td><td>앞의 것은 계수 각각이, 뒤의 것은 사건연구의 계수 전체가 동시에 구간 안에 들어갈 확률을 95%로 맞춘다. 뒤의 것이 더 넓다.</td><td><a href="#p5-qa-core">5부 기본 개념 질문</a></td></tr>
+<tr><td>과잉기각</td><td>over-rejection</td><td>효과가 없는데도 명목 수준(예: 5%)보다 자주 귀무가설을 기각하는 현상.</td><td><a href="#p5-qa-hard">5부 어려운 질문</a></td></tr>
+<tr><td>varying, universal 기준기간</td><td>varying, universal base period</td><td>CS의 도입 전 칸을 한 기간 전과 비교하면 varying, 도입 직전 g − 1기와 비교하면 universal이다. 도입 후 칸은 두 설정 모두 g − 1기 기준이다.</td><td><a href="#p5-qa-prof">5부 마케팅 관점 질문</a></td></tr>
 <tr><td>민감도 분석</td><td>sensitivity analysis (HonestDiD)</td><td>평행추세 위반을 어느 정도 허용해도 결론이 유지되는지 보고하는 분석 (Rambachan and Roth 2023).</td><td><a href="#p3-after">3부 논문 이후</a></td></tr>
 </tbody></table></div>
 
@@ -576,6 +596,9 @@
 <tr><td>Sun-Abraham 추정량</td><td>SA, interaction-weighted estimator</td><td>코호트와 상대시점 더미의 상호작용을 모두 포함한 회귀 하나로 CATT를 추정하고 표본비중으로 집계하는 추정량.</td><td><a href="#p3-sa">3부 SA</a></td></tr>
 <tr><td>stacked regression</td><td>stacked regression</td><td>도입 사건마다 처치 코호트와 깨끗한 비교집단으로 자료를 만들어 쌓고 자료별 고정효과를 포함한 TWFE를 추정하는 방법.</td><td><a href="#p3-stacked">3부 stacked</a></td></tr>
 <tr><td>사건창</td><td>event window</td><td>도입 전후로 분석에 포함하는 기간.</td><td><a href="#p3-stacked">3부 stacked</a></td></tr>
+<tr><td>장기 차이</td><td>long difference</td><td>도입 후 모든 시점을 같은 기준 시점(도입 직전 g − 1기)과 비교하는 차이. CS의 사후 칸이 이 방식이다.</td><td><a href="#p4-s19">4부 19장</a></td></tr>
+<tr><td>정적 추정치</td><td>static estimate</td><td>도입 후 효과를 계수 하나로 요약한 추정치. 상대시점마다 계수를 구하는 사건연구와 구분한다.</td><td><a href="#p3-compare">3부 비교</a></td></tr>
+<tr><td>일치추정량</td><td>consistent estimator</td><td>표본이 커질수록 참값에 가까워지는 추정량. 확률극한이 참값과 같다.</td><td><a href="#p3-cs">3부 CS</a></td></tr>
 <tr><td>역확률가중</td><td>inverse probability weighting, IPW</td><td>처치집단에 속할 확률(성향점수)을 이용해 비교집단을 가중하여 공변량 분포를 맞추는 방법.</td><td><a href="#p3-cs">3부 CS</a></td></tr>
 <tr><td>이중강건 추정</td><td>doubly robust estimation</td><td>결과 모형과 성향점수 모형 가운데 하나만 맞아도 일치성이 유지되는 추정. 평행추세 위반에 대한 강건성은 포함하지 않는다.</td><td><a href="#p3-cs">3부 CS</a></td></tr>
 <tr><td>승수 부트스트랩</td><td>multiplier bootstrap</td><td>CS가 상대시점 계수 여러 개의 동시 신뢰구간을 구할 때 사용하는 부트스트랩.</td><td><a href="#p3-cs">3부 CS</a></td></tr>

@@ -417,12 +417,12 @@
     stepper(host, {
       kind: '도식', title: 'FWL 정리의 두 단계 (가상의 매장 16곳)', w: W, h: H, controls: true,
       steps: [
-        '매출 Y를 광고비 X₁ 하나에 회귀한 산점도다. 점이 진할수록 매장 규모 X₂가 크다. 큰 매장이 광고비도 많고 매출도 높으므로 이 기울기에는 매장 규모의 영향이 함께 들어 있다.',
-        '1단계를 준비한다. 가로축을 매장 규모 X₂로, 세로축을 광고비 X₁로 바꾼다. 같은 16개 점이 새 위치로 옮겨 간다.',
+        '매출 Y를 광고비 X₁ 하나에 회귀한 산점도다. 점이 진할수록 매장 규모 X₂가 크다. 큰 매장일수록 광고비 지출과 매출이 모두 크므로 이 기울기에는 매장 규모의 영향이 함께 반영되어 있다.',
+        '1단계의 준비로 가로축을 매장 규모 X₂로, 세로축을 광고비 X₁로 바꾼다. 같은 16개 점이 새 위치로 이동한다.',
         'X₁을 X₂에 회귀한 직선이 적합값 X̂₁이다. 각 점에서 직선까지의 세로 막대가 잔차 X̃₁이며 그 매장의 규모로 예측되는 광고비보다 얼마나 더 많이 또는 적게 지출했는지를 나타낸다.',
-        '직선을 수평으로 눕히면 각 점의 높이가 잔차 X̃₁이 된다. 매장 규모로 설명되는 광고비의 부분이 제거되었고 남은 값에는 매장 규모와의 관련이 없다(X̃₁과 X₂의 상관은 0).',
+        '직선을 가로축과 평행하게 맞추면 각 점의 높이가 잔차 X̃₁이 된다. 매장 규모로 설명되는 광고비의 부분이 제거되어 남은 값은 매장 규모와 무관하다(X̃₁과 X₂의 상관은 0).',
         '2단계. 가로축을 잔차 X̃₁로, 세로축을 매출 Y로 둔다. 이 산점도에 맞춘 직선의 기울기가 다중회귀에서 광고비의 계수 b̂₁과 정확히 같다.',
-        'Y도 X₂에 회귀한 잔차 Ỹ로 바꾸면 점들이 세로로만 움직이고 기울기는 그대로다. Y에서 X₂로 설명되는 부분은 X̃₁과 직교하므로 기울기에 영향을 주지 않는다. TWFE 공식의 분자에 Y를 그대로 사용해도 되는 이유가 이것이다.'
+        'Y도 X₂에 회귀한 잔차 Ỹ로 바꾸면 점들이 세로로만 이동하고 기울기는 변하지 않는다. Y에서 X₂로 설명되는 부분은 X̃₁과 직교하므로 기울기에 영향을 주지 않는다. TWFE 공식의 분자에 원래의 Y를 사용해도 되는 이유다.'
       ],
       init(svg, F) {
         GV.seg(F.top, 'X₁과 X₂의 관련', [[0.3, '약함'], [0.8, '보통'], [1.4, '강함']], k, v => { k = v; D = data(); render(cur, true); });
@@ -480,7 +480,7 @@
           if (st === 0) { r1.textContent = t1 + F2(D.simple); r2.textContent = '다중회귀의 b̂₁은 ' + F2(D.b1); }
           else if (st === 2) { r1.textContent = t1 + F2(D.c); r2.textContent = '세로 막대 = 잔차 X̃₁'; }
           else if (st === 3) { r1.textContent = '잔차 X̃₁의 합 = 0'; r2.textContent = 'X̃₁과 X₂의 상관 = 0'; }
-          else if (st >= 4) { r1.textContent = t1 + F2(D.b1) + ' = 다중회귀의 b̂₁'; r2.textContent = st === 4 ? '광고비만 넣은 단순회귀의 기울기는 ' + F2(D.simple) : 'Y를 잔차로 바꾸어도 같은 기울기'; }
+          else if (st >= 4) { r1.textContent = t1 + F2(D.b1) + ' = 다중회귀의 b̂₁'; r2.textContent = st === 4 ? '광고비만 사용한 단순회귀의 기울기는 ' + F2(D.simple) : 'Y를 잔차로 바꾸어도 같은 기울기'; }
           else { r1.textContent = ''; r2.textContent = ''; }
           r1.style.fill = st >= 4 ? 'var(--c1)' : 'var(--ink)';
         }
@@ -520,7 +520,7 @@
         '처치변수 D다. 행은 단위, 열은 시점이며 색칠된 칸이 도입 이후(D = 1)다. 이 단계에서 칸을 누르면 그 단위의 도입 시점이 그 칸으로 바뀐다(같은 칸을 다시 누르면 미처치).',
         '세 가지 평균을 구한다. 오른쪽 여백은 행 평균 D̄ᵢ(그 단위가 처치된 기간의 비율), 아래 여백은 열 평균 D̄ₜ(그 시점에 처치된 단위의 비율), 오른쪽 아래는 전체 평균 D̄다.',
         '적합값 D̂ = D̄ᵢ + D̄ₜ − D̄다. 어느 단위인지와 어느 시점인지만으로 예측한 처치 정도이며 1을 초과하거나 0보다 작은 칸은 점선 테두리로 표시한다.',
-        '잔차 D̃ = D − D̂다. 여백이 행 합과 열 합으로 바뀌며 모두 0이다. 잔차가 모든 단위 더미, 시점 더미와 직교한다는 조건이 이것이다.',
+        '잔차 D̃ = D − D̂다. 여백이 행 합과 열 합으로 바뀌며 모두 0이다. 이는 잔차가 모든 단위 더미, 시점 더미와 직교한다는 조건과 같다.',
         '가중치 w = D̃ / ΣD̃²다. 처치된 칸(굵은 숫자)의 가중치를 더하면 1이고 붉은 칸은 음의 가중치를 받는 처치 칸이다.'
       ],
       init(svg, F) {
@@ -538,7 +538,7 @@
         function summary() {
           const v = VIEW[view], S = M.S;
           if (M.ss < 1e-12 && view >= 3) return '<span class="neg">모든 칸의 처치 상태가 고정효과로 정확히 설명되어 잔차가 모두 0이다. 처치의 변동이 없으므로 TWFE 계수를 계산할 수 없다.</span>';
-          if (v === 'D') return `처치된 칸 ${M.D.flat().filter(x => x).length}개, 전체 ${M.N * M.T}칸. 칸에 마우스를 올리면(휴대폰에서는 탭하면) 그 칸의 계산이 여기에 나온다.`;
+          if (v === 'D') return `처치된 칸 ${M.D.flat().filter(x => x).length}개, 전체 ${M.N * M.T}칸. 칸에 마우스를 올리면(휴대폰에서는 탭하면) 그 칸의 계산이 여기에 표시된다.`;
           if (v === 'mean') return `전체 평균 D̄ = ${FR(M.Db)}. 행 평균들의 평균과 열 평균들의 평균이 모두 전체 평균과 같다(균형패널).`;
           if (v === 'Dhat') { const over = []; M.Dh.forEach((r, i) => r.forEach((x, t) => { if (x > 1 + 1e-9 || x < -1e-9) over.push(`${S.u[i]} ${S.p[t]} (${FR(x)})`); })); return over.length ? `0과 1 밖의 적합값: ${over.join(', ')}. 선형 예측이므로 이런 칸이 생긴다.` : '모든 적합값이 0과 1 사이에 있다.'; }
           if (v === 'Dtil') return `잔차 제곱합 ΣD̃² = ${FR(M.ss)}. 행 합과 열 합이 모두 0이다.`;
@@ -557,7 +557,7 @@
           if (v === 'mean') return `${u} ${p}: 이 칸의 적합값에 들어갈 평균은 행 평균 ${FR(M.Di[i])}, 열 평균 ${FR(M.Dt[t])}, 전체 평균 ${FR(M.Db)}이다.`;
           if (v === 'Dhat') return `${u} ${p}: D̂ = D̄(${u}) ${FR(M.Di[i])} + D̄(${p}) ${FR(M.Dt[t])} − D̄ ${FR(M.Db)} = <b>${FR(M.Dh[i][t])}</b>`;
           if (v === 'Dtil') return `${u} ${p}: D̃ = D ${M.D[i][t]} − D̂ ${FR(M.Dh[i][t])} = <b>${FR(M.Dr[i][t])}</b>`;
-          return `${u} ${p}: w = D̃ ${FR(M.Dr[i][t])} / ΣD̃² ${FR(M.ss)} = <b>${FR(M.w[i][t])}</b>${M.D[i][t] ? '' : ' (미처치 칸이므로 효과가 0이어서 계수에 기여하지 않는다)'}`;
+          return `${u} ${p}: w = D̃ ${FR(M.Dr[i][t])} / ΣD̃² ${FR(M.ss)} = <b>${FR(M.w[i][t])}</b>${M.D[i][t] ? '' : ' (미처치 칸은 효과 항이 0이므로 계수에 기여하지 않는다)'}`;
         }
         function setInfo(h) { info.innerHTML = h; }
         function draw() {
@@ -607,7 +607,7 @@
   /* ---------- ortho-proj (p1-fwl): D를 고정효과 방향의 성분과 그에 수직인 성분으로 나눈다 ---------- */
   GV.reg('ortho-proj', host => {
     const W = 620, H = 360, O = [110, 300], th = -13 * Math.PI / 180, u = [Math.cos(th), Math.sin(th)];
-    const F = GV.frame(host, { kind: '도식', title: '직교 분해로 본 ΣD̃D = ΣD̃²', w: W, h: H, note: '실제 D는 칸 수만큼의 차원을 갖는 벡터이고 고정효과가 만드는 공간도 여러 차원이지만 그림에서는 한 직선으로 줄여 그렸다. 내적의 값은 그림의 좌표로 계산한 것이며 단위는 임의다.' });
+    const F = GV.frame(host, { kind: '도식', title: '직교 분해로 본 ΣD̃D = ΣD̃²', w: W, h: H, note: '실제 D는 칸 수만큼의 차원을 갖는 벡터이고 고정효과가 만드는 공간도 여러 차원이지만 그림에서는 한 직선으로 단순화했다. 내적의 값은 그림의 좌표로 계산한 것이며 단위는 임의다.' });
     const svg = F.svg; let P = [470, 92];
     const g = s('g', {}, svg);
     const ext = 560, lx = [O[0] - 70 * u[0], O[1] - 70 * u[1]], rx = [O[0] + ext * u[0], O[1] + ext * u[1]];
@@ -643,7 +643,7 @@
       out.innerHTML = `<div class="lbl">D̃와 D̂의 내적 (ΣD̃D̂)</div><div class="big">${f(dot(rr, hv))}</div>
         <div class="lbl">D̃와 D의 내적 (ΣD̃D)</div><div class="eq"><b>${f(dot(rr, dv))}</b> = D̃와 D̂의 내적 ${f(dot(rr, hv))} + D̃의 길이의 제곱 ${f(dot(rr, rr))}</div>
         <div class="lbl">D̃의 길이의 제곱 (ΣD̃²)</div><div class="eq"><b>${f(dot(rr, rr))}</b></div>
-        <div class="lbl">읽는 법</div><div class="eq">D = D̂ + D̃이므로 D̃와 D의 내적은 D̃와 D̂의 내적에 D̃와 자기 자신의 내적을 더한 값이다. 앞의 것이 직각 때문에 언제나 0이므로 ΣD̃D = ΣD̃²가 된다.</div>`;
+        <div class="lbl">읽는 법</div><div class="eq">D = D̂ + D̃이므로 D̃와 D의 내적은 D̃와 D̂의 내적에 D̃와 자기 자신의 내적을 더한 값이다. 앞의 내적은 두 벡터가 직각을 이루어 언제나 0이므로 ΣD̃D = ΣD̃²다.</div>`;
     }
     const toSvg = e => { const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const q = pt.matrixTransform(svg.getScreenCTM().inverse()); return [Math.max(20, Math.min(W - 20, q.x)), Math.max(20, Math.min(H - 20, q.y))]; };
     let drag = false;

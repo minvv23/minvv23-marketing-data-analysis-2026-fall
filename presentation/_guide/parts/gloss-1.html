@@ -10,22 +10,22 @@
 <dd><p>단위 <tex>i</tex>가 처치를 시작한 시점이다. 도입 시점이 같은 단위의 묶음이 코호트(cohort)이며 끝까지 처치받지 않는 단위는 <tex>G_i = \infty</tex>로 적는다.</p></dd>
 
 <dt data-k="ai"><tex>\alpha_i</tex> 단위 고정효과</dt>
-<dd><p>단위 <tex>i</tex>에 고유하고 시간에 따라 변하지 않는 수준이다. 회귀에서는 단위마다 하나씩 만든 더미변수(그 단위의 칸이면 1)의 계수다. 원래 수익성이 높은 기업, 원래 불평등이 큰 주의 차이를 흡수한다.</p></dd>
+<dd><p>단위 <tex>i</tex>에 고유하고 시간에 따라 변하지 않는 수준이다. 회귀에서는 단위별로 만든 더미변수(그 단위의 칸이면 1)의 계수다. 수익성이 본래 높은 기업이나 불평등이 본래 큰 주처럼 단위 사이의 고정된 차이를 흡수한다.</p></dd>
 
 <dt data-k="lt"><tex>\lambda_t</tex> 시점 고정효과</dt>
-<dd><p>시점 <tex>t</tex>에 모든 단위가 공통으로 겪는 수준이다. 시점마다 하나씩 만든 더미변수(그 시점의 칸이면 1)의 계수다. 경기 변동이나 업계 공통 추세를 흡수한다.</p></dd>
+<dd><p>시점 <tex>t</tex>에 모든 단위가 공통으로 겪는 수준이다. 시점별로 만든 더미변수(그 시점의 칸이면 1)의 계수다. 경기 변동이나 업계 공통 추세를 흡수한다.</p></dd>
 
 <dt data-k="d"><tex>\delta</tex> TWFE 계수</dt>
-<dd><p>TWFE 회귀에서 처치변수 <tex>D_{it}</tex>에 붙는 계수 하나다. 원문은 <tex>\delta^{DD}</tex>로 적는다. 처치된 칸 전체의 효과를 숫자 하나로 요약한다.</p></dd>
+<dd><p>TWFE 회귀에서 처치변수 <tex>D_{it}</tex>에 붙는 계수다. 원문은 <tex>\delta^{DD}</tex>로 적는다. 처치된 칸 전체의 효과를 숫자 하나로 요약한다.</p></dd>
 
 <dt data-k="dhat"><tex>\hat\delta</tex> TWFE 계수의 추정값</dt>
-<dd><p>자료에 OLS를 적용해 얻은 <tex>\delta</tex>의 값이다. 모자(hat)는 이 가이드에서 추정값이나 적합값을 뜻한다.</p><span class="ex">E와 L 예: −2.</span></dd>
+<dd><p>자료에 OLS를 적용해 얻은 <tex>\delta</tex>의 값이다. 모자(hat)는 이 가이드에서 추정값이나 적합값을 나타낸다.</p><span class="ex">E와 L 예: −2.</span></dd>
 
 <dt data-k="eps"><tex>\varepsilon_{it}</tex> 오차항</dt>
-<dd><p>고정효과와 처치효과로 설명되지 않는 나머지다. 기댓값이 0이라고 가정한다. 자료에서 계산한 OLS 잔차 <tex>e_{it}</tex>와 구분한다.</p></dd>
+<dd><p>고정효과와 처치효과로 설명되지 않는 나머지이며 기댓값이 0이라고 가정한다. 자료에서 계산한 OLS 잔차 <tex>e_{it}</tex>와 구분한다.</p></dd>
 
 <dt data-k="tau"><tex>\tau_{it}</tex> 칸별 처치효과</dt>
-<dd><p>칸 <tex>(i, t)</tex>에서 처치를 받았을 때와 받지 않았을 때 결과의 차이 <tex>Y_{it}(1) - Y_{it}(0)</tex>다. 칸마다 달라도 된다. 처치된 칸에서만 의미가 있다.</p></dd>
+<dd><p>칸 <tex>(i, t)</tex>에서 처치를 받았을 때와 받지 않았을 때 결과의 차이 <tex>Y_{it}(1) - Y_{it}(0)</tex>다. 칸마다 다를 수 있으며 처치된 칸에서만 의미가 있다.</p></dd>
 
 <dt data-k="tauE2"><tex>\tau_{E2}</tex> E의 2기 효과</dt>
 <dd><p>E가 도입한 첫 기(2기)의 처치효과다. 덱 6장 예제에서 2다.</p></dd>
@@ -47,54 +47,54 @@
 <dd><p><tex>D</tex>를 단위 더미와 시점 더미에 회귀해 얻은 예측값이다. 어느 단위인지와 어느 시점인지만 알 때 예상되는 처치 정도라고 읽는다. 균형패널에서는 <tex>\bar D_i + \bar D_t - \bar D</tex>다. 선형 예측이므로 0보다 작거나 1보다 클 수 있다.</p><span class="ex">E와 L 예: E 3기는 2/3 + 1 − 1/2 = 7/6.</span></dd>
 
 <dt data-k="Dtil"><tex>\tilde D_{it}</tex> 처치변수의 잔차</dt>
-<dd><p>실제 처치변수에서 적합값을 차감한 값 <tex>D_{it} - \widehat{D}_{it}</tex>다. 단위와 시점으로 예측되지 않는 처치의 변동이며 TWFE 계수는 이 변동만 사용한다. 단위별 합과 시점별 합이 모두 0이다. 물결(tilde)은 이 가이드에서 잔차를 뜻한다.</p><span class="ex">E와 L 예: E 3기는 1 − 7/6 = −1/6.</span></dd>
+<dd><p>실제 처치변수에서 적합값을 차감한 값 <tex>D_{it} - \widehat{D}_{it}</tex>다. 단위와 시점으로 예측되지 않는 처치의 변동이며 TWFE 계수는 이 변동만 사용한다. 단위별 합과 시점별 합이 모두 0이다. 물결(tilde)은 이 가이드에서 잔차를 표시한다.</p><span class="ex">E와 L 예: E 3기는 1 − 7/6 = −1/6.</span></dd>
 
 <dt data-k="w"><tex>w_{it}</tex> 칸별 가중치</dt>
 <dd><p>TWFE 계수가 칸 <tex>(i, t)</tex>의 효과를 평균할 때 주는 비중 <tex>\tilde D_{it} / \sum \tilde D^2</tex>다. 처치된 칸의 가중치를 모두 더하면 1이지만 개별 가중치는 음수일 수 있다.</p><span class="ex">E와 L 예: E 2기 1, E 3기 −1/2, L 3기 1/2.</span></dd>
 
 <dt data-k="sum"><tex>\textstyle\sum_{i,t}</tex> 모든 칸의 합</dt>
-<dd><p>모든 단위 <tex>i</tex>와 모든 시점 <tex>t</tex>의 조합, 곧 패널의 칸 전체에 대해 더한다. 단위 2개와 시점 3개이면 여섯 칸을 더한다. 첨자를 생략한 <tex>\sum</tex>도 이 가이드에서는 같은 뜻이다.</p></dd>
+<dd><p>모든 단위 <tex>i</tex>와 모든 시점 <tex>t</tex>의 조합, 곧 패널의 칸 전체에 걸쳐 더한다. 단위 2개와 시점 3개이면 여섯 칸을 더한다. 첨자를 생략한 <tex>\sum</tex>도 이 가이드에서는 같은 합이다.</p></dd>
 <dt data-k="sumt"><tex>\textstyle\sum_t</tex> 한 단위 안에서 시점에 걸친 합</dt>
-<dd><p>단위 <tex>i</tex>를 고정하고 그 단위의 모든 시점을 더한다. 표에서는 한 행을 가로로 더하는 것이다.</p></dd>
+<dd><p>단위 <tex>i</tex>를 고정하고 그 단위의 모든 시점에 걸쳐 더한다. 표에서는 한 행을 가로로 더하는 것이다.</p></dd>
 <dt data-k="sumi"><tex>\textstyle\sum_i</tex> 한 시점 안에서 단위에 걸친 합</dt>
-<dd><p>시점 <tex>t</tex>를 고정하고 그 시점의 모든 단위를 더한다. 표에서는 한 열을 세로로 더하는 것이다.</p></dd>
+<dd><p>시점 <tex>t</tex>를 고정하고 그 시점의 모든 단위에 걸쳐 더한다. 표에서는 한 열을 세로로 더하는 것이다.</p></dd>
 <dt data-k="T"><tex>T</tex> 시점의 수</dt>
 <dd><p>패널의 시점 개수다. 균형패널에서는 모든 단위가 <tex>T</tex>개 시점에 관측된다.</p></dd>
 
 <dt data-k="X1"><tex>X_1</tex> 관심 독립변수</dt>
-<dd><p>계수를 알고 싶은 독립변수다. 예에서는 광고비이며 TWFE에서는 처치변수 <tex>D</tex>가 이 자리에 온다.</p></dd>
+<dd><p>계수를 추정하려는 독립변수다. 예에서는 광고비이며 TWFE에서는 처치변수 <tex>D</tex>가 이 자리에 온다.</p></dd>
 <dt data-k="X2"><tex>X_2</tex> 통제변수</dt>
-<dd><p>함께 회귀에 넣는 나머지 독립변수다. 예에서는 매장 규모이며 상수항도 여기에 포함한다고 둔다. TWFE에서는 단위 더미와 시점 더미 전체가 이 자리에 온다.</p></dd>
+<dd><p>회귀에 함께 투입하는 나머지 독립변수다. 예에서는 매장 규모이며 상수항도 여기에 포함한다고 둔다. TWFE에서는 단위 더미와 시점 더미 전체가 이 자리에 온다.</p></dd>
 <dt data-k="X1hat"><tex>\hat X_1</tex> 보조회귀의 적합값</dt>
 <dd><p><tex>X_1</tex>을 <tex>X_2</tex>에 회귀해 얻은 예측값 <tex>\hat c\,X_2</tex>다. <tex>X_2</tex>로 설명되는 <tex>X_1</tex>의 부분이다.</p></dd>
 <dt data-k="X1til"><tex>\tilde X_1</tex> 보조회귀의 잔차</dt>
-<dd><p><tex>X_1 - \hat X_1</tex>, 곧 <tex>X_2</tex>로 설명되지 않고 남은 <tex>X_1</tex>의 부분이다. 매장 규모가 같은 매장끼리 보았을 때 광고비가 평균보다 얼마나 많거나 적은지를 나타낸다. <tex>X_2</tex>와 직교한다.</p></dd>
+<dd><p><tex>X_1 - \hat X_1</tex>, 곧 <tex>X_2</tex>로 설명되지 않고 남은 <tex>X_1</tex>의 부분이다. 매장 규모가 같은 매장끼리 비교했을 때 광고비가 평균보다 얼마나 많거나 적은지를 나타낸다. <tex>X_2</tex>와 직교한다.</p></dd>
 <dt data-k="b1"><tex>\hat b_1</tex> 다중회귀에서 <tex>X_1</tex>의 계수</dt>
 <dd><p><tex>Y</tex>를 <tex>X_1</tex>과 <tex>X_2</tex>에 함께 회귀했을 때 <tex>X_1</tex>에 붙는 OLS 계수다. 다른 변수를 통제한 효과라고 부르는 값이다.</p></dd>
 <dt data-k="b2"><tex>\hat b_2</tex> 다중회귀에서 <tex>X_2</tex>의 계수</dt>
-<dd><p><tex>X_2</tex>에 붙는 OLS 계수다. FWL 유도에서는 이 값을 몰라도 <tex>\hat b_1</tex>을 구할 수 있다.</p></dd>
+<dd><p><tex>X_2</tex>에 붙는 OLS 계수다. FWL 유도에서 <tex>\hat b_1</tex>을 구할 때 이 값은 필요하지 않다.</p></dd>
 <dt data-k="c"><tex>\hat c</tex> 보조회귀의 계수</dt>
 <dd><p><tex>X_1</tex>을 <tex>X_2</tex>에 회귀했을 때의 OLS 계수다.</p></dd>
 <dt data-k="e"><tex>e</tex> 다중회귀의 OLS 잔차</dt>
-<dd><p>관측값에서 다중회귀의 적합값을 차감한 값이다. OLS의 정의에 의해 회귀에 넣은 모든 독립변수(상수항 포함)와 직교한다. 관측 단위의 첨자를 붙여 <tex>e_i</tex>로 적기도 한다.</p></dd>
+<dd><p>관측값에서 다중회귀의 적합값을 차감한 값이다. OLS의 정의상 회귀의 모든 독립변수(상수항 포함)와 직교한다. 관측 단위의 첨자를 붙여 <tex>e_i</tex>로 적기도 한다.</p></dd>
 <dt data-k="num"><tex>\textstyle\sum \tilde X_1 Y</tex> 분자</dt>
-<dd><p>잔차 <tex>\tilde X_1</tex>과 종속변수 <tex>Y</tex>를 칸마다 곱해 더한 값이다. 기울기 공식의 분자가 된다.</p></dd>
+<dd><p>잔차 <tex>\tilde X_1</tex>과 종속변수 <tex>Y</tex>를 관측치마다 곱하여 더한 값이다. 기울기 공식의 분자가 된다.</p></dd>
 <dt data-k="den"><tex>\textstyle\sum \tilde X_1^2</tex> 분모</dt>
 <dd><p>잔차 <tex>\tilde X_1</tex>의 제곱합이다. <tex>\tilde X_1</tex>의 평균이 0이므로 <tex>\tilde X_1</tex>의 변동(분산에 관측치 수를 곱한 값)과 같다.</p></dd>
 <dt data-k="numD"><tex>\textstyle\sum \tilde D_{it} Y_{it}</tex> TWFE 계수의 분자</dt>
-<dd><p>처치변수의 잔차와 종속변수를 칸마다 곱해 모든 칸에 걸쳐 더한 값이다.</p><span class="ex">E와 L 예: −2/3.</span></dd>
+<dd><p>처치변수의 잔차와 종속변수를 칸마다 곱하여 모든 칸에 걸쳐 더한 값이다.</p><span class="ex">E와 L 예: −2/3.</span></dd>
 <dt data-k="denD"><tex>\textstyle\sum \tilde D_{it}^2</tex> TWFE 계수의 분모</dt>
 <dd><p>처치변수 잔차의 제곱합이다. 고정효과를 제거하고 남은 처치변수의 변동이다.</p><span class="ex">E와 L 예: 1/3.</span></dd>
 <dt data-k="Y11"><tex>Y_1(1)</tex> 처치 후 시점, 처치 상태의 결과</dt>
-<dd><p>두 집단 두 시점 표기에서 아래첨자는 시점(0은 처치 전, 1은 처치 후), 괄호 안은 처치 여부다. T의 처치 후 관측값이 이것이다.</p><span class="ex">덱 4장 예: T의 1기 60.</span></dd>
+<dd><p>두 집단 두 시점 표기에서 아래첨자는 시점(0은 처치 전, 1은 처치 후), 괄호 안은 처치 여부다. T의 처치 후 관측값이 이 결과에 해당한다.</p><span class="ex">덱 4장 예: T의 1기 60.</span></dd>
 <dt data-k="Y10"><tex>Y_1(0)</tex> 처치 후 시점, 미처치 상태의 결과</dt>
 <dd><p>처치 후 시점에 처치를 받지 않았다면 나왔을 결과다. 처치집단에서는 관측되지 않는 반사실적 결과이고 비교집단에서는 실제 관측값이다.</p><span class="ex">덱 4장 예: T는 평행추세 가정 아래 54, C는 관측값 34.</span></dd>
 <dt data-k="Y00"><tex>Y_0(0)</tex> 처치 전 시점, 미처치 상태의 결과</dt>
 <dd><p>처치 전 시점의 결과다. 예고효과가 없으면 두 집단 모두 처치 전 관측값과 같다.</p><span class="ex">덱 4장 예: T 50, C 30.</span></dd>
 <dt data-k="plim"><tex>\operatorname{plim}_{N\to\infty}</tex> 확률극한</dt>
-<dd><p>표본의 단위 수 <tex>N</tex>을 한없이 늘릴 때 추정치가 가까워지는 값이다. 잡음의 영향이 사라진 뒤 추정량이 겨냥하는 값이라고 읽으면 된다.</p></dd>
+<dd><p>표본의 단위 수 <tex>N</tex>을 한없이 늘릴 때 추정치가 수렴하는 값이다. 잡음의 영향이 사라진 뒤 추정량이 겨냥하는 값으로 읽는다.</p></dd>
 <dt data-k="vwatt"><tex>VWATT</tex> 분산가중 평균처치효과</dt>
-<dd><p>variance-weighted ATT. 각 2×2에서 처치집단 역할을 한 코호트의 실제 사후 효과를 그 2×2의 가중치로 평균한 값이다. 이미 처치된 비교집단의 오염이 없다면 TWFE 계수가 이 값이 된다.</p><span class="ex">U, k, l 예: 2.5.</span></dd>
+<dd><p>variance-weighted ATT. 각 2×2에서 처치집단 역할을 한 코호트의 실제 사후 효과를 그 2×2의 가중치로 평균한 값이다. 이미 처치된 비교집단의 오염이 없다면 TWFE 계수는 이 값과 같아진다.</p><span class="ex">U, k, l 예: 2.5.</span></dd>
 <dt data-k="vwct"><tex>VWCT</tex> 분산가중 공통추세</dt>
 <dd><p>variance-weighted common trends. 각 2×2에서 두 집단의 미처치 추세 차이를 가중평균한 값이다. 평행추세 가정이 성립하면 0이다.</p><span class="ex">U, k, l 예: 0.</span></dd>
 <dt data-k="datt"><tex>\Delta ATT</tex> 이미 처치된 비교집단의 효과 변화</dt>

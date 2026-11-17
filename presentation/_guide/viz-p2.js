@@ -16,7 +16,7 @@
 
   /* ---------- 1. sim-flow (p2-design): 모의자료를 만드는 절차 (덱 11장 도식을 줄인 것) ---------- */
   GV.reg('sim-flow', host => {
-    const W = 640, H = 372, T = 36, CW = 13, X0 = 92, Y0 = 50, PH = 19, CH = 15;
+    const W = 640, H = 356, T = 36, CW = 13, X0 = 92, Y0 = 50, PH = 19, CH = 15;
     // 기업 14개: [주(0-6), 첫 관측 연도 인덱스, 마지막 인덱스]. 주 0-2는 1989년, 3-4는 1998년, 5-6은 2007년에 도입한다 (덱과 같은 배치)
     const F = [[3, 0, 35], [0, 2, 30], [5, 0, 31], [1, 6, 35], [6, 10, 35], [2, 0, 17], [4, 4, 35], [1, 0, 35], [5, 12, 35], [0, 0, 14], [4, 0, 28], [3, 15, 35], [6, 0, 35], [2, 8, 33]];
     const cohOf = st => st <= 2 ? 0 : st <= 4 ? 1 : 2, ORD = F.map((f, i) => i).sort((a, b) => F[a][0] - F[b][0] || a - b);
@@ -177,7 +177,7 @@
 
   /* ---------- 4. es-grid (p2-es): 상대시점 더미가 달력 연도 격자에서 무엇을 가리키는가 ---------- */
   GV.reg('es-grid', host => {
-    const W = 640, H = 300, T = 36, CW = 15, X0 = 78, RY = [64, 120, 176], RH = 42, xOf = t => X0 + t * CW;
+    const W = 640, H = 268, T = 36, CW = 15, X0 = 78, RY = [64, 120, 176], RH = 42, xOf = t => X0 + t * CW;
     const relOf = (k, t) => 1980 + t - COH[k].g;
     stepper(host, {
       kind: '도식', title: '사건연구의 더미가 가리키는 칸 (덱 17장 사양, 코호트 셋)', w: W, h: H,
@@ -213,7 +213,10 @@
         const binLab = [s('text', T_(X0, RY[0] - 10, 'ℓ ≤ −6 묶음 (회색 윤곽)', 'font-size:12px;fill:var(--muted)'), svg), s('text', T_(xOf(35) + CW, RY[0] - 10, 'ℓ ≥ 6 묶음 (붉은 윤곽)', 'font-size:12px;fill:var(--bad)', 'end'), svg)];
         binLab.forEach(e => to(e, { opacity: 0 }, { dur: 0 }));
         const p3 = flat.filter(c => c.l === 3).map(c => s('rect', { x: xOf(c.t) - 1, y: RY[c.k] - 4, width: CW + 2, height: RH + 8, css: 'fill:none;stroke:var(--ink);stroke-width:3', opacity: 0 }, svg));
-        const p3Lab = s('text', T_(X0, H - 30, 'ℓ = +3 더미: 1992년, 2001년, 2010년 칸', 'font-size:13px;font-weight:700;fill:var(--ink)'), svg); to(p3Lab, { opacity: 0 }, { dur: 0 });
+        const p3Lab = s('text', T_(X0, H - 6, 'ℓ = +3 더미 (1992년, 2001년, 2010년 칸)', 'font-size:13px;font-weight:700;fill:var(--ink)'), svg); to(p3Lab, { opacity: 0 }, { dur: 0 });
+        // 앞 단계에서도 아래 줄이 비지 않도록 같은 자리에 그 단계의 범례를 둔다 (4단계부터는 +3 더미 설명으로 바뀐다)
+        const FOOT = ['색칠된 칸은 도입 이후(D = 1), 회색 칸은 도입 이전이다', '칸의 숫자가 상대시점 ℓ이다 (−5부터 +5까지만 표기)', '점선 테두리 칸이 기준기간 ℓ = −1이며 이 칸에는 더미를 두지 않는다', '윤곽 하나로 묶인 칸들은 계수 하나를 공유한다'];
+        const foot = s('text', T_(X0, H - 6, FOOT[0], 'font-size:12.5px;fill:var(--muted)'), svg);
         // 6단계: 2010년 열에서 이미 처치된 코호트 칸
         const col2010 = [0, 1].map(k => s('rect', { x: xOf(30) - 1, y: RY[k] - 4, width: CW + 2, height: RH + 8, css: 'fill:none;stroke:var(--bad);stroke-width:3;stroke-dasharray:4 3', opacity: 0 }, svg));
         const lab6 = s('text', T_(xOf(30) - 8, RY[0] - 10, '같은 2010년의 이미 처치된 코호트 칸', 'font-size:12px;font-weight:600;fill:var(--bad)', 'end'), svg); to(lab6, { opacity: 0 }, { dur: 0 });
@@ -233,6 +236,7 @@
           refs.forEach(r => show(r, st >= 2 && st <= 3, o)); show(refLab, st === 2, o);
           bins.forEach(b => show(b, st === 3, o)); binLab.forEach(b => show(b, st === 3, o));
           p3.forEach(r => show(r, st >= 4, { dur: o.dur, delay: anim && st === 4 ? 200 : 0 })); show(p3Lab, st >= 4, o);
+          if (st <= 3) foot.textContent = FOOT[st]; show(foot, st <= 3, o);
           col2010.forEach(r => show(r, st === 5, o)); show(lab6, st === 5, o);
         };
       }
@@ -306,5 +310,147 @@
     }
     GV.seg(F.top, '계수', [-5, -4, -3, -2, 0, 1, 2, 3, 4, 5].map(l => [l, lt(l)]), 3, v => draw(v, true));
     draw(3, false);
+  });
+
+  /* ---------- 7. es-design (p2-es): 사건연구 회귀가 읽는 긴 형식 자료와 상대시점 더미 열 ----------
+     행은 (기업, 연도) 관측치, 열은 회귀에 들어가는 변수다. 효과 열은 Fig. 5 왼쪽 자료(ST.SIMS['6b'])로 계산한다. */
+  GV.reg('es-design', host => {
+    const SIG = ST.SIG, YRS = [1995, 1997, 2001, 2004, 2006, 2010], NM = ['A', 'B', 'C'];
+    const LAB = ['≤−6', '−5', '−4', '−3', '−2', '−1', '0', '1', '2', '3', '4', '5', '≥6'];
+    const colOf = l => l <= -6 ? 0 : l >= 6 ? 12 : l + 6;
+    const rows = []; COH.forEach((c, k) => YRS.forEach(t => { const l = t - c.g; rows.push({ k, t, l, c: colOf(l), D: l >= 0 ? 1 : 0, tau: ST.effPath('6b', c.g)[t - ST.Y0] / SIG }); }));
+    const W = 640, RH = 19.5, Y0 = 68, GAP = 7, XT = 82, XD = 118, XL = 150, XC0 = 176, CW = 27, XS = 549, XTAU = 634;
+    const yOf = r => Y0 + r * RH + Math.floor(r / 6) * GAP, cx = c => XC0 + c * CW + CW / 2, H = Math.round(yOf(17) + RH + 28);
+    const fx = v => v === 0 ? '0' : v.toFixed(2) + 'σ';
+    // 계수별로 강조할 행: own(같은 기업의 그 상대시점과 기준 행), cmp(같은 해의 다른 기업 행)
+    const FOCUS = { 5: { l: -3 }, 6: { l: 3 } };
+    const focusRows = l => { const own = new Set(), cmp = new Set(); rows.forEach((r, i) => { if (r.l === l) { rows.forEach((q, j) => { if (q.k === r.k && q.l === -1) own.add(j); }); own.add(i); } });
+      const yrs = new Set([...own].map(i => rows[i].t)); rows.forEach((q, j) => { if (!own.has(j) && yrs.has(q.t) && [...own].some(i => rows[i].t === q.t && rows[i].k !== q.k)) cmp.add(j); }); return { own, cmp }; };
+    stepper(host, {
+      kind: '도식', title: '사건연구 회귀가 읽는 자료 (긴 형식, 기업 셋 × 연도 여섯)', w: W, h: H,
+      steps: [
+        '회귀가 읽는 긴 형식 자료의 일부다. 세 코호트에서 기업을 하나씩(A는 1989년, B는 1998년, C는 2007년 도입) 두고 연도를 여섯 개씩 표시했다. 정적 TWFE는 처치변수 D 열 하나만 사용한다.',
+        '상대시점 ℓ = t − G 열을 계산한다. 같은 2001년 행이라도 A는 12, B는 3, C는 −6이다.',
+        'D 열 하나를 상대시점별 더미 열 13개로 확장한다. 행마다 자기 ℓ에 해당하는 열 하나만 1이므로 오른쪽 합 열은 모든 행에서 1이다. 0부터 ≥6까지의 열을 더하면 정적 TWFE의 D 열이 된다.',
+        '<span>기준기간 −1 열을 제외한다. 합이 언제나 1인 열이 기업 더미들의 합과 일치해 회귀가 기업 고정효과와 더미 계수를 구분하지 못하기 때문이다. B 1997과 C 2006 행은 더미가 모두 0이 되고 <strong>다른 계수는 모두 이 행과의 차이</strong>로 해석된다.</span>',
+        '양 끝 두 열이 구간 묶음이다. ≥6 열에서는 ℓ = 6부터 21까지의 행이 모두 1이며 계수 하나가 이 행들의 효과를 모두 같은 값으로 처리한다. 오른쪽 열은 Fig. 5 왼쪽 자료의 실제 효과이고 묶음 안에서 0.35σ부터 2.20σ까지 분포한다.',
+        '−3기 계수는 −3 열이 1인 B 1995, C 2004 행을 같은 기업의 기준 행과 비교한다(검은 테두리). 같은 해의 다른 기업 행(붉은 점선)은 연도 고정효과를 통해 비교집단이 된다. A의 1995년과 1997년은 모두 ≥6 열에 속하므로 회귀는 두 해의 효과가 같다고 간주하지만 실제 효과는 0.20σ 증가했고 이 차이를 흡수할 열이 없다.',
+        '+3기 계수도 같은 구조다. B 2001과 C 2010 행을 기준 행과 비교하는데 같은 해의 A 행(1997년 ℓ = 8, 2001년 ℓ = 12)이 모두 ≥6 열에 속한다. 두 해 사이의 효과 증가 0.40σ가 상쇄되지 않고 계수를 낮춘다.'
+      ],
+      init(svg) {
+        const ttl = s('text', T_(8, 18, '', 'font-size:13px;font-weight:600;fill:var(--ink)'), svg);
+        // 행 배경과 테두리
+        const bgs = rows.map((r, i) => s('rect', { x: 4, y: yOf(i) - 1, width: W - 8, height: RH - 1, css: 'fill:var(--soft)', opacity: 0 }, svg));
+        const own = rows.map((r, i) => s('rect', { x: 4, y: yOf(i) - 1, width: W - 8, height: RH - 1, css: 'fill:none;stroke:var(--ink);stroke-width:2', opacity: 0 }, svg));
+        const cmp = rows.map((r, i) => s('rect', { x: 4, y: yOf(i) - 1, width: W - 8, height: RH - 1, css: 'fill:none;stroke:var(--bad);stroke-width:1.8;stroke-dasharray:5 3', opacity: 0 }, svg));
+        [6, 12].forEach(r => s('line', { x1: 4, x2: W - 4, y1: yOf(r) - GAP / 2 - 1, y2: yOf(r) - GAP / 2 - 1, css: 'stroke:var(--line);stroke-width:1' }, svg));
+        // 머리글
+        const grp = s('text', T_((XC0 + XC0 + 13 * CW) / 2, 38, '', 'font-size:12px;font-weight:600;fill:var(--ink)', 'middle'), svg);
+        s('tspan', { text: '상대시점 더미 D' }, grp); s('tspan', { text: 'ℓ', dy: -5, css: 'font-size:9.5px' }, grp); const grpT = s('tspan', { text: ' (열 하나가 더미 하나)', dy: 5 }, grp);
+        s('line', { x1: XC0 + 2, x2: XC0 + 13 * CW - 2, y1: 44, y2: 44, css: 'stroke:var(--faint);stroke-width:1' }, svg);
+        const hd = [[8, '기업', 'start'], [XT, '연도 t', 'middle'], [XD, 'D', 'middle'], [XL, 'ℓ', 'middle'], [XS, '합', 'middle'], [XTAU, '효과 τ', 'end']].map(([x, t, a]) => s('text', T_(x, 60, t, 'font-size:12px;font-weight:700;fill:var(--ink)', a), svg));
+        const hD = hd[2], hL = hd[3], hS = hd[4], hT = hd[5];
+        const hC = LAB.map((t, c) => s('text', T_(cx(c), 60, t, 'font-size:11.5px;font-weight:700;fill:var(--ink)', 'middle'), svg));
+        // 열 윤곽: 기준기간(−1), 묶음(≤−6, ≥6)
+        const colBox = (c, css) => s('rect', { x: XC0 + c * CW + 1, y: 47, width: CW - 2, height: yOf(17) + RH - 46, css: 'fill:none;' + css, opacity: 0 }, svg);
+        const refBox = colBox(5, 'stroke:var(--ink);stroke-width:1.6;stroke-dasharray:4 3'), binL = colBox(0, 'stroke:var(--muted);stroke-width:2'), binR = colBox(12, 'stroke:var(--bad);stroke-width:2');
+        // 칸
+        const R = rows.map((r, i) => {
+          const y = yOf(i) + RH / 2 + 4.5, col = `var(--${COH[r.k].c})`;
+          const nm = s('text', T_(8, y, `${NM[r.k]} (${COH[r.k].g})`, `font-size:12px;font-weight:700;fill:${col}`), svg);
+          s('text', T_(XT, y, String(r.t), 'font-size:12px', 'middle'), svg);
+          const d = s('text', T_(XD, y, String(r.D), `font-size:12px;font-weight:${r.D ? 800 : 400};fill:var(--${r.D ? 'ink' : 'muted'})`, 'middle'), svg);
+          const l = s('text', T_(XL, y, String(r.l).replace('-', '−'), 'font-size:12px;font-weight:600;fill:var(--ink)', 'middle'), svg);
+          const one = s('rect', { x: XC0 + r.c * CW + 2, y: yOf(i) + 1, width: CW - 4, height: RH - 4, css: `fill:var(--${COH[r.k].c}-soft);stroke:${col};stroke-width:1.2`, opacity: 0 }, svg);
+          const cells = LAB.map((_, c) => s('text', T_(cx(c), y, c === r.c ? '1' : '0', c === r.c ? 'font-size:12px;font-weight:800;fill:var(--ink)' : 'font-size:11px;fill:var(--faint)', 'middle'), svg));
+          const sum = s('text', T_(XS, y, '1', 'font-size:12px;font-weight:700;fill:var(--ink)', 'middle'), svg);
+          const tau = s('text', T_(XTAU, y, fx(r.tau), `font-size:12px;font-weight:${r.tau ? 700 : 400};fill:var(--${r.tau ? 'ink' : 'muted'})`, 'end'), svg);
+          [l, one, sum, tau, ...cells].forEach(e => to(e, { opacity: 0 }, { dur: 0 }));
+          return { nm, d, l, one, cells, sum, tau };
+        });
+        const foot = s('text', T_(8, H - 8, '', 'font-size:12.5px;font-weight:600;fill:var(--ink)'), svg);
+        const TT = ['긴 형식 자료와 정적 TWFE의 처치변수 D', '상대시점 ℓ = 연도 t − 도입 연도 G', '상대시점 더미 13개로 확장한 자료', '기준기간 ℓ = −1 열 제외', '양 끝 구간 묶음', '−3기 계수가 비교하는 행', '+3기 계수가 비교하는 행'];
+        const FT = ['표의 18행은 전체 자료(기업 수 × 36년)의 일부다. D는 도입 연도부터 1이다.', '같은 연도의 행이라도 기업마다 상대시점이 다르다.', '모든 행에서 더미의 합 = 1 = 기업 더미 A, B, C의 합', '기준 행(더미가 모두 0): B 1997, C 2006', '≥6 열이 묶은 효과: A 0.70σ-2.20σ, B 0.35σ-0.65σ', '흡수되지 않는 효과 변화: A 0.20σ(1995-1997), A 0.20σ와 B 0.10σ(2004-2006)', '흡수되지 않는 효과 변화: A 0.40σ(1997-2001), A 0.40σ와 B 0.20σ(2006-2010)'];
+        return (st, anim) => {
+          const o = { dur: anim ? 450 : 0 };
+          ttl.textContent = TT[st]; foot.textContent = FT[st];
+          const F = FOCUS[st] ? focusRows(FOCUS[st].l) : null;
+          to(grp, { opacity: st >= 2 ? 1 : .35 }, o); hC.forEach((h, c) => { to(h, { opacity: st >= 2 ? (st >= 3 && c === 5 ? .35 : 1) : .35 }, o); h.style.fill = st >= 4 && (c === 0 || c === 12) ? (c === 0 ? 'var(--muted)' : 'var(--bad)') : 'var(--ink)'; });
+          grpT.textContent = st >= 3 ? ' (−1 열은 제외)' : ' (열 하나가 더미 하나)';
+          to(hD, { opacity: st >= 2 ? .35 : 1 }, o); to(hL, { opacity: st >= 1 ? 1 : .35 }, o); to(hS, { opacity: st >= 2 ? 1 : .35 }, o); to(hT, { opacity: st >= 4 ? 1 : .35 }, o);
+          show(refBox, st >= 3, o); show(binL, st === 4, o); show(binR, st >= 4, o);
+          R.forEach((q, i) => {
+            const r = rows[i], isRef = r.l === -1, inF = F && (F.own.has(i) || F.cmp.has(i));
+            to(q.d, { opacity: st >= 2 ? .35 : 1 }, o);
+            show(q.l, st >= 1, o);
+            to(q.one, { opacity: st >= 2 ? (st >= 3 && isRef ? 0 : (F && !inF ? .35 : 1)) : 0 }, o);
+            q.cells.forEach((c, j) => to(c, { opacity: st >= 2 ? (st >= 3 && j === 5 ? .25 : (F && !inF ? .35 : 1)) : 0 }, { dur: o.dur, delay: anim && st === 2 ? j * 25 : 0 }));
+            q.sum.textContent = st >= 3 && isRef ? '0' : '1'; q.sum.style.fill = st >= 3 && isRef ? 'var(--bad)' : 'var(--ink)';
+            to(q.sum, { opacity: st >= 2 ? (F && !inF ? .35 : 1) : 0 }, o);
+            const tb = !!(F && F.cmp.has(i) && r.l >= 6);
+            q.tau.style.fill = tb ? 'var(--bad)' : (r.tau ? 'var(--ink)' : 'var(--muted)');
+            to(q.tau, { opacity: st >= 4 ? (F && !inF ? .35 : 1) : 0 }, o);
+            to(bgs[i], { opacity: st === 3 && isRef ? 1 : (F && inF ? 1 : 0) }, o);
+            show(own[i], !!(F && F.own.has(i)), o); show(cmp[i], !!(F && F.cmp.has(i)), o);
+          });
+        };
+      }
+    });
+  });
+
+  /* ---------- 8. sa-cell (p2-sa): 칸 하나에만 효과 1을 넣으면 사건연구 계수 12개가 각각 얼마나 움직이는가 ----------
+     sa-heat를 거꾸로 읽은 것이다. 값은 SIM.evWeights(덱 17장 사양에서 칸 하나만 1인 결과를 넣어 계산한 가중치)로 계산한다. */
+  GV.reg('sa-cell', host => {
+    const W = 640, H = 338, M = SIM.get(), NL = COH.map(c => 2016 - c.g);
+    const LS = [-6, -5, -4, -3, -2, 0, 1, 2, 3, 4, 5, 6], LAB = ['≤−6', '−5', '−4', '−3', '−2', '0', '+1', '+2', '+3', '+4', '+5', '≥6'];
+    const WT = LS.map(l => M.evWeights(l));   // WT[c][k][e]: 칸 (k, e)의 효과가 계수 c에 실리는 가중치
+    const F = GV.frame(host, { kind: '도식', title: '칸 하나의 효과가 사건연구 계수 12개로 전파되는 크기 (덱 17장 사양, 덱 계산)', w: W, h: H, controls: true,
+      note: '선택한 칸 하나에만 효과 1을 넣고 다른 칸의 효과와 잡음을 모두 0으로 둔 자료로 덱 17장의 사건연구(−1 제외, 양 끝 묶음)를 추정한 결과다. 막대 하나가 계수 하나이고 막대 높이는 그 계수가 이 칸에 부여하는 가중치 w다. 위 격자의 칸을 누르면 선택한 칸이 바뀐다.' });
+    F.bar.remove();
+    const svg = F.svg, CW = 19, X0 = 86, RY = [30, 57, 84], RH = 23, cxOf = e => X0 + e * CW + CW / 2;
+    s('text', T_(X0, 18, '효과 1을 넣을 칸 (행은 코호트, 열은 도입 후 경과연수)', 'font-size:12.5px;font-weight:600;fill:var(--ink)'), svg);
+    COH.forEach((c, k) => s('text', T_(X0 - 10, RY[k] + RH / 2 + 5, c.g + '년', `font-size:13px;font-weight:700;fill:var(--${c.c})`, 'end'), svg));
+    const cells = COH.map((c, k) => Array.from({ length: NL[k] }, (_, e) => { const r = s('rect', { x: X0 + e * CW + .5, y: RY[k], width: CW - 1, height: RH, css: `fill:var(--${e >= 6 ? 'soft' : c.c + '-soft'});cursor:pointer` }, svg); r.addEventListener('click', () => pick(k, e)); return r; }));
+    s('line', { x1: X0 + 6 * CW, x2: X0 + 6 * CW, y1: RY[0] - 4, y2: RY[2] + RH + 4, css: 'stroke:var(--bad);stroke-width:1.6;stroke-dasharray:4 3' }, svg);
+    [0, 5, 10, 15, 20, 25].forEach(e => s('text', T_(cxOf(e), RY[2] + RH + 15, String(e), 'font-size:11.5px', 'middle'), svg));
+    s('text', T_(X0 + 3 * CW, RY[2] + RH + 30, '0-5기: 더미 하나씩', 'font-size:12px', 'middle'), svg);
+    s('text', T_(X0 + 16 * CW, RY[2] + RH + 30, '6기 이후: ≥6 열 하나로 묶음', 'font-size:12px;fill:var(--bad)', 'middle'), svg);
+    const sel = s('rect', { x: 0, y: 0, width: CW + 3, height: RH + 4, css: 'fill:none;stroke:var(--ink);stroke-width:2.6;pointer-events:none' }, svg);
+    // 아래 막대그림
+    const XB0 = 104, XB1 = W - 20, bw = (XB1 - XB0) / 12, bx = c => XB0 + c * bw + bw / 2, y = lin(-.3, .4, 306, 166);
+    s('rect', { x: XB0, y: 160, width: 5 * bw, height: 150, css: 'fill:var(--soft)' }, svg);
+    s('text', T_(XB0 + 6, 174, '도입 전 계수', 'font-size:12px;font-weight:600'), svg);
+    GV.yAxis(svg, y, [-.2, 0, .2, .4], XB0 - 4, XB1, v => v === 0 ? '0' : fmt(v, 1));
+    s('text', T_(XB0 - 40, 158, '가중치 w', 'font-size:12px;font-weight:600;fill:var(--ink)'), svg);
+    LAB.forEach((t, c) => s('text', T_(bx(c), H - 6, t, 'font-size:12px;font-weight:600;fill:var(--ink)', 'middle'), svg));
+    const bars = LS.map((_, c) => s('rect', { x: bx(c) - bw * .32, y: y(0), width: bw * .64, height: 0, css: 'fill:var(--ink)' }, svg));
+    const own = s('rect', { x: 0, y: 160, width: bw - 4, height: 150, css: 'fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:5 3', opacity: 0 }, svg);
+    const vals = LS.map((_, c) => s('text', T_(bx(c), y(0), '', 'font-size:11.5px;font-weight:700', 'middle'), svg));
+    const PRE = [['0-8', '1989년 8년 뒤'], ['0-12', '1989년 12년 뒤'], ['1-3', '1998년 3년 뒤'], ['2-4', '2007년 4년 뒤']];
+    const segW = GV.seg(F.top, '칸', PRE, '0-8', v => { const [k, e] = v.split('-').map(Number); pick(k, e); });
+    // 도입 전 계수(−5기부터 −2기) 가운데 0이 아닌 것만 설명한다
+    const sigPre = pre => { const on = pre.map((v, i) => [v, LAB[i + 1]]).filter(([v]) => Math.abs(v) >= .0095);
+      if (on.length === 1) return `도입 전 계수 가운데 ${on[0][1]}기 계수가 ${fmt(on[0][0], 2)}로 0에서 벗어난다.`;
+      const vs = on.map(q => q[0]), lo = fmt(Math.min(...vs), 2), hi = fmt(Math.max(...vs), 2);
+      return lo === hi ? `도입 전 계수 가운데 ${on.map(q => q[1] + '기').join(', ')} 계수가 모두 ${lo}로 0에서 벗어난다.` : `도입 전 계수 가운데 ${on[0][1]}기부터 ${on[on.length - 1][1]}기까지의 계수가 ${lo}에서 ${hi} 사이의 값으로 0에서 벗어난다.`; };
+    let cur = null;
+    function pick(k, e, anim = true) {
+      const o = { dur: anim ? 600 : 0 }, key = k + '-' + e; cur = key;
+      segW.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-pressed', String(PRE[i][0] === key)));
+      to(sel, { x: X0 + e * CW - 1.5, y: RY[k] - 2 }, o);
+      const w = WT.map(m => m[k][e]), ownC = e >= 6 ? 11 : LS.indexOf(e);
+      w.forEach((v, c) => {
+        const top = Math.min(y(v), y(0)), hgt = Math.max(Math.abs(y(v) - y(0)), Math.abs(v) > 5e-4 ? 1 : 0);
+        const big = Math.abs(v) >= .0095, neg = big && v < 0;
+        bars[c].style.fill = neg ? 'var(--bad)' : 'var(--ink)'; to(bars[c], { y: top, height: hgt }, o);
+        vals[c].textContent = big ? fmt(v, 2) : '0'; vals[c].style.fill = neg ? 'var(--bad)' : (big ? 'var(--ink)' : 'var(--muted)');
+        to(vals[c], { y: neg ? y(v) + 14 : Math.min(y(v), y(0)) - 5 }, o);
+      });
+      to(own, { x: bx(ownC) - bw / 2 + 2, opacity: 1 }, o);
+      const pre = w.slice(1, 5), preMax = Math.max(...pre.map(Math.abs)), nm = `${COH[k].g}년 코호트의 도입 ${e}년 뒤 칸`;
+      F.cap.innerHTML = `<span class="vn">w</span><span><strong>${nm}</strong>에만 효과 1을 넣었다. 이 칸이 속한 열(${LAB[ownC]}, 점선 테두리)의 계수가 받는 가중치는 ${fmt(w[ownC], 3)}이다. ` +
+        (preMax >= .0095 ? `<span class="neg">${sigPre(pre)}</span> 도입 후 칸의 효과가 사전추세처럼 나타나는 경로다.` : `도입 전 계수(−5기부터 −2기)는 0에서 뚜렷하게 벗어나지 않는다(절댓값 ${fmt(preMax, 3)} 이하). 이 칸은 자기 더미 열이 있으므로 효과가 대부분 그 열에서 흡수된다.`) + '</span>';
+    }
+    pick(0, 8, false);
   });
 })();

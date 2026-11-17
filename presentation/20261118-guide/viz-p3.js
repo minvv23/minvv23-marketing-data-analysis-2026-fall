@@ -14,7 +14,7 @@
   /* ---------- cs-build (p3-cs): ATT(g,t)를 칸 하나씩 2×2로 구한다 ----------
      자료는 3부 본문의 손계산 표와 같다(가이드의 가상 수치: 수준 U 10, k 20, l 5와 공통 연도효과 0, 2, 3, 5, 6, 참효과 k 1, 3, 5, 7, l 1, 3). */
   GV.reg('cs-build', host => {
-    const W = 660, H = 330, yr = [0, 2, 3, 5, 6];
+    const W = 660, H = 306, yr = [0, 2, 3, 5, 6];
     const G = {
       U: { g: I, lev: 10, eff: [0, 0, 0, 0, 0], col: 'u', sub: '미처치' },
       k: { g: 1, lev: 20, eff: [0, 1, 3, 5, 7], col: 'c1', sub: '2기 도입' },
@@ -111,7 +111,7 @@
             [...trF, ...cmF].forEach(e => show(e, false, o)); NM.forEach(n => show(ex[n], false, o));
             f1.style.fill = 'var(--ink)';
             f1.textContent = st === 0 ? '칸의 값 = 집단 수준 + 공통 연도효과 + 처치효과' : '추정한 칸을 평균하는 방식은 연구 질문에 따라 정한다';
-            f2.textContent = st === 0 ? '예: k의 3기 26 = 20 + 3 + 3' : '';
+            f2.textContent = st === 0 ? '예: k의 3기 26 = 20 + 3 + 3' : '아래 표의 값은 모두 같은 칸들을 서로 다른 가중치로 평균한 결과다.';
           }
           // 결과 영역
           let html = NOTE[mode];
@@ -133,7 +133,7 @@
 
   /* ---------- stack-build (p3-stacked): 사건별 자료를 잘라 쌓는다 (덱 20장 예제) ---------- */
   GV.reg('stack-build', host => {
-    const W = 660, H = 470;
+    const W = 660, H = 362;
     const UN = [
       { id: 'U', lab: 'U', col: 'u', g: I, eff: 0 }, { id: 'k', lab: 'k', col: 'c1', g: 1, eff: 2 },
       { id: 'l1', lab: 'l1', col: 'c2', g: 3, eff: 6 }, { id: 'l2', lab: 'l2', col: 'c2', g: 3, eff: 6 }, { id: 'l3', lab: 'l3', col: 'c2', g: 3, eff: 6 }];
@@ -181,13 +181,19 @@
           txt(g, rx(3) + 10, y0 + 14, title, LAB); mtxt(g, rx(3) + 10, y0 + 32, sub, SUB); const d = txt(g, rx(3) + 10, y0 + 54, did, 'fill:var(--ink);font-weight:800;font-size:14px'); return { g, d }; };
         const I1 = info(D1, '자료 1', `${V('k')}의 사건, 1-3기`, 'DID 2'), I2 = info(D2, '자료 2', `${V('l')}의 사건, 3-5기`, 'DID 6');
         const fe = s('g', { opacity: 0 }, svg); txt(fe, rx(3) + 10, D1.y0 + 76, '자료 1 고정효과', SUB); txt(fe, rx(3) + 10, D2.y0 + 76, '자료 2 고정효과', SUB);
-        // 아래 막대
-        const B = s('g', { opacity: 0 }, svg), bx = lin(0, 1, 170, 470);
-        txt(B, 20, 394, 'OLS 가중치', LAB); txt(B, 20, 410, '(stacked)', SUB); txt(B, 20, 444, '처치 단위 비중', LAB);
+        // 쌓은 자료가 들어갈 자리 (처음부터 점선으로 보여 준다)
+        const ph = s('g', {}, svg);
+        [D1, D2].forEach(D => s('rect', { x: rx(0) - 3, y: D.y0 - 3, width: 2 * 42 + CW2 + 6, height: (D.rows.length - 1) * 28 + CH2 + 7, rx: 3, css: 'fill:none;stroke:var(--line);stroke-dasharray:5 4' }, ph));
+        // 아래 막대 (원자료 아래). 자리와 제목은 처음부터 흐리게 두고 마지막 단계에서 채운다.
+        const bx = lin(0, 1, 20, 300), BY = [266, 326];
+        const Bp = s('g', {}, svg);
+        const bl = [txt(Bp, 20, BY[0] - 9, 'OLS 가중치 (stacked)', SUB + ';font-weight:700'), txt(Bp, 20, BY[1] - 9, '처치 단위 비중', SUB + ';font-weight:700')];
+        BY.forEach(yy => s('rect', { x: bx(0), y: yy, width: bx(1) - bx(0), height: 24, css: 'fill:none;stroke:var(--line);stroke-dasharray:5 4' }, Bp));
+        const B = s('g', { opacity: 0 }, svg);
         const seg2 = (y, a, la, lb) => { const r1 = s('rect', { x: bx(0), y, width: 0, height: 24, css: 'fill:var(--c1)' }, B), r2 = s('rect', { x: bx(0), y, width: 0, height: 24, css: 'fill:var(--c2)' }, B);
           const t1 = txt(B, bx(0) + 6, y + 17, la, 'fill:var(--bg);font-weight:700;font-size:12.5px'), t2 = txt(B, bx(1) - 6, y + 17, lb, 'fill:var(--bg);font-weight:700;font-size:12.5px', 'end'); return { r1, r2, a, t1, t2 }; };
-        const S1 = seg2(380, wK, '16/31', '15/31'), S2 = seg2(426, 0.25, '1/4', '3/4');
-        const rt = s('g', { opacity: 0 }, svg); txt(rt, 490, 397, `계수 ${F(res.delta, 2)}`, 'fill:var(--bad);font-weight:800;font-size:15px'); txt(rt, 490, 443, '평균 ATT 5', 'fill:var(--ink);font-weight:800;font-size:15px');
+        const S1 = seg2(BY[0], wK, '16/31', '15/31'), S2 = seg2(BY[1], 0.25, '1/4', '3/4');
+        const rt = s('g', { opacity: 0 }, svg); txt(rt, 300, BY[0] - 9, `계수 ${F(res.delta, 2)}`, 'fill:var(--bad);font-weight:800;font-size:14px', 'end'); txt(rt, 300, BY[1] - 9, '평균 ATT 5', 'fill:var(--ink);font-weight:800;font-size:14px', 'end');
         return (st, anim) => {
           const o = { dur: anim ? 900 : 0 };
           show(win, st === 1 || st === 2, o);
@@ -203,6 +209,7 @@
           show(I1.g, st >= 1, { dur: anim ? 400 : 0, delay: anim && st === 1 ? 1500 : 0 }); show(I2.g, st >= 2, { dur: anim ? 400 : 0, delay: anim && st === 2 ? 1500 : 0 });
           show(hdr, st >= 3, o); show(fe, st >= 3, o);
           show(B, st >= 4, o); show(rt, st >= 4, { dur: anim ? 400 : 0, delay: anim && st === 4 ? 900 : 0 });
+          bl.forEach(e => { e.style.fill = st >= 4 ? 'var(--ink)' : ''; });
           [S1, S2].forEach(q => { const on = st >= 4, d = { dur: anim ? 900 : 0, delay: anim && st === 4 ? 200 : 0 };
             to(q.r1, { width: on ? bx(q.a) - bx(0) : 0 }, d); to(q.r2, { x: on ? bx(q.a) : bx(0), width: on ? bx(1) - bx(q.a) : 0 }, d); });
         };
@@ -364,7 +371,7 @@
 
   /* ---------- forest-fhlt (p3-fhlt): 원문 Table 3의 계수와 신뢰구간 ---------- */
   GV.reg('forest-fhlt', host => {
-    const W = 640, H = 370;
+    const W = 640, H = 374;
     const x = lin(-0.25, 0.4, 230, 600);
     const PAN = [
       { name: '주요 개혁', y0: 54, tw: 0.110, rows: [{ n: "Callaway-Sant'Anna", b: 0.062, se: 0.135, sig: '' }, { n: 'Stacked', b: 0.063, se: 0.051, sig: '' }] },
@@ -413,7 +420,7 @@
 
   /* ---------- after-bars (p3-after): 논문 이후 재분석의 부호 반전 비율 ---------- */
   GV.reg('after-bars', host => {
-    const W = 640, H = 330;
+    const W = 640, H = 310;
     const x = lin(0, 30, 230, 600);
     const GR = [
       { name: '경제학', src: 'Hull (2026)', n: '116편, 회귀식 1,430개', tag: '심사 전 원고', y0: 54, v: [14.9, 12.0], sg: [3.9, 2.8] },
@@ -455,5 +462,172 @@
       },
       note: '수치는 후속논의 문서(2026-11-13 조사)와 덱 28장. Hull과 Proserpio는 수정 중인 working paper라 값이 바뀔 수 있다. Chiu 등은 American Political Science Review 120(1)에 출판되었다.'
     });
+  });
+  /* ---------- stack-long (p3-stacked): 쌓은 자료를 회귀가 읽는 긴 형식으로 본다 (덱 20장 예제) ----------
+     원자료 행이 어느 사건 자료로 복제되는지, 자료별 고정효과 더미, 자료 안에서 계산한 D̃ = (Tr − p)(Post − q), 자료별 합과 가중치. */
+  GV.reg('stack-long', host => {
+    const FR = GV.frac;
+    if (!document.getElementById('sl-style')) {
+      const el = document.createElement('style'); el.id = 'sl-style';
+      el.textContent = '.sl-g{margin:0 auto .5rem;border-spacing:3px}.sl-g td.c{height:2.45rem;min-width:4.1rem;line-height:1.1;font-size:14px}'
+        + '.sl-cp{display:block;font-size:10.5px;font-weight:600;color:var(--muted);margin-top:2px;white-space:nowrap}.sl-cp.pend{visibility:hidden}'
+        + '.sl-g td.c.sl-x{opacity:.5}.sl-g td.c.sl-x .sl-cp{color:var(--bad)}'
+        + '.sl-tab{width:auto;margin:0 auto;font-size:13px;line-height:1.3}.sl-tab th,.sl-tab td{padding:.1rem .55rem;text-align:right;white-space:nowrap;vertical-align:middle}'
+        + '.sl-tab th.l,.sl-tab td.l{text-align:left}.sl-tab thead th{font-size:12px}'
+        + '.sl-tab tr.gh td{background:var(--soft);text-align:left;white-space:normal;font-size:13px;color:var(--faint);padding:.22rem .55rem}.sl-tab tr.gh.on td{color:var(--body)}.sl-tab tr.gh.on td b{color:var(--ink)}'
+        + '.sl-tab .pend,.sl-tab .pend *{color:transparent!important}.sl-tab tr.lk td{background:var(--c1-soft)}.sl-tab td.neg{color:var(--bad)}.sl-tab tr.trt td.dv{font-weight:800}';
+      document.head.appendChild(el);
+    }
+    const UN = [{ id: 'U', n: 1, g: I, eff: 0, col: 'u' }, { id: 'k', n: 1, g: 1, eff: 2, col: 'c1' }, { id: 'l', n: 3, g: 3, eff: 6, col: 'c2' }];
+    const uOf = id => UN.find(u => u.id === id), Yv = (u, t) => t >= u.g ? u.eff : 0;
+    const DS = [{ s: 1, ev: 'k', g: 1, a: 0, b: 2, units: ['k', 'U', 'l'] }, { s: 2, ev: 'l', g: 3, a: 2, b: 4, units: ['l', 'U'] }];
+    const rows = [];
+    DS.forEach(d => {
+      d.N = d.units.reduce((a, id) => a + uOf(id).n, 0); d.p = uOf(d.ev).n / d.N; d.T = d.b - d.a + 1; d.q = (d.b - d.g + 1) / d.T; d.num = 0; d.den = 0;
+      d.units.forEach(id => { const u = uOf(id); for (let t = d.a; t <= d.b; t++) {
+        const tr = id === d.ev ? 1 : 0, post = t >= d.g ? 1 : 0, y = Yv(u, t), dt = (tr - d.p) * (post - d.q);
+        d.num += u.n * dt * y; d.den += u.n * dt * dt; rows.push({ d, u, t, rel: t - d.g, y, tr, post, dt });
+      } });
+      d.est = d.num / d.den;
+    });
+    const DEN = DS.reduce((a, d) => a + d.den, 0), NUM = DS.reduce((a, d) => a + d.num, 0);
+    DS.forEach(d => { d.w = d.den / DEN; });
+    const chk = ST.stacked(UN.map(u => ({ n: u.n, g: u.g, y: [0, 1, 2, 3, 4].map(t => Yv(u, t)) })), 5, 1, 1);
+    const copies = (id, t) => rows.filter(r => r.u.id === id && r.t === t).map(r => r.d.s);
+    const uLab = u => u.n > 1 ? `${u.id} ×${u.n}` : u.id;
+    let view = 0, wrap = null, info = null;
+    const SUM = [
+      '원자료는 단위 5개(l은 값이 같은 세 단위) × 5기 = 25행이다. 아래 표는 이 자료로 구성할 쌓은 자료의 빈 틀이며 한 행이 (자료, 단위, 시점)의 조합 하나다.',
+      '자료 1은 k의 사건창 1-3기에서 처치 코호트 k와 3기까지 미처치인 U, l을 복제한 5단위 × 3기 = 15행이다.',
+      '자료 2는 l의 사건창 3-5기에서 l과 U를 복제한 4단위 × 3기 = 12행이다. 쌓은 자료는 27행이고 원자료 25행 가운데 U 3기와 l 3기(4행)는 두 번 포함되고 k 4기와 5기(2행)는 제외된다.',
+      '단위 더미는 자료 1에 5개, 자료 2에 4개로 모두 9개, 시점 더미는 3 + 3 = 6개다. 같은 U라도 두 자료에서 다른 더미를 받는다. 원자료에 TWFE를 적용하면 단위 더미 5개와 시점 더미 5개뿐이다.',
+      `D̃는 자료 안에서만 계산한다. 자료 1은 p = ${FR(DS[0].p)}, q = ${FR(DS[0].q)}, 자료 2는 p = ${FR(DS[1].p)}, q = ${FR(DS[1].q)}이다. 각 자료에서 D̃의 단위별 합과 시점별 합은 0이다.`,
+      `δ̂ = (ΣD̃Y₁ + ΣD̃Y₂) / (ΣD̃²₁ + ΣD̃²₂) = (${FR(DS[0].num)} + ${FR(DS[1].num)}) / (${FR(DS[0].den)} + ${FR(DS[1].den)}) = <b>${FR(NUM / DEN)} ≈ ${F(NUM / DEN, 2)}</b> = ${FR(DS[0].w)} × ${FR(DS[0].est)} + ${FR(DS[1].w)} × ${FR(DS[1].est)}. 덱의 <code>ST.stacked</code>도 ${F(chk.delta, 3)}이다.`
+    ];
+    function explain(r) {
+      const u = uLab(r.u), base = `자료 ${r.d.s}의 ${u} ${r.t + 1}기 행(상대시점 ${GV.fmt(r.rel, 0)}, Y = ${r.y})이다. 원자료의 ${r.u.id} ${r.t + 1}기는 자료 ${copies(r.u.id, r.t).join(', ')}에 포함된다.`;
+      if (view < 3) return base;
+      if (view === 3) return base + ` 이 행에서는 단위 더미 α(${r.u.id}, ${r.d.s})와 시점 더미 λ(${r.t + 1}기, ${r.d.s})만 1이고 다른 자료의 더미는 모두 0이다.`;
+      return `자료 ${r.d.s}의 ${u} ${r.t + 1}기: D̃ = (Tr ${r.tr} − p ${FR(r.d.p)}) × (Post ${r.post} − q ${FR(r.d.q)}) = <b>${FR(r.dt)}</b>` + (r.u.n > 1 ? `. 같은 값의 단위가 ${r.u.n}개이므로 합에는 ${r.u.n}번 들어간다.` : '.');
+    }
+    const st = stepper(host, {
+      kind: '도식', title: '쌓은 자료의 긴 형식 (가상 수치, 덱 20장 예제)', w: 10, h: 10,
+      steps: [
+        '위는 원자료(행은 단위, 열은 시점, 칸은 Y), 아래는 쌓은 자료가 들어갈 긴 형식의 빈 틀이다. 색으로 표시한 칸이 도입 이후 칸이다.',
+        '자료 1(k의 사건, 1-3기)의 행을 복제한다. 원자료 칸 아래의 표시가 그 칸이 어느 자료에 복제되었는지를 나타낸다.',
+        '자료 2(l의 사건, 3-5기)의 행을 복제한다. 이미 처치된 k는 복제하지 않는다. U와 l의 3기는 두 자료에 모두 복제되고 k의 4기와 5기는 어느 자료에도 사용되지 않는다.',
+        '고정효과 더미를 (단위, 자료)와 (시점, 자료)의 조합마다 둔다. 자료 1의 U는 α(U, 1), 자료 2의 U는 α(U, 2)를 받으므로 회귀는 둘을 다른 단위로 다룬다.',
+        '처치변수 D와 그 잔차 D̃ = (Tr − p)(Post − q)를 자료 안에서 계산한다. 같은 U의 3기라도 자료 1(사후 시점)에서는 −1/15, 자료 2(사전 시점)에서는 1/2이다.',
+        '자료마다 ΣD̃Y와 ΣD̃²를 구하면 자료별 DID 2와 6, 가중치 16/31과 15/31이 나온다. 쌓은 회귀의 계수는 두 자료의 ΣD̃Y를 더한 값을 ΣD̃²를 더한 값으로 나눈 것이다.'
+      ],
+      init(svg, Fr) {
+        wrap = GV.h('div', { cls: 'ptwrap' }); svg.replaceWith(wrap);
+        info = GV.h('div', { cls: 'pinfo' }, Fr.out);
+        return (step) => { view = step; draw(); };
+      }
+    });
+    function draw() {
+      const v = view;
+      // 원자료 격자
+      let h = '<table class="ptab sl-g"><thead><tr><th></th>' + [1, 2, 3, 4, 5].map(t => `<th>${t}기</th>`).join('') + '</tr></thead><tbody>';
+      UN.forEach(u => {
+        h += `<tr><th style="color:var(--${u.col})">${uLab(u)}</th>`;
+        for (let t = 0; t < 5; t++) {
+          const cp = copies(u.id, t).filter(s0 => s0 <= v), unused = v >= 2 && !copies(u.id, t).length, post = t >= u.g;
+          const lab = unused ? '사용 안 함' : cp.length ? '자료 ' + cp.join(', ') : '자료 1, 2';
+          h += `<td class="c${post ? ' tr' : ''}${unused ? ' sl-x' : ''}" data-u="${u.id}" data-t="${t}" style="--cc:var(--${u.col});--cs:var(--${u.col}-soft)">${Yv(u, t)}<span class="sl-cp${cp.length || unused ? '' : ' pend'}">${lab}</span></td>`;
+        }
+        h += '</tr>';
+      });
+      h += '</tbody></table>';
+      // 쌓은 자료
+      const P = (r0) => v >= r0 ? '' : ' pend';
+      h += '<table class="sl-tab"><thead><tr><th>자료</th><th class="l">단위</th><th>시점</th><th>상대시점</th><th>Y</th><th>단위 더미</th><th>시점 더미</th><th>D</th><th>D̃</th></tr></thead><tbody>';
+      DS.forEach(d => {
+        const ctl = d.units.filter(id => id !== d.ev).map(id => uLab(uOf(id))).join(', ');
+        h += `<tr class="gh${v >= d.s ? ' on' : ''}"><td colspan="9"><b>자료 ${d.s}</b>: ${d.ev}의 사건, ${d.a + 1}-${d.b + 1}기, 비교 단위 ${ctl}`
+          + `<span class="${P(4).trim()}">. p = ${FR(d.p)}, q = ${FR(d.q)}</span>`
+          + `<span class="${P(5).trim()}">. ΣD̃Y = ${FR(d.num)}, ΣD̃² = ${FR(d.den)}, DID <b>${FR(d.est)}</b>, 가중치 <b>${FR(d.w)}</b></span></td></tr>`;
+        rows.filter(r => r.d === d).forEach(r => {
+          const i = rows.indexOf(r), c = r.u.col;
+          h += `<tr data-i="${i}" class="${r.tr && r.post ? 'trt' : ''}">`
+            + `<td class="${P(d.s)}">${d.s}</td><td class="l${P(d.s)}" style="color:var(--${c});font-weight:700">${uLab(r.u)}</td><td class="${P(d.s)}">${r.t + 1}기</td><td class="${P(d.s)}">${GV.fmt(r.rel, 0)}</td><td class="${P(d.s)}">${r.y}</td>`
+            + `<td class="${P(3)}">α<sub>${r.u.id},${d.s}</sub></td><td class="${P(3)}">λ<sub>${r.t + 1}기,${d.s}</sub></td>`
+            + `<td class="dv${P(4)}">${r.tr * r.post}</td><td class="dv${P(4)}${r.dt < 0 ? ' neg' : ''}">${FR(r.dt)}</td></tr>`;
+        });
+      });
+      h += '</tbody></table>';
+      wrap.innerHTML = h; info.innerHTML = SUM[v];
+    }
+    host.addEventListener('pointerover', e => {
+      if (!wrap) return;
+      const tr = e.target.closest('.sl-tab tr[data-i]'), td = e.target.closest('.sl-g td.c');
+      wrap.querySelectorAll('.lk').forEach(x => x.classList.remove('lk'));
+      if (tr) { const r = rows[+tr.dataset.i]; if (view < r.d.s) return; tr.classList.add('lk'); const c = wrap.querySelector(`.sl-g td[data-u="${r.u.id}"][data-t="${r.t}"]`); if (c) c.classList.add('lk'); info.innerHTML = explain(r); return; }
+      if (td) { const id = td.dataset.u, t = +td.dataset.t; td.classList.add('lk'); const cp = copies(id, t).filter(s0 => s0 <= view);
+        rows.forEach((r, i) => { if (r.u.id === id && r.t === t && r.d.s <= view) { const x = wrap.querySelector(`tr[data-i="${i}"]`); if (x) x.classList.add('lk'); } });
+        info.innerHTML = view === 0 ? `원자료 ${id} ${t + 1}기, Y = ${Yv(uOf(id), t)}.` : cp.length ? `원자료 ${id} ${t + 1}기는 자료 ${cp.join('과 자료 ')}에 복제되었다.` : (view >= 2 ? `원자료 ${id} ${t + 1}기는 쌓은 자료에 포함되지 않는다. 이미 처치된 k를 l의 비교 단위로 사용하지 않기 때문이다.` : `원자료 ${id} ${t + 1}기는 아직 복제되지 않았다.`);
+        return; }
+      info.innerHTML = SUM[view];
+    });
+    host.addEventListener('pointerleave', () => { if (!wrap) return; wrap.querySelectorAll('.lk').forEach(x => x.classList.remove('lk')); info.innerHTML = SUM[view]; });
+    void st;
+  });
+
+  /* ---------- es-bin (p3-bll): TWFE 사건연구의 구간 묶음과 정규화 (덱 19장 예제, 잡음 없는 계산) ---------- */
+  GV.reg('es-bin', host => {
+    const W = 640, H = 300, E = [0, 1, 3, 5, 7];
+    const Yp = g => Array.from({ length: 5 }, (_, t) => t >= g ? E[t - g + 1] : 0);
+    const groups = [{ n: 1, g: I, y: Yp(I) }, { n: 1, g: 1, y: Yp(1) }, { n: 1, g: 3, y: Yp(3) }];
+    const L = [-3, -2, -1, 0, 1, 2, 3], TRUE = L.map(l => l < 0 ? 0 : E[l + 1]);
+    const SPEC = { none: [[-3], [-2], [0], [1], [2], [3]], post1: [[-3], [-2], [0], [1, 2, 3]], post2: [[-3], [-2], [0], [1], [2, 3]], pre: [[-3, -2], [0], [1], [2], [3]] };
+    const fit = k => { const bins = SPEC[k], col = l => bins.findIndex(b => b.includes(l)); const b = ST.eventDesign(groups, 5, bins.length, col).fit(groups.map(g => g.y)); return { bins, est: L.map(l => l === -1 ? 0 : b[col(l)]) }; };
+    let spec = 'post1', norm = 'off';
+    const F0 = GV.frame(host, { kind: '도식', title: '구간 묶음과 정규화가 사건연구 계수를 바꾸는 방식 (가상 수치, 덱 19장 예제)', w: W, h: H, controls: true,
+      note: '세 집단 U(미처치), k(2기 도입), l(4기 도입), 두 코호트 모두 도입 후 효과 1, 3, 5, 7, 미처치 잠재결과 0인 잡음 없는 자료에 TWFE 사건연구를 적용해 덱의 ST.eventDesign으로 계산했다. 기준기간은 ℓ = −1이고 정규화는 ℓ = −3, −2, −1 계수의 평균을 모든 계수에서 차감한다.' });
+    const svg = F0.svg, x = lin(-3.5, 3.5, 80, 610), y = lin(-1, 8, 252, 44);
+    const g0 = s('g', {}, svg);
+    GV.yAxis(g0, y, [0, 2, 4, 6, 8], 80, 610);
+    GV.xTicks(g0, x, L, 272);
+    txt(g0, 610, 294, '도입 시점 기준 상대시점 ℓ', SUB, 'end');
+    txt(g0, 73, 36, '계수', SUB, 'end');
+    s('line', { x1: x(-0.5), x2: x(-0.5), y1: 40, y2: 256, 'stroke-width': 1.2, css: 'stroke:var(--faint);stroke-dasharray:4 4' }, g0);
+    txt(g0, x(-0.5) + 6, 54, '도입', SUB + ';font-weight:600');
+    // 범례
+    const lg = (xx, label, draw) => { draw(xx); txt(g0, xx + 22, 22, label, SUB + ';font-weight:600'); };
+    lg(80, '참효과', xx => s('line', { x1: xx, x2: xx + 16, y1: 18, y2: 18, 'stroke-width': 2.5, css: 'stroke:var(--ink);stroke-dasharray:5 3' }, g0));
+    lg(170, '추정 계수', xx => s('circle', { cx: xx + 8, cy: 18, r: 5, css: 'fill:var(--c1)' }, g0));
+    lg(272, '묶은 구간', xx => s('line', { x1: xx, x2: xx + 16, y1: 18, y2: 18, 'stroke-width': 6, css: 'stroke:var(--c2);stroke-linecap:round' }, g0));
+    lg(374, '기준기간 (차감 전 0)', xx => s('circle', { cx: xx + 8, cy: 18, r: 5, css: 'fill:var(--bg);stroke:var(--c1);stroke-width:2' }, g0));
+    s('polyline', { pts: L.map((l, i) => [x(l), y(TRUE[i])]), 'stroke-width': 2.5, css: 'fill:none;stroke:var(--ink);stroke-dasharray:7 5' }, svg);
+    const bars = [0, 1].map(() => s('line', { x1: x(0), x2: x(0), y1: y(0), y2: y(0), 'stroke-width': 8, css: 'stroke:var(--c2);stroke-linecap:round', opacity: 0 }, svg));
+    const dots = L.map(l => s('circle', { cx: x(l), cy: y(0), r: 6, css: l === -1 ? 'fill:var(--bg);stroke:var(--c1);stroke-width:2.2' : 'fill:var(--c1)' }, svg));
+    const labs = L.map(l => s('text', { x: x(l), y: y(0) - 12, 'text-anchor': 'middle', css: 'fill:var(--ink);font-size:13px;font-weight:700', text: '' }, svg));
+    F0.bar.remove();
+    const out = GV.h('div', { cls: 'pinfo' }, F0.out);
+    const READ = {
+      none: '모든 상대시점 더미를 따로 포함했다. 미처치 단위 U가 있으므로 계수가 참효과와 같다.',
+      post1: 'ℓ = 1, 2, 3을 계수 하나로 묶었다. 참효과 3, 5, 7을 계수 하나로 나타낼 수 없으므로 남은 오차가 참효과 0인 도입 전 계수와 도입 해 계수로 전가된다.',
+      post2: 'ℓ = 2, 3을 묶었다. 묶은 구간이 좁아져 오염이 감소하지만 도입 전 계수와 ℓ = 0, 1 계수가 여전히 참값에서 벗어난다.',
+      pre: 'ℓ = −3, −2를 묶었다. 두 기간의 참효과가 모두 0으로 같으므로 묶어도 계수가 바뀌지 않는다.'
+    };
+    GV.seg(F0.top, '구간 묶음', [['none', '묶지 않음'], ['post1', 'ℓ ≥ 1 묶음'], ['post2', 'ℓ ≥ 2 묶음'], ['pre', 'ℓ ≤ −2 묶음']], spec, v => { spec = v; render(true); });
+    GV.seg(F0.top, '정규화', [['off', '없음'], ['on', '도입 전 평균 차감']], norm, v => { norm = v; render(true); });
+    function render(anim) {
+      const R = fit(spec), m = (R.est[0] + R.est[1] + R.est[2]) / 3, sh = norm === 'on' ? m : 0, o = { dur: anim ? 700 : 0 };
+      const val = R.est.map(v => v - sh);
+      const inBin = l => R.bins.find(b => b.length > 1 && b.includes(l));
+      dots.forEach((d, i) => to(d, { cy: y(val[i]) }, o));
+      labs.forEach((t, i) => { const b = inBin(L[i]), show_ = !b || b[Math.floor((b.length - 1) / 2)] === L[i], below = !b && val[i] < TRUE[i] + 0.3;
+        to(t, { y: y(val[i]) + (b ? -16 : below ? 22 : -12), opacity: show_ ? 1 : 0 }, o); count(t, val[i], 2, { dur: anim ? 700 : 0 }); });
+      F0.cap.innerHTML = `<span class="vn">ℓ</span><span class="vt">${READ[spec]}${norm !== 'on' ? '' : Math.abs(m) < 1e-9 ? ' 도입 전 계수의 평균이 0이므로 정규화해도 바뀌지 않는다.' : ` 정규화로 모든 계수에서 도입 전 평균(${GV.fmt(m, 2)})을 차감했으므로 곡선 전체가 같은 거리만큼 ${m > 0 ? '아래로' : '위로'} 이동했다.`}</span>`;
+      const multi = R.bins.filter(b => b.length > 1);
+      bars.forEach((bl, j) => { const b = multi[j]; if (!b) { show(bl, false, o); return; } const v = val[L.indexOf(b[0])];
+        to(bl, { x1: x(b[0]) - 12, x2: x(b[b.length - 1]) + 12, y1: y(v), y2: y(v), opacity: 0.55 }, o); });
+      const pre = [0, 1, 2].map(i => GV.fmt(val[i], 2)).join(', '), dev = Math.max(...val.map((v, i) => Math.abs(v - TRUE[i])));
+      out.innerHTML = `도입 전 계수(ℓ = −3, −2, −1): <b>${pre}</b>. 정규화 전 도입 전 평균 ${GV.fmt(m, 2)}${norm === 'on' ? `. 이 값을 모든 계수에서 차감했다` : ''}. 참효과와의 최대 차이 <b>${GV.fmt(dev, 2)}</b>.`
+        + (spec === 'none' && norm === 'off' ? ' 미처치 단위가 있고 모든 상대시점 더미를 넣었으므로 계수가 참효과와 같다.' : spec === 'pre' && norm === 'off' ? ' 묶은 두 기간의 참효과가 모두 0이므로 묶지 않은 경우와 같다.' : '');
+    }
+    render(false);
   });
 })();

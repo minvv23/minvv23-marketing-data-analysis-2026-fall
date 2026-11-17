@@ -1,0 +1,83 @@
+<!-- 2부 기호 풀이. gloss-1.html의 키(Y, D, ai, lt, eps, d, dhat, w, tau, Dtil, denD, e 등)는 다시 정의하지 않고 그대로 사용한다. -->
+<dl class="gloss">
+<dt data-k="ROA"><tex>ROA_{it}</tex> 총자산이익률</dt>
+<dd><p>기업 <tex>i</tex>의 <tex>t</tex>년 이익을 총자산으로 나눈 비율이다. 원문 시뮬레이션의 종속변수이며 Compustat의 1980-2015년 미국 비금융 기업 자료에서 계산했다.</p></dd>
+
+<dt data-k="ROAs"><tex>\widetilde{ROA}_{it}</tex> 모의 ROA</dt>
+<dd><p>재추출한 기업 성분, 연도 성분, 잔차의 합에 저자들이 정한 처치효과를 더해 만든 가상의 ROA다. 위첨자 1, 6′ 등은 몇 번째 시뮬레이션인지를 나타낸다. 연구자 역할의 TWFE는 이 값만 사용해 효과를 추정한다.</p></dd>
+
+<dt data-k="sig"><tex>\sigma_{ROA}</tex> ROA의 표준편차</dt>
+<dd><p>원문 표본의 ROA 표준편차로 30.9%다. 시뮬레이션의 효과 크기는 이 값의 배수로 정했으며 덱과 이 가이드에서 σ는 이 값을 가리킨다.</p><span class="ex">예: 0.5σ는 ROA 약 15.5%p, 0.03σ는 약 0.9%p.</span></dd>
+
+<dt data-k="ind"><tex>I[\cdot]</tex> 지시함수</dt>
+<dd><p>괄호 안의 조건이 참이면 1, 거짓이면 0이다. 조건 두 개의 지시함수를 곱하면 두 조건이 모두 참인 칸에서만 1이 된다.</p><span class="ex">예: <tex>I[Treat_i] \times I[t \ge 1998]</tex>은 처치된 주의 기업이 1998년 이후일 때 1.</span></dd>
+
+<dt data-k="atil"><tex>\tilde\alpha_i</tex> 재추출한 기업 성분</dt>
+<dd><p>실제 자료에서 추정한 기업 고정효과의 목록에서 모의자료의 기업마다 무작위로 하나씩 추출한 값이다. 같은 기업의 모든 연도에 같은 값이 사용된다.</p></dd>
+
+<dt data-k="ltil"><tex>\tilde\lambda_t</tex> 재추출한 연도 성분</dt>
+<dd><p>실제 자료에서 추정한 연도 고정효과 36개의 목록에서 모의자료의 연도마다 하나씩 추출한 값이다. 같은 연도의 모든 기업에 같은 값이 적용된다.</p></dd>
+
+<dt data-k="etil"><tex>\tilde\epsilon_{it}</tex> 재추출한 잔차</dt>
+<dd><p>실제 자료의 OLS 잔차 176,670개의 목록에서 관측치마다 새로 추출한 값이다. 기업과 연도로 설명되지 않는 변동을 모의자료에 반영하는 역할을 한다.</p></dd>
+
+<dt data-k="sg"><tex>s_g</tex> 코호트 g의 효과 증가 속도</dt>
+<dd><p>도입 연도가 <tex>g</tex>인 코호트 효과의 연간 증가폭이다. 효과는 도입 <tex>\ell</tex>년 뒤 <tex>s_g(\ell + 1)</tex>이다(덱 코드 기준). 원문은 trend-break라고 부른다.</p><span class="ex">Sim 5: 모든 코호트 0.03σ. Sim 6: 0.05σ, 0.03σ, 0.01σ. Fig. 5 왼쪽: 0.10σ, 0.05σ, 0.01σ. Sim 6′: 평균 0, 표준편차 0.03σ의 정규분포에서 추출.</span></dd>
+
+<dt data-k="se"><tex>\widehat{SE}_{cl}</tex> 군집강건 표준오차</dt>
+<dd><p>같은 군집(이 절에서는 주) 안의 오차에는 어떠한 상관도 허용하고 서로 다른 군집 사이에서만 독립을 가정해 계산한 표준오차다. 군집마다 잔차 합 <tex>\hat S_c</tex>를 먼저 구하고 그 제곱을 더한다. 추정치가 잡음 때문에 변동하는 정도를 측정하며 중심이 참값에서 벗어난 정도는 측정하지 않는다.</p></dd>
+
+<dt data-k="Sc"><tex>S_c</tex> 군집 c의 잡음 합</dt>
+<dd><p>군집 <tex>c</tex>에 속한 모든 칸에서 처치변수의 잔차 <tex>\tilde D_{it}</tex>와 오차를 곱한 뒤 더한 값이다. 군집 사이가 독립이면 TWFE 계수의 분산은 <tex>\sum_c \mathrm{Var}(S_c)</tex>를 <tex>(\sum \tilde D^2)^2</tex>으로 나눈 값이다.</p></dd>
+
+<dt data-k="tstat"><tex>t</tex> t값</dt>
+<dd><p>추정치를 표준오차로 나눈 값이다. 절댓값이 1.96을 초과하면 5% 수준에서 효과가 0이라는 귀무가설을 기각한다. 귀무가설이 참이고 표준오차가 정확하면 대략 표준정규분포를 따른다.</p></dd>
+
+<dt data-k="Eisa"><tex>E_i</tex> 도입 시점 (원문 식 12의 표기)</dt>
+<dd><p>단위 <tex>i</tex>가 처치를 시작한 시점이다. 1부와 덱 16장의 <tex>G_i</tex>와 같으며 원문은 Sun and Abraham (2021)의 표기를 따랐다. 미처치 단위는 <tex>E_i = \infty</tex>다.</p></dd>
+
+<dt data-k="ell"><tex>\ell</tex> 상대시점</dt>
+<dd><p>달력 연도에서 도입 연도를 차감한 값 <tex>t - E_i</tex>다. 도입 연도가 0, 도입 직전 해가 −1이다. 같은 달력 연도라도 코호트마다 다르다.</p><span class="ex">2001년: 1989년 코호트 12, 1998년 코호트 3, 2007년 코호트 −6.</span></dd>
+
+<dt data-k="Dl"><tex>D^{\ell}_{it}</tex> 상대시점 더미</dt>
+<dd><p>칸 <tex>(i, t)</tex>의 상대시점이 <tex>\ell</tex>이면 1, 아니면 0인 열이다. 상대시점마다 열이 하나씩 있고 처치되는 기업의 행마다 정확히 한 열만 1이다. 묶음 구간의 더미 <tex>D^b</tex>는 구간 안의 상대시점이면 1이다.</p></dd>
+
+<dt data-k="mu"><tex>\mu_\ell</tex> 사건연구 계수</dt>
+<dd><p>상대시점 더미 <tex>D^{\ell}</tex>에 붙는 계수다. 기준기간(−1)과 비교한 그 상대시점의 차이로 해석하도록 의도된 값이다. 묶음 구간 <tex>b</tex>의 계수는 <tex>\mu_b</tex>로 표기한다.</p></dd>
+
+<dt data-k="muhat"><tex>\hat\mu_\ell</tex> 사건연구 계수의 추정값</dt>
+<dd><p>자료에 OLS를 적용해 얻은 <tex>\mu_\ell</tex>의 값이다. 사건연구 그림의 점 하나하나가 이 값에 해당한다.</p><span class="ex">덱 17장의 −3기: 0.084σ (참값 0).</span></dd>
+
+<dt data-k="win"><tex>K, L</tex> 사건창의 앞뒤 길이</dt>
+<dd><p>도입 전 몇 기까지, 도입 후 몇 기까지 더미를 따로 둘지를 정한다. 원문 Fig. 5는 <tex>K = L = 5</tex>이고 그보다 먼 상대시점은 양 끝에서 한 구간씩 묶었다.</p></dd>
+
+<dt data-k="Ybar"><tex>\bar Y_{g,t}</tex> 집단-연도 평균</dt>
+<dd><p>집단 <tex>g</tex>(코호트 또는 미처치 집단 U)에 속한 단위들의 <tex>t</tex>년 결과를 평균한 값이다. 2×2 DID는 이 평균 네 개로 계산한다.</p></dd>
+
+<dt data-k="beta3"><tex>\hat\beta_{-3}</tex> 덱 17장의 −3기 계수</dt>
+<dd><p>덱 17장이 사용한 표기이며 이 가이드의 <tex>\hat\mu_{-3}</tex>과 같은 계수다. 처치 코호트의 도입 3년 전과 1년 전을 비교한다.</p></dd>
+
+<dt data-k="taugt"><tex>\tau^{t}_{g}</tex> 코호트 g의 t년 효과</dt>
+<dd><p>덱 17장의 표기로 아래첨자는 코호트의 도입 연도를 두 자리로 줄인 것, 위첨자는 달력 연도다. 같은 값을 상대시점으로 적으면 <tex>CATT_{g,\,t-g}</tex>다.</p><span class="ex"><tex>\tau^{1997}_{89}</tex>은 1989년 코호트의 도입 8년 뒤 효과로 Fig. 5 왼쪽 자료에서 0.90σ.</span></dd>
+
+<dt data-k="catt"><tex>CATT_{g,\ell}</tex> 코호트별 평균처치효과</dt>
+<dd><p>도입 연도가 <tex>g</tex>인 코호트가 도입 <tex>\ell</tex>년 뒤에 받은 평균효과다(cohort-specific ATT). 코호트와 상대시점의 조합마다 하나씩 있고 3부의 <tex>ATT(g, t)</tex>를 상대시점으로 적은 것과 같다.</p><span class="ex"><tex>CATT_{1989,3}</tex>은 1989년 코호트의 1992년 효과.</span></dd>
+
+<dt data-k="Yinf"><tex>Y^{\infty}_{i,t}</tex> 한 번도 처치받지 않았을 때의 결과</dt>
+<dd><p>단위 <tex>i</tex>가 끝까지 처치받지 않았다면 <tex>t</tex>년에 관측되었을 잠재결과다. 도입 시점이 무한대라는 의미로 위첨자 <tex>\infty</tex>를 붙인다. 1부의 <tex>Y_{it}(0)</tex>과 같은 개념이다.</p></dd>
+
+<dt data-k="bin"><tex>b</tex> 상대시점 구간</dt>
+<dd><p>회귀식에 더미 열 하나로 포함된 상대시점의 모음이다. 상대시점 하나일 수도 있고 묶음 구간일 수도 있다.</p><span class="ex">덱 17장 사양: {−5}, {−4}, …, {5} 열 개와 {≤ −6}, {≥ 6} 두 묶음.</span></dd>
+
+<dt data-k="bexcl"><tex>b^{excl}</tex> 제외한 상대시점</dt>
+<dd><p>회귀식에 열이 없는 상대시점의 모음이다. 기준기간이 여기에 속한다. 사건연구 계수 하나가 이 칸들에 주는 가중치의 합은 −1이다.</p><span class="ex">덱 17장 사양: {−1}.</span></dd>
+
+<dt data-k="wb"><tex>w^{b}_{g,\ell'}</tex> 사건연구 계수의 칸별 가중치</dt>
+<dd><p>계수 <tex>\mu_b</tex>가 칸 <tex>(g, \ell')</tex>의 효과 <tex>CATT_{g,\ell'}</tex>에 주는 가중치다. 그 칸의 효과만 1이고 나머지가 모두 0인 자료에서 추정한 <tex>\hat\mu_b</tex>의 값과 같다. 도입 배치와 모형 사양만으로 정해지고 결과 <tex>Y</tex>와 무관하다.</p><span class="ex">+3기 계수가 1989년 코호트의 8년 뒤 칸에 주는 가중치 +0.184, 12년 뒤 칸에 −0.184.</span></dd>
+
+<dt data-k="Dbtil"><tex>\tilde D^{b}_{it}</tex> 구간 더미의 잔차</dt>
+<dd><p>구간 <tex>b</tex>의 더미를 기업 더미, 연도 더미, 다른 구간의 더미 전체에 회귀하고 남은 잔차다. 1부의 <tex>\tilde D_{it}</tex>를 사건연구의 더미 하나에 적용한 것이다.</p></dd>
+
+<dt data-k="cb"><tex>c^{b}_{it}</tex> 칸별 계수</dt>
+<dd><p><tex>\tilde D^{b}_{it} / \sum (\tilde D^{b})^2</tex>다. 사건연구 계수는 <tex>\sum c^{b}_{it} Y_{it}</tex>로 표현되며 1부의 칸별 가중치 <tex>w_{it}</tex>와 같은 역할을 한다. 같은 코호트, 같은 상대시점에 해당하는 칸들의 값을 더하면 가중치 <tex>w^{b}_{g,\ell'}</tex>가 된다.</p></dd>
+</dl>

@@ -19,13 +19,18 @@
 
 <p>실제 정책 자료만으로는 추정량을 채점할 수 없다. 미국 주들의 은행 지점 규제완화가 소득 불평등을 얼마나 낮췄는지 참값을 아는 사람은 없다. TWFE가 로그 Gini 계수 −0.022를 내고 대안 추정량이 0.001을 내도 (원문 Table 2, 3부에서 다룬다) 자료만으로는 어느 추정치가 맞는지 판정할 방법이 없다. 추정량의 성질을 확인하려면 연구자가 정답을 미리 정해 둔 자료가 필요하다. 이렇게 자료를 반복 생성해 추정 절차의 성능을 측정하는 방법을 몬테카를로 모의실험(Monte Carlo simulation)이라고 부른다.</p>
 
-<p>정답을 정하는 가장 간단한 방법은 정규분포 난수로 가상의 패널을 만드는 것이다. 그러나 이렇게 만든 자료는 실제 기업 자료와 거리가 멀다. 실제 기업의 총자산이익률(ROA)은 기업마다 평소 수준이 크게 다르고 해마다 경기에 따라 함께 움직인다. 극단값이 많고 기업마다 관측되는 기간도 다르다. 이런 특징은 추정치의 분포를 바꿀 수 있다. 깔끔한 가상 자료에서 문제가 없다는 결과는 실제 자료를 다루는 연구자에게 충분한 근거가 되지 못한다. 그래서 저자들은 실제 자료의 변동을 그대로 유지하고 처치를 어느 주에 언제 부여할지와 효과의 크기만 연구자가 정하는 방식을 택했다.</p>
+<p>정답을 정하는 가장 간단한 방법은 정규분포 난수로 가상의 패널을 만드는 것이다. 그러나 이렇게 만든 자료는 실제 기업 자료와 거리가 멀다. 실제 기업의 총자산이익률(ROA)은 기업마다 평소 수준이 크게 다르고 해마다 경기에 따라 함께 움직인다. 극단값이 많고 기업마다 관측되는 기간도 다르다. 이런 특징은 추정치의 분포를 바꿀 수 있다. 깔끔한 가상 자료에서 문제가 없다는 결과는 실제 자료를 다루는 연구자에게 충분한 근거가 되지 못한다. 저자들은 이 때문에 실제 자료의 변동은 유지하고 처치를 어느 주에 언제 부여할지와 효과의 크기만 연구자가 정하는 방식을 택했다.</p>
 
 <h4>3주차의 Bertrand, Duflo &amp; Mullainathan (2004)와의 관계</h4>
 
 <p>이 방식은 3주차에 읽은 Bertrand, Duflo &amp; Mullainathan (2004)에서 가져온 것이다. 원문 3.1.1절은 이 논문을 두 번 직접 언급한다. 한 번은 실제 자료의 경험분포(empirical distribution)에서 성분을 다시 추출하는 몬테카를로 방식이고 다른 한 번은 기업마다 설립 주를 무작위로 배정하는 방식이다. 제목도 의도적으로 닮았다. 2004년 논문의 제목은 "How much should we trust differences-in-differences estimates?"이고, 이 논문은 여기에 staggered 한 단어를 더했다. 이 가이드에서는 두 논문을 저자 머리글자를 따서 BDM과 BLW(Baker, Larcker &amp; Wang 2022)로 부른다.</p>
 
 <p>BDM은 미국 여성 임금자료(CPS)에 존재하지 않는 법을 무작위로 부여했다. 가짜 법(placebo law)은 실제 임금을 바꾼 적이 없으므로 참효과가 0이고, 유의하다는 판정은 모두 거짓 양성이다. 그런데 같은 주, 같은 해의 관측치끼리 군집한 표준오차를 사용해도 가짜 법의 44.0%가 5% 수준에서 유의하게 나왔다 (BDM Table II 행 2, 3주차 심층요약 8절). 같은 주의 임금 충격이 여러 해 지속되는데 표준오차가 이 시계열 상관을 반영하지 못했기 때문이다. 계수의 중심은 0 근처에 있었다. BDM이 의심한 것은 그 주변의 불확실성을 측정하는 방식이었다.</p>
+
+<details class="qa"><summary>가짜 법의 44.0%가 유의하게 나왔다는 것이 왜 문제인가?</summary><div class="ans">
+<p>5% 유의수준의 검정은 귀무가설(효과 = 0)이 참일 때 귀무가설을 기각할 확률이 5%가 되도록 만든 규칙이다. |t| &gt; 1.96이면 기각하는 규칙이 이 조건을 충족한다. 표준오차가 제대로 계산되었다면 귀무가설이 참일 때 t값은 대략 표준정규분포를 따르고 표준정규분포에서 |t| &gt; 1.96이 나올 확률이 5%이기 때문이다.</p>
+<p>가짜 법은 참효과가 0이므로 귀무가설이 참이다. 가짜 법을 수백 번 만들어 검정하면 유의하다는 판정의 비율, 곧 기각률(rejection rate)이 5% 안팎이어야 정상이다. BDM에서는 이 비율이 44.0%로 설계값의 아홉 배에 가까웠다. 계수의 분포는 0을 중심으로 형성되었으므로 원인은 분모인 표준오차가 실제 변동보다 작게 계산된 데 있다. 같은 원리로 모의자료마다 t값을 계산하고 기각률을 세는 방식이 뒤의 <a href="#p2-type1">제1종 오류 절</a>(원문 Fig. 4)에서 다시 사용된다.</p>
+</div></details>
 
 <p>BLW는 같은 틀을 빌려 왔지만 의심하는 대상이 다르다. 두 논문을 나란히 놓으면 차이가 분명해진다.</p>
 
@@ -60,14 +65,35 @@
 <ol>
 <li><strong>표본 구성.</strong> 1980년부터 2015년까지 36년 동안 Compustat에 있는 기업 가운데 미국에 설립되었고(U.S. incorporated) 금융업이 아니며 관측치가 5개 이상인 기업을 모았다. 기업마다 관측되는 해가 다른 불균형 패널(unbalanced panel)이고 관측치는 176,670개다.</li>
 <li><strong>성분 분해.</strong> ROA를 기업 고정효과, 연도 고정효과, 잔차로 분해했다. 기업 고정효과는 그 기업의 평소 수익성 수준, 연도 고정효과는 그해 모든 기업이 공유한 경기, 잔차는 나머지 기업-연도 단위의 변동이다.
-<tex class="d">ROA_{it} = \alpha_i + \lambda_t + \epsilon_{it}</tex></li>
-<li><strong>재추출.</strong> 모의자료 하나를 만들 때마다 연도마다 연도 고정효과를, 기업마다 기업 고정효과를, 관측치마다 잔차를 각 성분의 실제 분포에서 다시 추출했다. 그렇게 만든 패널은 실제 Compustat 자료와 비슷한 변동을 보이지만 정책효과는 포함하지 않는다.</li>
+<div class="sym"><tex class="d">\gl{ROA}{ROA_{it}} = \gl{ai}{\alpha_i} + \gl{lt}{\lambda_t} + \gl{eps}{\epsilon_{it}}</tex></div>
+분해 방법은 1부의 TWFE 회귀에서 처치변수를 제외한 OLS다. 실제 ROA를 기업 더미와 연도 더미에만 회귀하면 기업 더미의 계수는 기업마다, 연도 더미의 계수는 연도마다, 잔차는 관측치마다 하나씩 산출된다. 원문은 이 추정값을 <tex>\{\hat\alpha_i\}</tex>, <tex>\{\hat\lambda_t\}</tex>, <tex>\{\hat\epsilon_{it}\}</tex>로 적었다. 기업 고정효과는 기업 수만큼, 연도 고정효과는 36개, 잔차는 176,670개의 값으로 이루어진 목록이 된다.</li>
+<li><strong>재추출.</strong> 모의자료 하나를 만들 때마다 연도마다 연도 고정효과를, 기업마다 기업 고정효과를, 관측치마다 잔차를 각 성분의 실제 분포에서 다시 추출했다. 그렇게 만든 패널은 실제 Compustat 자료와 비슷한 변동을 보이지만 정책효과는 포함하지 않는다. 실제 분포, 곧 경험분포(empirical distribution)에서 추출한다는 것은 2단계의 목록을 하나의 분포로 보고 목록의 각 값에 같은 확률을 부여해 무작위로 값을 추출한다는 의미다. 모의자료의 기업 하나는 기업 고정효과 목록에서 받은 값 하나를 모든 연도에 사용하고 모의자료의 연도 하나는 연도 고정효과 목록에서 받은 값 하나를 그해의 모든 기업에 사용한다. 잔차만 칸마다 새로 추출한다.</li>
 <li><strong>주 배정.</strong> 기업마다 설립 주를 50개 주 가운데 하나로, 각 주에 1/50의 확률로 배정했다. 실제 설립 주의 분포를 사용한 변형도 시험했는데 결론은 같았다. 다만 관측치의 56%가 델라웨어에 설립된 기업이어서 추정치 분포가 여러 봉우리를 이루는 복잡한 모양이 되므로 본문에서는 같은 확률로 배정한 결과를 보고했다 (원문 각주 4).</li>
 <li><strong>처치 배정.</strong> 주를 같은 확률로 처치 집단에 배정했다. Sim 1과 2에서는 처치집단과 비교집단 두 개로, Sim 3-6에서는 1989년, 1998년, 2007년에 도입하는 세 코호트(같은 해에 도입하는 집단)로 나눴다. Sim 3-6에는 끝까지 처치받지 않는 집단이 없다.</li>
 <li><strong>효과 주입.</strong> 처치된 주에 설립된 기업의 도입 이후 관측치에 저자들이 정한 처치효과를 더했다. 예를 들어 Sim 1은 다음과 같다 (원문 식 5).
-<tex class="d">\widetilde{ROA}^{\,1}_{it} = 0.5\,\sigma_{ROA}\times I[Treat_i]\times I[t \ge 1998] + \tilde\alpha_i + \tilde\lambda_t + \tilde\epsilon_{it}</tex></li>
+<div class="sym"><tex class="d">\gl{ROAs}{\widetilde{ROA}^{\,1}_{it}} = 0.5\,\gl{sig}{\sigma_{ROA}}\times \gl{ind}{I[Treat_i]}\times \gl{ind}{I[t \ge 1998]} + \gl{atil}{\tilde\alpha_i} + \gl{ltil}{\tilde\lambda_t} + \gl{etil}{\tilde\epsilon_{it}}</tex></div>
+<tex>I[\cdot]</tex>는 괄호 안의 조건이 참이면 1, 거짓이면 0인 지시함수다. 두 지시함수의 곱은 처치된 주에 설립된 기업의 1998년 이후 관측치에서만 1이므로 1부의 처치변수 <tex>D_{it}</tex>와 같다. 물결(tilde)은 3단계에서 다시 추출한 값임을 나타낸다.</li>
 <li><strong>반복.</strong> 이렇게 만든 모의자료 500개에 각각 TWFE를 추정하고 추정치 500개의 분포를 저자들이 넣은 참값과 비교했다.</li>
 </ol>
+
+<p>모의자료 하나가 실제로 어떠한 형태인지 긴 형식(long format)의 표로 정리하면 다음과 같다. 기업 두 개의 일부 연도만 표시했고 효과는 Sim 5의 규칙(모든 코호트가 도입 첫해 0.03σ에서 시작해 매년 0.03σ씩 증가)을 따랐다. 성분 열의 기호는 값의 자리를 표시한 것이며 실제 값은 모의자료마다 새로 추출된다.</p>
+
+<div class="tbl"><table>
+<thead><tr><th>기업</th><th class="n">연도 <tex>t</tex></th><th class="n">도입 <tex>g</tex></th><th class="n" data-k="D"><tex>D_{it}</tex></th><th class="n" data-k="atil">기업 성분</th><th class="n" data-k="ltil">연도 성분</th><th class="n" data-k="etil">잔차</th><th class="n" data-k="tau">효과</th><th class="n" data-k="ROAs">모의 ROA</th></tr></thead>
+<tbody>
+<tr><td>1</td><td class="n">1996</td><td class="n">1998</td><td class="n" data-k="D">0</td><td class="n" data-k="atil"><tex>\tilde\alpha_1</tex></td><td class="n" data-k="ltil"><tex>\tilde\lambda_{1996}</tex></td><td class="n" data-k="etil"><tex>\tilde\epsilon_{1,1996}</tex></td><td class="n" data-k="tau">0</td><td class="n" data-k="ROAs">성분 합</td></tr>
+<tr><td>1</td><td class="n">1997</td><td class="n">1998</td><td class="n" data-k="D">0</td><td class="n" data-k="atil"><tex>\tilde\alpha_1</tex></td><td class="n" data-k="ltil"><tex>\tilde\lambda_{1997}</tex></td><td class="n" data-k="etil"><tex>\tilde\epsilon_{1,1997}</tex></td><td class="n" data-k="tau">0</td><td class="n" data-k="ROAs">성분 합</td></tr>
+<tr><td>1</td><td class="n">1998</td><td class="n">1998</td><td class="n" data-k="D">1</td><td class="n" data-k="atil"><tex>\tilde\alpha_1</tex></td><td class="n" data-k="ltil"><tex>\tilde\lambda_{1998}</tex></td><td class="n" data-k="etil"><tex>\tilde\epsilon_{1,1998}</tex></td><td class="n" data-k="tau">0.03σ</td><td class="n" data-k="ROAs">성분 합 + 0.03σ</td></tr>
+<tr><td>1</td><td class="n">1999</td><td class="n">1998</td><td class="n" data-k="D">1</td><td class="n" data-k="atil"><tex>\tilde\alpha_1</tex></td><td class="n" data-k="ltil"><tex>\tilde\lambda_{1999}</tex></td><td class="n" data-k="etil"><tex>\tilde\epsilon_{1,1999}</tex></td><td class="n" data-k="tau">0.06σ</td><td class="n" data-k="ROAs">성분 합 + 0.06σ</td></tr>
+<tr><td>2</td><td class="n">1997</td><td class="n">1989</td><td class="n" data-k="D">1</td><td class="n" data-k="atil"><tex>\tilde\alpha_2</tex></td><td class="n" data-k="ltil"><tex>\tilde\lambda_{1997}</tex></td><td class="n" data-k="etil"><tex>\tilde\epsilon_{2,1997}</tex></td><td class="n" data-k="tau">0.27σ</td><td class="n" data-k="ROAs">성분 합 + 0.27σ</td></tr>
+<tr><td>2</td><td class="n">1998</td><td class="n">1989</td><td class="n" data-k="D">1</td><td class="n" data-k="atil"><tex>\tilde\alpha_2</tex></td><td class="n" data-k="ltil"><tex>\tilde\lambda_{1998}</tex></td><td class="n" data-k="etil"><tex>\tilde\epsilon_{2,1998}</tex></td><td class="n" data-k="tau">0.30σ</td><td class="n" data-k="ROAs">성분 합 + 0.30σ</td></tr>
+</tbody></table></div>
+
+<p>기업 성분은 같은 기업의 모든 행에서 같고(<tex>\tilde\alpha_1</tex>이 네 행에 반복된다) 연도 성분은 같은 연도의 모든 기업에서 같다(1997년 행은 기업 1과 기업 2 모두 <tex>\tilde\lambda_{1997}</tex>). 잔차만 행마다 다르다. 기업 2는 1989년에 도입한 주에 설립되었으므로 1997년은 도입 9년째이고 효과는 0.03σ × 9 = 0.27σ다. 연구자가 TWFE를 추정할 때 관측하는 열은 기업, 연도, <tex>D_{it}</tex>, 모의 ROA 네 개뿐이고 나머지 열은 설계한 저자들만 안다. 효과가 매년 커지는 Sim 2, 5, 6의 규칙을 식 하나로 나타내면 다음과 같다 (원문 식 6, 9, 10).</p>
+
+<div class="sym"><tex class="d">\gl{tau}{\tau_{it}} = \gl{sg}{s_g} \times (t - g + 1)\quad (t \ge g), \qquad \gl{tau}{\tau_{it}} = 0 \quad (t \lt g)</tex></div>
+
+<p><tex>g</tex>는 기업 <tex>i</tex>가 속한 코호트의 도입 연도이고 <tex>s_g</tex>는 그 코호트 효과의 연간 증가폭이다. Sim 2는 <tex>s_g = 0.05\sigma</tex>, Sim 5는 세 코호트 모두 <tex>0.03\sigma</tex>, Sim 6은 1989년, 1998년, 2007년 코호트가 각각 <tex>0.05\sigma</tex>, <tex>0.03\sigma</tex>, <tex>0.01\sigma</tex>다. 원문은 <tex>t - g + 1</tex>을 <tex>t - 1988\,G_{1989} - 1997\,G_{1998} - 2006\,G_{2007}</tex>처럼 코호트 지시변수로 풀어 적었으며 두 표현 모두 도입 연도에 1이 되는 같은 값이다. 효과가 일정한 Sim 1, 3, 4는 <tex>t \ge g</tex>인 모든 해에 같은 값(0.5σ 또는 코호트별 0.5σ, 0.3σ, 0.1σ)을 더한다.</p>
 
 <p>아래 도식은 이 절차를 기업 14개짜리 작은 패널로 줄여 보여 준다. 다음을 누르면 같은 막대들이 성분 분해, 재추출, 주 배정, 효과 주입, 반복의 순서로 바뀐다. 막대의 길이가 기업마다 다른 것은 불균형 패널을 나타낸다.</p>
 <div class="widget" data-w="sim-flow"></div>
@@ -78,7 +104,7 @@
 
 <h4>평행추세가 설계상 성립한다는 의미</h4>
 
-<p>2단계와 3단계에서 만든 미처치 잠재결과(처치가 없었다면 관측되었을 결과)는 기업 고정효과, 연도 고정효과, 잔차의 합이다. 이 세 성분은 어느 주에 배정될지, 그 주가 언제 법을 도입할지와 무관하게 추출되었다. 따라서 어느 코호트든 미처치 잠재결과의 기댓값이 같은 경로를 따르고 평행추세 가정이 모든 코호트 쌍에서 성립한다. 도입 시점이 결과와 관련된 요인에 따라 정해지는 내생성(endogeneity)도 없다.</p>
+<p>2단계와 3단계에서 만든 미처치 잠재결과(처치가 없었다면 관측되었을 결과)는 기업 고정효과, 연도 고정효과, 잔차의 합이다. 이 세 성분은 어느 주에 배정될지, 그 주가 언제 법을 도입할지와 무관하게 추출되었다. 어느 코호트든 미처치 잠재결과의 기댓값이 같은 경로를 따르므로 평행추세 가정이 모든 코호트 쌍에서 성립한다. 도입 시점이 결과와 관련된 요인에 따라 정해지는 내생성(endogeneity)도 없다.</p>
 
 <p>이 설계 덕분에 뒤에서 TWFE가 참값에서 벗어나더라도 그 원인을 평행추세 위반이나 선택 편향으로 돌릴 수 없다. 남는 원인은 회귀가 어느 집단을 어느 집단과 비교하는지, 곧 비교의 구조뿐이다. 1부의 분해식으로 말하면 평행추세가 성립하므로 <tex>VWCT = 0</tex>이고, 편향은 <tex>VWATT</tex>의 가중 방식과 <tex>\Delta ATT</tex>에서만 나온다 (<a href="#p1-bacon">1부의 분해식</a>). VWATT는 분산으로 가중한 처치효과의 평균, VWCT는 분산으로 가중한 미처치 추세의 차이, ΔATT는 이미 처치된 비교집단의 효과 변화가 차감된 항이다.</p>
 
@@ -110,8 +136,8 @@
 <aside class="note calc" data-label="손계산">
 <p>덱의 균형패널 Sim 5로 두 값을 직접 계산해 본다. 모든 코호트의 효과가 도입 첫해 0.03σ에서 시작해 매년 0.03σ씩 커진다. 자료는 2015년에 끝나므로 1989년 코호트는 도입 후 27년, 1998년 코호트는 18년, 2007년 코호트는 9년을 관측한다.</p>
 <ul>
-<li>코호트별 평균효과: 1989년은 0.03σ × (1부터 27까지의 평균 14) = 0.42σ, 1998년은 0.03σ × 9.5 = 0.285σ, 2007년은 0.03σ × 5 = 0.15σ.</li>
-<li>기업평균은 주 수 17 : 18 : 15로 가중한다. (17 × 0.42 + 18 × 0.285 + 15 × 0.15) / 50 = 14.52 / 50 ≈ 0.290σ.</li>
+<li>코호트별 평균효과: 1989년은 0.03σ × (1부터 27까지의 평균 14) = 0.42σ, 1998년은 0.03σ × 9.5 = 0.285σ, 2007년은 0.03σ × 5 = 0.15σ. 도입 후 <tex>n</tex>년을 관측하면 효과는 <tex>s_g \times 1, s_g \times 2, \dots, s_g \times n</tex>이고 1부터 <tex>n</tex>까지의 평균은 <tex>(n+1)/2</tex>이므로 코호트 평균효과는 <tex>s_g (n+1)/2</tex>다.</li>
+<li>기업평균은 주 수 17 : 18 : 15로 가중한다. (17 × 0.42 + 18 × 0.285 + 15 × 0.15) / 50 = 14.52 / 50 ≈ 0.290σ. 덱의 균형패널 단순화는 주 하나를 단위 하나로 다룬다. 주마다 기업 수가 동일하다고 가정한 것이므로 코호트별 기업 수의 비는 주 수의 비와 같다.</li>
 <li>관측치평균은 주 수에 도입 후 연수를 곱한 459 : 324 : 135로 가중한다. (459 × 0.42 + 324 × 0.285 + 135 × 0.15) / 918 = 305.37 / 918 ≈ 0.333σ.</li>
 </ul>
 <p>효과가 시간에 따라 커지면 일찍 도입해 오래 관측된 코호트의 큰 누적효과가 관측치평균에서 더 큰 비중을 받으므로 관측치평균이 더 크다. 덱 11장의 마지막 단계에 나오는 비중과 값은 이 계산의 결과다.</p>
@@ -133,7 +159,7 @@
 
 <p>각 설정에서 저자들은 모의자료 500개마다 다음 정적 TWFE 회귀를 추정했다 (원문 식 2). <tex>D_{it}</tex>는 단위 <tex>i</tex>가 <tex>t</tex>기에 도입 이후 상태이면 1인 더미이고, 연구자가 해석하는 것은 계수 <tex>\delta</tex> 하나다.</p>
 
-<tex class="d">ROA_{it} = \alpha_i + \lambda_t + \delta\, D_{it} + \epsilon_{it}</tex>
+<div class="sym"><tex class="d">\gl{ROA}{ROA_{it}} = \gl{ai}{\alpha_i} + \gl{lt}{\lambda_t} + \gl{d}{\delta}\, \gl{D}{D_{it}} + \gl{eps}{\epsilon_{it}}</tex></div>
 
 <p>원문 Fig. 1(Sim 1-3)과 Fig. 2(Sim 4-6)는 위쪽에 모의자료 하나의 기업별 경로와 코호트 평균 경로를, 아래쪽에 추정치 500개의 분포와 두 가지 참 ATT(세로 점선)를 그렸다. 그림을 읽는 기준은 하나다. 분포의 중심이 점선 위에 있으면 편향이 없다. 분포가 아무리 좁아도 중심이 점선에서 벗어나 있으면 그 추정치는 정확하지 않다.</p>
 
@@ -168,7 +194,7 @@
 
 <p>Sim 4에서는 코호트마다 효과가 0.5σ, 0.3σ, 0.1σ로 다르지만 각 코호트 안에서는 시간에 따라 일정하다. 따라서 이미 처치된 코호트를 비교집단으로 사용해도 차감되는 효과의 변화가 없고 여섯 개의 2×2가 모두 자기 처치 코호트의 효과를 정확히 낸다. 계수가 표본평균과 달라지는 이유는 오직 가중치다.</p>
 
-<p>덱의 균형패널에서 2×2 분해의 가중치를 처치 코호트별로 더하면 TWFE가 세 코호트의 효과를 각각 얼마의 비중으로 평균하는지 알 수 있다.</p>
+<p>덱의 균형패널에서 2×2 분해의 가중치를 처치 코호트별로 더하면 TWFE가 세 코호트의 효과를 각각 얼마의 비중으로 평균하는지 알 수 있다. 1989년 코호트가 처치집단 역할을 하는 2×2는 1989 대 1998(가중치 0.111)과 1989 대 2007(0.186) 두 개이며 두 비교 모두 1989년 코호트의 효과 0.5σ를 산출하므로 TWFE 계수에서 0.5σ가 차지하는 비중은 두 가중치의 합인 0.297이다. 개별 가중치는 아래 Sim 5 소제목의 분해 표에 정리되어 있으며 Sim 3-6에서 동일하다.</p>
 
 <div class="tbl"><table>
 <thead><tr><th>코호트 (효과)</th><th>TWFE가 부여한 비중</th><th>기업평균의 비중 (주 수)</th><th>관측치평균의 비중</th></tr></thead>
@@ -318,12 +344,26 @@
 
 <p>편향된 계수는 가설검정의 결론도 바꾼다. 가설검정에서 효과가 0이라는 귀무가설이 실제로는 거짓인데 기각하지 못하는 것을 제2종 오류(Type II error)라고 부른다. 저자들은 Sim 5를 예로 들었다 (원문 3.1.3절).</p>
 
+<p>검정의 결과는 실제 상태와 판정을 교차한 네 경우 가운데 하나다. 모의실험에서는 실제 상태를 저자들이 정했으므로 모의자료 500개의 판정을 집계하면 각 칸의 비율이 직접 계산된다.</p>
+
+<div class="tbl"><table>
+<thead><tr><th></th><th>유의하다고 판정 (|t| &gt; 1.96, 귀무가설 기각)</th><th>유의하지 않다고 판정 (기각하지 못함)</th></tr></thead>
+<tbody>
+<tr><td>실제 효과가 0 (귀무가설이 참)</td><td>제1종 오류. 설계상 5%여야 한다 (Sim 6′, 다음 절)</td><td>올바른 판정</td></tr>
+<tr><td>실제 효과가 0이 아님 (귀무가설이 거짓)</td><td>올바른 판정. 이 비율이 검정력(power)이다</td><td>제2종 오류 (Sim 5, 이 절)</td></tr>
+</tbody></table></div>
+
+<p>모의자료 가운데 귀무가설을 기각한 비율을 기각률(rejection rate)이라고 부른다. 귀무가설이 참인 자료에서 기각률은 제1종 오류율이고 거짓인 자료에서 기각률은 검정력이다. 원문 Fig. 4와 덱 14장, 15장은 기각률 대신 유의하지 않은 비율(1 − 기각률)을 표시하므로 읽을 때 방향에 주의한다.</p>
+
 <p>Sim 5에서 모든 코호트의 참효과는 양수이고 크다. 기업평균 ATT는 0.290σ이며 ROA로 환산하면 약 9%p(0.290 × 30.9 ≈ 9.0)에 해당한다. 그런데 TWFE 추정치의 평균은 0.013σ, ROA로 약 0.4%p다. 참값의 20분의 1에도 미치지 못한다.</p>
 
 <p>원문은 추정치의 분포가 0 근처에 있다는 것까지만 제시했다. 덱 14장은 같은 설정에서 주 단위 군집강건 표준오차(cluster-robust standard error)로 t값을 계산해 덧붙였다. 주 단위 군집강건 표준오차는 같은 주에 속한 관측치들의 오차가 서로 상관되는 것을 허용해 계산한 표준오차이며 BDM 이후 DID의 표준이 된 방식이다. 그 결과 모의자료 500개 가운데 414개(83%)에서 계수가 5% 수준에서 유의하지 않았다.</p>
 
+<p>군집(cluster)은 오차가 서로 상관될 수 있는 관측치의 묶음이다. 같은 주의 기업들은 같은 법과 같은 지역 경기를 공유하므로 한 해의 충격이 여러 기업과 여러 해에 함께 나타날 수 있다. OLS의 기본 표준오차는 관측치마다 오차가 독립이라고 가정하므로 이런 자료에서는 실제보다 많은 독립 정보가 있는 것으로 계산되어 표준오차가 과소 추정된다. 군집강건 표준오차는 같은 주 안의 상관은 어떠한 형태든 허용하고 서로 다른 주 사이에서만 독립을 가정한다. 이 절의 자료에서 서로 독립이라고 보는 정보의 단위는 주 50개로 기업-연도 관측치의 수보다 현저히 적다. 계산식의 유도와 이 표준오차가 측정하지 않는 부분은 <a href="#p2-type1">다음 절의 마지막 소제목</a>에서 다룬다.</p>
+
 <aside class="note calc" data-label="손계산">
 <p>83%라는 숫자가 어디서 나오는지 대략 확인한다. 덱 재계산에서 Sim 5 추정치 500개의 표준편차는 약 0.010σ다. 평균 0.013σ를 이 표준편차로 나누면 전형적인 t값은 약 1.3이다. t값의 분포가 1.3 근처를 중심으로 1 정도 퍼져 있다면 대부분이 1.96 아래에 있게 된다. 이 근사는 군집 표준오차의 실제 추정값 대신 추정치의 산포를 사용한 것이라 83%를 정확히 재현하지는 않는다. 방향만 확인하는 계산이다.</p>
+<p>덱이 모의자료마다 계산한 t값 500개의 실제 분포는 평균 1.17, 표준편차 0.92다. 평균과 표준편차가 이와 같은 정규분포에서 |t| &lt; 1.96일 확률은 약 80%로 실제 비율 83%에 가깝다. 실제 효과가 있는 이 자료에서 유의하다고 판정한 비율, 곧 검정력은 17%(86개)에 불과하다.</p>
 </aside>
 
 <p>저자들은 이 오류가 연구 주제의 선택에도 영향을 준다고 보았다. 편집자와 심사자가 통계적으로 유의한 결과를 선호한다고 예상하는 연구자는 Sim 5 같은 결과를 얻으면 과제를 중단할 가능성이 높다 (원문은 Andrews and Kasy 2019 등을 인용한다). 경제적으로도 통계적으로도 의미 있는 효과가 실제로 존재하고 정책 판단에 중요한 연구가 그렇게 사라진다 (원문 3.1.3절). 출판되지 않은 결과는 문헌에 남지 않으므로 이 손실은 보이지 않는다.</p>
@@ -338,7 +378,7 @@
 </aside>
 
 <aside class="note src" data-label="수치의 출처">
-<p>원문은 Sim 5의 추정치가 0 근처라는 것까지만 제시했다. 83%(414개)와 Sim 6의 500개 모두 유의한 음수는 덱이 같은 균형패널 설정에서 주 단위 군집 t값을 계산한 결과다 (작업기록 6절). 덱 화면의 "읽는 법"에도 그렇게 적혀 있다.</p>
+<p>원문은 Sim 5의 추정치가 0 근처라는 것까지만 제시했다. 83%(414개)와 Sim 6의 500개 모두 유의한 음수는 덱이 같은 균형패널 설정에서 주 단위 군집 t값을 계산한 결과다 (작업기록 6절). 덱 화면의 "읽는 법"에도 그렇게 적혀 있다. 손계산 상자의 t값 평균 1.17, 표준편차 0.92와 검정력 17%는 이 가이드가 덱 코어(simcore.js)의 같은 t값 500개에서 계산한 값이다.</p>
 </aside>
 
 <aside class="note say" data-label="발표에서는">
@@ -357,9 +397,28 @@
 
 <p>저자들은 Sim 6을 변형했다. Sim 6에서는 세 코호트의 효과 증가 속도를 0.05σ, 0.03σ, 0.01σ로 정해 두었는데 Sim 6′에서는 증가 속도를 평균 0인 정규분포에서 추출한다 (원문 식 11). 기본 설정에서 표준편차는 0.03σ다. 추출된 기울기가 양수인 코호트는 효과가 매년 커지고 음수인 코호트는 매년 작아진다. 기대 ATT는 0이다.</p>
 
-<tex class="d">\widetilde{ROA}^{\,6'}_{it} = s_g \times I[t \ge g] \times (t-g) + \tilde\alpha_i + \tilde\lambda_t + \tilde\epsilon_{it},\qquad s_g \sim N\!\left(0,\ (0.03\,\sigma_{ROA})^2\right)</tex>
+<div class="sym"><tex class="d">\gl{ROAs}{\widetilde{ROA}^{\,6'}_{it}} = \gl{sg}{s_g} \times \gl{ind}{I[t \ge g]} \times (t-g) + \gl{atil}{\tilde\alpha_i} + \gl{ltil}{\tilde\lambda_t} + \gl{etil}{\tilde\epsilon_{it}},\qquad \gl{sg}{s_g} \sim N\!\left(0,\ (0.03\,\gl{sig}{\sigma_{ROA}})^2\right)</tex></div>
 
-<p>원문 본문은 이 설정을 "기업 사이의 이질성을 허용한다"고 설명하지만 공개 복제 코드는 모의자료마다 코호트별로 기울기 3개를 추출한다. 덱도 복제 코드를 따랐다 (작업기록 2.4절). 모의자료 500개마다 TWFE를 추정하고 주 단위 군집 표준오차로 t값을 계산했다.</p>
+<p>원문 본문은 이 설정을 "기업 사이의 이질성을 허용한다"고 설명하지만 공개 복제 코드는 모의자료마다 코호트별로 기울기 3개를 추출한다. 덱도 복제 코드를 따랐다 (작업기록 2.4절). 모의자료 500개마다 TWFE를 추정하고 주 단위 군집 표준오차로 t값을 계산했다. 원문 식 11은 효과를 <tex>s_g \times (t - g)</tex>로 적어 도입 연도의 효과가 0이 되지만 덱 코드는 Sim 5, 6과 같이 <tex>s_g \times (t - g + 1)</tex>을 사용한다(simcore.js). 기울기의 기댓값이 0이라는 점은 같으므로 결론에는 영향이 없다.</p>
+
+<p>모의자료 하나 안에서 기울기 세 개는 이미 정해진 값이다. 덱이 만든 모의자료 500개 가운데 앞의 네 개를 덱과 같은 난수 순서로 다시 계산하면 다음과 같다 (σ 단위, 표준편차 0.03σ 설정). 기업평균 ATT는 그 모의자료 안의 표본평균, TWFE 중심은 잡음을 제외한 추정치의 기댓값, 표준오차는 주 단위 군집강건 표준오차다.</p>
+
+<div class="tbl"><table>
+<thead><tr><th>모의자료</th><th class="n" data-k="sg"><tex>s_{1989}</tex></th><th class="n" data-k="sg"><tex>s_{1998}</tex></th><th class="n" data-k="sg"><tex>s_{2007}</tex></th><th class="n">기업평균 ATT</th><th class="n">TWFE 중심</th><th class="n" data-k="dhat">추정치</th><th class="n" data-k="se">표준오차</th><th class="n" data-k="tstat">t값</th></tr></thead>
+<tbody>
+<tr><td>1번</td><td class="n">0.004</td><td class="n">0.002</td><td class="n">0.039</td><td class="n">0.082</td><td class="n">0.048</td><td class="n">0.041</td><td class="n">0.013</td><td class="n">3.12</td></tr>
+<tr><td>2번</td><td class="n">0.002</td><td class="n">0.019</td><td class="n">−0.070</td><td class="n">−0.032</td><td class="n">−0.064</td><td class="n">−0.051</td><td class="n">0.021</td><td class="n">−2.41</td></tr>
+<tr><td>3번</td><td class="n">0.035</td><td class="n">0.029</td><td class="n">0.015</td><td class="n">0.291</td><td class="n neg">−0.027</td><td class="n neg">−0.020</td><td class="n">0.013</td><td class="n">−1.63</td></tr>
+<tr><td>4번</td><td class="n">−0.036</td><td class="n">0.032</td><td class="n">0.047</td><td class="n">0.007</td><td class="n neg">0.253</td><td class="n neg">0.266</td><td class="n">0.026</td><td class="n neg">10.21</td></tr>
+</tbody></table></div>
+
+<p>3번 자료는 세 기울기가 모두 양수여서 기업평균 ATT가 0.291σ이지만 TWFE는 음수다. Sim 6과 같은 구조가 우연히 나타난 경우다. 4번 자료는 표본 안의 ATT가 0.007σ로 0에 가까운 반면 TWFE의 중심은 0.253σ에 위치해 t값이 10을 초과한다. 두 경우 모두 추정치와 중심의 차이(잡음)는 표준오차 수준으로 작으므로 결과를 결정한 것은 중심의 위치다.</p>
+
+<p>중심과 ATT가 어떻게 정해지는지는 두 식으로 표현된다. 코호트 하나의 기울기만 1이고 나머지가 0인 잡음 없는 자료에 TWFE를 적용하면 기울기 하나가 계수에 미치는 영향이 계산된다. 덱의 설계에서 계산하면 다음과 같다(이 가이드가 덱 코어로 계산). 왼쪽 식의 <tex>E[\hat\delta \mid s]</tex>는 기울기가 정해진 모의자료에서 잡음만 새로 추출할 때 추정치의 기댓값으로 앞 표의 TWFE 중심에 해당한다.</p>
+
+<div class="sym"><tex class="d">\begin{aligned} E[\gl{dhat}{\hat\delta} \mid s] &= -3.19\,\gl{sg}{s_{1989}} + 2.21\,\gl{sg}{s_{1998}} + 1.42\,\gl{sg}{s_{2007}} \\ ATT_{firm} &= \phantom{-}4.76\,\gl{sg}{s_{1989}} + 3.42\,\gl{sg}{s_{1998}} + 1.50\,\gl{sg}{s_{2007}} \end{aligned}</tex></div>
+
+<p>1989년 코호트의 기울기는 ATT를 높이지만 TWFE의 중심은 낮춘다. 1989년 코호트가 나중 대 먼저 비교에서 이미 처치된 비교집단 역할을 하며 그 효과 증가분이 차감되기 때문이다. 4번 자료에 대입하면 <tex>-3.19 \times (-0.036) + 2.21 \times 0.032 + 1.42 \times 0.047 \approx 0.25</tex>로 표의 중심과 일치한다. 기울기의 기댓값이 0이므로 두 식의 기댓값은 모두 0이지만 모의자료 하나에서는 두 식의 값이 서로 다르고 TWFE의 중심은 표준오차의 몇 배만큼 0에서 벗어난다.</p>
 
 <h4>그림 읽는 법</h4>
 
@@ -386,6 +445,18 @@
 
 <p>추정치는 두 부분으로 구분해 생각할 수 있다. 하나는 설계와 효과가 정해지면 결정되는 중심이고 다른 하나는 표본마다 달라지는 잡음이다. 표준오차는 같은 설계와 같은 효과에서 잡음만 새로 추출했을 때 추정치가 얼마나 흔들리는지를 측정한다. 군집강건 표준오차는 이 잡음이 같은 주 안에서 상관되어 있다는 사실까지 반영해 흔들림을 더 정확히 측정한다. 그러나 두 표준오차 모두 측정 대상은 잡음의 크기이며 중심의 위치에 대해서는 아무런 정보를 주지 않는다.</p>
 
+<p>이 문장은 1부 FWL 절의 마지막 식에서 출발해 수식으로 확인된다. 아래 유도에서는 TWFE 계수를 중심과 잡음으로 분리한 뒤 군집강건 표준오차가 그 가운데 어느 부분을 계산하는지 추적한다.</p>
+
+<div class="deriv" data-title="군집강건 표준오차의 구성">
+<div class="ds"><tex class="d">\gl{dhat}{\hat\delta} = \gl{zW}{\sum_{D_{it}=1} \gl{w}{w_{it}}\,\gl{tau}{\tau_{it}}} + \gl{zE}{\frac{\sum \gl{Dtil}{\tilde D_{it}}\,\gl{eps}{\varepsilon_{it}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}}</tex><p class="dc">1부 FWL 절의 마지막 유도에서 근사 기호로 넘어가기 직전의 식이다(<a href="#p1-fwl">1부</a>). 첫째 항은 처치된 칸의 효과를 가중치 <tex>w_{it}</tex>로 더한 값이고 둘째 항은 오차를 잔차 <tex>\tilde D_{it}</tex>로 가중해 더한 값이다.</p></div>
+<div class="ds"><tex class="d">\gl{dhat}{\hat\delta} - \gl{zW}{\sum_{D_{it}=1} \gl{w}{w_{it}}\,\gl{tau}{\tau_{it}}} = \gl{zE}{\frac{\sum \gl{Dtil}{\tilde D_{it}}\,\gl{eps}{\varepsilon_{it}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}}</tex><p class="dc">가중치 <tex>w_{it}</tex>와 잔차 <tex>\tilde D_{it}</tex>는 도입 배치만으로 정해지고 효과 <tex>\tau_{it}</tex>는 저자들이 정했으므로 첫째 항은 잡음을 새로 추출해도 변하지 않는 중심이다. 첫째 항을 좌변으로 옮기면 추정치가 중심에서 벗어나는 양은 둘째 항인 잡음 부분과 같다.</p></div>
+<div class="ds"><tex class="d">\mathrm{Var}(\gl{dhat}{\hat\delta}) = \frac{\gl{zV}{\mathrm{Var}\big(\sum \gl{Dtil}{\tilde D_{it}}\,\gl{eps}{\varepsilon_{it}}\big)}}{\big(\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}\big)^2}</tex><p class="dc">중심은 상수여서 분산이 0이고 분모 역시 상수이므로 분모의 제곱을 분산 밖으로 꺼낸다. 표준오차(이 분산의 제곱근)는 분자의 잡음 합이 자료마다 얼마나 변동하는지에 따라 결정된다.</p></div>
+<div class="ds"><tex class="d">\gl{zV}{\mathrm{Var}\big(\sum \gl{Dtil}{\tilde D_{it}}\,\gl{eps}{\varepsilon_{it}}\big)} = \mathrm{Var}\Big(\sum_{c=1}^{50} \gl{Sc}{S_c}\Big), \qquad \gl{Sc}{S_c} = \sum_{(i,t) \in c} \gl{Dtil}{\tilde D_{it}}\,\gl{eps}{\varepsilon_{it}}</tex><p class="dc">모든 칸의 합을 주(군집) <tex>c</tex>별 합으로 다시 적는다. <tex>S_c</tex>는 주 <tex>c</tex>에 설립된 기업들의 모든 연도 칸을 더한 값이다.</p></div>
+<div class="ds"><tex class="d">\mathrm{Var}\Big(\sum_{c} \gl{Sc}{S_c}\Big) = \sum_{c} \mathrm{Var}(\gl{Sc}{S_c}) + \underbrace{\sum_{c \ne c'} \mathrm{Cov}(\gl{Sc}{S_c}, \gl{Sc}{S_{c'}})}_{=\,0}</tex><p class="dc">합의 분산은 각 항의 분산과 모든 쌍의 공분산을 더한 값이다. 서로 다른 주의 오차가 독립이라고 가정하므로 주 사이의 공분산은 0이다. 같은 주 안의 오차끼리 상관이 있으면 그 상관은 <tex>\mathrm{Var}(S_c)</tex> 안에 반영된다. 관측치마다 독립이라고 보는 기본 표준오차는 이 주 내부의 상관까지 0으로 가정한다. BDM에서 문제가 된 부분이 이것이다.</p></div>
+<div class="ds"><tex class="d">\gl{se}{\widehat{SE}_{cl}} = \frac{\sqrt{\frac{G}{G-1}\sum_{c} \hat S_c^{\,2}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}, \qquad \hat S_c = \sum_{(i,t) \in c} \gl{Dtil}{\tilde D_{it}}\,\gl{e}{\hat e_{it}}</tex><p class="dc">관측할 수 없는 오차 <tex>\varepsilon</tex> 대신 OLS 잔차 <tex>\hat e</tex>로 <tex>S_c</tex>를 계산하고 그 제곱으로 <tex>\mathrm{Var}(S_c)</tex>를 추정한다. <tex>G/(G-1)</tex>은 군집 수 <tex>G</tex>를 반영한 소표본 보정이며 덱 코드는 <tex>G = 50</tex>을 사용한다(simcore.js).</p></div>
+<div class="ds"><tex class="d">\gl{tstat}{t} = \frac{\gl{dhat}{\hat\delta}}{\gl{se}{\widehat{SE}_{cl}}} = \frac{\gl{zW}{\sum_{D_{it}=1} \gl{w}{w_{it}}\,\gl{tau}{\tau_{it}}}}{\gl{se}{\widehat{SE}_{cl}}} + \frac{\gl{zE}{\sum \gl{Dtil}{\tilde D_{it}}\,\gl{eps}{\varepsilon_{it}} / \sum \gl{Dtil}{\tilde D_{it}}^2}}{\gl{se}{\widehat{SE}_{cl}}}</tex><p class="dc">t값도 같은 두 부분으로 분리한다. 표준오차가 정확하면 둘째 항은 대략 표준정규분포를 따른다. 첫째 항은 중심이 0에서 떨어진 거리를 표준오차로 나눈 값이며 표준오차 공식에는 중심과 참 ATT의 차이에 관한 정보가 들어 있지 않다. 위 4번 자료에서는 중심 0.253σ를 표준오차 0.026σ로 나누어 첫째 항만으로 약 10이 된다.</p></div>
+</div>
+
 <p>Sim 6′의 모의자료 하나를 생각하면 그 자료 안에서 세 코호트의 기울기는 이미 정해져 있다. 그러면 TWFE의 중심도 그 기울기와 2×2 가중치로 정해지고 <tex>\Delta ATT</tex> 항 때문에 0이 아닌 곳에 놓인다. 잡음의 표준편차는 약 0.01σ로 작으므로 t값은 중심이 0에서 얼마나 떨어져 있는지를 작은 표준오차로 나눈 값이 되어 크게 나온다. 덱의 재계산에서 표준편차 0.03σ일 때 t값 500개는 −18.5에서 16.1까지 퍼져 있고 표준편차가 5.7이었다. 검정이 제대로 작동한다면 t값의 표준편차는 1 근처여야 한다.</p>
 
 <p>OLS에 익숙하다면 누락변수 편향과 같은 구조로 이해할 수 있다. 실제 자료가 <tex>Y_{it} = \alpha_i + \lambda_t + \tau_{it} D_{it} + \epsilon_{it}</tex>로 칸마다 다른 효과 <tex>\tau_{it}</tex>를 가지는데 계수 하나 <tex>\delta</tex>로 적합하면 차이 <tex>(\tau_{it} - \delta) D_{it}</tex>가 오차항으로 들어간다. 이 부분은 처치변수와 관련되어 있으므로 계수를 이동시킨다. 누락변수 편향을 이분산 강건 표준오차나 군집 표준오차로 고칠 수 없는 것과 같은 이치다. 계수의 중심을 바로잡으려면 비교 자체를 바꿔야 하며 3부의 대안 추정량이 그 역할을 한다.</p>
@@ -395,7 +466,7 @@
 </aside>
 
 <aside class="note src" data-label="수치의 출처">
-<p>79%, 약 80%, 1%에서 절반 이상, 약 20%에서 안정은 원문 Fig. 4와 3.1.3절 본문이다. 21%는 원문과 덱이 같다. 45%, 13%, t값의 범위 −18.5에서 16.1과 표준편차 5.7은 덱이 균형패널에서 다시 계산한 값이다. 0.27σ는 이 가이드가 직관을 위해 계산한 예시다.</p>
+<p>79%, 약 80%, 1%에서 절반 이상, 약 20%에서 안정은 원문 Fig. 4와 3.1.3절 본문이다. 21%는 원문과 덱이 같다. 45%, 13%, t값의 범위 −18.5에서 16.1과 표준편차 5.7은 덱이 균형패널에서 다시 계산한 값이다. 0.27σ는 이 가이드가 직관을 위해 계산한 예시다. 1-4번 모의자료의 기울기, 기업평균 ATT, 중심, 추정치, 표준오차, t값과 두 식의 계수(−3.19, 2.21, 1.42, 4.76, 3.42, 1.50)는 이 가이드가 덱 코어(stats.js, simcore.js)로 덱과 같은 난수 순서를 재현해 계산한 값이며 t값은 덱 코어의 출력과 소수 둘째 자리까지 일치한다.</p>
 </aside>
 
 <aside class="note say" data-label="발표에서는">
@@ -414,9 +485,9 @@
 
 <p>사건연구의 일반적인 형태는 다음과 같다 (원문 식 12).</p>
 
-<tex class="d">y_{it} = \alpha_i + \lambda_t + \sum_{\ell=-K}^{-2} \mu_\ell D^{\ell}_{it} + \sum_{\ell=0}^{L} \mu_\ell D^{\ell}_{it} + \epsilon_{it},\qquad D^{\ell}_{it} = I[\,t - E_i = \ell\,]</tex>
+<div class="sym"><tex class="d">\gl{Y}{y_{it}} = \gl{ai}{\alpha_i} + \gl{lt}{\lambda_t} + \sum_{\ell=-\gl{win}{K}}^{-2} \gl{mu}{\mu_\ell}\, \gl{Dl}{D^{\ell}_{it}} + \sum_{\ell=0}^{\gl{win}{L}} \gl{mu}{\mu_\ell}\, \gl{Dl}{D^{\ell}_{it}} + \gl{eps}{\epsilon_{it}},\qquad \gl{Dl}{D^{\ell}_{it}} = \gl{ind}{I[\,t - \gl{Eisa}{E_i} = \gl{ell}{\ell}\,]}</tex></div>
 
-<p><tex>E_i</tex>는 단위 <tex>i</tex>의 도입 시점이고, <tex>\ell = t - E_i</tex>는 도입을 0으로 둔 상대시점(relative time)이다. 같은 달력 연도라도 코호트마다 상대시점이 다르다. 2001년을 예로 들면 1989년 코호트는 <tex>\ell = 12</tex>, 1998년 코호트는 <tex>\ell = 3</tex>, 2007년 코호트는 <tex>\ell = -6</tex>이다. 첫 번째 합은 도입 전 계수(leads), 두 번째 합은 도입 후 계수(lags)다.</p>
+<p><tex>E_i</tex>는 단위 <tex>i</tex>의 도입 시점이고, <tex>\ell = t - E_i</tex>는 도입을 0으로 둔 상대시점(relative time)이다. 원문은 1부와 덱 16장의 <tex>G_i</tex>에 해당하는 기호를 이 식에서 Sun and Abraham (2021)을 따라 <tex>E_i</tex>로 표기했다. 같은 달력 연도라도 코호트마다 상대시점이 다르다. 2001년을 예로 들면 1989년 코호트는 <tex>\ell = 12</tex>, 1998년 코호트는 <tex>\ell = 3</tex>, 2007년 코호트는 <tex>\ell = -6</tex>이다. 첫 번째 합은 도입 전 계수(leads), 두 번째 합은 도입 후 계수(lags)다. 정적 TWFE에서는 계수 <tex>\delta</tex> 하나가 처치변수 하나에 대응하지만 사건연구에서는 <tex>\mu_\ell</tex>이 상대시점 더미마다 하나씩 대응한다. <tex>-1</tex>은 두 합 어디에도 들어 있지 않으며(첫 합이 <tex>-2</tex>에서 끝난다) 이렇게 제외된 상대시점이 다음 소제목에서 다룰 기준기간이다.</p>
 
 <h4>기준기간과 구간 묶음</h4>
 
@@ -427,13 +498,41 @@
 <p>아래 도식은 이 설정이 달력 연도 격자에서 무엇을 뜻하는지 단계별로 보여 준다. 상대시점 더미 하나가 서로 다른 코호트의 서로 다른 해를 함께 가리킨다는 점을 확인한다. 같은 구조를 발표에서는 <a class="deck" data-s="16" data-b="0">덱 16장</a>이 보여 준다.</p>
 <div class="widget" data-w="es-grid"></div>
 
+<h4>상대시점 더미가 자료에서 차지하는 열</h4>
+
+<p>위 격자는 칸마다 상대시점을 표시했지만 회귀는 같은 정보를 열 단위로 읽는다. 회귀가 읽는 자료는 기업-연도 관측치 하나를 행 하나로 놓은 긴 형식이고 상대시점 더미 <tex>D^{\ell}_{it}</tex>는 그 자료에 상대시점마다 하나씩 추가된 0과 1의 열이다. 아래 도식에서는 세 코호트의 기업 하나씩을 여섯 해에 걸쳐 적은 18행으로 정적 TWFE의 <tex>D</tex> 열이 사건연구의 13개 열로 바뀌는 과정을 단계별로 보여 준다. 마지막 두 단계에서는 −3기 계수와 +3기 계수가 어느 행들을 비교하는지, 묶음 열 때문에 어느 효과 변화가 흡수되지 않는지 확인한다.</p>
+<div class="widget" data-w="es-design"></div>
+
+<p>도식의 3단계에서 −1 열을 제외한 이유를 식으로 적으면 다음과 같다. 출발점은 상대시점 더미를 모두 더한 열이 기업 더미를 더한 열과 칸마다 같다는 사실이다.</p>
+
+<div class="deriv" data-title="상대시점 더미의 완전공선성">
+<div class="ds"><tex class="d">\sum_{\ell} \gl{Dl}{D^{\ell}_{it}} = 1 \qquad (\gl{Eisa}{E_i} \lt \infty)</tex><p class="dc">합은 기준기간과 묶음 구간까지 포함한 모든 상대시점 열을 더한 것이다. 처치되는 기업(<tex>E_i \lt \infty</tex>)의 행은 어느 해든 상대시점이 정확히 하나이므로 그 행의 상대시점 더미 가운데 하나만 1이고 합은 1이다.</p></div>
+<div class="ds"><tex class="d">\sum_{\ell} \gl{Dl}{D^{\ell}_{it}} = \sum_{j:\,E_j \lt \infty} \gl{zU}{I[i = j]}</tex><p class="dc">우변은 처치되는 기업들의 기업 더미를 더한 열이며 그 기업들의 행에서 1, 미처치 기업의 행에서 0이다. 좌변 역시 미처치 기업의 행에서는 모든 상대시점 더미가 0이므로 두 열은 모든 행에서 같다.</p></div>
+<div class="ds"><tex class="d">\sum_{\ell} \gl{mu}{\mu_\ell}\gl{Dl}{D^{\ell}_{it}} + \sum_j \gl{ai}{\alpha_j}\,\gl{zU}{I[i=j]} = \sum_{\ell} (\gl{mu}{\mu_\ell} + k)\gl{Dl}{D^{\ell}_{it}} + \sum_j (\gl{ai}{\alpha_j} - k\,I[E_j \lt \infty])\,\gl{zU}{I[i=j]}</tex><p class="dc">모든 <tex>\mu_\ell</tex>에 같은 수 <tex>k</tex>를 더하고 처치되는 기업의 <tex>\alpha_j</tex>에서 같은 <tex>k</tex>를 차감해도 둘째 단계의 등식 때문에 모든 행의 적합값이 변하지 않는다. 잔차 제곱합이 같은 계수 조합이 무수히 많으므로 OLS가 계수를 하나로 정하지 못하며 이 상태를 완전한 공선성(perfect multicollinearity)이라고 부른다.</p></div>
+<div class="ds"><tex class="d">\sum_{\ell \ne -1} \gl{Dl}{D^{\ell}_{it}} = \sum_{j:\,E_j \lt \infty} \gl{zU}{I[i = j]} - \gl{Dl}{D^{-1}_{it}}</tex><p class="dc"><tex>-1</tex> 열을 제외하면 남은 열의 합은 도입 직전 해의 행에서 0이 되므로 기업 더미의 합과 같지 않다. 셋째 단계의 맞바꿈으로는 더 이상 적합값이 유지되지 않으므로 이 공선성이 사라진다(미처치 기업이 없을 때 남는 다른 공선성은 아래 질문에서 다룬다). <tex>\mu_{-1}</tex>을 0으로 고정한 것과 같으므로 나머지 <tex>\mu_\ell</tex>은 모두 도입 직전 해와 비교한 값이 된다.</p></div>
+</div>
+
+<details class="qa"><summary>원문 시뮬레이션에는 미처치 집단이 없는데 −1 하나만 제외했다. 기준기간이 두 개 필요하다는 문장과 어긋나지 않는가?</summary><div class="ans">
+<p>두 번째 공선성은 상대시점 더미에 <tex>\ell</tex>을 곱한 뒤 더한 열에서 생긴다. 처치되는 기업의 행에서 <tex>\sum_\ell \ell\, D^{\ell}_{it} = t - E_i</tex>이다. <tex>t</tex>는 연도 더미에 연도 값을 곱한 뒤 더한 열이고 <tex>E_i</tex>는 기업 더미에 도입 연도를 곱한 뒤 더한 열이므로 미처치 기업이 없으면 이 열이 고정효과 열의 조합과 정확히 같아진다. 이는 상대시점의 선형 추세 하나를 연도 고정효과와 기업 고정효과로부터 구분할 수 없음을 의미한다. 미처치 기업이 있으면 그 기업의 행에서 좌변은 0인데 우변은 연도에 따라 변하므로 이 관계가 깨진다.</p>
+<p>원문 Fig. 5의 사양은 양 끝을 구간으로 묶었다. 묶음 열 하나는 서로 다른 <tex>\ell</tex>의 행을 같은 열로 표시하므로 <tex>\ell</tex>을 곱한 뒤 더한 열을 만들 수 없고 이 관계가 성립하지 않는다. 덱 코어로 확인한 결과 묶음 없이 모든 상대시점 더미를 두고 −1만 제외한 사건연구는 정규방정식의 행렬이 특이해 계수가 정해지지 않았고 Fig. 5의 묶음 사양에서는 계수가 정해졌다. 묶음이 두 번째 기준기간의 역할을 한 것이다. 그 대가로 묶음 안의 효과가 같다는 제약이 생기며 다음 절이 그 제약의 결과를 다룬다.</p>
+</div></details>
+
 <h4>사건연구 계수를 2×2로 읽기</h4>
 
 <p>사건연구 계수도 비교에서 나온다. 가장 단순한 경우로, 도입 시점이 <tex>g</tex> 하나이고 끝까지 처치받지 않는 집단 U가 있는 균형패널에서 −1기를 제외한 모든 상대시점 더미를 포함하면 <tex>\ell</tex>기 계수는 다음 2×2와 같다.</p>
 
-<tex class="d">\hat\mu_\ell = \left(\bar Y_{g,\,g+\ell} - \bar Y_{g,\,g-1}\right) - \left(\bar Y_{U,\,g+\ell} - \bar Y_{U,\,g-1}\right)</tex>
+<div class="sym"><tex class="d">\gl{muhat}{\hat\mu_\ell} = \left(\gl{Ybar}{\bar Y_{g,\,g+\ell}} - \gl{Ybar}{\bar Y_{g,\,g-1}}\right) - \left(\gl{Ybar}{\bar Y_{U,\,g+\ell}} - \gl{Ybar}{\bar Y_{U,\,g-1}}\right)</tex></div>
 
 <p>처치 코호트의 <tex>\ell</tex>기와 기준기간(−1기)의 차이에서 같은 두 해 미처치 집단의 차이를 차감한다. 미처치 집단에는 효과가 없으므로 이 비교는 깨끗하고 <tex>\ell \ge 0</tex>이면 그 상대시점의 효과를, <tex>\ell \le -2</tex>이면 사전추세를 추정한다.</p>
+
+<p>회귀계수가 이 2×2와 같아지는 이유는 칸 평균으로 회귀식을 적으면 확인된다. 균형패널에서 더미가 집단과 연도로만 정해지면 회귀를 집단-연도 평균에 적용해도 계수가 같다(덱 stats.js의 계산 방식). 덱 코어로 무작위 자료에 이 회귀를 적용한 결과 계수와 2×2의 차이는 <tex>10^{-14}</tex> 수준의 반올림 오차에 불과했다.</p>
+
+<div class="deriv" data-title="단일 코호트 사건연구 계수와 2×2 DID의 일치">
+<div class="ds"><tex class="d">\gl{Ybar}{\bar Y_{g,\,g+\ell}} = \gl{zAg}{\alpha_g} + \gl{zL1}{\lambda_{g+\ell}} + \gl{mu}{\mu_\ell}, \qquad \gl{Ybar}{\bar Y_{g,\,g-1}} = \gl{zAg}{\alpha_g} + \gl{zL0}{\lambda_{g-1}}</tex><p class="dc">처치 코호트 <tex>g</tex>의 칸 평균이다. 이 코호트에서는 연도마다 상대시점이 다르므로 기준기간 <tex>g-1</tex>을 제외한 모든 연도에 고유한 계수 <tex>\mu_\ell</tex>이 하나씩 대응한다. 기준기간의 칸에는 더미가 없다.</p></div>
+<div class="ds"><tex class="d">\gl{Ybar}{\bar Y_{U,\,g+\ell}} = \gl{zAu}{\alpha_U} + \gl{zL1}{\lambda_{g+\ell}}, \qquad \gl{Ybar}{\bar Y_{U,\,g-1}} = \gl{zAu}{\alpha_U} + \gl{zL0}{\lambda_{g-1}}</tex><p class="dc">미처치 집단 U의 칸 평균이다. U의 행에는 상대시점 더미가 없으므로 집단 수준과 연도 고정효과만 남는다. 모수의 수(집단 수준 2개, 연도 고정효과, 상대시점 계수)가 칸의 수와 같으므로 이 식들은 칸 평균에 정확히 적합된다.</p></div>
+<div class="ds"><tex class="d">\gl{Ybar}{\bar Y_{g,\,g+\ell}} - \gl{Ybar}{\bar Y_{g,\,g-1}} = (\gl{zL1}{\lambda_{g+\ell}} - \gl{zL0}{\lambda_{g-1}}) + \gl{mu}{\mu_\ell}, \qquad \gl{Ybar}{\bar Y_{U,\,g+\ell}} - \gl{Ybar}{\bar Y_{U,\,g-1}} = \gl{zL1}{\lambda_{g+\ell}} - \gl{zL0}{\lambda_{g-1}}</tex><p class="dc">집단마다 두 해의 차이를 구하면 집단 수준 <tex>\alpha</tex>가 상쇄된다. U의 두 해 차이는 연도 고정효과의 차이와 같다.</p></div>
+<div class="ds"><tex class="d">\gl{mu}{\hat\mu_\ell} = \left(\gl{Ybar}{\bar Y_{g,\,g+\ell}} - \gl{Ybar}{\bar Y_{g,\,g-1}}\right) - \left(\gl{Ybar}{\bar Y_{U,\,g+\ell}} - \gl{Ybar}{\bar Y_{U,\,g-1}}\right)</tex><p class="dc">첫 식에서 둘째 식을 차감한다. 연도 고정효과의 차이는 U만으로 정해지고 처치 코호트의 같은 두 해 차이에서 온전히 차감된다. 이는 비교집단의 어느 칸에도 상대시점 더미가 없기 때문이다. 시차 도입에서는 비교집단 역할을 하는 다른 코호트의 칸에도 더미가 있고 그 더미가 묶음 열이면 둘째 식에 효과의 변화가 남는다.</p></div>
+</div>
 
 <p>시차 도입이고 미처치 집단이 없으면 상황이 달라진다. 같은 두 해에 비교집단 역할을 하는 단위가 다른 코호트들인데 그 가운데 일부는 이미 처치되어 효과가 변하는 중이다. 회귀는 그 코호트들의 상대시점 더미로 효과를 흡수하려 하지만 구간 묶음 때문이든 코호트 사이의 효과 차이 때문이든 흡수하지 못한 효과의 변화가 남으면 그 변화가 계수에 섞인다. 다음 절의 −3기 분해가 바로 이 경로를 보여 준다.</p>
 
@@ -489,11 +588,13 @@
 
 <p>왼쪽 그림의 도입 전 계수가 왜 양수인지는 −3기 계수 하나를 분해하면 확인된다. 덱 17장 아래의 식은 덱의 재계산 설정에서 −3기 계수가 실제로 어느 칸의 효과들로 이루어져 있는지 적은 것이다. <tex>\tau^{t}_{g}</tex>는 <tex>g</tex>년 코호트의 <tex>t</tex>년 처치효과다.</p>
 
-<tex class="d">\hat\beta_{-3} = 0.18\left(\tau^{1997}_{89} - \tau^{1995}_{89}\right) + 0.15\left(\tau^{2006}_{89} - \tau^{2004}_{89}\right) + 0.16\left(\tau^{2006}_{98} - \tau^{2004}_{98}\right)</tex>
+<div class="sym"><tex class="d">\gl{beta3}{\hat\beta_{-3}} = 0.18\left(\gl{taugt}{\tau^{1997}_{89}} - \gl{taugt}{\tau^{1995}_{89}}\right) + 0.15\left(\gl{taugt}{\tau^{2006}_{89}} - \gl{taugt}{\tau^{2004}_{89}}\right) + 0.16\left(\gl{taugt}{\tau^{2006}_{98}} - \gl{taugt}{\tau^{2004}_{98}}\right)</tex></div>
+
+<p>덱 17장이 <tex>\hat\beta_{-3}</tex>로 표기한 −3기 계수는 이 가이드의 <tex>\hat\mu_{-3}</tex>과 같은 계수다. 아래첨자 89와 98은 코호트의 도입 연도(1989년, 1998년)를 줄인 것이다. 2007년 코호트의 효과가 식에 없는 이유는 2007년 코호트가 이 해들에는 아직 도입 전이어서 효과가 0이기 때문이다.</p>
 
 <p>−3기 계수는 처치 코호트의 도입 3년 전과 1년 전을 비교한다. 1998년 코호트라면 1995년과 1997년, 2007년 코호트라면 2004년과 2006년이다. 이 해들에 비교집단 역할을 하는 단위 가운데에는 이미 처치된 코호트가 있다. 1995년과 1997년에는 1989년 코호트가, 2004년과 2006년에는 1989년과 1998년 코호트가 이미 처치된 상태다. 1998년 코호트의 두 해에는 효과가 없지만 비교집단인 1989년 코호트는 그 두 해 사이에 효과가 커졌다. 비교집단의 변화를 차감하면 <tex>[0 - 0] - [\tau^{1995}_{89} - \tau^{1997}_{89}] = \tau^{1997}_{89} - \tau^{1995}_{89}</tex>가 되고 효과가 커지는 자료에서는 이 값이 양수다. 식의 첫 항이 이것이다.</p>
 
-<p>그렇다면 1989년 코호트 자신의 상대시점 더미가 이 변화를 흡수해야 하지 않을까. 1995년과 1997년은 1989년 코호트의 상대시점 6과 8인데, 이 모형에서는 6 이후가 한 구간으로 묶여 있다. 회귀는 두 해의 효과가 같다고 간주하므로 두 해 사이에 커진 효과를 흡수할 계수가 없으며 그 차이가 다른 계수로 유입된다. 덱의 재계산 설정에서는 오염이 모두 6 이후 묶음 구간을 통해 들어온다 (작업기록 6절).</p>
+<p>그렇다면 1989년 코호트 자신의 상대시점 더미가 이 변화를 흡수해야 하지 않을까. 1995년과 1997년은 1989년 코호트의 상대시점 6과 8인데, 이 모형에서는 6 이후가 한 구간으로 묶여 있다. 회귀는 두 해의 효과가 같다고 간주하므로 두 해 사이에 커진 효과를 흡수할 계수가 없으며 그 차이가 다른 계수로 유입된다. 덱의 재계산 설정에서는 오염이 모두 6 이후 묶음 구간을 통해 들어온다 (작업기록 6절). 앞 절 <a href="#p2-es">사건연구의 기본 구조</a>의 자료 표 도식 6단계가 같은 상황을 행과 열로 보여 준다. A(1989년 코호트)의 1995년 행과 1997년 행은 모두 ≥6 열에만 1이 있고 실제 효과는 0.70σ와 0.90σ다.</p>
 
 <aside class="note calc" data-label="손계산">
 <p>Sim 6 변형에서 효과는 코호트의 증가 속도를 <tex>s_g</tex>라 할 때 <tex>\tau = s_g \times (\ell + 1)</tex>이다. 1989년 코호트는 <tex>s_g = 0.10\sigma</tex>, 1998년 코호트는 <tex>s_g = 0.05\sigma</tex>다.</p>
@@ -536,7 +637,7 @@
 
 <p>SA는 추정하려는 대상을 코호트와 상대시점의 조합마다 정의한다. 이를 코호트별 평균처치효과(cohort-specific ATT, CATT)라고 부른다 (원문 식 13).</p>
 
-<tex class="d">CATT_{g,\ell} = E\left[\,Y_{i,g+\ell} - Y^{\infty}_{i,g+\ell} \;\middle|\; E_i = g\,\right]</tex>
+<div class="sym"><tex class="d">\gl{catt}{CATT_{g,\ell}} = E\left[\,\gl{Y}{Y_{i,g+\ell}} - \gl{Yinf}{Y^{\infty}_{i,g+\ell}} \;\middle|\; \gl{Eisa}{E_i} = g\,\right]</tex></div>
 
 <p><tex>Y_{i,g+\ell}</tex>는 <tex>g</tex>기에 도입한 단위의 도입 <tex>\ell</tex>기 뒤 결과이고, <tex>Y^{\infty}_{i,g+\ell}</tex>는 같은 단위가 한 번도 처치받지 않았다면 그 시점에 관측되었을 결과다. 예를 들어 <tex>CATT_{1989,3}</tex>은 1989년 코호트가 도입 3년 뒤인 1992년에 받은 평균효과다. Callaway and Sant'Anna (2021)의 ATT(g, t)와 같은 발상이며 효과가 코호트마다, 시점마다 다를 수 있다고 처음부터 허용한다 (3부에서 다룬다).</p>
 
@@ -544,7 +645,9 @@
 
 <p>SA의 Proposition 3은 평행추세 가정과 예고효과 없음 가정이 모두 성립해도, 상대시점 구간 <tex>b</tex>의 TWFE 계수 <tex>\mu_b</tex>가 여러 CATT의 선형결합이라는 것을 보였다 (원문 식 14). 구간 <tex>b</tex>는 상대시점 하나일 수도 있고 묶은 여러 상대시점일 수도 있다.</p>
 
-<tex class="d">\mu_b = \underbrace{\sum_{\ell' \in b,\ \ell' \ge 0}\ \sum_g w^{b}_{g,\ell'}\, CATT_{g,\ell'}}_{\text{(1)}} \;+\; \underbrace{\sum_{b' \ne b}\ \sum_{\ell' \in b',\ \ell' \ge 0}\ \sum_g w^{b}_{g,\ell'}\, CATT_{g,\ell'}}_{\text{(2)}} \;+\; \underbrace{\sum_{\ell' \in b^{excl},\ \ell' \ge 0}\ \sum_g w^{b}_{g,\ell'}\, CATT_{g,\ell'}}_{\text{(3)}}</tex>
+<div class="sym"><tex class="d">\gl{mu}{\mu_b} = \underbrace{\sum_{\ell' \in \gl{bin}{b},\ \ell' \ge 0}\ \sum_g \gl{wb}{w^{b}_{g,\ell'}}\, \gl{catt}{CATT_{g,\ell'}}}_{\text{(1)}} \;+\; \underbrace{\sum_{b' \ne b}\ \sum_{\ell' \in b',\ \ell' \ge 0}\ \sum_g \gl{wb}{w^{b}_{g,\ell'}}\, \gl{catt}{CATT_{g,\ell'}}}_{\text{(2)}} \;+\; \underbrace{\sum_{\ell' \in \gl{bexcl}{b^{excl}},\ \ell' \ge 0}\ \sum_g \gl{wb}{w^{b}_{g,\ell'}}\, \gl{catt}{CATT_{g,\ell'}}}_{\text{(3)}}</tex></div>
+
+<p>각 기호의 의미는 다음과 같다. <tex>b</tex>는 회귀식에 더미 열 하나로 들어간 구간이고 <tex>\mu_b</tex>는 그 열의 계수다. <tex>\ell'</tex>은 가중치가 부여되는 칸의 상대시점, <tex>g</tex>는 그 칸의 코호트이므로 <tex>(g, \ell')</tex>은 코호트 <tex>g</tex>의 도입 <tex>\ell'</tex>년 뒤 칸들을 가리킨다. <tex>b^{excl}</tex>은 회귀식에 열이 없는 상대시점의 모음이며 덱의 사양에서는 기준기간 <tex>\{-1\}</tex> 하나다. <tex>w^{b}_{g,\ell'}</tex>는 계수 <tex>\mu_b</tex>가 칸 <tex>(g, \ell')</tex>의 효과에 주는 가중치다.</p>
 
 <ul>
 <li>(1)은 구간 <tex>b</tex>에 속한 도입 후 CATT들의 가중평균으로, 연구자가 원하는 부분이다. 가중치의 합이 1이다.</li>
@@ -553,6 +656,27 @@
 </ul>
 
 <p>(2)의 가중치는 합이 0이지만 하나하나가 0은 아니다. 같은 구간 안에서 양의 가중치를 받는 칸과 음의 가중치를 받는 칸의 효과가 같으면 서로 상쇄되어 0이 되지만 효과가 다르면 상쇄되지 않고 다른 시점의 효과가 계수에 섞인다. 따라서 효과가 이질적이면 사건연구의 모든 계수가 오염될 수 있다.</p>
+
+<h4>가중치 w가 정해지는 방식</h4>
+
+<p>원문은 가중치의 합만 제시하고 가중치가 무엇인지는 SA 원논문에 미룬다. 가중치의 구체적인 형태는 OLS 기초만으로 확인되며 1부에서 TWFE 계수를 칸별 효과의 가중합 <tex>\sum w_{it}\tau_{it}</tex>로 바꾼 유도를 사건연구 계수 하나에 적용하면 된다. 아래 유도는 덱과 같은 균형패널을 가정한다.</p>
+
+<div class="deriv" data-title="사건연구 계수의 CATT 가중합 표현 (가중치 합 1, 0, −1)">
+<div class="ds"><tex class="d">\gl{muhat}{\hat\mu_b} = \frac{\sum_{i,t} \gl{Dbtil}{\tilde D^{b}_{it}}\,\gl{Y}{Y_{it}}}{\sum_{i,t} (\gl{Dbtil}{\tilde D^{b}_{it}})^2} = \sum_{i,t} \gl{cb}{c^{b}_{it}}\,\gl{Y}{Y_{it}}</tex><p class="dc">1부의 FWL 정리를 구간 <tex>b</tex>의 더미 열 <tex>D^b</tex>에 적용한다. <tex>\gl{Dbtil}{\tilde D^{b}}</tex>는 <tex>D^b</tex>를 기업 더미, 연도 더미, 회귀식에 포함된 다른 구간의 더미 전체에 회귀한 잔차다. <tex>c^{b}_{it} = \gl{Dbtil}{\tilde D^{b}_{it}} / \sum (\gl{Dbtil}{\tilde D^{b}})^2</tex>는 도입 배치와 모형 사양만으로 정해지는 칸별 계수이며 <tex>Y</tex>와 무관하다.</p></div>
+<div class="ds"><tex class="d">\sum_{i,t} \gl{cb}{c^{b}_{it}}\,\gl{Dl}{D^{b}_{it}} = 1, \qquad \sum_{i,t} \gl{cb}{c^{b}_{it}}\,\gl{Dl}{D^{b'}_{it}} = 0, \qquad \sum_{i,t} \gl{cb}{c^{b}_{it}}\,I[i = j] = 0, \qquad \sum_{i,t} \gl{cb}{c^{b}_{it}}\,I[t = s] = 0</tex><p class="dc">잔차 <tex>\gl{Dbtil}{\tilde D^{b}}</tex>는 회귀에 포함된 다른 모든 열과 직교하므로 <tex>c^b</tex>와 그 열을 칸마다 곱한 합은 0이다(둘째부터 넷째 식). 자기 열과의 합은 1부의 가중치 합 유도와 같은 계산으로 <tex>\sum \gl{Dbtil}{\tilde D^{b}} D^{b} / \sum (\gl{Dbtil}{\tilde D^{b}})^2 = 1</tex>이다.</p></div>
+<div class="ds"><tex class="d">\gl{muhat}{\hat\mu_b} = \gl{zA}{\sum \gl{cb}{c^{b}_{it}}\gl{ai}{\alpha_i}} + \gl{zB}{\sum \gl{cb}{c^{b}_{it}}\gl{lt}{\lambda_t}} + \gl{zC}{\sum \gl{cb}{c^{b}_{it}}\gl{tau}{\tau_{it}}} + \gl{zE}{\sum \gl{cb}{c^{b}_{it}}\gl{eps}{\varepsilon_{it}}}</tex><p class="dc">평행추세와 예고효과 없음 가정 아래 결과는 <tex>Y_{it} = \alpha_i + \lambda_t + \tau_{it} + \varepsilon_{it}</tex>이다. <tex>\tau_{it}</tex>는 도입 후 칸에서 그 칸의 효과이고 도입 전 칸에서 0이다. 이를 대입하고 합을 네 개로 나눈다.</p></div>
+<div class="ds"><tex class="d">\gl{muhat}{\hat\mu_b} = \underbrace{\gl{zA}{\sum \gl{cb}{c^{b}_{it}}\gl{ai}{\alpha_i}}}_{=\,0} + \underbrace{\gl{zB}{\sum \gl{cb}{c^{b}_{it}}\gl{lt}{\lambda_t}}}_{=\,0} + \gl{zC}{\sum \gl{cb}{c^{b}_{it}}\gl{tau}{\tau_{it}}} + \gl{zE}{\sum \gl{cb}{c^{b}_{it}}\gl{eps}{\varepsilon_{it}}}</tex><p class="dc"><tex>\alpha_i</tex>는 기업 더미에 계수를 곱한 뒤 더한 열이고 <tex>\lambda_t</tex>는 연도 더미에 계수를 곱한 뒤 더한 열이므로 고정효과 부분은 둘째 단계의 셋째, 넷째 식에 의해 0이다.</p></div>
+<div class="ds"><tex class="d">\gl{muhat}{\hat\mu_b} = \gl{zC}{\sum_{g}\sum_{\ell'} \gl{wb}{w^{b}_{g,\ell'}}\,\gl{catt}{CATT_{g,\ell'}}} + \gl{zE}{\sum \gl{cb}{c^{b}_{it}}\gl{eps}{\varepsilon_{it}}}, \qquad \gl{wb}{w^{b}_{g,\ell'}} = \sum_{i:\,E_i = g} \gl{cb}{c^{b}_{i,\,g+\ell'}}</tex><p class="dc">효과의 합을 코호트 <tex>g</tex>와 상대시점 <tex>\ell'</tex>로 묶는다. 같은 코호트의 같은 상대시점은 같은 달력 연도이고 균형패널에서는 그 칸들의 <tex>c^b</tex>가 모두 같으므로 묶음의 합은 그 칸들의 평균효과 <tex>CATT_{g,\ell'}</tex>에 <tex>c^b</tex>의 합을 곱한 값이고 이 합이 가중치 <tex>w^{b}_{g,\ell'}</tex>다. 마지막 항은 기댓값이 0인 잡음이다.</p></div>
+<div class="ds"><tex class="d">\sum_{(g,\ell'):\,\ell' \in b} \gl{wb}{w^{b}_{g,\ell'}} = 1, \qquad \sum_{(g,\ell'):\,\ell' \in b'} \gl{wb}{w^{b}_{g,\ell'}} = 0, \qquad \sum_{(g,\ell')} \gl{wb}{w^{b}_{g,\ell'}} = 0</tex><p class="dc">구간 <tex>b</tex>에 속한 칸들은 정확히 <tex>D^b = 1</tex>인 칸들이므로 그 칸들의 가중치 합은 둘째 단계의 첫 식에 의해 1이다. 다른 구간 <tex>b'</tex>의 합도 같은 방식으로 0이다. 셋째 식은 처치되는 기업의 모든 칸을 더한 합이며 처치되는 기업들의 기업 더미를 더한 열과 <tex>c^b</tex>를 곱한 합과 같으므로 둘째 단계의 셋째 식에 의해 0이다.</p></div>
+<div class="ds"><tex class="d">\sum_{(g,\ell'):\,\ell' \in \gl{bexcl}{b^{excl}}} \gl{wb}{w^{b}_{g,\ell'}} = 0 - 1 - 0 = -1</tex><p class="dc">회귀식에 열이 없는 칸들의 가중치 합은 전체 합에서 자기 구간의 합과 다른 구간들의 합을 차감한 값이다. 원문 각주 7의 1, 0, −1이 이렇게 도출된다. 이 합에는 도입 전 칸도 포함되며 예고효과가 없으면 도입 전 칸의 CATT가 0이므로 식 14에는 <tex>\ell' \ge 0</tex>인 칸만 남는다.</p></div>
+</div>
+
+<p>다섯째 단계의 정의는 가중치를 실험으로 계산하는 방법도 제공한다. 칸 <tex>(g, \ell')</tex>의 효과만 1이고 나머지 효과와 잡음이 모두 0인 자료를 만들어 사건연구를 추정하면 계수 <tex>\hat\mu_b</tex>의 값이 <tex>w^{b}_{g,\ell'}</tex>와 같다. 덱 18장과 아래 도식의 가중치 격자가 이 방법으로 계산되었다. 이 가이드가 덱 코어로 도입 전 칸까지 포함해 다시 계산한 결과 +3기 계수의 가중치는 +3 칸 세 개(0.338, 0.347, 0.316)의 합이 1.000, 기준기간 −1 칸들의 합이 −1.000, 나머지 열 각각의 합이 0.000이었다. −3기와 +4기 계수에서도 합은 같았다.</p>
+
+<p>같은 실험을 칸을 기준으로 읽으면 칸 하나의 효과가 어느 계수로 전파되는지 확인된다. 1989년 코호트의 도입 8년 뒤 칸에만 효과 1을 넣고 사건연구를 추정하면 −5기부터 +5기까지 열 개의 계수가 모두 0.17-0.20의 양수가 되며 −3기 계수는 0.184다. 도입 8년 뒤의 효과가 ≥6 묶음 열에서 흡수되지 못하고 도입 전 계수까지 변화시킨 것이다. 사전추세가 없어도 도입 전 계수가 0에서 벗어나는 이유를 가장 작은 단위로 확인한 결과다.</p>
+
+<p>아래 도식에서 위 격자의 칸을 바꿔 가며 막대의 변화를 비교한다. 0-3기 칸에 넣은 효과는 그 칸의 자기 더미 열이 대부분 흡수하고 −5기부터 −2기의 도입 전 계수에는 절댓값 0.005 이하만 남는다. 6기 이후 묶음 칸의 효과는 칸에 따라 정도는 다르지만 도입 전 계수와 다른 계수들로 전파된다. 4기와 5기 칸은 자기 더미 열이 있는데도 효과의 일부가 −5기나 −4기 계수에 반영된다(2007년 코호트의 4년 뒤 칸은 −5기 계수에 0.124). 1989년 코호트의 12년 뒤 칸이 +3기 계수에 미치는 영향은 −0.184로 아래 덱 18장의 손계산에 나오는 음의 가중치와 같다.</p>
+<div class="widget" data-w="sa-cell"></div>
 
 <h4>흔한 모형 설정 선택이 미치는 영향</h4>
 
@@ -605,7 +729,7 @@
 </aside>
 
 <aside class="note src" data-label="수치의 출처">
-<p>원문은 식 14와 가중치 합 1, 0, −1까지만 제시하고 수치 예는 SA 원논문 3.7절로 넘긴다. 위의 가중치(+0.18, −0.18), 기여 분해(0.217σ, −0.168σ, 0.257σ, −0.436σ)와 계수(0.050σ, 0.084σ, −0.180σ)는 덱이 균형패널에서 계산한 값이다 (작업기록 6절). 덱은 같은 상대시점의 가중치 합이 1, 다른 구간은 구간마다 0이라는 성질을 수치로 확인했다. 손계산 상자의 세 쌍(0.184, 0.153, 0.162)은 이 가이드가 덱 코드로 가중치 격자를 출력해 확인한 값이고 쌍별 기여는 그 가중치로 계산했다.</p>
+<p>원문은 식 14와 가중치 합 1, 0, −1까지만 제시하고 수치 예는 SA 원논문 3.7절로 넘긴다. 위의 가중치(+0.18, −0.18), 기여 분해(0.217σ, −0.168σ, 0.257σ, −0.436σ)와 계수(0.050σ, 0.084σ, −0.180σ)는 덱이 균형패널에서 계산한 값이다 (작업기록 6절). 덱은 같은 상대시점의 가중치 합이 1, 다른 구간은 구간마다 0이라는 성질을 수치로 확인했다. 손계산 상자의 세 쌍(0.184, 0.153, 0.162)은 이 가이드가 덱 코드로 가중치 격자를 출력해 확인한 값이고 쌍별 기여는 그 가중치로 계산했다. 가중치 합(1.000, 0.000, −1.000), +3 칸의 가중치 0.338, 0.347, 0.316, 칸 하나에 효과 1을 넣은 실험의 0.17-0.20과 0.184도 이 가이드가 덱 코어로 도입 전 칸까지 포함해 계산한 값이다.</p>
 </aside>
 
 <aside class="note say" data-label="발표에서는">
