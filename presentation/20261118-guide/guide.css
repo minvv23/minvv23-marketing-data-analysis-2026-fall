@@ -177,6 +177,7 @@ figure.fig figcaption{font-size:14px;line-height:1.6;color:#55565d;margin:.6rem 
 .vb:hover:not(:disabled){border-color:var(--faint);color:var(--ink)}
 .vb:disabled{opacity:.4;cursor:default}
 .vb.pri{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+.vb.pri:hover:not(:disabled){color:var(--bg);background:var(--body);border-color:var(--body)}
 .vpos{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:2.8rem;text-align:center}
 .vdots{display:inline-flex;gap:4px;margin-right:auto}
 .vdots i{width:16px;height:4px;border-radius:2px;background:var(--line);cursor:pointer}
@@ -218,3 +219,74 @@ footer.end{border-top:1px solid var(--line);padding-top:1.25rem;font-size:13.5px
 .vspeed{display:inline-flex;align-items:center;gap:.35rem}
 .vspeed .seg-l{margin-right:0}
 .vspeed .seg button{font-size:12.5px;padding:.22rem .5rem}
+
+/* ---------- 기호 풀이 툴팁과 연동 강조 (viz-math.js) ---------- */
+.katex .tk{display:inline-block;border-radius:2px;transition:background-color .15s,box-shadow .15s}
+.katex .tk.has-g{cursor:help;background-image:repeating-linear-gradient(90deg,var(--faint) 0 2px,transparent 2px 4px);background-size:100% 1px;background-position:0 100%;background-repeat:no-repeat}
+.katex .tk.hl,[data-k].hl{background-color:var(--c1-soft);box-shadow:0 0 0 .14em var(--c1-soft)}
+td[data-k].hl,th[data-k].hl{box-shadow:inset 0 0 0 2px var(--c1)}
+.gtip{position:fixed;z-index:60;max-width:min(24rem,calc(100vw - 16px));background:var(--bg);color:var(--body);border:1.5px solid var(--ink);border-radius:6px;padding:.6rem .85rem .7rem;font-size:14.5px;line-height:1.62;pointer-events:auto}
+.gtip[hidden]{display:none}
+.gtip::after{content:"";position:absolute;left:var(--ax,50%);bottom:-6px;width:10px;height:10px;margin-left:-5px;background:var(--bg);border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(45deg)}
+.gtip.below::after{bottom:auto;top:-6px;transform:rotate(225deg)}
+.gtip .gh{margin:0 0 .3rem;font-weight:700;color:var(--ink);font-size:15px}
+.gtip .gh .katex{font-size:1.12em}
+.gtip .gd p{margin:0 0 .4rem}.gtip .gd>*:last-child{margin-bottom:0}
+.gtip .gd .ex{display:block;font-size:13.5px;color:var(--muted);margin-top:.35rem}
+
+/* ---------- 유도 단계 ---------- */
+.deriv{margin:1.75rem 0 2rem;border:1px solid var(--line);border-radius:8px;padding:1.1rem 1.15rem 1.2rem;background:var(--bg);outline:none}
+.deriv .wt{font-size:12px;letter-spacing:.08em;font-weight:700;color:var(--muted);margin:0 0 .25rem}
+.deriv .wh{font-size:1.05rem;font-weight:700;color:var(--ink);margin:0 0 .5rem;line-height:1.45}
+.deriv .ds .katex-display{margin:.5rem 0}
+.deriv .ds .dc{font-size:15px;color:var(--body);margin:.2rem 0 .9rem}
+.deriv.on .dstage{display:grid;align-items:center;min-height:4.5rem;padding:.25rem 0;border-block:1px solid var(--line)}
+.deriv.on .dstage>.ds{grid-area:1/1;visibility:hidden;min-width:0}
+.deriv.on .dstage>.ds.cur{visibility:visible}
+.deriv.on .ds .dc{display:none}
+.deriv.on.all .dstage{display:block;border:0}
+.deriv.on.all .dstage>.ds{visibility:visible;border-top:1px solid var(--line);padding:.35rem 0 0}
+.deriv.on.all .ds .dc{display:block}
+.deriv.on.all .vcap,.deriv.on.all .vbar>:not(.dall){display:none}
+.deriv .vbar .dall{margin-left:auto}
+.katex .tk.vtn{view-transition-class:dterm}
+.katex .tk.fresh{animation:dfresh 1.7s ease-out}
+@keyframes dfresh{0%,40%{color:var(--bad);background-color:var(--bad-soft);box-shadow:0 0 0 .14em var(--bad-soft)}100%{color:inherit}}
+::view-transition-group(*){animation-duration:var(--dv-dur,.7s);animation-timing-function:cubic-bezier(.65,0,.35,1)}
+::view-transition-old(*),::view-transition-new(*){animation-duration:calc(var(--dv-dur,.7s) * .85)}
+@media (prefers-reduced-motion: reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+html.dv-run{view-transition-name:none}
+.symbar{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;margin:.75rem 0 0;padding-top:.65rem;border-top:1px dashed var(--line)}
+.symbar[hidden]{display:none}
+.sym-l{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--muted);margin-right:.2rem}
+.sym-b{font:inherit;font-size:14px;line-height:1.3;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:.12rem .45rem;color:var(--ink);cursor:help;min-height:1.9rem}
+.sym-b:hover,.sym-b.hl{border-color:var(--c1);background:var(--c1-soft);box-shadow:none}
+.sym-b .katex{font-size:1em}
+.sym .symbar{margin-top:.25rem}
+
+/* ---------- panel-resid 표 ---------- */
+.ptwrap{overflow-x:auto;margin:.25rem 0 .25rem}
+.ptab{border-collapse:separate;border-spacing:4px;width:auto;margin:0 auto;font-size:15px;font-variant-numeric:tabular-nums}
+.ptab th,.ptab td{border:0;padding:0;text-align:center;vertical-align:middle}
+.ptab thead th{font-size:12.5px;color:var(--muted);font-weight:600;padding:0 0 .15rem;border:0;white-space:nowrap}
+.ptab tbody th,.ptab tfoot th{font-size:13px;font-weight:800;padding:0 .4rem 0 0;text-align:right;white-space:nowrap}
+.ptab tfoot th{color:var(--muted);font-weight:600;font-size:12.5px}
+.ptab td.c{min-width:3.6rem;height:2.6rem;border-radius:4px;background:var(--soft);color:var(--ink);font-weight:600;cursor:default;transition:box-shadow .15s}
+.ptab.v-D td.c{cursor:pointer}
+.ptab td.c.tr{background:var(--cs);box-shadow:inset 0 0 0 1.5px var(--cc)}
+.ptab.v-w td.c.tr{font-weight:800}
+.ptab td.c.out{outline:2px dashed var(--bad);outline-offset:-3px}
+.ptab td.c.negv{color:var(--bad)}
+.ptab td.c.negw{background:var(--bad-soft);box-shadow:inset 0 0 0 2px var(--bad)}
+.ptab td.c.dim{opacity:.55}
+.ptab td.m{min-width:3.4rem;height:2.6rem;font-size:14px;color:var(--muted);font-weight:700;border-radius:4px;border:1px dashed var(--line)}
+.ptab td.m.g{color:var(--ink)}
+.ptab td.lk{box-shadow:inset 0 0 0 2.5px var(--ink)!important}
+.ptab td.chg{animation:pchg .45s ease-out}
+@keyframes pchg{from{color:transparent}to{}}
+.pinfo{min-height:3.2em;font-size:14.5px;line-height:1.6;color:var(--body);padding:.6rem .75rem;background:var(--soft);border-radius:6px;font-variant-numeric:tabular-nums}
+.pinfo b{color:var(--ink)}
+.ortho-out .big{font-size:1.35rem}
+/* KaTeX의 세로 배치 상자(vlist)가 분모의 기호를 덮어 마우스가 닿지 않는 문제: 기호 태그만 포인터를 받게 한다 */
+.katex .katex-html *{pointer-events:none}
+.katex .katex-html .tk{pointer-events:auto}

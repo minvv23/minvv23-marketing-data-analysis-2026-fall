@@ -71,6 +71,8 @@
 
 <tex class="d">Y_{it} = D_{it}\,Y_{it}(1) + (1 - D_{it})\,Y_{it}(0)</tex>
 
+<p>이 식은 처치 여부에 따라 두 잠재결과 가운데 하나를 선택하는 장치다. <tex>D_{it} = 1</tex>이면 둘째 항의 <tex>1 - D_{it}</tex>가 0이 되어 <tex>Y_{it} = Y_{it}(1)</tex>이고, <tex>D_{it} = 0</tex>이면 첫째 항이 0이 되어 <tex>Y_{it} = Y_{it}(0)</tex>이다.</p>
+
 <p>이 식이 성립하려면 한 단위의 결과가 자기 처치에만 의존하고 다른 단위의 처치에는 영향받지 않아야 한다. 이 조건을 SUTVA(stable unit treatment value assumption)라고 부른다 (원문 각주 1). 예를 들어 부산의 멤버십 출시가 서울 이용자의 주문에 영향을 준다면 SUTVA가 위배된다.</p>
 
 <p>칸 하나의 처치효과는 두 잠재결과의 차이다.</p>
@@ -87,6 +89,8 @@
 <p>평균처치효과(ATT, average treatment effect on the treated)는 처치를 받은 단위들에서 <tex>\tau_{it}</tex>를 평균한 값이다. 시차 도입에서는 이 평균을 코호트와 시점별로 나누어 정의하면 편리하다. 원문 식 (3)은 코호트 <tex>g</tex>의 시점 <tex>t</tex> 평균효과를 다음처럼 정의한다.</p>
 
 <tex class="d">ATT(g, t) \equiv E\left[\,Y_{it}(1) - Y_{it}(0) \mid G_i = g\,\right]</tex>
+
+<p><tex>E[\,\cdot \mid G_i = g\,]</tex>는 조건부 기댓값이다. 세로선 뒤의 조건(도입 시점이 <tex>g</tex>)을 만족하는 단위만 모아 평균한다고 읽으면 된다. 표본에서는 코호트 <tex>g</tex>에 속한 단위들의 시점 <tex>t</tex> 효과를 단순평균한 값에 해당한다.</p>
 
 <p>이 정의는 효과가 코호트마다 달라도 되고(<tex>g</tex>에 의존), 같은 코호트 안에서도 시점마다 달라도 되도록(<tex>t</tex>에 의존) 허용한다. 이 두 종류의 차이를 효과의 이질성(treatment effect heterogeneity)이라고 부른다. 두 종류는 뒤에서 서로 다른 문제를 일으키므로 처음부터 구분해 둔다.</p>
 
@@ -142,7 +146,18 @@
 
 <h4>잠재결과로 쓰면</h4>
 
-<p>원문 2.1절의 전개를 이 예에 맞춰 옮긴다. T의 관측된 변화를 잠재결과로 적고 <tex>Y_1(0)</tex>를 더하고 빼면 두 부분으로 나뉜다.</p>
+<p>원문 2.1절의 전개를 이 예에 맞춰 옮긴다. 이 소절의 기호에서 아래첨자는 시점(0은 처치 전, 1은 처치 후), 괄호 안은 처치 여부다. 예를 들어 <tex>Y_1(0)</tex>는 처치 후 시점에 처치를 받지 않았다면 나왔을 결과다. T의 관측된 변화를 잠재결과로 적고 <tex>Y_1(0)</tex>를 더하고 빼면 두 부분으로 나뉜다. 아래 유도에서 단계를 넘기며 확인한 뒤 한 줄로 정리한 식을 본다.</p>
+
+<div class="deriv" data-title="관측된 변화를 ATT와 반사실적 변화로 나누기">
+<div class="ds"><tex class="d">\gl{zL}{E[\,\gl{Y11}{Y_1(1)} - \gl{Y00}{Y_0(0)} \mid T\,]}</tex><p class="dc">T의 관측된 변화다. 처치 후 T는 처치 상태이므로 관측값이 <tex>Y_1(1)</tex>(60)이고 처치 전 관측값은 <tex>Y_0(0)</tex>(50)이다. 이 값은 +10이다.</p></div>
+<div class="ds"><tex class="d">E[\,\gl{Y11}{Y_1(1)} \underbrace{- \gl{Y10}{Y_1(0)} + \gl{Y10-b}{Y_1(0)}}_{=\,0} - \gl{Y00}{Y_0(0)} \mid T\,]</tex><p class="dc">관측되지 않는 <tex>Y_1(0)</tex>를 한 번 차감하고 한 번 더한다. 두 항의 합이 0이므로 값은 그대로다.</p></div>
+<div class="ds"><tex class="d">\gl{zATT}{E[\,\gl{Y11}{Y_1(1)} - \gl{Y10}{Y_1(0)} \mid T\,]} + \gl{zC}{E[\,\gl{Y10-b}{Y_1(0)} - \gl{Y00}{Y_0(0)} \mid T\,]}</tex><p class="dc">앞의 두 항과 뒤의 두 항으로 묶는다. 평균을 구하는 계산은 합의 각 항에 나누어 적용할 수 있다.</p></div>
+<div class="ds"><tex class="d">\underbrace{\gl{zATT}{E[\,\gl{Y11}{Y_1(1)} - \gl{Y10}{Y_1(0)} \mid T\,]}}_{ATT} + \underbrace{\gl{zC}{E[\,\gl{Y10-b}{Y_1(0)} - \gl{Y00}{Y_0(0)} \mid T\,]}}_{(c)}</tex><p class="dc">앞 묶음은 처치 후 시점에서 처치를 받은 결과와 받지 않았을 결과의 차이, 곧 ATT다. 뒤 묶음 (c)는 T가 처치받지 않았다면 겪었을 변화이며 <tex>Y_1(0)</tex>를 관측할 수 없으므로 자료로 계산할 수 없다.</p></div>
+<div class="ds"><tex class="d">\underbrace{\gl{zL}{E[\,\gl{Y11}{Y_1(1)} - \gl{Y00}{Y_0(0)} \mid T\,]}}_{+10} = \gl{zATT}{ATT} + \underbrace{\gl{zC}{E[\,\gl{Y10}{Y_1(0)} - \gl{Y00}{Y_0(0)} \mid C\,]}}_{+4}</tex><p class="dc">평행추세 가정은 (c)가 비교집단 C의 같은 변화와 평균적으로 같다는 가정이다. C는 두 시점 모두 처치받지 않았으므로 C의 변화는 관측되며 +4다. 좌변에는 처음의 관측된 변화 +10을 다시 적었다.</p></div>
+<div class="ds"><tex class="d">\gl{zATT}{ATT} = \gl{zL}{10} - \gl{zC}{4} = 6</tex><p class="dc">관측 가능한 두 변화의 차이가 ATT가 된다. 이것이 DID 추정치 6의 의미다.</p></div>
+</div>
+
+<p>유도의 결과를 한 줄로 정리하면 다음과 같다.</p>
 
 <tex class="d">\underbrace{E[Y_1(1) - Y_0(0) \mid T]}_{(a)\ =\ +10} = \underbrace{E[Y_1(1) - Y_1(0) \mid T]}_{(b)\ =\ ATT} + \underbrace{E[Y_1(0) - Y_0(0) \mid T]}_{(c)}</tex>
 
@@ -233,23 +248,111 @@
 <section class="sub" id="p1-fwl">
 <h3>회귀계수를 잔차로 다시 쓰기 (FWL 정리)</h3>
 
-<p>TWFE 계수가 무엇을 평균하는지 보려면 계수를 직접 계산할 수 있는 식이 필요하다. OLS를 아는 독자에게 가장 가까운 도구는 Frisch-Waugh-Lovell 정리(FWL 정리)다.</p>
+<p>TWFE 계수가 무엇을 평균하는지 보려면 계수를 직접 계산할 수 있는 식이 필요하다. OLS를 아는 독자에게 가장 가까운 도구는 Frisch-Waugh-Lovell 정리(FWL 정리)다. 이 소절은 정리를 마케팅 예로 먼저 보이고, OLS 잔차의 성질 하나에서 정리를 유도한 다음 TWFE 회귀에 옮겨 덱 7장의 식을 얻는다. 처음 보는 기호가 나오면 수식 위의 기호에 마우스를 올리거나(휴대폰에서는 탭) 유도 상자 아래의 기호 단추를 누른다. 기호의 뜻이 나타나고 같은 상자 안의 같은 기호가 함께 강조된다.</p>
 
-<p>FWL 정리는 다음과 같다. <tex>Y</tex>를 <tex>X_1</tex>과 <tex>X_2</tex>에 함께 회귀했을 때 <tex>X_1</tex>의 계수는 (1) <tex>X_1</tex>을 <tex>X_2</tex>에 회귀한 잔차 <tex>\tilde X_1</tex>을 구하고 (2) <tex>Y</tex>를 <tex>\tilde X_1</tex> 하나에 회귀한 계수와 같다. 다른 독립변수로 설명되는 부분을 먼저 제거한 뒤 남은 변동만으로 계수를 구한다는 의미다. 회귀분석 수업에서 "다른 변수를 통제한 효과"라고 부르던 것을 계산 절차로 적은 것이 FWL 정리다.</p>
+<h4>정리의 내용</h4>
 
-<p>TWFE 회귀에서 <tex>X_1</tex>은 처치변수 <tex>D</tex>, <tex>X_2</tex>는 단위 더미와 시점 더미 전체다. 그러면 계수는</p>
+<p>매장 16곳의 월 매출 <tex>Y</tex>를 광고비 <tex>X_1</tex>과 매장 규모 <tex>X_2</tex>에 함께 회귀한다고 하자 (가상 예). 큰 매장일수록 광고비를 많이 지출하고 매출도 높으므로 매출을 광고비 하나에만 회귀하면 매장 규모의 영향까지 광고비의 기울기에 포함된다. 다중회귀의 광고비 계수 <tex>\hat b_1</tex>은 매장 규모가 같다면 광고비가 1 많을 때 매출이 평균적으로 얼마나 다른지를 나타낸다.</p>
 
-<tex class="d">\hat\delta = \frac{\sum_{i,t} \tilde D_{it}\, Y_{it}}{\sum_{i,t} \tilde D_{it}^{2}}</tex>
+<div class="sym"><tex class="d">\gl{Y}{Y} = b_0 + \gl{b1}{b_1}\,\gl{X1}{X_1} + \gl{b2}{b_2}\,\gl{X2}{X_2} + \gl{e}{e}</tex></div>
 
-<p>이고, <tex>\tilde D_{it}</tex>는 <tex>D</tex>를 단위 더미와 시점 더미에 회귀한 잔차다. 분자에 <tex>Y</tex>의 잔차 대신 <tex>Y</tex>를 그대로 사용해도 되는 이유는 <tex>\tilde D</tex>가 단위 더미, 시점 더미와 직교해서 <tex>Y</tex>의 고정효과 부분과 곱한 합이 0이 되기 때문이다.</p>
+<p>FWL 정리는 이 계수를 단순회귀 두 번으로 다시 계산하는 방법이다.</p>
+<ol>
+<li><strong>1단계</strong>. 광고비 <tex>X_1</tex>을 매장 규모 <tex>X_2</tex>에 회귀하고 잔차 <tex>\tilde X_1</tex>을 구한다. 잔차는 그 매장의 규모로 예측되는 광고비보다 실제 광고비가 얼마나 많거나 적은지를 나타낸다. 매장 규모로 설명되는 광고비의 부분이 이 단계에서 제거된다.</li>
+<li><strong>2단계</strong>. 매출 <tex>Y</tex>를 잔차 <tex>\tilde X_1</tex> 하나에 회귀한다. 이 기울기가 다중회귀의 <tex>\hat b_1</tex>과 정확히 같다.</li>
+</ol>
 
-<h4>균형패널에서 잔차를 구하는 공식</h4>
+<div class="sym"><tex class="d">\underbrace{\gl{X1}{X_1} = \hat c_0 + \gl{c}{\hat c}\,\gl{X2}{X_2} + \gl{X1til}{\tilde X_1}}_{\text{1}}, \qquad \underbrace{\gl{b1}{\hat b_1} = \frac{\gl{num}{\sum \gl{X1til}{\tilde X_1}\,\gl{Y}{Y}}}{\gl{den}{\sum \gl{X1til}{\tilde X_1}^{2}}}}_{\text{2}}</tex></div>
 
-<p>모든 단위가 모든 시점에 관측되는 균형패널에서는 <tex>D</tex>를 고정효과에 회귀한 적합값의 형태가 간단하다.</p>
+<p>다른 독립변수로 설명되는 부분을 먼저 제거한 뒤 남은 변동만으로 계수를 구한다는 의미다. 회귀분석 수업에서 "다른 변수를 통제한 효과"라고 부르던 것을 계산 절차로 적은 것이 FWL 정리다. 아래 도식은 가상의 매장 16곳으로 두 단계를 차례로 보여 준다. 점들이 1단계에서 잔차의 높이로 이동하고 2단계에서 새 산점도로 옮겨 가는 과정을 따라가면 된다.</p>
+<div class="widget" data-w="fwl-two-step"></div>
 
-<tex class="d">\widehat{D}_{it} = \bar D_i + \bar D_t - \bar D, \qquad \tilde D_{it} = D_{it} - \bar D_i - \bar D_t + \bar D</tex>
+<p>2단계 식의 분자와 분모가 단순회귀 기울기 공식과 달라 보이는 이유는 잔차의 평균이 0이기 때문이다. 다음 유도에서 다음 단추를 누르면 공식의 항이 자리를 옮기며 정리된다.</p>
 
-<p><tex>\bar D_i</tex>는 단위 <tex>i</tex>가 처치 상태로 관측된 기간의 비율, <tex>\bar D_t</tex>는 시점 <tex>t</tex>에 처치 상태인 단위의 비율, <tex>\bar D</tex>는 전체 평균이다. 단위 평균과 시점 평균에는 전체 평균이 한 번씩 들어 있으므로 두 번 차감한 전체 평균을 한 번 더한다. 이렇게 만든 잔차는 단위별로 합해도 0이고 시점별로 합해도 0이다. 잔차가 두 종류의 더미와 직교한다는 조건이 정확히 이것이다.</p>
+<div class="deriv" data-title="2단계 기울기가 ΣX̃₁Y / ΣX̃₁²로 적히는 이유">
+<div class="ds"><tex class="d">\text{slope} = \frac{\gl{zN}{\sum \big(\gl{X1til}{\tilde X_1} - \gl{zM}{\bar{\tilde X}_1}\big)\big(\gl{Y}{Y} - \gl{zY}{\bar Y}\big)}}{\gl{zD}{\sum \big(\gl{X1til}{\tilde X_1} - \gl{zM}{\bar{\tilde X}_1}\big)^2}}</tex><p class="dc">단순회귀 기울기의 공식 <tex>\sum (x - \bar x)(y - \bar y) / \sum (x - \bar x)^2</tex>에서 <tex>x</tex> 자리에 잔차 <tex>\tilde X_1</tex>을 넣은 식이다.</p></div>
+<div class="ds"><tex class="d">\gl{zM}{\bar{\tilde X}_1} = \frac{1}{n}\sum \gl{X1til}{\tilde X_1} = 0</tex><p class="dc">상수항이 들어간 회귀의 잔차는 합이 0이다(바로 아래 정규방정식 유도의 넷째 단계). 그러므로 잔차의 평균도 0이다.</p></div>
+<div class="ds"><tex class="d">\text{slope} = \frac{\gl{zN}{\sum \gl{X1til}{\tilde X_1}\big(\gl{Y}{Y} - \gl{zY}{\bar Y}\big)}}{\gl{den}{\sum \gl{X1til}{\tilde X_1}^2}}</tex><p class="dc">평균 0을 대입하면 분모는 잔차의 제곱합 <tex>\sum \tilde X_1^2</tex>가 된다.</p></div>
+<div class="ds"><tex class="d">\text{slope} = \frac{\gl{num}{\sum \gl{X1til}{\tilde X_1}\gl{Y}{Y}} - \gl{zY}{\bar Y}\gl{zS}{\sum \gl{X1til}{\tilde X_1}}}{\gl{den}{\sum \gl{X1til}{\tilde X_1}^2}}</tex><p class="dc">분자의 괄호를 푼다. <tex>\bar Y</tex>는 관측치마다 같은 상수이므로 합 밖으로 꺼낸다.</p></div>
+<div class="ds"><tex class="d">\text{slope} = \frac{\gl{num}{\sum \gl{X1til}{\tilde X_1}\gl{Y}{Y}} - \gl{zY}{\bar Y}\cdot\gl{zS}{0}}{\gl{den}{\sum \gl{X1til}{\tilde X_1}^2}} = \frac{\gl{num}{\sum \gl{X1til}{\tilde X_1}\gl{Y}{Y}}}{\gl{den}{\sum \gl{X1til}{\tilde X_1}^2}}</tex><p class="dc">잔차의 합이 0이므로 둘째 항이 사라진다. 평균을 차감하는 계산이 생략된 것일 뿐 같은 단순회귀 기울기다. 같은 이유로 분자의 <tex>Y</tex> 자리에 <tex>Y - \bar Y</tex>를 넣어도 값이 같다.</p></div>
+</div>
+
+<h4>정리가 성립하는 이유는 OLS 잔차의 성질 하나다</h4>
+
+<p>FWL 정리는 OLS 잔차의 성질 하나만으로 유도된다. <strong>OLS 잔차는 회귀에 넣은 모든 독립변수와 직교한다.</strong> 두 변수가 직교한다는 것은 두 변수를 관측치마다 곱한 값을 모두 더하면 0이 된다는 의미다(<tex>\sum_i a_i b_i = 0</tex>). 관측치가 <tex>n</tex>개이면 한 변수의 값을 늘어놓은 열을 <tex>n</tex>차원 공간의 벡터 하나로 볼 수 있고 이 합은 두 벡터의 내적이다. 내적이 0이면 두 벡터는 기하학적으로 수직이다. 이 성질은 OLS가 잔차 제곱합을 최소화한다는 정의에서 바로 나온다.</p>
+
+<div class="deriv" data-title="OLS 잔차가 독립변수와 직교하는 이유 (정규방정식)">
+<div class="ds"><tex class="d">\min_{b_0,\,b_1,\,b_2}\ \sum_i \gl{e}{e_i}^2, \qquad \gl{e}{e_i} = \gl{Y}{Y_i} - b_0 - \gl{b1}{b_1}\gl{X1}{X_{1i}} - \gl{b2}{b_2}\gl{X2}{X_{2i}}</tex><p class="dc">OLS는 잔차 제곱합이 가장 작아지는 계수를 구한다. 관측치 <tex>i</tex>의 잔차 <tex>e_i</tex>는 실제값에서 회귀식의 예측값을 차감한 값이다.</p></div>
+<div class="ds"><tex class="d">\frac{\partial}{\partial \gl{b1}{b_1}} \sum_i \gl{e}{e_i}^2 = \sum_i 2\,\gl{e}{e_i}\,\frac{\partial \gl{e}{e_i}}{\partial \gl{b1}{b_1}} = -2\sum_i \gl{X1}{X_{1i}}\,\gl{e}{e_i}</tex><p class="dc">제곱합을 <tex>b_1</tex>로 미분한다. <tex>e_i</tex> 안에서 <tex>b_1</tex>이 들어 있는 항은 <tex>-b_1 X_{1i}</tex> 하나이므로 <tex>\partial e_i / \partial b_1 = -X_{1i}</tex>이다.</p></div>
+<div class="ds"><tex class="d">\sum_i \gl{X1}{X_{1i}}\,\gl{e}{e_i} = 0</tex><p class="dc">제곱합이 최소인 점에서는 미분값이 0이다. 앞의 상수 <tex>-2</tex>를 나누어 지우면 이 식이 남는다. <tex>X_1</tex>과 잔차 <tex>e</tex>가 직교한다는 식이다.</p></div>
+<div class="ds"><tex class="d">\sum_i \gl{e}{e_i} = 0, \qquad \sum_i \gl{X1}{X_{1i}}\,\gl{e}{e_i} = 0, \qquad \sum_i \gl{X2}{X_{2i}}\,\gl{e}{e_i} = 0</tex><p class="dc"><tex>b_0</tex>와 <tex>b_2</tex>로 미분해도 같은 형태의 식이 나온다. 상수항 <tex>b_0</tex>은 모든 값이 1인 열의 계수이므로 첫 식은 잔차의 합이 0이라는 의미다. 이 세 식을 정규방정식(normal equations)이라고 부른다.</p></div>
+<div class="ds"><tex class="d">\sum_i \big(k_1\gl{X1}{X_{1i}} + k_2\gl{X2}{X_{2i}} + k_0\big)\gl{e}{e_i} = k_1\cdot 0 + k_2 \cdot 0 + k_0 \cdot 0 = 0</tex><p class="dc">그러므로 잔차는 독립변수들에 상수를 곱하여 더한 어떤 조합(선형결합)과도 직교한다. 아래 FWL 유도는 이 사실만 사용한다.</p></div>
+</div>
+
+<h4>FWL 정리의 유도</h4>
+
+<p>이제 정리를 유도한다. 관측치 첨자 <tex>i</tex>는 생략하고 상수항은 <tex>X_2</tex>에 포함한다고 둔다. 등식의 양변에 같은 값을 곱하고 모든 관측치에 걸쳐 더해도 등식은 유지된다는 점이 유도의 출발점이다.</p>
+
+<div class="deriv" data-title="다중회귀 계수가 잔차 회귀의 기울기와 같다는 것의 유도">
+<div class="ds"><tex class="d">\begin{aligned}\gl{Y}{Y} &= \gl{b1}{\hat b_1}\,\gl{X1}{X_1} + \gl{b2}{\hat b_2}\,\gl{X2}{X_2} + \gl{e}{e}\end{aligned}</tex><p class="dc">다중회귀의 OLS 결과를 관측치마다 적은 식이다. <tex>e</tex>는 OLS 잔차이므로 <tex>X_1</tex>, <tex>X_2</tex>, 그리고 둘의 어떤 선형결합과도 직교한다.</p></div>
+<div class="ds"><tex class="d">\begin{aligned}\gl{Y}{Y} &= \gl{b1}{\hat b_1}\,\gl{X1}{X_1} + \gl{b2}{\hat b_2}\,\gl{X2}{X_2} + \gl{e}{e}\\ \gl{X1-b}{X_1} &= \gl{c}{\hat c}\,\gl{X2-b}{X_2} + \gl{X1til}{\tilde X_1}\end{aligned}</tex><p class="dc">둘째 줄은 1단계의 보조회귀(<tex>X_1</tex>을 <tex>X_2</tex>에 회귀)다. <tex>\tilde X_1</tex>은 이 보조회귀의 잔차이므로 같은 성질에 의해 <tex>X_2</tex>와 직교한다(<tex>\sum \tilde X_1 X_2 = 0</tex>).</p></div>
+<div class="ds"><tex class="d">\gl{num}{\sum \gl{X1til}{\tilde X_1}\gl{Y}{Y}} = \gl{b1}{\hat b_1}\gl{zA}{\sum \gl{X1til}{\tilde X_1}\gl{X1}{X_1}} + \gl{b2}{\hat b_2}\gl{zB}{\sum \gl{X1til}{\tilde X_1}\gl{X2}{X_2}} + \gl{zC}{\sum \gl{X1til}{\tilde X_1}\gl{e}{e}}</tex><p class="dc">첫째 줄의 양변에 <tex>\tilde X_1</tex>을 곱하고 모든 관측치에 걸쳐 더한다. 좌변은 2단계 기울기의 분자가 된다. 여기서 <tex>Y</tex>는 잔차로 바꾸지 않은 원래의 종속변수다.</p></div>
+<div class="ds"><tex class="d">\gl{num}{\sum \gl{X1til}{\tilde X_1}\gl{Y}{Y}} = \gl{b1}{\hat b_1}\gl{zA}{\sum \gl{X1til}{\tilde X_1}\gl{X1}{X_1}} + \gl{b2}{\hat b_2}\underbrace{\gl{zB}{\sum \gl{X1til}{\tilde X_1}\gl{X2}{X_2}}}_{=\,0} + \underbrace{\gl{zC}{\sum \gl{X1til}{\tilde X_1}\gl{e}{e}}}_{=\,0}</tex><p class="dc">둘째 항은 <tex>\tilde X_1</tex>이 <tex>X_2</tex>와 직교하므로 0이다. 셋째 항도 0이다. <tex>\tilde X_1 = X_1 - \hat c X_2</tex>는 <tex>X_1</tex>과 <tex>X_2</tex>의 선형결합이고 다중회귀의 잔차 <tex>e</tex>는 그런 조합과 직교하기 때문이다.</p></div>
+<div class="ds"><tex class="d">\gl{num}{\sum \gl{X1til}{\tilde X_1}\gl{Y}{Y}} = \gl{b1}{\hat b_1}\gl{zA}{\sum \gl{X1til}{\tilde X_1}\gl{X1}{X_1}}</tex><p class="dc">0인 두 항을 지운다. <tex>\hat b_2</tex>가 식에서 사라졌으므로 <tex>\hat b_2</tex>의 값은 <tex>\hat b_1</tex>을 구하는 데 필요하지 않다.</p></div>
+<div class="ds"><tex class="d">\gl{zA}{\sum \gl{X1til}{\tilde X_1}\gl{X1}{X_1}} = \sum \gl{X1til}{\tilde X_1}\big(\gl{c}{\hat c}\,\gl{X2}{X_2} + \gl{X1til-b}{\tilde X_1}\big) = \gl{c}{\hat c}\underbrace{\sum \gl{X1til-c}{\tilde X_1}\gl{X2-b}{X_2}}_{=\,0} + \gl{den}{\sum \gl{X1til-d}{\tilde X_1}^2}</tex><p class="dc">남은 <tex>\sum \tilde X_1 X_1</tex>의 <tex>X_1</tex> 자리에 보조회귀 식 <tex>X_1 = \hat c X_2 + \tilde X_1</tex>을 대입한다. 다시 <tex>\sum \tilde X_1 X_2 = 0</tex>이므로 잔차의 제곱합만 남는다. "직교하므로 <tex>\sum \tilde X_1 X_1 = \sum \tilde X_1^2</tex>"라는 문장의 내용이 이 계산이다.</p></div>
+<div class="ds"><tex class="d">\gl{num}{\sum \gl{X1til}{\tilde X_1}\gl{Y}{Y}} = \gl{b1}{\hat b_1}\,\gl{den}{\sum \gl{X1til}{\tilde X_1}^2}</tex><p class="dc">위 결과를 대입한다.</p></div>
+<div class="ds"><tex class="d">\gl{b1}{\hat b_1} = \frac{\gl{num}{\sum \gl{X1til}{\tilde X_1}\gl{Y}{Y}}}{\gl{den}{\sum \gl{X1til}{\tilde X_1}^2}}</tex><p class="dc">양변을 <tex>\sum \tilde X_1^2</tex>로 나눈다. 우변은 2단계의 기울기이므로 다중회귀의 계수와 잔차 회귀의 기울기가 같다. 유도 어디에서도 <tex>Y</tex>를 잔차로 바꾸지 않았다는 점을 기억해 둔다.</p></div>
+</div>
+
+<h4>TWFE 회귀에 옮기면</h4>
+
+<p>TWFE 회귀에서 <tex>X_1</tex>은 처치변수 <tex>D</tex>, <tex>X_2</tex>는 단위 더미와 시점 더미 전체다. 단위 고정효과 <tex>\alpha_i</tex>는 단위 더미의 계수이고 시점 고정효과 <tex>\lambda_t</tex>는 시점 더미의 계수다. 위 유도에 그대로 대입하면 다음을 얻는다.</p>
+
+<div class="sym"><tex class="d">\gl{dhat}{\hat\delta} = \frac{\gl{numD}{\sum_{i,t} \gl{Dtil}{\tilde D_{it}}\, \gl{Y}{Y_{it}}}}{\gl{denD}{\sum_{i,t} \gl{Dtil}{\tilde D_{it}}^{2}}}</tex></div>
+
+<p>여기서 <tex>\tilde D_{it}</tex>는 <tex>D</tex>를 단위 더미와 시점 더미에 회귀한 잔차이고 합은 패널의 모든 칸에 걸친다. 분자에 <tex>Y</tex>의 잔차 대신 <tex>Y</tex>를 그대로 사용하는 이유는 위 유도의 셋째 단계에서 원래의 <tex>Y</tex>에 잔차를 곱했기 때문이다. <tex>Y</tex>를 고정효과에 회귀한 잔차로 바꾸어 넣어도 값은 같다. <tex>Y</tex>에서 고정효과로 설명되는 부분은 단위마다 정해진 값과 시점마다 정해진 값의 합이고 <tex>\tilde D</tex>와 그 부분을 곱한 합이 0이기 때문이다. 그 0이 어떻게 나오는지를 단위 고정효과 <tex>\alpha_i</tex>로 따라가 본다.</p>
+
+<div class="deriv" data-title="Y의 고정효과 부분이 분자에서 사라지는 이유">
+<div class="ds"><tex class="d">\gl{sumi}{\sum_{i}}\gl{sumt}{\sum_{t}} \gl{Dtil}{\tilde D_{it}}\,\gl{ai}{\alpha_i}</tex><p class="dc">분자 <tex>\sum \tilde D_{it} Y_{it}</tex> 가운데 <tex>Y</tex>의 단위 고정효과 부분이 기여하는 양이다. 모든 칸의 합을 단위에 걸친 합과 시점에 걸친 합의 이중합으로 적었다.</p></div>
+<div class="ds"><tex class="d">\gl{sumi}{\sum_{i}} \gl{ai}{\alpha_i}\Big(\gl{sumt}{\sum_{t}} \gl{Dtil}{\tilde D_{it}}\Big)</tex><p class="dc"><tex>\alpha_i</tex>는 같은 단위 안에서는 시점에 따라 변하지 않으므로 안쪽 합(시점에 걸친 합) 밖으로 꺼낸다.</p></div>
+<div class="ds"><tex class="d">\gl{sumi}{\sum_{i}} \gl{ai}{\alpha_i}\underbrace{\Big(\gl{sumt}{\sum_{t}} \gl{Dtil}{\tilde D_{it}}\Big)}_{=\,0} = 0</tex><p class="dc">괄호 안은 한 단위의 잔차를 모든 시점에 걸쳐 더한 값, 곧 아래 표에서 한 행의 합이다. 이 합은 모든 단위에서 0이다(바로 다음 소제목에서 확인한다).</p></div>
+<div class="ds"><tex class="d">\gl{sumt}{\sum_{t}} \gl{lt}{\lambda_t}\Big(\gl{sumi}{\sum_{i}} \gl{Dtil}{\tilde D_{it}}\Big) = \gl{sumt}{\sum_t} \gl{lt}{\lambda_t}\cdot 0 = 0</tex><p class="dc">시점 고정효과 <tex>\lambda_t</tex>도 같은 방식으로 사라진다. 이번에는 <tex>\lambda_t</tex>를 단위에 걸친 합 밖으로 꺼내고 한 열의 합이 0이라는 성질을 사용한다.</p></div>
+</div>
+
+<h4>더미에 회귀한다는 것, 그리고 적합값과 잔차</h4>
+
+<p><tex>D</tex>를 단위 더미와 시점 더미에 회귀한다는 말은 자료를 회귀가 읽는 형태로 놓고 보면 구체적이다. 회귀는 칸 하나를 행 하나로 놓은 긴 형식(long format)의 자료를 읽는다. 덱 6장의 E와 L 예에서 칸은 여섯 개이고 단위 더미는 그 칸이 E의 칸인지 L의 칸인지, 시점 더미는 몇 기의 칸인지를 1과 0으로 적은 열이다.</p>
+
+<div class="tbl"><table>
+<thead><tr><th>칸</th><th class="n" data-k="D"><tex>D</tex></th><th class="n">E 더미</th><th class="n">L 더미</th><th class="n">1기 더미</th><th class="n">2기 더미</th><th class="n">3기 더미</th><th class="n" data-k="Dhat">적합값 <tex>\widehat{D}</tex></th><th class="n" data-k="Dtil">잔차 <tex>\tilde D</tex></th></tr></thead>
+<tbody>
+<tr><td>E 1기</td><td class="n" data-k="D">0</td><td class="n">1</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n" data-k="Dhat">1/6</td><td class="n" data-k="Dtil">−1/6</td></tr>
+<tr><td>E 2기</td><td class="n" data-k="D">1</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n" data-k="Dhat">2/3</td><td class="n" data-k="Dtil">1/3</td></tr>
+<tr><td>E 3기</td><td class="n" data-k="D">1</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">1</td><td class="n" data-k="Dhat">7/6</td><td class="n neg" data-k="Dtil">−1/6</td></tr>
+<tr><td>L 1기</td><td class="n" data-k="D">0</td><td class="n">0</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n" data-k="Dhat">−1/6</td><td class="n" data-k="Dtil">1/6</td></tr>
+<tr><td>L 2기</td><td class="n" data-k="D">0</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n" data-k="Dhat">1/3</td><td class="n" data-k="Dtil">−1/3</td></tr>
+<tr><td>L 3기</td><td class="n" data-k="D">1</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">1</td><td class="n" data-k="Dhat">5/6</td><td class="n" data-k="Dtil">1/6</td></tr>
+</tbody></table></div>
+
+<p>회귀는 <tex>D</tex> 열을 다섯 개의 더미 열에 상수를 곱하여 더한 조합으로 가장 가깝게(잔차 제곱합이 최소가 되게) 맞춘다. 그렇게 맞춘 열이 적합값 <tex>\widehat{D}</tex>이고 실제 <tex>D</tex>와의 차이가 잔차 <tex>\tilde D = D - \widehat{D}</tex>다. 위 표의 적합값은 E 더미에 1/6, L 더미에 −1/6, 1기, 2기, 3기 더미에 각각 0, 1/2, 1을 곱하여 더한 열이다(E 3기는 1/6 + 1 = 7/6). 더미의 조합으로 만들 수 있는 열은 이처럼 단위마다 정해진 값과 시점마다 정해진 값의 합뿐이다. 적합값은 어느 단위인지와 어느 시점인지만 알 때 예상되는 처치 정도이고 잔차는 그 예상에서 벗어난 처치의 변동이다. 상수항과 모든 더미를 함께 넣으면 열 하나가 나머지의 조합이 되므로 소프트웨어는 더미 하나를 제외하고 추정하지만 적합값과 잔차는 달라지지 않는다.</p>
+
+<p>같은 값을 단위를 행으로, 시점을 열로 놓은 넓은 형식(wide format)의 표에 다시 놓으면 적합값의 구조가 보인다. 아래 도식에서 단계를 넘기며 <tex>D</tex>, 세 가지 평균, 적합값, 잔차, 가중치를 차례로 확인한다. 칸이나 여백의 평균에 마우스를 올리면 그 값을 계산한 식이 표 아래에 나타나고 계산에 사용한 칸이 함께 강조된다. 예제 단추로 자료를 바꿀 수 있고 <tex>D</tex> 단계에서 칸을 누르면 그 단위의 도입 시점이 그 칸으로 바뀐다.</p>
+<div class="widget" data-w="panel-resid"></div>
+
+<p>모든 단위가 모든 시점에 관측되는 균형패널에서는 적합값과 잔차를 평균만으로 적을 수 있다.</p>
+
+<div class="sym"><tex class="d">\gl{Dhat}{\widehat{D}_{it}} = \gl{Dbi}{\bar D_i} + \gl{Dbt}{\bar D_t} - \gl{Db}{\bar D}, \qquad \gl{Dtil}{\tilde D_{it}} = \gl{D}{D_{it}} - \gl{Dbi}{\bar D_i} - \gl{Dbt}{\bar D_t} + \gl{Db}{\bar D}</tex></div>
+
+<p><tex>\bar D_i</tex>는 단위 <tex>i</tex>가 처치 상태로 관측된 기간의 비율(행 평균), <tex>\bar D_t</tex>는 시점 <tex>t</tex>에 처치 상태인 단위의 비율(열 평균), <tex>\bar D</tex>는 전체 평균이다. <tex>\widehat{D}</tex>와 <tex>\tilde D</tex>는 한 칸의 처치변수를 둘로 나눈 값이며 둘을 더하면 원래의 <tex>D</tex>가 된다. 모자를 쓴 <tex>\widehat{D}</tex>는 고정효과로 예측한 부분, 물결을 쓴 <tex>\tilde D</tex>는 예측하고 남은 부분이다. 행 평균과 열 평균에는 전체 평균이 한 번씩 들어 있으므로 두 번 차감한 전체 평균을 한 번 더한다.</p>
+
+<p>이 공식이 회귀의 잔차와 같은지는 잔차가 모든 더미와 직교하는지로 확인한다. 단위 <tex>i</tex>의 더미와 직교한다는 것은 그 단위의 칸(더미가 1인 칸)에서 잔차를 더한 값, 곧 행의 합이 0이라는 것이다. 시점 더미와의 직교는 열의 합이 0이라는 것이다. 행의 합을 직접 계산한다.</p>
+
+<div class="deriv" data-title="잔차 공식의 행 합이 0인지 확인">
+<div class="ds"><tex class="d">\gl{sumt}{\sum_t} \gl{Dtil}{\tilde D_{it}} = \gl{sumt-b}{\sum_t}\big(\gl{D}{D_{it}} - \gl{Dbi}{\bar D_i} - \gl{Dbt}{\bar D_t} + \gl{Db}{\bar D}\big)</tex><p class="dc">단위 <tex>i</tex>의 잔차를 모든 시점에 걸쳐 더한다. 잔차 공식을 그대로 대입했다.</p></div>
+<div class="ds"><tex class="d">\gl{sumt}{\sum_t} \gl{Dtil}{\tilde D_{it}} = \gl{z1}{\sum_t \gl{D}{D_{it}}} - \gl{z2}{\sum_t \gl{Dbi}{\bar D_i}} - \gl{z3}{\sum_t \gl{Dbt}{\bar D_t}} + \gl{z4}{\sum_t \gl{Db}{\bar D}}</tex><p class="dc">합을 네 항에 나누어 적용한다.</p></div>
+<div class="ds"><tex class="d">\gl{sumt}{\sum_t} \gl{Dtil}{\tilde D_{it}} = \gl{z1}{\gl{T}{T}\gl{Dbi}{\bar D_i}} - \gl{z2}{\gl{T}{T}\gl{Dbi}{\bar D_i}} - \gl{z3}{\gl{T}{T}\gl{Db}{\bar D}} + \gl{z4}{\gl{T}{T}\gl{Db}{\bar D}}</tex><p class="dc">첫째 항은 단위 평균의 정의 <tex>\bar D_i = \frac1T \sum_t D_{it}</tex>에서 <tex>T \bar D_i</tex>다. 둘째와 넷째 항은 시점과 무관한 상수를 <tex>T</tex>번 더한 것이다. 셋째 항은 시점 평균 <tex>T</tex>개의 합인데 균형패널에서는 시점 평균들의 평균이 전체 평균이므로 <tex>T \bar D</tex>다.</p></div>
+<div class="ds"><tex class="d">\gl{sumt}{\sum_t} \gl{Dtil}{\tilde D_{it}} = 0</tex><p class="dc">첫째 항과 둘째 항, 셋째 항과 넷째 항이 서로 상쇄된다. 열의 합도 같은 방식으로 0이다. 잔차가 모든 더미와 직교하고 적합값이 더미의 조합이므로 이 분해가 바로 OLS의 적합값과 잔차다(OLS의 적합값과 잔차는 이 두 조건을 만족하는 분해 하나로 정해진다).</p></div>
+</div>
 
 <details class="qa"><summary>적합값이 왜 하필 "단위 평균 + 시점 평균 − 전체 평균"인가?</summary><div class="ans">
 <p>단위 더미와 시점 더미로 설명할 수 있는 패턴은 "단위마다 일정한 값 + 시점마다 일정한 값"이라는 덧셈 구조뿐이다. 행이 단위, 열이 시점인 표에 이런 덧셈 구조를 최소제곱으로 맞추면 행 효과는 행 평균에서 전체 평균을 차감한 값, 열 효과는 열 평균에서 전체 평균을 차감한 값이 된다. 둘을 전체 평균에 더하면 <tex>\bar D + (\bar D_i - \bar D) + (\bar D_t - \bar D) = \bar D_i + \bar D_t - \bar D</tex>다. 이원분산분석(two-way ANOVA)에서 주효과를 구하는 방식과 같다.</p>
@@ -267,20 +370,54 @@
 <tr><td>C 1기</td><td>0</td><td><tex>0 - 0 - \tfrac12 + \tfrac14 = -\tfrac14</tex></td><td>34</td></tr>
 </tbody></table></div>
 <tex class="d">\hat\delta = \frac{\tfrac14(-50 + 60 + 30 - 34)}{4 \times \tfrac1{16}} = \frac{6/4}{1/4} = 6</tex>
-<p>분자의 부호 배열 <tex>-50 + 60 + 30 - 34</tex>가 정확히 <tex>(60 - 50) - (34 - 30)</tex>다. 처치된 칸이 하나뿐이므로 그 칸의 가중치는 <tex>\tilde D / \sum \tilde D^2 = (1/4)/(1/4) = 1</tex>이다. 가중치가 음수가 될 여지가 없다. 문제는 처치된 칸이 여럿이고 그 칸들의 처치 기간과 시점이 서로 다를 때 생긴다.</p>
+<p>분자의 부호 배열 <tex>-50 + 60 + 30 - 34</tex>가 정확히 <tex>(60 - 50) - (34 - 30)</tex>다. 처치된 칸이 하나뿐이므로 그 칸의 가중치는 <tex>\tilde D / \sum \tilde D^2 = (1/4)/(1/4) = 1</tex>이다. 가중치가 음수가 될 여지가 없다. 문제는 처치된 칸이 여럿이고 그 칸들의 처치 기간과 시점이 서로 다를 때 생긴다. 위 도식의 "2×2 (덱 4장)" 예제가 같은 표다.</p>
 </aside>
 
 <h4>계수를 칸별 효과의 가중합으로</h4>
 
 <p>이제 결과의 구조가 다음과 같다고 하자 (심층요약 4절의 교육용 전개).</p>
 
-<tex class="d">Y_{it} = \alpha_i + \lambda_t + \tau_{it} D_{it} + \varepsilon_{it}</tex>
+<div class="sym"><tex class="d">\gl{Y}{Y_{it}} = \gl{ai}{\alpha_i} + \gl{lt}{\lambda_t} + \gl{tau}{\tau_{it}}\, \gl{D}{D_{it}} + \gl{eps}{\varepsilon_{it}}</tex></div>
 
-<p>미처치 잠재결과 <tex>Y_{it}(0) = \alpha_i + \lambda_t + \varepsilon_{it}</tex>가 단위 수준과 공통 시점효과로만 이루어진다는 것은 평행추세 가정을 회귀 언어로 적은 것이다. <tex>\tau_{it}</tex>는 칸마다 달라도 된다. 이 식을 FWL 식에 대입하면 <tex>\tilde D</tex>가 <tex>\alpha_i</tex>, <tex>\lambda_t</tex>와 직교하므로 두 항이 사라지고 잡음의 기댓값도 0이므로 다음만 남는다.</p>
+<p>미처치 잠재결과 <tex>Y_{it}(0) = \alpha_i + \lambda_t + \varepsilon_{it}</tex>가 단위 수준과 공통 시점효과로만 이루어진다는 것은 평행추세 가정을 회귀 언어로 적은 것이다. <tex>\tau_{it}</tex>는 칸마다 달라도 된다. 이 식을 FWL 식의 <tex>Y</tex> 자리에 대입하면 다음과 같이 정리된다.</p>
 
-<tex class="d">\hat\delta \approx \sum_{D_{it}=1} w_{it}\, \tau_{it}, \qquad w_{it} = \frac{\tilde D_{it}}{\sum_{j,s} \tilde D_{js}^{2}}</tex>
+<div class="deriv" data-title="TWFE 계수를 칸별 효과의 가중합으로 바꾸는 유도">
+<div class="ds"><tex class="d">\gl{dhat}{\hat\delta} = \frac{\sum \gl{Dtil}{\tilde D_{it}}\,\gl{Y}{Y_{it}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc">FWL 정리로 얻은 TWFE 계수에서 출발한다.</p></div>
+<div class="ds"><tex class="d">\gl{dhat}{\hat\delta} = \frac{\sum \gl{Dtil}{\tilde D_{it}}\,\gl{Y}{\big(\gl{ai}{\alpha_i} + \gl{lt}{\lambda_t} + \gl{tau}{\tau_{it}}\gl{D}{D_{it}} + \gl{eps}{\varepsilon_{it}}\big)}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc"><tex>Y_{it}</tex> 자리에 결과의 구조를 대입한다.</p></div>
+<div class="ds"><tex class="d">\gl{dhat}{\hat\delta} = \frac{\gl{zA}{\sum \gl{Dtil}{\tilde D_{it}}\gl{ai}{\alpha_i}} + \gl{zB}{\sum \gl{Dtil}{\tilde D_{it}}\gl{lt}{\lambda_t}} + \gl{zC}{\sum \gl{Dtil}{\tilde D_{it}}\gl{tau}{\tau_{it}}\gl{D}{D_{it}}} + \gl{zE}{\sum \gl{Dtil}{\tilde D_{it}}\gl{eps}{\varepsilon_{it}}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc">괄호를 풀어 분자를 네 개의 합으로 나눈다.</p></div>
+<div class="ds"><tex class="d">\gl{dhat}{\hat\delta} = \frac{\underbrace{\gl{zA}{\sum \gl{Dtil}{\tilde D_{it}}\gl{ai}{\alpha_i}}}_{=\,0} + \underbrace{\gl{zB}{\sum \gl{Dtil}{\tilde D_{it}}\gl{lt}{\lambda_t}}}_{=\,0} + \gl{zC}{\sum \gl{Dtil}{\tilde D_{it}}\gl{tau}{\tau_{it}}\gl{D}{D_{it}}} + \gl{zE}{\sum \gl{Dtil}{\tilde D_{it}}\gl{eps}{\varepsilon_{it}}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc">앞의 두 합은 바로 위 "고정효과 부분이 사라지는 이유"의 계산에서 0이다.</p></div>
+<div class="ds"><tex class="d">\gl{dhat}{\hat\delta} = \frac{\gl{zC}{\sum \gl{Dtil}{\tilde D_{it}}\gl{tau}{\tau_{it}}\gl{D}{D_{it}}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}} + \frac{\gl{zE}{\sum \gl{Dtil}{\tilde D_{it}}\gl{eps}{\varepsilon_{it}}}}{\gl{denD-b}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc">0인 두 합을 지우고 남은 두 합을 분수 두 개로 나누어 적는다.</p></div>
+<div class="ds"><tex class="d">\gl{dhat}{\hat\delta} = \gl{zC}{\sum_{D_{it}=1} \frac{\gl{Dtil}{\tilde D_{it}}}{\gl{denD}{\sum_{j,s} \gl{Dtil}{\tilde D_{js}}^2}}\,\gl{tau}{\tau_{it}}} + \frac{\gl{zE}{\sum \gl{Dtil}{\tilde D_{it}}\gl{eps}{\varepsilon_{it}}}}{\gl{denD-b}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc"><tex>D_{it}</tex>는 처치된 칸에서 1이고 나머지 칸에서 0이므로 <tex>\tau_{it} D_{it}</tex>가 0이 아닌 칸은 처치된 칸뿐이다. 첫째 합을 처치된 칸(<tex>D_{it}=1</tex>)으로 제한하고 1인 <tex>D_{it}</tex>를 지운다. 분모의 첨자를 <tex>j, s</tex>로 바꾼 것은 분자의 칸 <tex>(i, t)</tex>와 구분하기 위해서일 뿐 여전히 모든 칸의 합이다.</p></div>
+<div class="ds"><tex class="d">\gl{dhat}{\hat\delta} \approx \sum_{D_{it}=1} \gl{w}{w_{it}}\,\gl{tau}{\tau_{it}}, \qquad \gl{w}{w_{it}} = \frac{\gl{Dtil}{\tilde D_{it}}}{\gl{denD}{\sum_{j,s} \gl{Dtil}{\tilde D_{js}}^2}}</tex><p class="dc">둘째 분수는 오차항과 잔차를 곱한 합이다. 오차의 기댓값이 0이고 <tex>\tilde D</tex>는 도입 배치만으로 정해지므로 이 항의 기댓값은 0이다. 남은 첫째 합의 분수 부분을 칸별 가중치 <tex>w_{it}</tex>라고 부른다. 등호 대신 근사 기호를 사용한 것은 오차 항을 기댓값 0으로 처리했기 때문이다.</p></div>
+</div>
 
-<p>처치된 칸의 가중치를 모두 더하면 정확히 1이다. <tex>D = \tilde D + \widehat{D}</tex>이고 <tex>\tilde D</tex>가 적합값 <tex>\widehat{D}</tex>와 직교하므로 <tex>\sum \tilde D_{it} D_{it} = \sum \tilde D_{it}^{2}</tex>가 성립하기 때문이다. TWFE 계수는 처치된 칸의 효과를 합이 1인 가중치로 평균한 값이며 이 가중치에는 음수가 나올 수 있다.</p>
+<p>처치된 칸의 가중치를 모두 더하면 정확히 1이다. 원래 문장은 "<tex>D = \tilde D + \widehat{D}</tex>이고 <tex>\tilde D</tex>가 적합값 <tex>\widehat{D}</tex>와 직교하므로 <tex>\sum \tilde D_{it} D_{it} = \sum \tilde D_{it}^{2}</tex>"였다. 이 문장에는 단계 세 개가 압축되어 있다. 처치된 칸의 합을 모든 칸의 합으로 바꾸는 단계, <tex>D</tex>를 둘로 나누는 단계, 그리고 직교 때문에 한 항이 사라지는 단계다.</p>
+
+<div class="deriv" data-title="처치된 칸의 가중치 합이 1인 이유">
+<div class="ds"><tex class="d">\sum_{D_{it}=1} \gl{w}{w_{it}} = \frac{\gl{z1}{\sum_{D_{it}=1}\gl{Dtil}{\tilde D_{it}}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc">가중치의 정의를 처치된 칸에 걸쳐 더한다. 분모는 모든 칸에 공통이므로 분자만 처치된 칸에 걸친 합이 된다.</p></div>
+<div class="ds"><tex class="d">\sum_{D_{it}=1} \gl{w}{w_{it}} = \frac{\gl{z1}{\sum \gl{Dtil}{\tilde D_{it}}\,\gl{D}{D_{it}}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc">모든 칸의 <tex>\tilde D_{it}</tex>에 <tex>D_{it}</tex>를 곱한 뒤 더하면 미처치 칸(<tex>D = 0</tex>)은 0이 되고 처치된 칸(<tex>D = 1</tex>)은 <tex>\tilde D</tex>가 그대로 남으므로 처치된 칸만의 합을 모든 칸의 합 <tex>\sum \tilde D D</tex>로 적을 수 있다.</p></div>
+<div class="ds"><tex class="d">\sum_{D_{it}=1} \gl{w}{w_{it}} = \frac{\gl{z1}{\sum \gl{Dtil}{\tilde D_{it}}\,\gl{D}{\big(\gl{Dhat}{\widehat{D}_{it}} + \gl{Dtil-b}{\tilde D_{it}}\big)}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc"><tex>D</tex>는 적합값과 잔차의 합이다(<tex>D = \widehat{D} + \tilde D</tex>).</p></div>
+<div class="ds"><tex class="d">\sum_{D_{it}=1} \gl{w}{w_{it}} = \frac{\gl{z2}{\sum \gl{Dtil}{\tilde D_{it}}\gl{Dhat}{\widehat{D}_{it}}} + \gl{z3}{\sum \gl{Dtil}{\tilde D_{it}}^2}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc">괄호를 풀어 합 두 개로 나눈다.</p></div>
+<div class="ds"><tex class="d">\sum_{D_{it}=1} \gl{w}{w_{it}} = \frac{\underbrace{\gl{z2}{\sum \gl{Dtil}{\tilde D_{it}}\gl{Dhat}{\widehat{D}_{it}}}}_{=\,0} + \gl{z3}{\sum \gl{Dtil}{\tilde D_{it}}^2}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}}</tex><p class="dc">첫째 합이 0인 것이 "직교"의 내용이다. 적합값 <tex>\widehat{D}_{it} = \bar D_i + \bar D_t - \bar D</tex>는 단위마다 정해진 값과 시점마다 정해진 값의 합이므로 <tex>\sum \tilde D \widehat{D} = \sum_i \bar D_i (\sum_t \tilde D_{it}) + \sum_t \bar D_t (\sum_i \tilde D_{it}) - \bar D \sum \tilde D</tex>이고 행 합, 열 합, 전체 합이 모두 0이므로 0이다. 고정효과 <tex>\alpha_i</tex>가 사라진 계산과 같은 구조다.</p></div>
+<div class="ds"><tex class="d">\sum_{D_{it}=1} \gl{w}{w_{it}} = \frac{\gl{z3}{\sum \gl{Dtil}{\tilde D_{it}}^2}}{\gl{denD}{\sum \gl{Dtil}{\tilde D_{it}}^2}} = 1</tex><p class="dc">분자와 분모가 같은 값이므로 합은 1이다. 개별 가중치 <tex>\tilde D_{it}/\sum \tilde D^2</tex>의 부호는 <tex>\tilde D_{it}</tex>의 부호를 따르므로 처치된 칸이라도 잔차가 음수이면 가중치가 음수다.</p></div>
+</div>
+
+<p>E와 L 예의 여섯 칸으로 세 합을 직접 계산하면 다음과 같다. 분모를 36으로 맞추어 적었다.</p>
+
+<div class="tbl"><table>
+<thead><tr><th>칸</th><th class="n" data-k="D"><tex>D</tex></th><th class="n" data-k="Dhat"><tex>\widehat{D}</tex></th><th class="n" data-k="Dtil"><tex>\tilde D</tex></th><th class="n"><tex>\tilde D \times D</tex></th><th class="n"><tex>\tilde D \times \tilde D</tex></th><th class="n"><tex>\tilde D \times \widehat{D}</tex></th></tr></thead>
+<tbody>
+<tr><td>E 1기</td><td class="n" data-k="D">0</td><td class="n" data-k="Dhat">6/36</td><td class="n" data-k="Dtil">−6/36</td><td class="n">0</td><td class="n">1/36</td><td class="n">−1/36</td></tr>
+<tr><td>E 2기</td><td class="n" data-k="D">1</td><td class="n" data-k="Dhat">24/36</td><td class="n" data-k="Dtil">12/36</td><td class="n">12/36</td><td class="n">4/36</td><td class="n">8/36</td></tr>
+<tr><td>E 3기</td><td class="n" data-k="D">1</td><td class="n" data-k="Dhat">42/36</td><td class="n" data-k="Dtil">−6/36</td><td class="n">−6/36</td><td class="n">1/36</td><td class="n">−7/36</td></tr>
+<tr><td>L 1기</td><td class="n" data-k="D">0</td><td class="n" data-k="Dhat">−6/36</td><td class="n" data-k="Dtil">6/36</td><td class="n">0</td><td class="n">1/36</td><td class="n">−1/36</td></tr>
+<tr><td>L 2기</td><td class="n" data-k="D">0</td><td class="n" data-k="Dhat">12/36</td><td class="n" data-k="Dtil">−12/36</td><td class="n">0</td><td class="n">4/36</td><td class="n">−4/36</td></tr>
+<tr><td>L 3기</td><td class="n" data-k="D">1</td><td class="n" data-k="Dhat">30/36</td><td class="n" data-k="Dtil">6/36</td><td class="n">6/36</td><td class="n">1/36</td><td class="n">5/36</td></tr>
+<tr><td><strong>합</strong></td><td class="n"></td><td class="n"></td><td class="n">0</td><td class="n"><strong>12/36</strong></td><td class="n"><strong>12/36</strong></td><td class="n"><strong>0</strong></td></tr>
+</tbody></table></div>
+
+<p><tex>\sum \tilde D D</tex>와 <tex>\sum \tilde D^2</tex>가 모두 1/3이고 <tex>\sum \tilde D \widehat{D}</tex>는 0이다. 기하학적으로는 <tex>D</tex>라는 벡터를 고정효과가 만드는 방향의 성분 <tex>\widehat{D}</tex>와 그에 수직인 성분 <tex>\tilde D</tex>로 나눈 것이다. 아래 도식에서 <tex>D</tex>의 끝점을 끌어 움직여 보면 <tex>\tilde D</tex>와 <tex>D</tex>의 내적이 언제나 <tex>\tilde D</tex>의 길이의 제곱과 같다.</p>
+<div class="widget" data-w="ortho-proj"></div>
 
 <aside class="note key" data-label="핵심">
 <p>이 식에서 가중치 <tex>w_{it}</tex>는 처치변수의 배치, 곧 누가 언제 도입했는지만으로 정해지며 종속변수 <tex>Y</tex>와 무관하다. 또 적합값 <tex>\bar D_i + \bar D_t - \bar D</tex>가 1을 초과하는 처치 칸에서는 <tex>\tilde D</tex>가 음수가 되어 그 칸의 효과가 음의 가중치(negative weight)로 계수에 들어간다. 적합값이 1을 초과하기 쉬운 칸은 처치 기간이 긴 단위(<tex>\bar D_i</tex>가 큼)를 대부분의 단위가 처치된 늦은 시점(<tex>\bar D_t</tex>가 큼)에 관측한 칸이다. 먼저 도입한 코호트의 후반부 칸이 여기에 해당하며 효과가 누적된다면 그 칸의 효과가 가장 크다.</p>
@@ -290,7 +427,7 @@
 <p><tex>\tilde D_{it} \lt 0</tex>이라고 해서 그 칸이 미처치인 것은 아니다. 실제로 처치된 칸이 단위와 시점의 평균적 처치 패턴에 비해 "덜 처치된" 관측으로 계산된다는 의미다. 회귀는 이 칸을 비교집단 쪽 관측처럼 사용하고 이 칸의 큰 종속변수 값은 계수를 낮추는 방향으로 작용한다 (심층요약 4절).</p>
 </aside>
 
-<p>관련 장: <a class="deck" data-s="7" data-b="0">덱 7장</a>. 다음 소절들에서 이 식을 작은 예제에 그대로 적용한다.</p>
+<p>관련 장: <a class="deck" data-s="7" data-b="0">덱 7장</a>, <a class="deck" data-s="8" data-b="0">덱 8장</a>. 다음 소절들에서 이 식을 작은 예제에 그대로 적용한다.</p>
 </section>
 
 <!-- ======================================================= -->
@@ -511,7 +648,7 @@
 
 <p>Goodman-Bacon (2021)은 표본이 커질 때 TWFE 계수가 수렴하는 값을 세 항으로 분해했다 (원문 식 4).</p>
 
-<tex class="d">\operatorname*{plim}_{N\to\infty} \hat\delta^{DD} = VWATT + VWCT - \Delta ATT</tex>
+<div class="sym"><tex class="d">\gl{plim}{\operatorname*{plim}_{N\to\infty}}\, \gl{dhat}{\hat\delta^{DD}} = \gl{vwatt}{VWATT} + \gl{vwct}{VWCT} - \gl{datt}{\Delta ATT}</tex></div>
 
 <div class="tbl"><table>
 <thead><tr><th>항</th><th>원래 이름</th><th>의미</th><th>이 예제의 값</th></tr></thead>
@@ -609,7 +746,18 @@
 
 <h4>처치변수의 분산 <tex>\bar D(1 - \bar D)</tex></h4>
 
-<p>처치집단이 관측 기간 가운데 비율 <tex>\bar D</tex>만큼 처치 상태라면 그 집단의 처치변수 분산은 <tex>\bar D(1 - \bar D)</tex>다. 이 값은 <tex>\bar D = 0.5</tex>에서 최대 0.25이며 0이나 1에 가까울수록 작다. 관측 기간의 가운데에서 도입한 집단의 비교가 큰 가중치를 받는 이유다. U, k, l 예제에서 k는 다섯 기 가운데 네 기 처치되어 <tex>0.8 \times 0.2 = 0.16</tex>, l은 두 기 처치되어 <tex>0.4 \times 0.6 = 0.24</tex>다. l 대 U(3/8)가 k 대 U(1/4)보다 큰 가중치를 받은 것이 이 차이 때문이다.</p>
+<p>처치집단이 관측 기간 가운데 비율 <tex>\bar D</tex>만큼 처치 상태라면 그 집단의 처치변수 분산은 <tex>\bar D(1 - \bar D)</tex>다. 0과 1만 갖는 변수의 분산이 이렇게 간단해지는 이유는 다음과 같다.</p>
+
+<div class="deriv" data-title="0과 1만 갖는 처치변수의 분산이 D̄(1 − D̄)인 이유">
+<div class="ds"><tex class="d">\operatorname{Var}(D) = \gl{zA}{\overline{D^2}} - \gl{zB}{\bar D^2}</tex><p class="dc">분산은 제곱의 평균에서 평균의 제곱을 차감한 값이다. 여기서 평균은 한 집단의 관측 기간에 걸친 평균이다.</p></div>
+<div class="ds"><tex class="d">\operatorname{Var}(D) = \gl{zA}{\bar D} - \gl{zB}{\bar D^2}</tex><p class="dc"><tex>D</tex>는 0 또는 1이므로 제곱한 값이 원래 값과 같다(<tex>0^2 = 0</tex>, <tex>1^2 = 1</tex>). 제곱의 평균이 곧 평균이다.</p></div>
+<div class="ds"><tex class="d">\operatorname{Var}(D) = \gl{zC}{\bar D(1 - \bar D)}</tex><p class="dc"><tex>\bar D</tex>로 묶는다.</p></div>
+<div class="ds"><tex class="d">\gl{zC}{\bar D(1 - \bar D)} = \tfrac14 - \big(\bar D - \tfrac12\big)^2</tex><p class="dc">완전제곱식으로 바꾸어 적으면 둘째 항은 0 이상이므로 이 값은 <tex>\bar D = 1/2</tex>일 때 최대 1/4이고 <tex>\bar D</tex>가 0이나 1에 가까울수록 작아진다.</p></div>
+</div>
+
+<p>분산이 왜 가중치를 정하는지는 <a href="#p1-fwl">FWL 식</a>의 분모에서 보인다. TWFE 계수의 분모 <tex>\sum \tilde D^2</tex>는 고정효과를 제거하고 남은 처치변수의 변동 전체다. Goodman-Bacon 분해에서 각 2×2의 가중치는 이 변동 가운데 그 2×2의 부분표본이 기여하는 비율이다. 회귀는 처치변수가 많이 움직이는 비교일수록 효과에 관한 정보가 많다고 보고 그 비교에 큰 비중을 준다. 처치 상태와 미처치 상태가 반반인 집단에서 처치변수가 가장 많이 움직이므로(분산 1/4) 그 집단의 비교가 가장 큰 가중치를 받는다. 앞 소절 "네 가중치를 공식으로 직접 계산하면"의 세 요인은 이 비율을 부분표본의 크기, 두 집단의 균형, 처치변수의 분산으로 나누어 적은 것이다.</p>
+
+<p>정리하면 처치변수의 분산은 <tex>\bar D = 0.5</tex>에서 최대 0.25이며 0이나 1에 가까울수록 작다. 관측 기간의 가운데에서 도입한 집단의 비교가 큰 가중치를 받는 이유다. U, k, l 예제에서 k는 다섯 기 가운데 네 기 처치되어 <tex>0.8 \times 0.2 = 0.16</tex>, l은 두 기 처치되어 <tex>0.4 \times 0.6 = 0.24</tex>다. l 대 U(3/8)가 k 대 U(1/4)보다 큰 가중치를 받은 것이 이 차이 때문이다.</p>
 
 <h4>관측 기간만 바꾸는 실험</h4>
 
@@ -637,6 +785,8 @@
 <p>도입 시점이 <tex>G</tex>개이고 미처치 집단이 하나 있으면 2×2는 모두 <tex>G^2</tex>개다. 그중 <tex>G</tex>개는 각 코호트를 미처치 집단과 비교하고, 나머지 <tex>G^2 - G</tex>개는 미처치 집단 없이 도입 시점의 차이만 이용하는 비교(timing-only 2×2)다. 시점 차이 비교의 절반은 먼저 도입한 코호트를 아직 미처치인 코호트와, 나머지 절반은 나중 코호트를 이미 처치된 코호트와 비교한다. 문제 소지가 있는 비교의 비율을 식으로 쓰면 다음과 같다 (원문 3.1절).</p>
 
 <tex class="d">\frac{(G^2 - G)/2}{G^2} = \frac{1 - 1/G}{2}</tex>
+
+<p>둘째 등호는 분자와 분모를 <tex>G^2</tex>로 나눈 결과다. <tex>(G^2 - G)/G^2 = 1 - 1/G</tex>이므로 분자에 남은 1/2과 함께 우변이 된다. <tex>G</tex>가 커지면 <tex>1/G</tex>가 0에 가까워지므로 비율은 1/2에 가까워진다.</p>
 
 <div class="tbl"><table>
 <thead><tr><th>도입 시점 수 <tex>G</tex></th><th>2×2 전체</th><th>문제 소지 비교</th><th>비율</th></tr></thead>

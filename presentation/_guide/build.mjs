@@ -13,7 +13,8 @@ const require = createRequire(path.join(WEB, 'package.json'));
 const katex = require('katex');
 const KVER = require('katex/package.json').version;
 const SRC = path.join(WEB, 'presentation/_src/20261118');
-const OUT = path.join(WEB, 'presentation/20261118-guide');
+// GUIDE_OUT=presentation/20261118-guide-tmpN 처럼 presentation 바로 아래 다른 폴더로 출력할 수 있다(동시 작업용, 배포 대상 아님).
+const OUT = process.env.GUIDE_OUT ? path.resolve(WEB, process.env.GUIDE_OUT) : path.join(WEB, 'presentation/20261118-guide');
 const DECK = '../20261118-presentation.html';
 
 const order = ['0-intro', '1-basics', '2-sim', '3-alt', '4-deck', '5-qa'];
@@ -25,14 +26,48 @@ let body = order.map(n => {
 }).join('\n');
 
 // ---------- 수식 ----------
+// \gl{키}{식}: 기호에 키를 단다. 키는 용어 풀이(parts/gloss-*.html)의 data-k와 맞추며, 유도 단계(.deriv)에서는 같은 키의 항이 자리를 옮겨 이어진다.
+// \gl을 쓰지 않은 수식에는 아래 AUTO 목록의 기호에 자동으로 키를 단다(뜻이 하나로 정해지는 기호만).
 const unesc = s => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 const texErr = [];
 let nTex = 0;
-body = body.replace(/<tex(\s+class="d")?>([\s\S]*?)<\/tex>/g, (m, d, tex) => {
+// 악센트 명령(\hat, \tilde 등) 바로 뒤의 기호는 건드리지 않는다. 악센트의 인자가 \gl로 바뀌면 KaTeX가 해석하지 못한다.
+const ACC = String.raw`(?<!\\(?:hat|tilde|bar|widehat|widetilde|dot|ddot|vec|check|breve|acute|grave|underline|overline|mathbf|boldsymbol|mathrm|text)\s*)`;
+const AUTO = [
+  [String.raw`\\tilde D_\{(?:it|js)\}`, 'Dtil'], [String.raw`\\tilde D(?![_a-zA-Z])`, 'Dtil'],
+  [String.raw`\\widehat\{D\}_\{it\}`, 'Dhat'], [String.raw`\\widehat\{D\}(?![_a-zA-Z])`, 'Dhat'],
+  [String.raw`\\bar D_t(?![a-zA-Z{])`, 'Dbt'], [String.raw`\\bar D_[A-Za-z](?![a-zA-Z{])`, 'Dbi'], [String.raw`\\bar D(?![_a-zA-Z])`, 'Db'],
+  [String.raw`\\hat\\delta\^\{DD\}`, 'dhat'], [String.raw`\\hat\\delta(?![a-zA-Z_^])`, 'dhat'], [String.raw`\\delta\^\{DD\}`, 'd'], [String.raw`\\delta(?![a-zA-Z_^])`, 'd'],
+  [String.raw`\\alpha_i(?![a-zA-Z{])`, 'ai'], [String.raw`\\lambda_t(?![a-zA-Z{])`, 'lt'],
+  [String.raw`\\tau_\{it\}`, 'tau'], [String.raw`\\tau_\{(?:E2|E3|L3)\}`, m => 'tau' + m.slice(-3, -1)],
+  [String.raw`\\(?:var)?epsilon_\{it\}`, 'eps'], [String.raw`(?<![\\a-zA-Z{])D_\{it\}`, 'D'], [String.raw`(?<![\\a-zA-Z{])Y_\{it\}`, 'Y'],
+  [String.raw`(?<![\\a-zA-Z{])w_\{it\}`, 'w'], [String.raw`(?<![\\a-zA-Z{])G_i(?![a-zA-Z{])`, 'G'],
+].map(([src, key]) => [new RegExp(ACC + src, 'g'), key]);
+function autotag(tex) {
+  if (tex.includes('\\gl')) return tex;
+  const keep = []; let t = tex;
+  for (const [re, key] of AUTO) t = t.replace(re, m => { keep.push(`\\gl{${typeof key === 'function' ? key(m) : key}}{${m}}`); return `\u0000${keep.length - 1}\u0000`; });
+  return t.replace(/\u0000(\d+)\u0000/g, (m, i) => keep[+i]);
+}
+const kopt = d => ({ displayMode: !!d, output: 'html', strict: 'ignore', trust: c => c.command === '\\htmlClass', macros: { '\\gl': '\\htmlClass{tk k-#1}{#2}' } });
+const renderTex = (src, where, auto = true) => src.replace(/<tex(\s+class="d")?>([\s\S]*?)<\/tex>/g, (m, d, tex) => {
   nTex++;
-  try { return katex.renderToString(unesc(tex).trim(), { displayMode: !!d, throwOnError: true, output: 'html', strict: 'ignore', trust: false }); }
-  catch (e) { texErr.push(tex.slice(0, 80) + ' :: ' + e.message.slice(0, 120)); return katex.renderToString(unesc(tex).trim(), { displayMode: !!d, throwOnError: false, strict: 'ignore' }); }
+  const t = auto ? autotag(unesc(tex).trim()) : unesc(tex).trim();
+  try { return katex.renderToString(t, { ...kopt(d), throwOnError: true }); }
+  catch (e) { texErr.push(where + ': ' + tex.slice(0, 80) + ' :: ' + e.message.slice(0, 120)); return katex.renderToString(t, { ...kopt(d), throwOnError: false }); }
 });
+body = renderTex(body, 'body');
+
+// ---------- 기호 풀이: parts/gloss-*.html의 <dl class="gloss"><dt data-k="키">기호와 이름</dt><dd>설명</dd></dl>를 모아 숨긴 블록으로 넣는다 ----------
+const glossFiles = fs.readdirSync(path.join(G, 'parts')).filter(n => /^gloss-.*\.html$/.test(n)).sort();
+const gloss = {}, glossDup = [];
+for (const n of glossFiles) {
+  const src = renderTex(fs.readFileSync(path.join(G, 'parts', n), 'utf8'), n, false);
+  for (const m of src.matchAll(/<dt data-k="([^"]+)">([\s\S]*?)<\/dt>\s*<dd>([\s\S]*?)<\/dd>/g)) { if (gloss[m[1]]) glossDup.push(m[1]); gloss[m[1]] = `<div data-k="${m[1]}"><p class="gh">${m[2].trim()}</p><div class="gd">${m[3].trim()}</div></div>`; }
+}
+const glossHTML = `<div id="gloss" hidden>${Object.values(gloss).join('')}</div>`;
+const usedKeys = new Set([...body.matchAll(/class="enclosing tk k-([A-Za-z0-9]+)/g)].map(m => m[1]).filter(k => !/^z[A-Z0-9]/.test(k)));
+const glossMissing = [...usedKeys].filter(k => !gloss[k]);
 
 // ---------- 출력 폴더 ----------
 fs.rmSync(OUT, { recursive: true, force: true });
@@ -99,7 +134,7 @@ const footer = `<footer class="end">
 </footer>`;
 
 // 스크립트 순서: 계산 코어, 시뮬레이션 코어, 도식 도구, 부별 도식, 마지막에 초기화(widgets.js)
-const SCRIPTS = ['stats.js', 'simcore.js', 'viz-kit.js', ...['viz-p1.js', 'viz-p2.js', 'viz-p3.js'].filter(n => fs.existsSync(path.join(G, n))), 'widgets.js'];
+const SCRIPTS = ['stats.js', 'simcore.js', 'viz-kit.js', 'viz-math.js', ...['viz-p1.js', 'viz-p2.js', 'viz-p3.js', 'viz-p4.js', 'viz-p5.js'].filter(n => fs.existsSync(path.join(G, n))), 'widgets.js'];
 const tocBlock = `<p class="ttl">목차</p>${tocHTML}<div class="prog">읽은 절 <span class="pc">0</span> / <span class="tot">${nSubs}</span><div class="bar"><i></i></div></div>`;
 const html = `<!doctype html>
 <html lang="ko">
@@ -120,6 +155,7 @@ ${header}
 ${body}
 ${footer}
 </main>
+${glossHTML}
 </div>
 ${SCRIPTS.map(n => `<script src="${n}"></script>`).join('\n')}
 </body>
@@ -137,6 +173,7 @@ for (const n of SCRIPTS) fs.copyFileSync(path.join(['stats.js', 'simcore.js'].in
 const plain = body.replace(/<span class="katex[\s\S]*?<\/span><\/span><\/span>/g, '').replace(/<[^>]+>/g, ' ');
 console.log(JSON.stringify({
   out: path.relative(WEB, OUT), missing, tex: nTex, texErr, figErr, figs: figs.size,
+  gloss: Object.keys(gloss).length, glossDup, glossMissing, derivs: (body.match(/<div class="deriv"/g) || []).length,
   sections: toc.map(p => `${p.id}:${p.subs.length}`).join(' '),
   hangul: (plain.match(/[가-힣]/g) || []).length, kb: Math.round(Buffer.byteLength(html) / 1024)
 }, null, 1));
