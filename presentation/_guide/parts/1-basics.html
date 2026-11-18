@@ -336,6 +336,17 @@
 
 <p>회귀는 <tex>D</tex> 열을 다섯 개의 더미 열에 상수를 곱하여 더한 조합으로 가장 가깝게(잔차 제곱합이 최소가 되게) 맞춘다. 그렇게 맞춘 열이 적합값 <tex>\widehat{D}</tex>이고 실제 <tex>D</tex>와의 차이가 잔차 <tex>\tilde D = D - \widehat{D}</tex>다. 위 표의 적합값은 E 더미에 1/6, L 더미에 −1/6, 1기, 2기, 3기 더미에 각각 0, 1/2, 1을 곱하여 더한 열이다(E 3기는 1/6 + 1 = 7/6). 더미의 조합으로 만들 수 있는 열은 이처럼 단위마다 정해진 값과 시점마다 정해진 값의 합뿐이다. 적합값은 어느 단위인지와 어느 시점인지만 알 때 예상되는 처치 정도이고 잔차는 그 예상에서 벗어난 처치의 변동이다. 상수항과 모든 더미를 함께 투입하면 열 하나가 나머지의 조합이 되므로 소프트웨어는 더미 하나를 제외하고 추정하지만 적합값과 잔차는 달라지지 않는다.</p>
 
+<p>E 더미의 1/6, 3기 더미의 1 같은 계수가 어떻게 정해지는지는 아래 유도에서 단계별로 계산한다. 계산에 필요한 것은 OLS 잔차가 각 더미와 직교한다는 정규방정식뿐이다.</p>
+
+<div class="deriv" data-title="더미 계수와 적합값의 손계산 (E와 L 예)">
+<div class="ds"><tex class="d">\gl{Dhat}{\widehat{D}_{it}} = \gl{za}{a_i} + \gl{zb}{b_t}</tex><p class="dc">회귀가 맞추는 형태는 단위마다 정해진 값 <tex>a_i</tex>(단위 더미의 계수)와 시점마다 정해진 값 <tex>b_t</tex>(시점 더미의 계수)의 합이다. 긴 형식 표의 각 행에서는 단위 더미 하나와 시점 더미 하나만 1이므로 E 3기 행의 적합값은 <tex>a_E + b_3</tex>이다. OLS는 여섯 칸의 잔차 제곱합 <tex>\sum (D_{it} - a_i - b_t)^2</tex>이 최소가 되는 다섯 값 <tex>a_E, a_L, b_1, b_2, b_3</tex>을 구한다.</p></div>
+<div class="ds"><tex class="d">\begin{aligned} &\textstyle\sum_t \big(D_{Et} - a_E - b_t\big) = 0, \qquad \sum_t \big(D_{Lt} - a_L - b_t\big) = 0 \\ &\textstyle\sum_i \big(D_{it} - a_i - b_t\big) = 0 \quad (t = 1, 2, 3) \end{aligned}</tex><p class="dc">정규방정식이다. 잔차가 E 더미와 직교한다는 것은 E 더미가 1인 칸, 곧 E 행의 잔차를 더한 값이 0이라는 조건과 같다. 단위 더미 두 개에서 행 조건 두 개, 시점 더미 세 개에서 열 조건 세 개가 나온다.</p></div>
+<div class="ds"><tex class="d">\begin{aligned} 2 - 3a_E - (b_1 + b_2 + b_3) &= 0, & 1 - 3a_L - (b_1 + b_2 + b_3) &= 0 \\ 0 - (a_E + a_L) - 2b_1 &= 0, & 1 - (a_E + a_L) - 2b_2 &= 0 \\ 2 - (a_E + a_L) - 2b_3 &= 0 & & \end{aligned}</tex><p class="dc">표의 <tex>D</tex> 값을 넣는다. E 행의 <tex>D</tex> 합은 0 + 1 + 1 = 2, L 행은 0 + 0 + 1 = 1이다. 열의 합은 1기 0, 2기 1, 3기 2이고 열마다 단위가 둘이므로 <tex>b_t</tex>가 두 번 들어간다.</p></div>
+<div class="ds"><tex class="d">a_E + a_L = 0, \qquad b_1 = 0, \quad b_2 = \tfrac12, \quad b_3 = 1</tex><p class="dc">모든 <tex>a_i</tex>에 같은 수를 더하고 모든 <tex>b_t</tex>에서 그만큼 차감해도 <tex>a_i + b_t</tex>는 변하지 않으므로 다섯 값 가운데 하나는 기준을 정해야 한다. <tex>a_E + a_L = 0</tex>으로 두면 열 조건 세 개에서 <tex>b_t</tex>가 열 평균 0, 1/2, 1로 정해진다. 소프트웨어가 더미 하나를 제외하는 것도 기준을 정하는 방법의 하나이며 적합값은 어느 기준을 사용해도 같다.</p></div>
+<div class="ds"><tex class="d">a_E = \frac{2 - \tfrac32}{3} = \tfrac16, \qquad a_L = \frac{1 - \tfrac32}{3} = -\tfrac16</tex><p class="dc"><tex>b_1 + b_2 + b_3 = 3/2</tex>를 행 조건 두 개에 대입한다. <tex>a_E = 1/6</tex>은 E의 행 평균 2/3에서 전체 평균 1/2을 차감한 값이고 <tex>a_L = -1/6</tex>은 L의 행 평균 1/3에서 1/2을 차감한 값이다.</p></div>
+<div class="ds"><tex class="d">\begin{aligned} \widehat{D}_{E1} &= \tfrac16 + 0 = \tfrac16, & \widehat{D}_{E2} &= \tfrac16 + \tfrac12 = \tfrac23, & \widehat{D}_{E3} &= \tfrac16 + 1 = \tfrac76 \\ \widehat{D}_{L1} &= -\tfrac16 + 0 = -\tfrac16, & \widehat{D}_{L2} &= -\tfrac16 + \tfrac12 = \tfrac13, & \widehat{D}_{L3} &= -\tfrac16 + 1 = \tfrac56 \end{aligned}</tex><p class="dc">여섯 칸의 <tex>a_i + b_t</tex>가 표의 적합값 열이다. <tex>a_i</tex>는 행 평균에서 전체 평균을 차감한 값이고 <tex>b_t</tex>는 열 평균이므로 <tex>a_i + b_t</tex>는 행 평균 + 열 평균 − 전체 평균이 된다. 아래 넓은 형식 표의 공식이 이 계산을 줄여 적은 것이다. E 3기는 모든 단위가 처치된 시점(1)에 평균보다 처치 기간이 1/6만큼 긴 단위가 더해져 적합값이 1을 초과한다.</p></div>
+</div>
+
 <p>같은 값을 단위를 행으로, 시점을 열로 배열한 넓은 형식(wide format)의 표로 옮기면 적합값의 구조가 보인다. 아래 도식에서 단계를 넘기며 <tex>D</tex>, 세 가지 평균, 적합값, 잔차, 가중치를 차례로 확인한다. 칸이나 여백의 평균에 마우스를 올리면 그 값을 계산한 식이 표 아래에 나타나고 계산에 사용한 칸이 함께 강조된다. 예제 단추로 자료를 바꿀 수 있고 <tex>D</tex> 단계에서 칸을 누르면 그 단위의 도입 시점이 그 칸으로 바뀐다.</p>
 <div class="widget" data-w="panel-resid"></div>
 
