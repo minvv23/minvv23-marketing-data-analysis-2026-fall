@@ -404,24 +404,24 @@
     const W = 640, H = 338, M = SIM.get(), NL = COH.map(c => 2016 - c.g);
     const LS = [-6, -5, -4, -3, -2, 0, 1, 2, 3, 4, 5, 6], LAB = ['≤−6', '−5', '−4', '−3', '−2', '0', '+1', '+2', '+3', '+4', '+5', '≥6'];
     const WT = LS.map(l => M.evWeights(l));   // WT[c][k][e]: 칸 (k, e)의 효과가 계수 c에 실리는 가중치
-    const F = GV.frame(host, { kind: '도식', title: '칸 하나의 효과가 사건연구 계수 12개로 전파되는 크기 (덱 17장 사양, 덱 계산)', w: W, h: H, controls: true,
-      note: '선택한 칸 하나에만 효과 1을 넣고 다른 칸의 효과와 잡음을 모두 0으로 둔 자료로 덱 17장의 사건연구(−1 제외, 양 끝 묶음)를 추정한 결과다. 막대 하나가 계수 하나이고 막대 높이는 그 계수가 이 칸에 부여하는 가중치 w다. 위 격자의 칸을 누르면 선택한 칸이 바뀐다.' });
+    const F = GV.frame(host, { kind: '도식', title: '칸 하나에만 효과 1을 넣는 실험: 그 효과가 사건연구 계수 12개에 나타나는 크기 (덱 17장 사양, 덱 계산)', w: W, h: H, controls: true,
+      note: '자료: 미처치 결과는 모든 칸에서 0, 어둡게 칠한 칸 하나만 처치효과 1, 다른 칸의 효과와 잡음은 0. 이 자료로 덱 17장의 사건연구(−1 제외, 양 끝 묶음)를 추정했다. 효과가 있는 칸이 하나뿐이므로 각 계수의 추정값이 곧 이 칸이 그 계수에서 받는 가중치 w다. 이상적이라면 점선 테두리 열(이 칸의 상대시점)의 막대만 서고 다른 막대, 특히 회색 바탕의 도입 전 계수는 0이어야 한다.' });
     F.bar.remove();
     const svg = F.svg, CW = 19, X0 = 86, RY = [30, 57, 84], RH = 23, cxOf = e => X0 + e * CW + CW / 2;
-    s('text', T_(X0, 18, '효과 1을 넣을 칸 (행은 코호트, 열은 도입 후 경과연수)', 'font-size:12.5px;font-weight:600;fill:var(--ink)'), svg);
+    s('text', T_(X0, 18, '효과 1을 넣을 칸 (어둡게 칠한 칸만 Y = 1, 나머지 칸은 0. 칸을 누르면 바뀐다)', 'font-size:12.5px;font-weight:600;fill:var(--ink)'), svg);
     COH.forEach((c, k) => s('text', T_(X0 - 10, RY[k] + RH / 2 + 5, c.g + '년', `font-size:13px;font-weight:700;fill:var(--${c.c})`, 'end'), svg));
     const cells = COH.map((c, k) => Array.from({ length: NL[k] }, (_, e) => { const r = s('rect', { x: X0 + e * CW + .5, y: RY[k], width: CW - 1, height: RH, css: `fill:var(--${e >= 6 ? 'soft' : c.c + '-soft'});cursor:pointer` }, svg); r.addEventListener('click', () => pick(k, e)); return r; }));
     s('line', { x1: X0 + 6 * CW, x2: X0 + 6 * CW, y1: RY[0] - 4, y2: RY[2] + RH + 4, css: 'stroke:var(--bad);stroke-width:1.6;stroke-dasharray:4 3' }, svg);
     [0, 5, 10, 15, 20, 25].forEach(e => s('text', T_(cxOf(e), RY[2] + RH + 15, String(e), 'font-size:11.5px', 'middle'), svg));
     s('text', T_(X0 + 3 * CW, RY[2] + RH + 30, '0-5기: 더미 하나씩', 'font-size:12px', 'middle'), svg);
     s('text', T_(X0 + 16 * CW, RY[2] + RH + 30, '6기 이후: ≥6 열 하나로 묶음', 'font-size:12px;fill:var(--bad)', 'middle'), svg);
-    const sel = s('rect', { x: 0, y: 0, width: CW + 3, height: RH + 4, css: 'fill:none;stroke:var(--ink);stroke-width:2.6;pointer-events:none' }, svg);
+    const sel = s('rect', { x: 0, y: 0, width: CW + 3, height: RH + 4, css: 'fill:var(--ink);fill-opacity:.85;stroke:var(--ink);stroke-width:2.6;pointer-events:none' }, svg);
     // 아래 막대그림
     const XB0 = 104, XB1 = W - 20, bw = (XB1 - XB0) / 12, bx = c => XB0 + c * bw + bw / 2, y = lin(-.3, .4, 306, 166);
     s('rect', { x: XB0, y: 160, width: 5 * bw, height: 150, css: 'fill:var(--soft)' }, svg);
     s('text', T_(XB0 + 6, 174, '도입 전 계수', 'font-size:12px;font-weight:600'), svg);
     GV.yAxis(svg, y, [-.2, 0, .2, .4], XB0 - 4, XB1, v => v === 0 ? '0' : fmt(v, 1));
-    s('text', T_(XB0 - 40, 158, '가중치 w', 'font-size:12px;font-weight:600;fill:var(--ink)'), svg);
+    s('text', T_(XB0 - 40, 158, '추정된 계수 = 이 칸의 가중치 w', 'font-size:12px;font-weight:600;fill:var(--ink)'), svg);
     LAB.forEach((t, c) => s('text', T_(bx(c), H - 6, t, 'font-size:12px;font-weight:600;fill:var(--ink)', 'middle'), svg));
     const bars = LS.map((_, c) => s('rect', { x: bx(c) - bw * .32, y: y(0), width: bw * .64, height: 0, css: 'fill:var(--ink)' }, svg));
     const own = s('rect', { x: 0, y: 160, width: bw - 4, height: 150, css: 'fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:5 3', opacity: 0 }, svg);
@@ -448,7 +448,7 @@
       });
       to(own, { x: bx(ownC) - bw / 2 + 2, opacity: 1 }, o);
       const pre = w.slice(1, 5), preMax = Math.max(...pre.map(Math.abs)), nm = `${COH[k].g}년 코호트의 도입 ${e}년 뒤 칸`;
-      F.cap.innerHTML = `<span class="vn">w</span><span><strong>${nm}</strong>에만 효과 1을 넣었다. 이 칸이 속한 열(${LAB[ownC]}, 점선 테두리)의 계수가 받는 가중치는 ${fmt(w[ownC], 3)}이다. ` +
+      F.cap.innerHTML = `<span class="vn">w</span><span><strong>${nm}</strong>(${COH[k].g + e}년 관측치)에만 효과 1을 넣고 다른 칸의 효과와 잡음을 0으로 둔 자료를 추정했다. 막대 하나가 계수 하나이고 막대 높이가 그 계수의 추정값, 곧 이 칸이 그 계수에서 받는 가중치다. 이 칸이 속한 열(${LAB[ownC]}, 점선 테두리)의 계수는 ${fmt(w[ownC], 3)}이다. ` +
         (preMax >= .0095 ? `<span class="neg">${sigPre(pre)}</span> 도입 후 칸의 효과가 사전추세처럼 나타나는 경로다.` : `도입 전 계수(−5기부터 −2기)는 0에서 뚜렷하게 벗어나지 않는다(절댓값 ${fmt(preMax, 3)} 이하). 이 칸은 자기 더미 열이 있으므로 효과가 대부분 그 열에서 흡수된다.`) + '</span>';
     }
     pick(0, 8, false);
