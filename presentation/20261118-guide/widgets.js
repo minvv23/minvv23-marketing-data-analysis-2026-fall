@@ -94,7 +94,7 @@
       <p class="wnote">그림의 막대 하나가 2×2 하나다. 가로 폭이 가중치, 세로 높이가 그 2×2의 DID이므로 막대 면적이 계수에 더해지는 기여분이며 면적을 부호대로 더한 값이 TWFE 계수다. "처치집단의 참효과"는 그 2×2에서 처치집단이 사후 구간에 실제로 받은 평균효과다. k와 l은 각각 1단위다.</p>`;
     const C = host.querySelector('.ctrls');
     C.appendChild(seg('U의 단위 수', [0, 1, 2, 4, 10].map(v => [v, String(v)]), st.nU, v => { st.nU = v; draw(); }));
-    C.appendChild(seg('효과 형태', [['grow', '도입 후 1, 3, 5, 7로 증가 (덱 9장)'], ['flat', 'k는 4, l은 2로 일정 (덱 10장)']], st.shape, v => { st.shape = v; draw(); }));
+    C.appendChild(seg('효과 형태', [['grow', '도입 후 1, 3, 5, 7로 증가 (덱 10장)'], ['flat', 'k는 4, l은 2로 일정 (덱 11장)']], st.shape, v => { st.shape = v; draw(); }));
     const svg = host.querySelector('svg'), res = host.querySelector('.res'), tb = host.querySelector('tbody');
     const name = { 0: 'U', 1: 'k', 2: 'l' };
     function draw() {
@@ -232,10 +232,12 @@
   function setTheme(t) {
     if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme');
     try { if (t === 'auto') localStorage.removeItem(TKEY); else localStorage.setItem(TKEY, t); } catch (e) { }
-    document.querySelectorAll('.theme button[data-t]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.t === t)));
+    paintTheme(t);
   }
+  // 처음에는 단추 표시만 맞춘다. 저장값을 다시 쓰지 않으므로 덱이 띄우는 도식 페이지(w.html, 항상 밝게)가 가이드의 선택을 덮어쓰지 않는다.
+  function paintTheme(t) { document.querySelectorAll('.theme button[data-t]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.t === t))); }
   document.querySelectorAll('.theme button[data-t]').forEach(b => { b.onclick = () => setTheme(b.dataset.t); });
-  setTheme(curTheme());
+  paintTheme(curTheme());
 
   // 질문이 많은 절에는 모두 펼치기 버튼
   document.querySelectorAll('main section').forEach(sec => {

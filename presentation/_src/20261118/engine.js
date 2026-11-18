@@ -136,8 +136,33 @@ const DK = (function () {
     }
     return host.__r;
   }
+  /* ---------- 가이드의 "핵심", "헷갈리기 쉬운 점" 상자 ----------
+     장마다 <div class="kbx"><aside data-k="핵심">..</aside>..</div>. 오른쪽 위 단추나 K 키로 오른쪽에 카드를 띄우고, 넘기면 닫는다. */
+  function kbClose() { $$('.kbx.open').forEach(x => x.classList.remove('open')); $$('.kbb.on').forEach(b => b.classList.remove('on')); }
+  function kbShow(sl, k) {
+    const x = $('.kbx', sl); if (!x) return;
+    if (x.classList.contains('open') && (k == null || x.dataset.cur === k)) { kbClose(); return; }
+    kbClose(); x.dataset.cur = k || '';
+    $$('aside', x).forEach(a => { a.hidden = !!k && a.dataset.k !== k; });
+    $$('.kbb', sl).forEach(b => b.classList.toggle('on', !k || b.dataset.k === k));
+    x.classList.add('open');
+    let f = 21; x.style.fontSize = f + 'px';
+    while (x.scrollHeight > x.clientHeight + 1 && f > 15) { f -= .5; x.style.fontSize = f + 'px'; }
+  }
+  function kbBuild() {
+    slides.forEach(sl => {
+      const x = $('.kbx', sl); if (!x) return;
+      const as = $$('aside', x), bar = H('div', 'kbc', null, sl);
+      [...new Set(as.map(a => a.dataset.k))].forEach(k => {
+        const n = as.filter(a => a.dataset.k === k).length;
+        const b = H('button', 'kbb ' + (k === '핵심' ? 'key' : 'warn'), k + (n > 1 ? ` <i>${n}</i>` : ''), bar); b.type = 'button'; b.dataset.k = k;
+        b.addEventListener('click', e => { e.stopPropagation(); b.blur(); kbShow(sl, k); });
+      });
+      const c = H('button', 'kbx-x', '닫기', x); c.type = 'button'; c.addEventListener('click', () => kbClose());
+    });
+  }
   function apply(enter, back, noAnim) {
-    finish();
+    finish(); kbClose();
     slides.forEach((s, i) => s.classList.toggle('on', i === Sx));
     const sl = slides[Sx]; sl.dataset.b = B;
     $$('.steps li', sl).forEach((li, i) => { li.classList.toggle('on', i < B); li.classList.toggle('past', i < B - 1); });
@@ -162,7 +187,7 @@ const DK = (function () {
     const pv = $('#pv'), CPM = 320, len = t => t.replace(/\s/g, '').length;
     pv.innerHTML = `<div class="pv-top"><span id="pv-pos"></span><span id="pv-est"></span><span class="sp"></span><button id="pv-timer" type="button" title="누르면 0으로">00:00</button><span id="pv-clock"></span></div>
       <div class="pv-main"><div class="pv-left"><div class="pv-frame"><iframe id="pv-if" src="${BASE}?embed" title="현재 화면" tabindex="-1"></iframe></div>
-      <div class="pv-next"><b>다음</b><p id="pv-nx"></p></div><p class="pv-help">→ Space 다음, ← 이전, Shift와 화살표는 장 이동, R은 시간 초기화. 이 창에서 넘기면 발표 화면도 함께 넘어간다.</p></div>
+      <div class="pv-next"><b>다음</b><p id="pv-nx"></p></div><div id="pv-kb"></div><p class="pv-help">→ Space 다음, ← 이전, Shift와 화살표는 장 이동, R은 시간 초기화, K는 발표 화면에서 핵심 카드 열고 닫기. 이 창에서 넘기면 발표 화면도 함께 넘어간다.</p></div>
       <div class="pv-right"><h2 id="pv-title"></h2><ol id="pv-list"></ol></div></div>`;
     const fr = $('#pv-if'), own = () => { try { return window.opener && !window.opener.closed ? window.opener : null; } catch (e) { return null; } };
     const tgt = () => own() || fr.contentWindow;
@@ -173,7 +198,9 @@ const DK = (function () {
     const mmss = ms => { const v = Math.max(0, Math.floor(ms / 1000)); return String(Math.floor(v / 60)).padStart(2, '0') + ':' + String(v % 60).padStart(2, '0'); };
     function render(s, b) {
       if (!first && !t0 && (s !== cur[0] || b !== cur[1])) t0 = Date.now(); first = false;
-      if (s !== cur[0]) { $('#pv-title').textContent = `${s + 1}. ${titleOf(s)}`;
+      if (s !== cur[0]) { const kx = $('.kbx', slides[s]);
+        $('#pv-kb').innerHTML = kx ? $$('aside', kx).map(a => `<div class="pv-kbi ${a.dataset.k === '핵심' ? 'key' : 'warn'}"><b>${a.dataset.k}</b>${a.innerHTML}</div>`).join('') : '';
+        $('#pv-title').textContent = `${s + 1}. ${titleOf(s)}`;
         $('#pv-list').innerHTML = Array.from({ length: builds[s] + 1 }, (_, k) => `<li data-k="${k === 0 ? '시작' : k}">${noteOf(s, k).replace(/&/g, '&amp;').replace(/</g, '&lt;') || '(대본 없음)'}</li>`).join(''); }
       cur = [s, b];
       $$('#pv-list li').forEach((li, k) => { li.classList.toggle('cur', k === b); li.classList.toggle('past', k < b); });
@@ -195,6 +222,7 @@ const DK = (function () {
       if (k === 'ArrowRight' || k === ' ' || k === 'PageDown' || k === 'Enter' || k === 'ArrowDown') c = e.shiftKey ? 'ns' : 'next';
       else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace' || k === 'ArrowUp') c = e.shiftKey ? 'ps' : 'prev';
       else if (k === 'Home') c = 'first'; else if (k === 'End') c = 'last'; else if (k === 'r' || k === 'R') { t0 = 0; return; }
+      else if (k === 'k' || k === 'K') c = 'kb';
       if (c) { e.preventDefault(); tgt().postMessage({ deck: 'cmd', k: c }, '*'); }
     });
   }
@@ -205,9 +233,12 @@ const DK = (function () {
     if (EMBED) document.body.classList.add('embed');
     addEventListener('message', e => { const m = e.data; if (!m || !m.deck) return;
       if (m.deck === 'go') sync(m.s, m.b);
-      else if (m.deck === 'cmd') { const f = { next, prev, first: () => go(0, 0), last: () => go(slides.length - 1, 0), ns: () => go(Sx + 1, 0), ps: () => go(Sx - 1, 0) }[m.k]; if (f) f(); }
+      else if (m.deck === 'cmd') { const f = { next, prev, first: () => go(0, 0), last: () => go(slides.length - 1, 0), ns: () => go(Sx + 1, 0), ps: () => go(Sx - 1, 0),
+        kb: () => kbShow(slides[Sx]), esc: kbClose, notes: () => { if (!EMBED) document.body.classList.toggle('shownotes'); },
+        fs: () => { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); } }[m.k]; if (f) f(); }
       else if (m.deck === 'hello' && e.source && e.source !== window && e.source !== parent) { const fresh = pw !== e.source || m.first; pw = e.source; if (fresh) tell(); } });
     slides.forEach(s => { if (s.dataset.lw) s.style.setProperty('--lw', s.dataset.lw + 'px'); });
+    kbBuild();
     document.addEventListener('keydown', e => {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       const k = e.key;
@@ -216,6 +247,7 @@ const DK = (function () {
       else if (k === 'Home') go(0, 0); else if (k === 'End') go(slides.length - 1, 0);
       else if (k === 'f' || k === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
       else if ((k === 'n' || k === 'N') && !EMBED) document.body.classList.toggle('shownotes');
+      else if (k === 'k' || k === 'K') kbShow(slides[Sx]); else if (k === 'Escape') kbClose();
       else if ((k === 'p' || k === 'P') && !EMBED) { pw = window.open(BASE + '?presenter', 'deck-presenter', 'width=1240,height=800'); }
     });
     let acc = 0, lock = 0;

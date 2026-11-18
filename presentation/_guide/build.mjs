@@ -171,6 +171,75 @@ const fontCSS = `@font-face{font-family:'PretendardGuide';font-weight:100 900;fo
       url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2')}
 `;
 fs.writeFileSync(path.join(OUT, 'index.html'), html);
+// 도식 하나만 띄우는 페이지: 발표 덱이 iframe으로 불러 쓴다 (w.html?w=도식이름&nw=자연폭).
+// 덱이 {gw:'states'}로 단계별 조작 목록을 주고 {gw:'set', b}로 단계를 고르면 그 조작을 재현한다.
+// 키보드와 휠은 덱으로 넘겨서 iframe 안을 누른 뒤에도 덱 넘기기가 그대로 동작한다.
+const soloJS = `(function () {
+  var q = new URLSearchParams(location.search), NW = +(q.get('nw') || 660), root = document.getElementById('solo');
+  var host = root.querySelector('.widget'), states = [[]], cur = -1, H = 0, ready = false;
+  root.style.width = NW + 'px';
+  function act(a) {
+    if (a[0] === 'step') { var d = host.querySelectorAll('.vdots i')[a[1]]; if (d) d.click(); }
+    else if (a[0] === 'seg') { var g = host.querySelectorAll('.ctrls .seg')[a[1]], b = g && g.children[a[2]]; if (b && b.getAttribute('aria-pressed') !== 'true') b.click(); }
+  }
+  function measure() {
+    root.style.zoom = 1; var m = 0;
+    states.forEach(function (s) { s.forEach(act); m = Math.max(m, host.offsetHeight); });
+    H = m; if (cur >= 0) (states[cur] || []).forEach(act);
+  }
+  function fit() {
+    if (!innerWidth || !innerHeight) return;
+    if (!H) measure();
+    var z = Math.min(innerWidth / NW, innerHeight / (H + 2)); root.style.zoom = z;
+  }
+  addEventListener('resize', fit);
+  addEventListener('message', function (e) {
+    var m = e.data; if (!m || !m.gw || e.source !== parent) return;
+    if (m.gw === 'states') { states = m.states || [[]]; H = 0; }
+    if (m.gw === 'set') { cur = m.b; (states[cur] || []).forEach(act); }
+    fit();
+  });
+  var KEYS = { ArrowRight: 'next', ' ': 'next', PageDown: 'next', Enter: 'next', ArrowDown: 'next', ArrowLeft: 'prev', PageUp: 'prev', Backspace: 'prev', ArrowUp: 'prev', Home: 'first', End: 'last', k: 'kb', K: 'kb', f: 'fs', F: 'fs', n: 'notes', N: 'notes', Escape: 'esc' };
+  addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target.matches && e.target.matches('input[type=range]') && /^Arrow/.test(e.key)) return;
+    var k = KEYS[e.key]; if (!k) return;
+    if (e.shiftKey && k === 'next') k = 'ns'; else if (e.shiftKey && k === 'prev') k = 'ps';
+    e.preventDefault(); e.stopPropagation(); if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    parent.postMessage({ deck: 'cmd', k: k }, '*');
+  }, true);
+  var acc = 0, lock = 0;
+  addEventListener('wheel', function (e) { e.preventDefault(); var now = Date.now(); if (now < lock) return; acc += e.deltaY; if (Math.abs(acc) < 40) return;
+    parent.postMessage({ deck: 'cmd', k: acc > 0 ? 'next' : 'prev' }, '*'); acc = 0; lock = now + 450; }, { passive: false });
+  window.__initAllWidgets && window.__initAllWidgets();
+  ready = true; fit(); if (parent !== window) parent.postMessage({ gw: 'ready' }, '*');
+})();`;
+const solo = `<!doctype html>
+<html lang="ko" data-theme="light" class="solo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>도식</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../learning/assets/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@${KVER}/dist/katex.min.css'">
+<link rel="stylesheet" href="guide.css">
+<style>
+html.solo,html.solo body{background:transparent;margin:0;padding:0;overflow:hidden;height:100%}
+html.solo body{display:flex;justify-content:center;align-items:flex-start}
+#solo .widget{margin:0;border:0;border-radius:0;padding:2px 4px;background:transparent}
+#solo .wt,#solo .wh,#solo .wnote,#solo .vbar,#solo .vcalc{display:none}
+#solo .vcap{min-height:0}
+</style>
+</head>
+<body>
+<div id="solo"></div>
+<script>(function () { var w = new URLSearchParams(location.search).get('w') || '', d = document.createElement('div'); d.className = 'widget'; d.setAttribute('data-w', w); document.getElementById('solo').appendChild(d); })();</script>
+${SCRIPTS.map(n => `<script src="${n}"></script>`).join('\n')}
+<script>${soloJS}</script>
+</body>
+</html>
+`;
+fs.writeFileSync(path.join(OUT, 'w.html'), solo);
 fs.writeFileSync(path.join(OUT, 'guide.css'), fontCSS + fs.readFileSync(path.join(G, 'guide.css'), 'utf8'));
 for (const n of SCRIPTS) fs.copyFileSync(path.join(['stats.js', 'simcore.js'].includes(n) ? SRC : G, n), path.join(OUT, n));
 

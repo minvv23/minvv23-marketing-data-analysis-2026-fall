@@ -159,3 +159,37 @@ body.presenter #pv{display:flex;flex-direction:column;position:fixed;inset:0;col
 #pv-list li::before{content:attr(data-k);position:absolute;left:16px;top:17px;font-size:15px;font-weight:700;color:#77787f}
 #pv-list li.cur{color:#fff;border-left-color:#fff;background:#24252b}
 #pv-list li.past{color:#55565e}
+
+/* ---------- 가이드 도식 장 (viz-g.js): 독해가이드 도식 페이지를 iframe으로 띄운다 ---------- */
+.viz .gwf{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;color-scheme:light}
+
+/* ---------- 가이드의 "핵심", "헷갈리기 쉬운 점" 상자: 오른쪽 위 단추나 K 키로 오른쪽에 카드를 띄운다 ---------- */
+.kbx{display:none}
+.slide .kbx.open{display:block;position:absolute;top:54px;right:64px;left:calc(64px + var(--lw) + 44px);max-height:792px;overflow:hidden;z-index:8;background:#fff;border:1.5px solid var(--ink);padding:24px 30px 26px;font-size:21px;line-height:1.62;color:var(--body);text-wrap:pretty;animation:rise .3s ease}
+.slide.wide .kbx.open{left:50%}
+.kbx aside{padding-left:18px;border-left:3px solid var(--ink)}
+.kbx aside+aside{margin-top:20px}
+.kbx aside::before{content:attr(data-k);display:block;font-size:.7em;font-weight:800;letter-spacing:.08em;color:var(--ink);margin-bottom:4px}
+.kbx aside[data-k="헷갈리기 쉬운 점"]{border-left-color:var(--bad)}
+.kbx aside[data-k="헷갈리기 쉬운 점"]::before{color:var(--bad)}
+.kbx aside[hidden]{display:none}
+.kbx p+p,.kbx p+ul,.kbx ul+p,.kbx p+.katex-display,.kbx .katex-display+p{margin-top:.5em}
+.kbx ul{padding-left:1.15em}.kbx li+li{margin-top:.3em}
+.kbx strong{color:var(--ink);font-weight:700}
+.kbx .katex-display{margin:.35em 0}
+.kbx-x{position:absolute;top:10px;right:12px;font:inherit;font-size:14px;font-weight:600;color:var(--muted);background:none;border:0;cursor:pointer;padding:4px 6px}
+.kbx-x:hover{color:var(--ink)}
+.kbc{position:absolute;right:64px;top:14px;display:flex;gap:8px;z-index:9}
+.kbb{font:inherit;font-size:14.5px;font-weight:700;border:1.5px solid var(--ink);background:#fff;color:var(--ink);padding:3px 11px;border-radius:3px;cursor:pointer;line-height:1.35}
+.kbb i{font-style:normal;font-weight:600;margin-left:3px;opacity:.7}
+.kbb.warn{border-color:var(--bad);color:var(--bad)}
+.kbb:hover{background:var(--soft)}
+.kbb.on{background:var(--ink);color:#fff}
+.kbb.warn.on{background:var(--bad);border-color:var(--bad);color:#fff}
+#pv-kb{flex:1 1 0;min-height:0;overflow:auto;border-top:1px solid #33343a;padding-top:12px}
+#pv-kb:empty{display:none}
+.pv-kbi{font-size:15.5px;line-height:1.55;color:#b9b9c0;padding-left:12px;border-left:3px solid #8d8e96;margin-bottom:14px}
+.pv-kbi.warn{border-left-color:var(--bad)}
+.pv-kbi>b{display:block;font-size:13px;letter-spacing:.1em;color:#8d8e96;margin-bottom:2px}
+.pv-kbi.warn>b{color:#e08a76}
+.pv-kbi p+p{margin-top:.4em}.pv-kbi ul{padding-left:1.1em}

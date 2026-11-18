@@ -313,7 +313,7 @@
     draw(false);
   });
 
-  /* ---------- weights-curve (p1-weights): 관측 기간만 바꾸면 가중치와 계수가 달라진다 (덱 10장) ---------- */
+  /* ---------- weights-curve (p1-weights): 관측 기간만 바꾸면 가중치와 계수가 달라진다 (덱 11장) ---------- */
   GV.reg('weights-curve', host => {
     const W = 660, H = 400;
     const st = { k: 'base', gap: 2 };
@@ -566,7 +566,7 @@
       '2x2': { name: '2×2 (덱 4장)', u: ['T', 'C'], p: ['0기', '1기'], G: [1, null], Y: [[50, 60], [30, 34]] },
       'el': { name: 'E와 L (덱 6장)', u: ['E', 'L'], p: ['1기', '2기', '3기'], G: [1, 2], Y: [[0, 2, 10], [0, 0, 2]] },
       'abc': { name: 'A, B, C (1부 표)', u: ['A', 'B', 'C'], p: ['1기', '2기', '3기', '4기', '5기', '6기'], G: [1, 3, 5], Y: null },
-      'ukl': { name: 'U, k, l (덱 9장)', u: ['U', 'k', 'l'], p: ['1기', '2기', '3기', '4기', '5기'], G: [null, 1, 3], Y: null }
+      'ukl': { name: 'U, k, l (덱 10장)', u: ['U', 'k', 'l'], p: ['1기', '2기', '3기', '4기', '5기'], G: [null, 1, 3], Y: null }
     };
     let set = 'el', G = SETS.el.G.slice(), view = 0, M = null;
     const VIEW = ['D', 'mean', 'calc', 'Dhat', 'Dtil', 'w'];

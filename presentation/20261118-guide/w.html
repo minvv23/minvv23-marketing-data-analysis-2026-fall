@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko" data-theme="light" class="solo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>도식</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../learning/assets/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/katex.min.css'">
+<link rel="stylesheet" href="guide.css">
+<style>
+html.solo,html.solo body{background:transparent;margin:0;padding:0;overflow:hidden;height:100%}
+html.solo body{display:flex;justify-content:center;align-items:flex-start}
+#solo .widget{margin:0;border:0;border-radius:0;padding:2px 4px;background:transparent}
+#solo .wt,#solo .wh,#solo .wnote,#solo .vbar,#solo .vcalc{display:none}
+#solo .vcap{min-height:0}
+</style>
+</head>
+<body>
+<div id="solo"></div>
+<script>(function () { var w = new URLSearchParams(location.search).get('w') || '', d = document.createElement('div'); d.className = 'widget'; d.setAttribute('data-w', w); document.getElementById('solo').appendChild(d); })();</script>
+<script src="stats.js"></script>
+<script src="simcore.js"></script>
+<script src="viz-kit.js"></script>
+<script src="viz-math.js"></script>
+<script src="viz-p1.js"></script>
+<script src="viz-p2.js"></script>
+<script src="viz-p3.js"></script>
+<script src="widgets.js"></script>
+<script>(function () {
+  var q = new URLSearchParams(location.search), NW = +(q.get('nw') || 660), root = document.getElementById('solo');
+  var host = root.querySelector('.widget'), states = [[]], cur = -1, H = 0, ready = false;
+  root.style.width = NW + 'px';
+  function act(a) {
+    if (a[0] === 'step') { var d = host.querySelectorAll('.vdots i')[a[1]]; if (d) d.click(); }
+    else if (a[0] === 'seg') { var g = host.querySelectorAll('.ctrls .seg')[a[1]], b = g && g.children[a[2]]; if (b && b.getAttribute('aria-pressed') !== 'true') b.click(); }
+  }
+  function measure() {
+    root.style.zoom = 1; var m = 0;
+    states.forEach(function (s) { s.forEach(act); m = Math.max(m, host.offsetHeight); });
+    H = m; if (cur >= 0) (states[cur] || []).forEach(act);
+  }
+  function fit() {
+    if (!innerWidth || !innerHeight) return;
+    if (!H) measure();
+    var z = Math.min(innerWidth / NW, innerHeight / (H + 2)); root.style.zoom = z;
+  }
+  addEventListener('resize', fit);
+  addEventListener('message', function (e) {
+    var m = e.data; if (!m || !m.gw || e.source !== parent) return;
+    if (m.gw === 'states') { states = m.states || [[]]; H = 0; }
+    if (m.gw === 'set') { cur = m.b; (states[cur] || []).forEach(act); }
+    fit();
+  });
+  var KEYS = { ArrowRight: 'next', ' ': 'next', PageDown: 'next', Enter: 'next', ArrowDown: 'next', ArrowLeft: 'prev', PageUp: 'prev', Backspace: 'prev', ArrowUp: 'prev', Home: 'first', End: 'last', k: 'kb', K: 'kb', f: 'fs', F: 'fs', n: 'notes', N: 'notes', Escape: 'esc' };
+  addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target.matches && e.target.matches('input[type=range]') && /^Arrow/.test(e.key)) return;
+    var k = KEYS[e.key]; if (!k) return;
+    if (e.shiftKey && k === 'next') k = 'ns'; else if (e.shiftKey && k === 'prev') k = 'ps';
+    e.preventDefault(); e.stopPropagation(); if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    parent.postMessage({ deck: 'cmd', k: k }, '*');
+  }, true);
+  var acc = 0, lock = 0;
+  addEventListener('wheel', function (e) { e.preventDefault(); var now = Date.now(); if (now < lock) return; acc += e.deltaY; if (Math.abs(acc) < 40) return;
+    parent.postMessage({ deck: 'cmd', k: acc > 0 ? 'next' : 'prev' }, '*'); acc = 0; lock = now + 450; }, { passive: false });
+  window.__initAllWidgets && window.__initAllWidgets();
+  ready = true; fit(); if (parent !== window) parent.postMessage({ gw: 'ready' }, '*');
+})();</script>
+</body>
+</html>
