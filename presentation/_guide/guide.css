@@ -285,3 +285,39 @@ html.dv-run{view-transition-name:none}
 .toc .theme{margin:0 0 1.1rem}
 header.top .theme{margin:1rem 0 0}
 @media (min-width:961px){header.top .theme{display:none}}
+
+/* ---------- long-map: 넓은 형식에서 긴 형식으로 ---------- */
+.lmap{overflow-x:auto}
+.lmap table{border-collapse:separate;border-spacing:3px;width:auto;margin:0 auto;font-variant-numeric:tabular-nums}
+.lmap th,.lmap td{border:0;padding:0;text-align:center;vertical-align:middle}
+.lmap thead th{font-size:12.5px;color:var(--muted);font-weight:600;padding:0 .3rem .15rem;white-space:nowrap;border:0}
+.lm-wide{margin:0 0 1rem}
+.lm-wide tbody th{font-size:14px;font-weight:800;padding-right:.45rem}
+.lm-c{min-width:4.6rem;height:3.3rem;border-radius:4px;background:var(--soft);color:var(--ink);position:relative;cursor:default;transition:box-shadow .15s}
+.lm-c.tr{background:var(--cs);box-shadow:inset 0 0 0 1.5px var(--cc)}
+.lm-c b{font-size:18px;font-weight:800;display:block;line-height:1;margin-top:.9rem}
+.lm-lab{position:absolute;left:.35rem;top:.2rem;font-size:11px;color:var(--muted);font-weight:600}
+.lm-long td{font-size:14px;padding:.32rem .5rem;background:var(--bg);border-radius:3px;transition:opacity .35s,background-color .15s}
+.lm-long tbody tr{cursor:default}
+.lm-long .lm-no{color:var(--faint);font-size:12px;padding:.32rem .2rem}
+.lm-name span{display:inline-block;padding:.12rem .45rem;border-radius:4px;background:var(--soft);font-weight:700;color:var(--cc);white-space:nowrap}
+.lm-name span.tr{background:var(--cs);box-shadow:inset 0 0 0 1.5px var(--cc)}
+.lm-long td.on{font-weight:800;color:var(--ink)}
+.lm-long td.on.du{background:var(--soft);box-shadow:inset 0 -2px 0 var(--ink)}
+.lm-long td.on.dt{background:var(--soft);box-shadow:inset 0 -2px 0 var(--muted)}
+.lm-long td:not(.on).g2{color:var(--faint)}
+.lmap.s0 .lm-name span,.lmap.s0 .lm-long .g1 b{visibility:hidden}
+.lmap.s0 .lm-name{outline:1.5px dashed var(--faint);outline-offset:-2px}
+.lmap .g2,.lmap .g3{transition:opacity .4s}
+.lmap.s0 .g2,.lmap.s1 .g2,.lmap.s0 .g3,.lmap.s1 .g3,.lmap.s2 .g3{opacity:0}
+.lmap .lk{box-shadow:inset 0 0 0 2.5px var(--ink)!important}
+.lm-long tr.lk td{background:var(--c1-soft)}
+
+/* panel-resid 계산 단계: 칸마다 행 평균 + 열 평균 − 전체 평균 */
+.ptab.v-calc td.c{min-width:6.4rem;height:3.1rem;line-height:1.25}
+.ptab td.c .x{display:block;font-size:11.5px;font-weight:600;color:var(--body);white-space:nowrap}
+.ptab td.c .x i{font-style:normal}
+.ptab .xr{color:var(--cc)}
+.ptab .xg,.ptab td.m.xg{color:var(--muted)}
+.ptab td.c .xv{display:block;font-size:14px;font-weight:800;color:var(--ink)}
+.lmap tbody tr:last-child td{border-bottom:0}

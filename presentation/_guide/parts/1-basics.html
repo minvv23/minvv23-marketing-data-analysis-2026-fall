@@ -321,20 +321,11 @@
 
 <h4>더미 회귀의 적합값과 잔차</h4>
 
-<p><tex>D</tex>를 단위 더미와 시점 더미에 회귀한다는 말은 자료를 회귀가 읽는 형태로 놓으면 구체적으로 이해된다. 회귀는 칸 하나를 행 하나로 놓은 긴 형식(long format)의 자료를 읽는다. 덱 6장의 E와 L 예에서 칸은 여섯 개이고 단위 더미는 그 칸이 E의 칸인지 L의 칸인지, 시점 더미는 몇 기의 칸인지를 1과 0으로 적은 열이다.</p>
+<p><tex>D</tex>를 단위 더미와 시점 더미에 회귀한다는 말은 자료를 회귀가 읽는 형태로 놓으면 구체적으로 이해된다. 회귀는 칸 하나를 행 하나로 놓은 긴 형식(long format)의 자료를 읽는다. 덱 6장의 E와 L 예에서 칸은 여섯 개이고 단위 더미는 그 칸이 E의 칸인지 L의 칸인지, 시점 더미는 몇 기의 칸인지를 1과 0으로 적은 열이다. 아래 도식에서 다음을 누르면 넓은 형식 표의 여섯 칸이 긴 형식 표의 여섯 행으로 옮겨 가고, 이어서 더미 열과 적합값, 잔차 열이 붙는다.</p>
 
-<div class="tbl"><table>
-<thead><tr><th>칸</th><th class="n" data-k="D"><tex>D</tex></th><th class="n">E 더미</th><th class="n">L 더미</th><th class="n">1기 더미</th><th class="n">2기 더미</th><th class="n">3기 더미</th><th class="n" data-k="Dhat">적합값 <tex>\widehat{D}</tex></th><th class="n" data-k="Dtil">잔차 <tex>\tilde D</tex></th></tr></thead>
-<tbody>
-<tr><td>E 1기</td><td class="n" data-k="D">0</td><td class="n">1</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n" data-k="Dhat">1/6</td><td class="n" data-k="Dtil">−1/6</td></tr>
-<tr><td>E 2기</td><td class="n" data-k="D">1</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n" data-k="Dhat">2/3</td><td class="n" data-k="Dtil">1/3</td></tr>
-<tr><td>E 3기</td><td class="n" data-k="D">1</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">1</td><td class="n" data-k="Dhat">7/6</td><td class="n neg" data-k="Dtil">−1/6</td></tr>
-<tr><td>L 1기</td><td class="n" data-k="D">0</td><td class="n">0</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n" data-k="Dhat">−1/6</td><td class="n" data-k="Dtil">1/6</td></tr>
-<tr><td>L 2기</td><td class="n" data-k="D">0</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n" data-k="Dhat">1/3</td><td class="n" data-k="Dtil">−1/3</td></tr>
-<tr><td>L 3기</td><td class="n" data-k="D">1</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">1</td><td class="n" data-k="Dhat">5/6</td><td class="n" data-k="Dtil">1/6</td></tr>
-</tbody></table></div>
+<div class="widget" data-w="long-map"></div>
 
-<p>회귀는 <tex>D</tex> 열을 다섯 개의 더미 열에 상수를 곱하여 더한 조합으로 가장 가깝게(잔차 제곱합이 최소가 되게) 맞춘다. 그렇게 맞춘 열이 적합값 <tex>\widehat{D}</tex>이고 실제 <tex>D</tex>와의 차이가 잔차 <tex>\tilde D = D - \widehat{D}</tex>다. 위 표의 적합값은 E 더미에 1/6, L 더미에 −1/6, 1기, 2기, 3기 더미에 각각 0, 1/2, 1을 곱하여 더한 열이다(E 3기는 1/6 + 1 = 7/6). 더미의 조합으로 만들 수 있는 열은 이처럼 단위마다 정해진 값과 시점마다 정해진 값의 합뿐이다. 적합값은 어느 단위인지와 어느 시점인지만 알 때 예상되는 처치 정도이고 잔차는 그 예상에서 벗어난 처치의 변동이다. 상수항과 모든 더미를 함께 투입하면 열 하나가 나머지의 조합이 되므로 소프트웨어는 더미 하나를 제외하고 추정하지만 적합값과 잔차는 달라지지 않는다.</p>
+<p>회귀는 <tex>D</tex> 열을 다섯 개의 더미 열에 상수를 곱하여 더한 조합으로 가장 가깝게(잔차 제곱합이 최소가 되게) 맞춘다. 그렇게 맞춘 열이 적합값 <tex>\widehat{D}</tex>이고 실제 <tex>D</tex>와의 차이가 잔차 <tex>\tilde D = D - \widehat{D}</tex>다. 위 도식 마지막 단계의 적합값은 E 더미에 1/6, L 더미에 −1/6, 1기, 2기, 3기 더미에 각각 0, 1/2, 1을 곱하여 더한 열이다(E 3기는 1/6 + 1 = 7/6). 더미의 조합으로 만들 수 있는 열은 이처럼 단위마다 정해진 값과 시점마다 정해진 값의 합뿐이다. 적합값은 어느 단위인지와 어느 시점인지만 알 때 예상되는 처치 정도이고 잔차는 그 예상에서 벗어난 처치의 변동이다. 상수항과 모든 더미를 함께 투입하면 열 하나가 나머지의 조합이 되므로 소프트웨어는 더미 하나를 제외하고 추정하지만 적합값과 잔차는 달라지지 않는다.</p>
 
 <p>단위 더미의 계수를 <tex>a_i</tex>, 시점 더미의 계수를 <tex>b_t</tex>라고 부르면 각 계수의 의미는 다음과 같다. 학생과 시험으로 이루어진 성적표에서 누구의 점수인지와 어느 시험인지만 알고 점수를 예측한다면 "그 학생의 평소 실력 + 그 시험의 난이도" 형태가 최선이다. 이 표에서 예측 대상은 점수 대신 처치변수 <tex>D</tex>이고 구조는 같다.</p>
 <ul>

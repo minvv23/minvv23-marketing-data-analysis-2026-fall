@@ -500,7 +500,9 @@
       'ukl': { name: 'U, k, l (덱 9장)', u: ['U', 'k', 'l'], p: ['1기', '2기', '3기', '4기', '5기'], G: [null, 1, 3], Y: null }
     };
     let set = 'el', G = SETS.el.G.slice(), view = 0, M = null;
-    const VIEW = ['D', 'mean', 'Dhat', 'Dtil', 'w'];
+    const VIEW = ['D', 'mean', 'calc', 'Dhat', 'Dtil', 'w'];
+    const isM = v => v === 'mean' || v === 'calc' || v === 'Dhat', isR = v => v === 'Dtil' || v === 'w';
+    let walkT = [];
     function calc() {
       const S = SETS[set], N = S.u.length, T = S.p.length;
       const D = S.u.map((_, i) => S.p.map((_, t) => G[i] != null && t >= G[i] ? 1 : 0));
@@ -519,7 +521,8 @@
       steps: [
         '처치변수 D다. 행은 단위, 열은 시점이며 색칠된 칸이 도입 이후(D = 1)다. 이 단계에서 칸을 누르면 그 단위의 도입 시점이 그 칸으로 바뀐다(같은 칸을 다시 누르면 미처치).',
         '세 가지 평균을 구한다. 오른쪽 여백은 행 평균 D̄ᵢ(그 단위가 처치된 기간의 비율), 아래 여백은 열 평균 D̄ₜ(그 시점에 처치된 단위의 비율), 오른쪽 아래는 전체 평균 D̄다.',
-        '적합값 D̂ = D̄ᵢ + D̄ₜ − D̄다. 어느 단위인지와 어느 시점인지만으로 예측한 처치 정도이며 1을 초과하거나 0보다 작은 칸은 점선 테두리로 표시한다.',
+        '적합값을 계산한다. 각 칸에 그 칸이 속한 행의 평균(오른쪽 여백, 단위 색)과 열의 평균(아래 여백, 검정)을 더하고 전체 평균(오른쪽 아래, 회색)을 한 번 차감한다. 행 평균과 열 평균에는 모든 칸에 공통인 전체 처치 수준이 한 번씩 들어 있어 두 번 더해지므로 한 번 차감하는 것이다. 칸을 하나씩 짚으며 사용하는 평균 세 개를 강조한다.',
+        '계산 결과가 적합값 D̂ = D̄ᵢ + D̄ₜ − D̄다. 어느 단위인지와 어느 시점인지만으로 예측한 처치 정도이며 1을 초과하거나 0보다 작은 칸은 점선 테두리로 표시한다.',
         '잔차 D̃ = D − D̂다. 여백이 행 합과 열 합으로 바뀌며 모두 0이다. 이는 잔차가 모든 단위 더미, 시점 더미와 직교한다는 조건과 같다.',
         '가중치 w = D̃ / ΣD̃²다. 처치된 칸(굵은 숫자)의 가중치를 더하면 1이고 붉은 칸은 음의 가중치를 받는 처치 칸이다.'
       ],
@@ -531,15 +534,17 @@
         function cellTxt(i, t) {
           const v = VIEW[view];
           if (v === 'D' || v === 'mean') return String(M.D[i][t]);
+          if (v === 'calc') return `<span class="x"><i class="xr">${FR(M.Di[i])}</i> + <i class="xc">${FR(M.Dt[t])}</i> − <i class="xg">${FR(M.Db)}</i></span><span class="xv">= ${FR(M.Dh[i][t])}</span>`;
           if (v === 'Dhat') return FR(M.Dh[i][t]);
           if (v === 'Dtil') return FR(M.Dr[i][t]);
           return isNaN(M.w[i][t]) ? '−' : FR(M.w[i][t]);
         }
         function summary() {
           const v = VIEW[view], S = M.S;
-          if (M.ss < 1e-12 && view >= 3) return '<span class="neg">모든 칸의 처치 상태가 고정효과로 정확히 설명되어 잔차가 모두 0이다. 처치의 변동이 없으므로 TWFE 계수를 계산할 수 없다.</span>';
+          if (M.ss < 1e-12 && isR(v)) return '<span class="neg">모든 칸의 처치 상태가 고정효과로 정확히 설명되어 잔차가 모두 0이다. 처치의 변동이 없으므로 TWFE 계수를 계산할 수 없다.</span>';
           if (v === 'D') return `처치된 칸 ${M.D.flat().filter(x => x).length}개, 전체 ${M.N * M.T}칸. 칸에 마우스를 올리면(휴대폰에서는 탭하면) 그 칸의 계산이 여기에 표시된다.`;
           if (v === 'mean') return `전체 평균 D̄ = ${FR(M.Db)}. 행 평균들의 평균과 열 평균들의 평균이 모두 전체 평균과 같다(균형패널).`;
+          if (v === 'calc') return `각 칸 = 행 평균 + 열 평균 − 전체 평균 ${FR(M.Db)}. 칸에 마우스를 올리면 그 칸에 사용한 평균 세 개가 강조된다.`;
           if (v === 'Dhat') { const over = []; M.Dh.forEach((r, i) => r.forEach((x, t) => { if (x > 1 + 1e-9 || x < -1e-9) over.push(`${S.u[i]} ${S.p[t]} (${FR(x)})`); })); return over.length ? `0과 1 밖의 적합값: ${over.join(', ')}. 선형 예측이므로 이런 칸이 생긴다.` : '모든 적합값이 0과 1 사이에 있다.'; }
           if (v === 'Dtil') return `잔차 제곱합 ΣD̃² = ${FR(M.ss)}. 행 합과 열 합이 모두 0이다.`;
           const neg = []; let sw = 0; M.w.forEach((r, i) => r.forEach((x, t) => { if (M.D[i][t]) { sw += x; if (x < -1e-9) neg.push(`${S.u[i]} ${S.p[t]} (${FR(x)})`); } }));
@@ -547,15 +552,15 @@
         }
         function explain(i, t, m) {
           const S = M.S, v = VIEW[view], u = S.u[i], p = S.p[t];
-          if (m === 'row' && view === 4) return `${u}의 처치된 칸 가중치 합 = ${SUM(M.w[i].filter((x, t) => M.D[i][t])) || '0'}`;
-          if (m === 'col' && view === 4) return `${p}의 처치된 칸 가중치 합 = ${SUM(M.w.filter((r, j) => M.D[j][t]).map(r => r[t])) || '0'}`;
-          if (m === 'all' && view === 4) return '처치된 모든 칸의 가중치 합은 언제나 1이다(위 유도의 결론).';
-          if (m === 'row') return `${u}의 행 평균 D̄ = (${M.D[i].join(' + ')}) / ${M.T} = ${FR(M.Di[i])}` + (view >= 3 ? `. 이 단계의 여백은 잔차의 행 합 ${SUM(M.Dr[i])} = 0이다.` : '');
-          if (m === 'col') return `${p}의 열 평균 D̄ = (${M.D.map(r => r[t]).join(' + ')}) / ${M.N} = ${FR(M.Dt[t])}` + (view >= 3 ? `. 이 단계의 여백은 잔차의 열 합 ${SUM(M.Dr.map(r => r[t]))} = 0이다.` : '');
+          if (m === 'row' && v === 'w') return `${u}의 처치된 칸 가중치 합 = ${SUM(M.w[i].filter((x, t) => M.D[i][t])) || '0'}`;
+          if (m === 'col' && v === 'w') return `${p}의 처치된 칸 가중치 합 = ${SUM(M.w.filter((r, j) => M.D[j][t]).map(r => r[t])) || '0'}`;
+          if (m === 'all' && v === 'w') return '처치된 모든 칸의 가중치 합은 언제나 1이다(위 유도의 결론).';
+          if (m === 'row') return `${u}의 행 평균 D̄ = (${M.D[i].join(' + ')}) / ${M.T} = ${FR(M.Di[i])}` + (isR(v) ? `. 이 단계의 여백은 잔차의 행 합 ${SUM(M.Dr[i])} = 0이다.` : '');
+          if (m === 'col') return `${p}의 열 평균 D̄ = (${M.D.map(r => r[t]).join(' + ')}) / ${M.N} = ${FR(M.Dt[t])}` + (isR(v) ? `. 이 단계의 여백은 잔차의 열 합 ${SUM(M.Dr.map(r => r[t]))} = 0이다.` : '');
           if (m === 'all') return `전체 평균 D̄ = 처치된 칸 ${M.D.flat().filter(x => x).length}개 / ${M.N * M.T}칸 = ${FR(M.Db)}`;
           if (v === 'D') return `${u} ${p}: D = ${M.D[i][t]}. ${M.D[i][t] ? '도입 이후의 칸이다.' : '도입 이전이거나 미처치인 칸이다.'}`;
           if (v === 'mean') return `${u} ${p}: 이 칸의 적합값에 들어갈 평균은 행 평균 ${FR(M.Di[i])}, 열 평균 ${FR(M.Dt[t])}, 전체 평균 ${FR(M.Db)}이다.`;
-          if (v === 'Dhat') return `${u} ${p}: D̂ = D̄(${u}) ${FR(M.Di[i])} + D̄(${p}) ${FR(M.Dt[t])} − D̄ ${FR(M.Db)} = <b>${FR(M.Dh[i][t])}</b>`;
+          if (v === 'Dhat' || v === 'calc') return `${u} ${p}: D̂ = ${u}의 행 평균 ${FR(M.Di[i])} + ${p}의 열 평균 ${FR(M.Dt[t])} − 전체 평균 ${FR(M.Db)} = <b>${FR(M.Dh[i][t])}</b>`;
           if (v === 'Dtil') return `${u} ${p}: D̃ = D ${M.D[i][t]} − D̂ ${FR(M.Dh[i][t])} = <b>${FR(M.Dr[i][t])}</b>`;
           return `${u} ${p}: w = D̃ ${FR(M.Dr[i][t])} / ΣD̃² ${FR(M.ss)} = <b>${FR(M.w[i][t])}</b>${M.D[i][t] ? '' : ' (미처치 칸은 효과 항이 0이므로 계수에 기여하지 않는다)'}`;
         }
@@ -563,43 +568,57 @@
         function draw() {
           M = calc(); const S = M.S, v = VIEW[view];
           const wr = M.D.map((r, i) => r.reduce((a, d, t) => a + (d ? M.w[i][t] : 0), 0)), wc = S.p.map((_, t) => M.D.reduce((a, r, i) => a + (r[t] ? M.w[i][t] : 0), 0));
-          const okW = M.ss > 1e-12, mh = ['', '단위 평균', '단위 평균', '행 합', '처치 칸 합'][view], mf = ['', '시점 평균', '시점 평균', '열 합', '처치 칸 합'][view];
-          const mrow = i => view === 0 ? '' : view <= 2 ? FR(M.Di[i]) : view === 3 ? '0' : (okW ? FR(wr[i]) : '');
-          const mcol = t => view === 0 ? '' : view <= 2 ? FR(M.Dt[t]) : view === 3 ? '0' : (okW ? FR(wc[t]) : '');
-          const mall = view === 0 ? '' : view <= 2 ? FR(M.Db) : view === 3 ? '0' : (okW ? '1' : '');
+          const okW = M.ss > 1e-12, mh = { D: '', mean: '단위 평균', calc: '단위 평균', Dhat: '단위 평균', Dtil: '행 합', w: '처치 칸 합' }[v], mf = { D: '', mean: '시점 평균', calc: '시점 평균', Dhat: '시점 평균', Dtil: '열 합', w: '처치 칸 합' }[v];
+          const mrow = i => v === 'D' ? '' : isM(v) ? FR(M.Di[i]) : v === 'Dtil' ? '0' : (okW ? FR(wr[i]) : '');
+          const mcol = t => v === 'D' ? '' : isM(v) ? FR(M.Dt[t]) : v === 'Dtil' ? '0' : (okW ? FR(wc[t]) : '');
+          const mall = v === 'D' ? '' : isM(v) ? FR(M.Db) : v === 'Dtil' ? '0' : (okW ? '1' : '');
           let h = `<table class="ptab v-${v}"><thead><tr><th></th>${S.p.map(p => `<th>${p}</th>`).join('')}<th class="m">${mh}</th></tr></thead><tbody>`;
           S.u.forEach((u, i) => {
             h += `<tr><th style="color:var(--${M.col[i]})">${u}</th>`;
             S.p.forEach((p, t) => {
               const tr = M.D[i][t] === 1, c = M.col[i];
-              const cl = ['c', tr ? 'tr' : '', v === 'Dhat' && (M.Dh[i][t] > 1 + 1e-9 || M.Dh[i][t] < -1e-9) ? 'out' : '', (v === 'Dtil' || v === 'w') && M.Dr[i][t] < -1e-9 ? 'negv' : '', v === 'w' && tr && M.w[i][t] < -1e-9 ? 'negw' : '', v === 'w' && !tr ? 'dim' : ''].filter(Boolean).join(' ');
+              const cl = ['c', tr ? 'tr' : '', (v === 'Dhat' || v === 'calc') && (M.Dh[i][t] > 1 + 1e-9 || M.Dh[i][t] < -1e-9) ? 'out' : '', (v === 'Dtil' || v === 'w') && M.Dr[i][t] < -1e-9 ? 'negv' : '', v === 'w' && tr && M.w[i][t] < -1e-9 ? 'negw' : '', v === 'w' && !tr ? 'dim' : ''].filter(Boolean).join(' ');
               h += `<td class="${cl}" data-i="${i}" data-t="${t}" style="--cc:var(--${c});--cs:var(--${c}-soft)">${cellTxt(i, t)}</td>`;
             });
-            h += `<td class="m" data-m="row" data-i="${i}">${mrow(i)}</td></tr>`;
+            h += `<td class="m" data-m="row" data-i="${i}"${v === 'calc' ? ` style="color:var(--${M.col[i]})"` : ''}>${mrow(i)}</td></tr>`;
           });
-          h += `</tbody><tfoot><tr><th>${mf}</th>${S.p.map((p, t) => `<td class="m" data-m="col" data-t="${t}">${mcol(t)}</td>`).join('')}<td class="m g" data-m="all">${mall}</td></tr></tfoot></table>`;
+          h += `</tbody><tfoot><tr><th>${mf}</th>${S.p.map((p, t) => `<td class="m" data-m="col" data-t="${t}">${mcol(t)}</td>`).join('')}<td class="m g${v === 'calc' ? ' xg' : ''}" data-m="all">${mall}</td></tr></tfoot></table>`;
           wrap.innerHTML = h; tb = wrap.querySelector('table');
           wrap.querySelectorAll('td').forEach(td => { td.classList.add('chg'); });
           setInfo(summary());
         }
         wrap.addEventListener('pointerover', e => {
           const td = e.target.closest('td'); if (!td || !M) return;
+          stopWalk(); const v = VIEW[view];
           wrap.querySelectorAll('.lk').forEach(x => x.classList.remove('lk'));
           const m = td.dataset.m, i = +td.dataset.i, t = +td.dataset.t;
-          if (m === 'row') { if (view >= 1) { wrap.querySelectorAll(`td[data-i="${i}"]`).forEach(x => x.classList.add('lk')); setInfo(explain(i, 0, 'row')); } return; }
-          if (m === 'col') { if (view >= 1) { wrap.querySelectorAll(`td[data-t="${t}"]`).forEach(x => x.classList.add('lk')); setInfo(explain(0, t, 'col')); } return; }
-          if (m === 'all') { if (view >= 1) { wrap.querySelectorAll('td.c').forEach(x => x.classList.add('lk')); setInfo(explain(0, 0, 'all')); } return; }
+          if (m === 'row') { if (v !== 'D') { wrap.querySelectorAll(`td[data-i="${i}"]`).forEach(x => x.classList.add('lk')); setInfo(explain(i, 0, 'row')); } return; }
+          if (m === 'col') { if (v !== 'D') { wrap.querySelectorAll(`td[data-t="${t}"]`).forEach(x => x.classList.add('lk')); setInfo(explain(0, t, 'col')); } return; }
+          if (m === 'all') { if (v !== 'D') { wrap.querySelectorAll('td.c').forEach(x => x.classList.add('lk')); setInfo(explain(0, 0, 'all')); } return; }
           td.classList.add('lk');
-          if (view === 1 || view === 2) { const a = wrap.querySelector(`td[data-m="row"][data-i="${i}"]`), b = wrap.querySelector(`td[data-m="col"][data-t="${t}"]`), c = wrap.querySelector('td[data-m="all"]'); [a, b, c].forEach(x => x && x.classList.add('lk')); }
+          if (isM(v)) { const a = wrap.querySelector(`td[data-m="row"][data-i="${i}"]`), b = wrap.querySelector(`td[data-m="col"][data-t="${t}"]`), c = wrap.querySelector('td[data-m="all"]'); [a, b, c].forEach(x => x && x.classList.add('lk')); }
           setInfo(explain(i, t));
         });
         wrap.addEventListener('pointerleave', () => { wrap.querySelectorAll('.lk').forEach(x => x.classList.remove('lk')); if (M) setInfo(summary()); });
         wrap.addEventListener('click', e => {
-          const td = e.target.closest('td.c'); if (!td || view !== 0) return;
+          const td = e.target.closest('td.c'); if (!td || VIEW[view] !== 'D') return;
           const i = +td.dataset.i, t = +td.dataset.t; G[i] = G[i] === t ? null : t; draw();
           const n = wrap.querySelector(`td[data-i="${i}"][data-t="${t}"]`); if (n) { n.classList.add('lk'); setInfo(explain(i, t)); }
         });
-        return (stp) => { view = stp; draw(); };
+        // 계산 단계에서는 칸을 하나씩 짚으며 사용하는 행 평균, 열 평균, 전체 평균을 차례로 강조한다
+        function stopWalk() { walkT.forEach(clearTimeout); walkT = []; }
+        function walk() {
+          stopWalk(); if (GV.reduce) return;
+          const cells = []; M.S.u.forEach((_, i) => M.S.p.forEach((_, t) => cells.push([i, t])));
+          const gap = 1100 / (GV.speed || 1);
+          cells.forEach(([i, t], k) => walkT.push(setTimeout(() => {
+            wrap.querySelectorAll('.lk').forEach(x => x.classList.remove('lk'));
+            [wrap.querySelector(`td.c[data-i="${i}"][data-t="${t}"]`), wrap.querySelector(`td[data-m="row"][data-i="${i}"]`), wrap.querySelector(`td[data-m="col"][data-t="${t}"]`), wrap.querySelector('td[data-m="all"]')].forEach(x => x && x.classList.add('lk'));
+            setInfo(explain(i, t));
+          }, 500 + k * gap)));
+          walkT.push(setTimeout(() => { wrap.querySelectorAll('.lk').forEach(x => x.classList.remove('lk')); setInfo(summary()); }, 500 + cells.length * gap + 400));
+        }
+        return (stp, anim) => { view = stp; stopWalk(); draw(); if (VIEW[stp] === 'calc' && anim) walk(); };
       }
     });
   });
@@ -652,6 +671,59 @@
     const end = () => { drag = false; handle.style.cursor = 'grab'; };
     handle.addEventListener('pointerup', end); handle.addEventListener('pointercancel', end);
     upd();
+  });
+
+
+  /* ---------- long-map (p1-fwl): 넓은 형식의 여섯 칸을 긴 형식의 여섯 행으로 펼치고 더미 열, 적합값, 잔차를 붙인다 ---------- */
+  GV.reg('long-map', host => {
+    const FR = x => GV.frac(x);
+    const U = [{ u: 'E', col: 'c1', D: [0, 1, 1] }, { u: 'L', col: 'c2', D: [0, 0, 1] }], P = ['1기', '2기', '3기'];
+    const Di = U.map(r => r.D.reduce((a, b) => a + b, 0) / 3), Dt = P.map((_, t) => (U[0].D[t] + U[1].D[t]) / 2), Db = 0.5;
+    const rows = []; U.forEach((r, i) => P.forEach((p, t) => { const h = Di[i] + Dt[t] - Db; rows.push({ i, t, u: r.u, p, col: r.col, D: r.D[t], h, e: r.D[t] - h }); }));
+    let cur = 0, wrap, info;
+    const st = stepper(host, {
+      kind: '도식', title: '넓은 형식의 여섯 칸을 긴 형식의 여섯 행으로 (E와 L 예)', w: 10, h: 10,
+      steps: [
+        'E와 L 예를 단위(행) × 시점(열)의 넓은 형식으로 놓았다. 칸은 여섯 개이고 칸의 큰 숫자는 처치변수 D, 색칠된 칸은 처치된 칸이다.',
+        '회귀는 칸 하나를 행 하나로 놓은 긴 형식을 읽는다. 여섯 칸이 아래 표의 여섯 행으로 옮겨 간다. 위의 칸이나 아래의 행에 마우스를 올리면(휴대폰에서는 탭) 서로 대응하는 칸과 행이 함께 강조된다.',
+        '단위 더미는 그 행이 E의 칸인지 L의 칸인지를, 시점 더미는 몇 기의 칸인지를 1과 0으로 적은 열이다. 행마다 단위 더미 하나와 시점 더미 하나만 1이다. 예를 들어 E 3기 행은 E 더미와 3기 더미가 1이다.',
+        'D 열을 다섯 더미 열의 조합으로 가장 가깝게 맞춘 열이 적합값 D̂, 실제 D와의 차이가 잔차 D̃다. 적합값은 그 행에서 1인 두 더미의 계수를 더한 값이다(E 3기는 E 더미의 계수 1/6과 3기 더미의 계수 1의 합 7/6).'
+      ],
+      init(svg, F) {
+        wrap = GV.h('div', { cls: 'lmap' }); svg.replaceWith(wrap);
+        let h = '<div class="lm-wide"><table><thead><tr><th></th>' + P.map(p => `<th>${p}</th>`).join('') + '</tr></thead><tbody>';
+        U.forEach((r, i) => { h += `<tr><th style="color:var(--${r.col})">${r.u}</th>` + P.map((p, t) => `<td class="lm-c${r.D[t] ? ' tr' : ''}" data-r="${i * 3 + t}" style="--cc:var(--${r.col});--cs:var(--${r.col}-soft)"><span class="lm-lab">${r.u} ${p}</span><b>${r.D[t]}</b></td>`).join('') + '</tr>'; });
+        h += '</tbody></table></div>';
+        h += '<div class="lm-long"><table><thead><tr><th>행</th><th>칸</th><th class="n">D</th><th class="n g2">E 더미</th><th class="n g2">L 더미</th><th class="n g2">1기 더미</th><th class="n g2">2기 더미</th><th class="n g2">3기 더미</th><th class="n g3">적합값 D̂</th><th class="n g3">잔차 D̃</th></tr></thead><tbody>';
+        rows.forEach((r, k) => {
+          const dum = [r.u === 'E', r.u === 'L', r.t === 0, r.t === 1, r.t === 2].map((on, j) => `<td class="n g2${on ? ' on ' + (j < 2 ? 'du' : 'dt') : ''}">${on ? 1 : 0}</td>`).join('');
+          h += `<tr data-r="${k}"><td class="n lm-no">${k + 1}</td><td class="lm-name" style="--cc:var(--${r.col});--cs:var(--${r.col}-soft)"><span class="${r.D ? 'tr' : ''}">${r.u} ${r.p}</span></td><td class="n g1"><b>${r.D}</b></td>${dum}<td class="n g3">${FR(r.h)}</td><td class="n g3${r.e < -1e-9 ? ' neg' : ''}">${FR(r.e)}</td></tr>`;
+        });
+        h += '</tbody></table></div>';
+        wrap.innerHTML = h;
+        info = GV.h('div', { cls: 'pinfo' }, F.out);
+        const say = k => { if (k == null) { info.textContent = cur === 0 ? '칸에 마우스를 올리면 그 칸이 긴 형식의 몇 번째 행이 되는지 나온다.' : '위의 칸이나 아래의 행에 마우스를 올리면 대응 관계가 나온다.'; return; }
+          const r = rows[k], du = `${r.u} 더미 1, ${r.p} 더미 1, 나머지 더미 0`;
+          info.innerHTML = `<b>${r.u} ${r.p}</b>: 넓은 형식의 ${r.u} 행 ${r.p} 열 칸이 긴 형식의 ${k + 1}번째 행이다. D = ${r.D}` + (cur >= 2 ? `. ${du}` : '') + (cur >= 3 ? `. 적합값 D̂ = ${FR(r.h)}, 잔차 D̃ = ${FR(r.e)}` : '') + '.'; };
+        const lit = k => { wrap.querySelectorAll('.lk').forEach(x => x.classList.remove('lk')); if (k != null) wrap.querySelectorAll(`[data-r="${k}"]`).forEach(x => x.classList.add('lk')); say(k); };
+        wrap.addEventListener('pointerover', e => { const t = e.target.closest('[data-r]'); if (t) lit(+t.dataset.r); });
+        wrap.addEventListener('pointerleave', () => lit(null));
+        return (stp, anim) => {
+          const prev = cur; cur = stp;
+          wrap.className = 'lmap s' + stp;
+          if (anim && prev === 0 && stp === 1 && !GV.reduce) {
+            // 넓은 형식의 칸에서 긴 형식의 행 이름 칸으로 옮겨 가는 움직임(FLIP)
+            const dur = Math.round(800 / (GV.speed || 1));
+            rows.forEach((r, k) => {
+              const from = wrap.querySelector(`.lm-c[data-r="${k}"]`), to = wrap.querySelector(`tr[data-r="${k}"] .lm-name span`);
+              const a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+              to.animate([{ transform: `translate(${a.left - b.left}px,${a.top - b.top}px)`, opacity: 0.4 }, { transform: 'none', opacity: 1 }], { duration: dur, delay: k * 70, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'backwards' });
+            });
+          }
+          say(null);
+        };
+      }
+    });
   });
 
 })();
