@@ -555,7 +555,7 @@
 <tr><td>이미 처치된 단위</td><td>already-treated unit</td><td>비교 기간에 이미 처치 상태인 단위. TWFE에서는 나중 코호트의 비교집단으로도 사용된다.</td><td><a href="#p1-bad">1부 잘못된 비교</a></td></tr>
 <tr><td>문제 소지가 있는 2×2 (금지된 비교)</td><td>potentially problematic 2×2, forbidden comparison</td><td>나중 코호트를 이미 처치된 코호트와 비교하는 2×2.</td><td><a href="#p1-bad">1부 잘못된 비교</a></td></tr>
 <tr><td>미처치</td><td>never-treated</td><td>관측 기간 끝까지 처치받지 않는 단위.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
-<tr><td>Goodman-Bacon 분해</td><td>Goodman-Bacon decomposition</td><td>정적 TWFE 계수를 자료 안의 모든 2×2 DID의 가중평균으로 나누는 방법 (Goodman-Bacon 2021).</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
+<tr><td>Goodman-Bacon 분해</td><td>Goodman-Bacon decomposition</td><td>정적 TWFE 계수를 자료 안의 모든 2×2 DID의 가중평균으로 나누는 방법 (Goodman-Bacon 2021). 각 2×2의 가중치는 (부분표본 크기)² × (두 집단 크기의 균형) × s(1 − s)에 비례하고 s는 그 구간에서 움직이는 처치변수의 처치 비율이다.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
 <tr><td>확률극한</td><td>probability limit, plim</td><td>표본이 한없이 커질 때 추정치가 가까워지는 값. Goodman-Bacon 분해식이 TWFE 계수의 확률극한을 세 항으로 나눈다.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
 <tr><td>VWATT</td><td>variance-weighted ATT</td><td>각 2×2에서 처치집단의 실제 효과를 분해 가중치로 평균한 값. VWCT와 ΔATT가 모두 0이면 TWFE 계수가 이 값으로 수렴한다.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
 <tr><td>VWCT</td><td>variance-weighted common trends</td><td>각 2×2에서 두 집단의 미처치 추세 차이를 가중평균한 값. 평행추세가 성립하면 0이다.</td><td><a href="#p1-bacon">1부 분해</a></td></tr>
