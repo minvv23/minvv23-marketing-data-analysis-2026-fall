@@ -198,7 +198,7 @@
     <ul class="steps">
       <li data-n="01">비교집단의 범위는 CS가 가장 넓어서, 아직 미처치인 단위까지 허용한다.</li>
       <li data-n="02">공변량은 CS와 stacked에서 사용할 수 있다. CS는 회귀, <span class="tip" data-tip="Inverse probability weighting. 공변량으로 처치받을 확률을 추정하고 그 역수로 비교집단을 가중해 처치집단과 비슷하게 만든다.">역확률가중(IPW)</span>, <span class="tip" data-tip="Doubly robust. 종속변수의 회귀모형과 처치확률 모형 가운데 하나만 맞아도 일치추정량이 되는 방법.">이중강건</span> 추정을 제공한다.</li>
-      <li data-n="03">효과를 합치는 가중치는 CS와 SA에서 표본비중이고, stacked에서는 OLS가 정하는 분산 가중이다.</li>
+      <li data-n="03">CS와 SA는 처치 단위 수의 비중으로, stacked는 처치변수의 분산으로 효과를 합친다.</li>
       <li data-n="04">이 차이가 추정치에 나타난다. CS와 SA는 기준값 주위에 분포하고, stacked는 Sim 4와 6에서 기준값보다 크지만 폭이 절반 정도다.</li>
       <li data-n="05">저자들은 비교집단, 공변량, 추론의 선택지가 가장 많은 CS를 재분석에 주로 사용했고, TWFE와 가까운 방법을 원하는 연구자에게는 stacked를 권했다.</li>
     </ul>
