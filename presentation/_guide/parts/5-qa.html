@@ -62,7 +62,7 @@
 <div class="ans">
 <p>FWL 정리(Frisch-Waugh-Lovell theorem, 다른 독립변수를 먼저 제거한 잔차끼리 회귀해도 같은 계수를 얻는다는 정리)에 따르면 TWFE 계수는 처치 더미 D에서 단위 평균과 시점 평균을 제거한 잔차 D̃로 종속변수를 가중한 값이다 (<a href="#p1-fwl">1부</a>). 균형패널에서 D̃는 다음과 같다.</p>
 <div class="sym"><tex class="d">\tilde D_{it}=D_{it}-\left(\bar D_i+\bar D_t-\bar D\right),\qquad \hat\delta=\frac{\sum_{i,t}\tilde D_{it}Y_{it}}{\sum_{i,t}\tilde D_{it}^2}</tex></div>
-<p>괄호 안의 값은 단위 고정효과와 시점 고정효과만으로 D를 예측한 값이다. 오래전에 처치된 단위를 대부분의 단위가 처치된 늦은 시점에 관측하면 그 단위의 처치 비율 D̄<sub>i</sub>도 크고 그 시점의 처치 비율 D̄<sub>t</sub>도 커서 예측값이 1을 초과할 수 있다. 실제 D는 1을 초과할 수 없으므로 잔차가 음수가 된다.</p>
+<p>괄호 안의 값은 단위 고정효과와 시점 고정효과만으로 D를 예측한 적합값이며 말로 적으면 그 칸의 행 평균 + 그 칸의 열 평균 − 전체 평균이다. 오래전에 처치된 단위를 대부분의 단위가 처치된 늦은 시점에 관측하면 그 단위의 처치 비율 D̄<sub>i</sub>도 크고 그 시점의 처치 비율 D̄<sub>t</sub>도 커서 예측값이 1을 초과할 수 있다. 실제 D는 1을 초과할 수 없으므로 잔차가 음수가 된다.</p>
 <p>E, L 예제에서 E의 3기는 D̄<sub>E</sub> = 2/3, D̄<sub>3</sub> = 1, D̄ = 1/2이므로 예측값이 2/3 + 1 − 1/2 = 7/6이고 D̃ = 1 − 7/6 = −1/6이다 (<a class="deck" data-s="7" data-b="0">덱 7장</a>). 회귀는 실제로 처치된 이 칸을 예상보다 덜 처치된 관측, 곧 비교집단 쪽 관측처럼 사용한다. 그 칸의 결과가 클수록 계수는 낮아진다.</p>
 <aside class="note warn" data-label="헷갈리기 쉬운 점"><p>D̃가 음수인 칸도 실제로는 처치된 칸이다. 음수 부호는 단위와 시점의 평균적 패턴을 제거한 뒤의 값에 붙은 것이다 (심층요약 4절).</p></aside>
 </div>
@@ -550,7 +550,7 @@
 <tr><td>단위 고정효과</td><td>unit fixed effects</td><td>단위마다 다른 절편. 시간에 따라 변하지 않는 수준 차이를 흡수한다.</td><td><a href="#p1-twfe">1부 TWFE</a></td></tr>
 <tr><td>시점(연도) 고정효과</td><td>time (year) fixed effects</td><td>시점마다 다른 절편. 모든 단위에 공통인 충격을 흡수한다.</td><td><a href="#p1-twfe">1부 TWFE</a></td></tr>
 <tr><td>FWL 정리</td><td>Frisch-Waugh-Lovell theorem</td><td>다른 독립변수를 먼저 제거한 잔차끼리 회귀해도 같은 계수를 얻는다는 정리.</td><td><a href="#p1-fwl">1부 FWL</a></td></tr>
-<tr><td>처치변수 잔차</td><td>residualized treatment, D̃</td><td>D에서 단위 평균과 시점 평균을 제거하고 전체 평균을 더한 값. TWFE 계수는 ΣD̃Y / ΣD̃²이다.</td><td><a href="#p1-fwl">1부 FWL</a></td></tr>
+<tr><td>처치변수 잔차</td><td>residualized treatment, D̃</td><td>D − 적합값. 적합값은 그 칸의 행 평균 + 열 평균 − 전체 평균이므로 D̃ = D − 행 평균 − 열 평균 + 전체 평균이다. TWFE 계수는 ΣD̃Y / ΣD̃²이다.</td><td><a href="#p1-fwl">1부 FWL</a></td></tr>
 <tr><td>음의 가중치</td><td>negative weights</td><td>TWFE 계수를 처치된 칸별 효과의 가중합으로 썼을 때 일부 처치된 칸이 받는 음수 가중치.</td><td><a href="#p1-negw">1부 음의 가중치</a></td></tr>
 <tr><td>이미 처치된 단위</td><td>already-treated unit</td><td>비교 기간에 이미 처치 상태인 단위. TWFE에서는 나중 코호트의 비교집단으로도 사용된다.</td><td><a href="#p1-bad">1부 잘못된 비교</a></td></tr>
 <tr><td>문제 소지가 있는 2×2 (금지된 비교)</td><td>potentially problematic 2×2, forbidden comparison</td><td>나중 코호트를 이미 처치된 코호트와 비교하는 2×2.</td><td><a href="#p1-bad">1부 잘못된 비교</a></td></tr>

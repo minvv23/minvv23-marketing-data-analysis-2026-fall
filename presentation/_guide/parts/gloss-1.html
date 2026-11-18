@@ -44,10 +44,10 @@
 <dd><p>모든 칸의 처치변수 평균이다. 처치된 칸이 전체 칸에서 차지하는 비율과 같다. 균형패널에서는 단위 평균들의 평균이기도 하고 시점 평균들의 평균이기도 하다.</p><span class="ex">E와 L 예: 여섯 칸 가운데 세 칸이 1이므로 1/2.</span></dd>
 
 <dt data-k="Dhat"><tex>\widehat{D}_{it}</tex> 처치변수의 적합값</dt>
-<dd><p><tex>D</tex>를 단위 더미와 시점 더미에 회귀해 얻은 예측값이다. 어느 단위인지와 어느 시점인지만 알 때 예상되는 처치 정도라고 읽는다. 균형패널에서는 <tex>\bar D_i + \bar D_t - \bar D</tex>다. 선형 예측이므로 0보다 작거나 1보다 클 수 있다.</p><span class="ex">E와 L 예: E 3기는 2/3 + 1 − 1/2 = 7/6.</span></dd>
+<dd><p><strong>그 칸의 행 평균 + 그 칸의 열 평균 − 전체 평균</strong>(균형패널). <tex>D</tex>를 단위 더미와 시점 더미에 회귀해 얻은 예측값이다. 어느 단위인지와 어느 시점인지만 알 때 예상되는 처치 정도라고 읽는다. 균형패널에서는 <tex>\bar D_i + \bar D_t - \bar D</tex>다. 선형 예측이므로 0보다 작거나 1보다 클 수 있다.</p><span class="ex">E와 L 예: E 3기는 2/3 + 1 − 1/2 = 7/6.</span></dd>
 
 <dt data-k="Dtil"><tex>\tilde D_{it}</tex> 처치변수의 잔차</dt>
-<dd><p>실제 처치변수에서 적합값을 차감한 값 <tex>D_{it} - \widehat{D}_{it}</tex>다. 단위와 시점으로 예측되지 않는 처치의 변동이며 TWFE 계수는 이 변동만 사용한다. 단위별 합과 시점별 합이 모두 0이다. 물결(tilde)은 이 가이드에서 잔차를 표시한다.</p><span class="ex">E와 L 예: E 3기는 1 − 7/6 = −1/6.</span></dd>
+<dd><p><strong><tex>D</tex> − 적합값 = <tex>D</tex> − 행 평균 − 열 평균 + 전체 평균</strong>. 실제 처치변수에서 적합값을 차감한 값 <tex>D_{it} - \widehat{D}_{it}</tex>다. 단위와 시점으로 예측되지 않는 처치의 변동이며 TWFE 계수는 이 변동만 사용한다. 단위별 합과 시점별 합이 모두 0이다. 물결(tilde)은 이 가이드에서 잔차를 표시한다.</p><span class="ex">E와 L 예: E 3기는 1 − 7/6 = −1/6.</span></dd>
 
 <dt data-k="w"><tex>w_{it}</tex> 칸별 가중치</dt>
 <dd><p>TWFE 계수가 칸 <tex>(i, t)</tex>의 효과를 평균할 때 주는 비중 <tex>\tilde D_{it} / \sum \tilde D^2</tex>다. 처치된 칸의 가중치를 모두 더하면 1이지만 개별 가중치는 음수일 수 있다.</p><span class="ex">E와 L 예: E 2기 1, E 3기 −1/2, L 3기 1/2.</span></dd>

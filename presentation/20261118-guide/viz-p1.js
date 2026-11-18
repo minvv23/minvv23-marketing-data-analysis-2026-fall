@@ -134,8 +134,8 @@
       steps: [
         'E는 2기에, L은 3기에 도입한다. 칸의 큰 숫자는 처치변수 D이며 오른쪽 위 작은 숫자는 종속변수 Y다(덱 6장의 효과 2, 10, 2, 미처치 결과는 0).',
         '단위 평균을 제거한다. E는 세 기 가운데 두 기 처치되어 단위 평균이 2/3, L은 1/3이다. 칸의 값은 D에서 단위 평균을 차감한 값이 된다.',
-        '시점 평균을 제거하고 전체 평균 1/2을 더한다. 시점별 처치 비율은 0, 1/2, 1이다. 남은 값이 잔차 D̃이며 행의 합과 열의 합이 모두 0이다.',
-        'E의 3기는 실제로 처치된 칸인데 D̃가 −1/6로 음수다. 고정효과만으로 예측한 처치 정도가 2/3 + 1 − 1/2 = 7/6로 1을 초과하기 때문이다.',
+        '시점 평균을 제거하고 전체 평균 1/2을 더한다. 시점별 처치 비율은 0, 1/2, 1이다. 남은 값이 잔차 D̃이며 행의 합과 열의 합이 모두 0이다. D에서 적합값(그 칸의 행 평균 + 그 칸의 열 평균 − 전체 평균)을 차감한 값과 같다.',
+        'E의 3기는 실제로 처치된 칸인데 D̃가 −1/6로 음수다. 적합값 = E의 행 평균 2/3 + 3기의 열 평균 1 − 전체 평균 1/2 = 7/6로 1을 초과하기 때문이다(D̃ = 1 − 7/6).',
         '여섯 칸을 점으로 옮겨 가로축에 D̃, 세로축에 Y를 둔다. FWL 정리에 따르면 TWFE 계수는 이 산점도에 맞춘 직선의 기울기 ΣD̃Y / ΣD̃²다.',
         '직선의 기울기는 −2다. 효과가 가장 큰 E 3기(Y = 10)가 D̃ &lt; 0 쪽에 놓여 직선의 왼쪽을 끌어올리므로 처치효과가 모두 양수인데도 기울기가 음수가 된다.',
         '위 슬라이더로 E 3기의 효과를 바꿀 수 있다. 효과가 2이면 기울기는 2, 6이면 0, 10이면 −2다. 계수는 3 − (E 3기 효과)/2로 움직인다.'
@@ -165,7 +165,7 @@
         const colm = [0, 1, 2].map(t => s('text', { x: gx(t), y: 281, 'text-anchor': 'middle', css: 'fill:var(--ink);font-weight:800;font-size:16px', text: FR(Dt[t]), opacity: 0 }, grid));
         const allm = s('text', { x: 535, y: 281, 'text-anchor': 'middle', css: 'fill:var(--ink);font-weight:800;font-size:15px', text: '전체 1/2', opacity: 0 }, grid);
         const note = s('text', { x: gx(2), y: 326, 'text-anchor': 'middle', css: 'fill:var(--bad);font-weight:700;font-size:13.5px', text: '예측 7/6이 1을 초과해 잔차가 음수', opacity: 0 }, grid);
-        const formula = s('text', { x: 345, y: 362, 'text-anchor': 'middle', css: 'fill:var(--muted);font-size:14px', text: 'D̃ = D − 단위 평균 − 시점 평균 + 전체 평균' }, grid);
+        const formula = s('text', { x: 345, y: 362, 'text-anchor': 'middle', css: 'fill:var(--muted);font-size:14px', text: '적합값 = 행 평균 + 열 평균 − 전체 평균,   D̃ = D − 적합값' }, grid);
         // 산점도
         const sc = s('g', { opacity: 0 }, svg);
         GV.yAxis(sc, sy, [0, 4, 8, 12], 90, 600);
@@ -520,14 +520,15 @@
       kind: '도식', title: '넓은 형식의 표로 본 적합값과 잔차', w: 10, h: 10, controls: true,
       steps: [
         '처치변수 D다. 행은 단위, 열은 시점이며 색칠된 칸이 도입 이후(D = 1)다. 이 단계에서 칸을 누르면 그 단위의 도입 시점이 그 칸으로 바뀐다(같은 칸을 다시 누르면 미처치).',
-        '세 가지 평균을 구한다. 오른쪽 여백은 행 평균 D̄ᵢ(그 단위가 처치된 기간의 비율), 아래 여백은 열 평균 D̄ₜ(그 시점에 처치된 단위의 비율), 오른쪽 아래는 전체 평균 D̄다.',
+        '세 가지 평균을 구한다. 오른쪽 여백은 행 평균 D̄ᵢ(그 단위가 처치된 기간의 비율), 아래 여백은 열 평균 D̄ₜ(그 시점에 처치된 단위의 비율), 오른쪽 아래는 전체 평균 D̄다. 다음 단계에서 이 셋으로 적합값 = 그 칸의 행 평균 + 그 칸의 열 평균 − 전체 평균을 계산한다.',
         '적합값을 계산한다. 각 칸에 그 칸이 속한 행의 평균(오른쪽 여백, 단위 색)과 열의 평균(아래 여백, 검정)을 더하고 전체 평균(오른쪽 아래, 회색)을 한 번 차감한다. 행 평균과 열 평균에는 모든 칸에 공통인 전체 처치 수준이 한 번씩 들어 있어 두 번 더해지므로 한 번 차감하는 것이다. 칸을 하나씩 짚으며 사용하는 평균 세 개를 강조한다.',
-        '계산 결과가 적합값 D̂ = D̄ᵢ + D̄ₜ − D̄다. 어느 단위인지와 어느 시점인지만으로 예측한 처치 정도이며 1을 초과하거나 0보다 작은 칸은 점선 테두리로 표시한다.',
-        '잔차 D̃ = D − D̂다. 여백이 행 합과 열 합으로 바뀌며 모두 0이다. 이는 잔차가 모든 단위 더미, 시점 더미와 직교한다는 조건과 같다.',
+        '계산 결과가 적합값 D̂ = 그 칸의 행 평균 + 그 칸의 열 평균 − 전체 평균(D̄ᵢ + D̄ₜ − D̄)이다. 어느 단위인지와 어느 시점인지만으로 예측한 처치 정도이며 1을 초과하거나 0보다 작은 칸은 점선 테두리로 표시한다.',
+        '잔차 D̃ = D − D̂ = D − 행 평균 − 열 평균 + 전체 평균이다. 여백이 행 합과 열 합으로 바뀌며 모두 0이다. 이는 잔차가 모든 단위 더미, 시점 더미와 직교한다는 조건과 같다.',
         '가중치 w = D̃ / ΣD̃²다. 처치된 칸(굵은 숫자)의 가중치를 더하면 1이고 붉은 칸은 음의 가중치를 받는 처치 칸이다.'
       ],
       init(svg, F) {
         const wrap = GV.h('div', { cls: 'ptwrap' }); svg.replaceWith(wrap);
+        const form = GV.h('div', { cls: 'pform', html: '<span class="pf-a">적합값 D̂ = <i class="xr">그 칸의 행 평균</i> + <i class="xc">그 칸의 열 평균</i> − <i class="xg">전체 평균</i></span><span class="pf-b">잔차 D̃ = D − D̂</span>' }); wrap.before(form);
         GV.seg(F.top, '예제', Object.entries(SETS).map(([k, v]) => [k, v.name]), set, v => { set = v; G = SETS[v].G.slice(); draw(); });
         const info = GV.h('div', { cls: 'pinfo' }, F.out);
         let tb = null, hoverMsg = null;
@@ -561,12 +562,13 @@
           if (v === 'D') return `${u} ${p}: D = ${M.D[i][t]}. ${M.D[i][t] ? '도입 이후의 칸이다.' : '도입 이전이거나 미처치인 칸이다.'}`;
           if (v === 'mean') return `${u} ${p}: 이 칸의 적합값에 들어갈 평균은 행 평균 ${FR(M.Di[i])}, 열 평균 ${FR(M.Dt[t])}, 전체 평균 ${FR(M.Db)}이다.`;
           if (v === 'Dhat' || v === 'calc') return `${u} ${p}: D̂ = ${u}의 행 평균 ${FR(M.Di[i])} + ${p}의 열 평균 ${FR(M.Dt[t])} − 전체 평균 ${FR(M.Db)} = <b>${FR(M.Dh[i][t])}</b>`;
-          if (v === 'Dtil') return `${u} ${p}: D̃ = D ${M.D[i][t]} − D̂ ${FR(M.Dh[i][t])} = <b>${FR(M.Dr[i][t])}</b>`;
+          if (v === 'Dtil') return `${u} ${p}: D̃ = D ${M.D[i][t]} − 적합값(${u}의 행 평균 ${FR(M.Di[i])} + ${p}의 열 평균 ${FR(M.Dt[t])} − 전체 평균 ${FR(M.Db)} = ${FR(M.Dh[i][t])}) = <b>${FR(M.Dr[i][t])}</b>`;
           return `${u} ${p}: w = D̃ ${FR(M.Dr[i][t])} / ΣD̃² ${FR(M.ss)} = <b>${FR(M.w[i][t])}</b>${M.D[i][t] ? '' : ' (미처치 칸은 효과 항이 0이므로 계수에 기여하지 않는다)'}`;
         }
         function setInfo(h) { info.innerHTML = h; }
         function draw() {
           M = calc(); const S = M.S, v = VIEW[view];
+          form.className = 'pform f-' + v;
           const wr = M.D.map((r, i) => r.reduce((a, d, t) => a + (d ? M.w[i][t] : 0), 0)), wc = S.p.map((_, t) => M.D.reduce((a, r, i) => a + (r[t] ? M.w[i][t] : 0), 0));
           const okW = M.ss > 1e-12, mh = { D: '', mean: '단위 평균', calc: '단위 평균', Dhat: '단위 평균', Dtil: '행 합', w: '처치 칸 합' }[v], mf = { D: '', mean: '시점 평균', calc: '시점 평균', Dhat: '시점 평균', Dtil: '열 합', w: '처치 칸 합' }[v];
           const mrow = i => v === 'D' ? '' : isM(v) ? FR(M.Di[i]) : v === 'Dtil' ? '0' : (okW ? FR(wr[i]) : '');
@@ -687,12 +689,13 @@
         'E와 L 예를 단위(행) × 시점(열)의 넓은 형식으로 놓았다. 칸은 여섯 개이고 칸의 큰 숫자는 처치변수 D, 색칠된 칸은 처치된 칸이다.',
         '회귀는 칸 하나를 행 하나로 놓은 긴 형식을 읽는다. 여섯 칸이 아래 표의 여섯 행으로 옮겨 간다. 위의 칸이나 아래의 행에 마우스를 올리면(휴대폰에서는 탭) 서로 대응하는 칸과 행이 함께 강조된다.',
         '단위 더미는 그 행이 E의 칸인지 L의 칸인지를, 시점 더미는 몇 기의 칸인지를 1과 0으로 적은 열이다. 행마다 단위 더미 하나와 시점 더미 하나만 1이다. 예를 들어 E 3기 행은 E 더미와 3기 더미가 1이다.',
-        'D 열을 다섯 더미 열의 조합으로 가장 가깝게 맞춘 열이 적합값 D̂, 실제 D와의 차이가 잔차 D̃다. 적합값은 그 행에서 1인 두 더미의 계수를 더한 값이다(E 3기는 E 더미의 계수 1/6과 3기 더미의 계수 1의 합 7/6).'
+        '적합값 D̂ = 그 칸의 행 평균 + 그 칸의 열 평균 − 전체 평균이다. 위 표의 여백에 세 평균을 채웠다. 아래 행에 마우스를 올리면 그 칸과 사용하는 평균 세 개가 위에서 함께 강조된다. E 3기는 2/3 + 1 − 1/2 = 7/6이고 잔차 D̃ = D − D̂ = 1 − 7/6 = −1/6이다. 더미 계수로 말하면 그 행에서 1인 두 더미의 계수 합(1/6 + 1)과 같다.'
       ],
       init(svg, F) {
         wrap = GV.h('div', { cls: 'lmap' }); svg.replaceWith(wrap);
-        let h = '<div class="lm-wide"><table><thead><tr><th></th>' + P.map(p => `<th>${p}</th>`).join('') + '</tr></thead><tbody>';
-        U.forEach((r, i) => { h += `<tr><th style="color:var(--${r.col})">${r.u}</th>` + P.map((p, t) => `<td class="lm-c${r.D[t] ? ' tr' : ''}" data-r="${i * 3 + t}" style="--cc:var(--${r.col});--cs:var(--${r.col}-soft)"><span class="lm-lab">${r.u} ${p}</span><b>${r.D[t]}</b></td>`).join('') + '</tr>'; });
+        let h = '<div class="lm-wide"><table><thead><tr><th></th>' + P.map(p => `<th>${p}</th>`).join('') + '<th class="lm-mh">행 평균</th></tr></thead><tbody>';
+        U.forEach((r, i) => { h += `<tr><th style="color:var(--${r.col})">${r.u}</th>` + P.map((p, t) => `<td class="lm-c${r.D[t] ? ' tr' : ''}" data-r="${i * 3 + t}" style="--cc:var(--${r.col});--cs:var(--${r.col}-soft)"><span class="lm-lab">${r.u} ${p}</span><b>${r.D[t]}</b></td>`).join('') + `<td class="lm-m" data-mr="${i}" style="color:var(--${r.col})"><b>${FR(Di[i])}</b></td></tr>`; });
+        h += '<tr><th class="lm-mh">열 평균</th>' + P.map((p, t) => `<td class="lm-m" data-mc="${t}"><b>${FR(Dt[t])}</b></td>`).join('') + `<td class="lm-m lm-g" data-mg="1"><b>전체 ${FR(Db)}</b></td></tr>`;
         h += '</tbody></table></div>';
         h += '<div class="lm-long"><table><thead><tr><th>행</th><th>칸</th><th class="n">D</th><th class="n g2">E 더미</th><th class="n g2">L 더미</th><th class="n g2">1기 더미</th><th class="n g2">2기 더미</th><th class="n g2">3기 더미</th><th class="n g3">적합값 D̂</th><th class="n g3">잔차 D̃</th></tr></thead><tbody>';
         rows.forEach((r, k) => {
@@ -704,8 +707,8 @@
         info = GV.h('div', { cls: 'pinfo' }, F.out);
         const say = k => { if (k == null) { info.textContent = cur === 0 ? '칸에 마우스를 올리면 그 칸이 긴 형식의 몇 번째 행이 되는지 나온다.' : '위의 칸이나 아래의 행에 마우스를 올리면 대응 관계가 나온다.'; return; }
           const r = rows[k], du = `${r.u} 더미 1, ${r.p} 더미 1, 나머지 더미 0`;
-          info.innerHTML = `<b>${r.u} ${r.p}</b>: 넓은 형식의 ${r.u} 행 ${r.p} 열 칸이 긴 형식의 ${k + 1}번째 행이다. D = ${r.D}` + (cur >= 2 ? `. ${du}` : '') + (cur >= 3 ? `. 적합값 D̂ = ${FR(r.h)}, 잔차 D̃ = ${FR(r.e)}` : '') + '.'; };
-        const lit = k => { wrap.querySelectorAll('.lk').forEach(x => x.classList.remove('lk')); if (k != null) wrap.querySelectorAll(`[data-r="${k}"]`).forEach(x => x.classList.add('lk')); say(k); };
+          info.innerHTML = `<b>${r.u} ${r.p}</b>: 넓은 형식의 ${r.u} 행 ${r.p} 열 칸이 긴 형식의 ${k + 1}번째 행이다. D = ${r.D}` + (cur >= 2 ? `. ${du}` : '') + (cur >= 3 ? `. 적합값 D̂ = ${r.u}의 행 평균 ${FR(Di[r.i])} + ${r.p}의 열 평균 ${FR(Dt[r.t])} − 전체 평균 ${FR(Db)} = ${FR(r.h)}, 잔차 D̃ = ${r.D} − ${FR(r.h)} = ${FR(r.e)}` : '') + '.'; };
+        const lit = k => { wrap.querySelectorAll('.lk').forEach(x => x.classList.remove('lk')); if (k != null) { wrap.querySelectorAll(`[data-r="${k}"]`).forEach(x => x.classList.add('lk')); if (cur >= 3) { const r = rows[k]; [`[data-mr="${r.i}"]`, `[data-mc="${r.t}"]`, '[data-mg]'].forEach(q => { const x = wrap.querySelector(q); if (x) x.classList.add('lk'); }); } } say(k); };
         wrap.addEventListener('pointerover', e => { const t = e.target.closest('[data-r]'); if (t) lit(+t.dataset.r); });
         wrap.addEventListener('pointerleave', () => lit(null));
         return (stp, anim) => {

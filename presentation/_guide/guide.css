@@ -321,3 +321,16 @@ header.top .theme{margin:1rem 0 0}
 .ptab .xg,.ptab td.m.xg{color:var(--muted)}
 .ptab td.c .xv{display:block;font-size:14px;font-weight:800;color:var(--ink)}
 .lmap tbody tr:last-child td{border-bottom:0}
+
+/* 적합값 공식 줄 (panel-resid) */
+.pform{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;justify-content:center;font-size:14px;font-weight:600;color:var(--body);margin:0 0 .6rem;padding:.45rem .7rem;border:1px dashed var(--line);border-radius:6px;transition:opacity .3s}
+.pform i{font-style:normal;font-weight:800}
+.pform .xr{color:var(--c1)}.pform .xc{color:var(--ink)}.pform .xg{color:var(--muted)}
+.pform.f-D{opacity:.45}
+.pform.f-calc .pf-a,.pform.f-Dhat .pf-a,.pform.f-Dtil .pf-b{background:var(--c1-soft);border-radius:4px;padding:0 .35rem}
+/* long-map 위 격자의 평균 여백: 마지막 단계에서 값이 나타난다 */
+.lm-m{min-width:3.6rem;height:3.3rem;border:1px dashed var(--line);border-radius:4px;font-size:14px}
+.lm-m b{visibility:hidden}
+.lmap.s3 .lm-m b{visibility:visible}
+.lm-g{color:var(--muted)}
+.lm-mh{font-size:12px!important;color:var(--muted)!important;font-weight:600!important;white-space:nowrap}

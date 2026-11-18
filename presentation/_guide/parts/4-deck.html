@@ -299,12 +299,12 @@
 
 <div class="sym"><tex class="d">\begin{aligned}\gl{Dtil}{\tilde D_{E3}} &= \gl{D}{1} - \Big(\gl{Dbi}{\tfrac23} + \gl{Dbt}{1} - \gl{Db}{\tfrac12}\Big) = -\tfrac16 \\[4pt] \gl{dhat}{\hat\delta} &= \gl{qSumD}{\sum_{D_{it}=1}} \gl{w}{w_{it}}\,\gl{tau}{\tau_{it}}, \qquad \gl{w}{w_{it}} = \frac{\gl{Dtil}{\tilde D_{it}}}{\gl{denD}{\sum \gl{Dtil}{\tilde D}^{2}}}, \qquad \gl{qSumD}{\sum_{D_{it}=1}} \gl{w}{w_{it}} = 1 \\[4pt] \gl{dhat}{\hat\delta} &= \underbrace{1\cdot 2}_{E2} - \underbrace{\tfrac12\cdot 10}_{E3} + \underbrace{\tfrac12\cdot 2}_{L3} = -2\end{aligned}</tex></div>
 
-<aside class="note key" data-label="이 장의 한 문장"><p>TWFE 계수는 처치변수에서 고정효과로 설명되는 부분을 제거한 잔차로 종속변수를 가중한 값이다. 일찍 처치된 단위의 늦은 시점은 적합값이 1을 초과해 음의 가중치를 받는다.</p></aside>
+<aside class="note key" data-label="이 장의 한 문장"><p>TWFE 계수는 처치변수에서 고정효과로 설명되는 부분(적합값 = 그 칸의 행 평균 + 열 평균 − 전체 평균)을 제거한 잔차로 종속변수를 가중한 값이다. 일찍 처치된 단위의 늦은 시점은 적합값이 1을 초과해 음의 가중치를 받는다.</p></aside>
 
 <div class="tbl"><table>
 <thead><tr><th>단계</th><th>화면</th><th>말할 요점</th></tr></thead>
 <tbody>
-<tr><td>0</td><td>여섯 칸</td><td>계수는 D에서 단위 평균과 시점 평균을 제거한 D̃로 종속변수를 가중한 것</td></tr>
+<tr><td>0</td><td>여섯 칸</td><td>계수는 D에서 적합값(행 평균 + 열 평균 − 전체 평균)을 차감한 D̃로 종속변수를 가중한 것</td></tr>
 <tr><td>1</td><td>D</td><td>E의 2, 3기와 L의 3기가 1</td></tr>
 <tr><td>2</td><td>적합값</td><td>단위 평균 + 시점 평균 − 전체 평균. E의 3기는 7/6으로 1을 초과한다</td></tr>
 <tr><td>3</td><td>잔차 D̃</td><td>E의 3기 잔차는 −1/6. 처치된 칸인데 비교집단 쪽 관측처럼 사용된다</td></tr>
