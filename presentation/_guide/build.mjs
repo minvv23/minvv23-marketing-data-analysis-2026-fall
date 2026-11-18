@@ -139,6 +139,25 @@ const footer = `<footer class="end">
 // 스크립트 순서: 계산 코어, 시뮬레이션 코어, 도식 도구, 부별 도식, 마지막에 초기화(widgets.js)
 const SCRIPTS = ['stats.js', 'simcore.js', 'viz-kit.js', 'viz-math.js', ...['viz-p1.js', 'viz-p2.js', 'viz-p3.js', 'viz-p4.js', 'viz-p5.js'].filter(n => fs.existsSync(path.join(G, n))), 'widgets.js'];
 const tocBlock = `<p class="ttl">목차</p>${tocHTML}`;
+// 장 해설 모드 (index.html?pv&s=장&b=단계): 4부의 그 장 절만 보이고, 덱 발표자 화면이 {pv:'show', n, b}를 보내면 장을 바꾸고 단계 표의 현재 줄을 강조한다.
+// 다른 절로 가는 링크는 새 탭에서 가이드 전체로 연다.
+const pvJS = `(function () {
+  if (!document.documentElement.classList.contains('pv')) return;
+  var cur = 0;
+  function show(n, b) {
+    var sec = document.getElementById('p4-s' + n); if (!sec) return;
+    document.querySelectorAll('tr.pvcur').forEach(function (r) { r.classList.remove('pvcur'); });
+    if (n !== cur) { document.querySelectorAll('#p4>section.sub').forEach(function (x) { x.classList.toggle('pvon', x === sec); }); cur = n; window.scrollTo(0, 0); }
+    sec.querySelectorAll('table').forEach(function (t) {
+      var th = t.querySelector('thead th'); if (!th || th.textContent.trim() !== '단계') return;
+      t.querySelectorAll('tbody tr').forEach(function (tr) { var c = tr.firstElementChild; tr.classList.toggle('pvcur', !!c && c.textContent.trim() === String(b)); });
+    });
+  }
+  addEventListener('message', function (e) { var m = e.data; if (m && m.pv === 'show') show(+m.n, +m.b); });
+  document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a) return; e.preventDefault(); window.open(location.pathname + a.getAttribute('href'), '_blank', 'noopener'); }, true);
+  var q = new URLSearchParams(location.search); show(+(q.get('s') || 1), +(q.get('b') || 0));
+  if (parent !== window) parent.postMessage({ pv: 'ready' }, '*');
+})();`;
 const html = `<!doctype html>
 <html lang="ko">
 <head>
@@ -146,7 +165,8 @@ const html = `<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Staggered DID 독해가이드</title>
 <link rel="icon" href="data:,">
-<script>try{var t=localStorage.getItem('sdid-guide-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script>try{var t=localStorage.getItem('sdid-guide-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}
+if(/[?&]pv(=|&|$)/.test(location.search)){document.documentElement.classList.add('pv');document.documentElement.setAttribute('data-theme','dark')}</script>
 <link rel="stylesheet" href="../../learning/assets/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@${KVER}/dist/katex.min.css'">
 <link rel="stylesheet" href="guide.css">
 </head>
@@ -162,6 +182,7 @@ ${footer}
 ${glossHTML}
 </div>
 ${SCRIPTS.map(n => `<script src="${n}"></script>`).join('\n')}
+<script>${pvJS}</script>
 </body>
 </html>
 `;

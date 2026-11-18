@@ -360,3 +360,14 @@ td .cx{display:block;font-size:12px;color:var(--muted);font-weight:500;white-spa
 .vcalc .vc-t{font-size:13px}
 .vcalc .vc-t td,.vcalc .vc-t th{padding:.3rem .45rem}
 #p1-wform td:first-child,.vcalc .vc-t td:first-child{white-space:nowrap}
+
+/* 장 해설 모드 (index.html?pv): 덱 발표자 화면 오른쪽에 4부의 한 장만 띄운다 */
+html.pv[data-theme]{--bg:#16161a}
+html.pv body{background:#16161a}
+html.pv .wrap{display:block;max-width:none;padding:6px 18px 40vh 6px}
+html.pv main{max-width:none}
+html.pv .toc,html.pv .toc-m,html.pv header.top,html.pv footer.end,html.pv main>section.part:not(#p4){display:none}
+html.pv #p4>*:not(section.sub),html.pv #p4>section.sub:not(.pvon),html.pv #p4 section.sub>h3{display:none}
+html.pv .widget[data-w="slide"]{display:none}
+html.pv tr.pvcur>td{background:var(--soft);color:var(--ink)}
+html.pv tr.pvcur>td:first-child{box-shadow:inset 3px 0 0 var(--c1)}

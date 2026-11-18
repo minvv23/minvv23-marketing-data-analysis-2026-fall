@@ -193,3 +193,15 @@ body.presenter #pv{display:flex;flex-direction:column;position:fixed;inset:0;col
 .pv-kbi>b{display:block;font-size:13px;letter-spacing:.1em;color:#8d8e96;margin-bottom:2px}
 .pv-kbi.warn>b{color:#e08a76}
 .pv-kbi p+p{margin-top:.4em}.pv-kbi ul{padding-left:1.1em}
+
+/* 발표자 화면 오른쪽 탭: 대본 | 장 해설 (독해가이드 4부를 iframe으로) */
+.pv-tabs{display:flex;gap:6px;margin:0 0 12px}
+.pv-tabs button{font:inherit;font-size:15px;font-weight:700;color:#b9b9c0;background:none;border:1.5px solid #3a3b42;border-radius:3px;padding:5px 12px;cursor:pointer}
+.pv-tabs button small{font-size:12.5px;font-weight:600;color:#8d8e96;margin-left:4px}
+.pv-tabs button[aria-pressed="true"]{background:#f2f2f4;border-color:#f2f2f4;color:#16161a}
+.pv-tabs button[aria-pressed="true"] small{color:#55565d}
+#pv-guide{display:none}
+#pv.tab-guide .pv-right{display:flex;flex-direction:column;overflow:hidden;padding-right:0}
+#pv.tab-guide #pv-list{display:none}
+#pv.tab-guide #pv-guide{display:block;flex:1;min-height:0}
+#pv-guide iframe{width:100%;height:100%;border:0;background:#16161a;color-scheme:dark}

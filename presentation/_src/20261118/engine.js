@@ -121,6 +121,7 @@ const DK = (function () {
      대본은 빌드가 넣는 DECK_NOTES = {장 id: [0단계, 1단계, ...]}. N 키는 무대 아래에 대본을 띄우고, P 키는 발표자 화면(?presenter)을 새 창으로 연다.
      창 사이에는 postMessage로 {deck:'state'|'go'|'cmd'|'hello'}를 주고받는다 (file:// 에서도 동작). */
   const NOTES = (typeof DECK_NOTES !== 'undefined') ? DECK_NOTES : {};
+  const GUIDE = '20261118-guide/index.html';   // 발표자 화면의 장 해설이 띄우는 독해가이드
   const QS = new URLSearchParams(location.search), PRES = QS.has('presenter'), EMBED = QS.has('embed'), BASE = location.href.split(/[?#]/)[0];
   let pw = null;
   const noteOf = (s, b) => { const a = slides[s] && NOTES[slides[s].id]; return (a && a[b]) || ''; };
@@ -187,8 +188,18 @@ const DK = (function () {
     const pv = $('#pv'), CPM = 320, len = t => t.replace(/\s/g, '').length;
     pv.innerHTML = `<div class="pv-top"><span id="pv-pos"></span><span id="pv-est"></span><span class="sp"></span><button id="pv-timer" type="button" title="누르면 0으로">00:00</button><span id="pv-clock"></span></div>
       <div class="pv-main"><div class="pv-left"><div class="pv-frame"><iframe id="pv-if" src="${BASE}?embed" title="현재 화면" tabindex="-1"></iframe></div>
-      <div class="pv-next"><b>다음</b><p id="pv-nx"></p></div><div id="pv-kb"></div><p class="pv-help">→ Space 다음, ← 이전, Shift와 화살표는 장 이동, R은 시간 초기화, K는 발표 화면에서 핵심 카드 열고 닫기. 이 창에서 넘기면 발표 화면도 함께 넘어간다.</p></div>
-      <div class="pv-right"><h2 id="pv-title"></h2><ol id="pv-list"></ol></div></div>`;
+      <div class="pv-next"><b>다음</b><p id="pv-nx"></p></div><div id="pv-kb"></div><p class="pv-help">→ Space 다음, ← 이전, Shift와 화살표는 장 이동, R은 시간 초기화, K는 발표 화면에서 핵심 카드 열고 닫기, G는 대본과 장 해설 전환. 이 창에서 넘기면 발표 화면도 함께 넘어간다.</p></div>
+      <div class="pv-right"><h2 id="pv-title"></h2><div class="pv-tabs" role="tablist"><button type="button" data-t="notes">대본</button><button type="button" data-t="guide">장 해설 <small>독해가이드 4부</small></button></div><ol id="pv-list"></ol>
+      <div id="pv-guide"><iframe id="pv-gf" src="${GUIDE}?pv" title="장 해설 (독해가이드 4부)"></iframe></div></div></div>`;
+    // 장 해설: 가이드가 준비되면 {pv:'ready'}를 보내고, 장이나 단계가 바뀔 때마다 {pv:'show', n, b}를 받는다
+    const gf = $('#pv-gf'); let gready = false;
+    const gsend = () => { if (gready && cur[0] >= 0) try { gf.contentWindow.postMessage({ pv: 'show', n: cur[0] + 1, b: cur[1] }, '*'); } catch (e) { } };
+    addEventListener('message', e => { const m = e.data; if (m && m.pv === 'ready' && e.source === gf.contentWindow) { gready = true; gsend(); } });
+    const TKEY = 'deck-pv-tab';
+    function setTab(t) { pv.classList.toggle('tab-guide', t === 'guide'); $$('.pv-tabs button', pv).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.t === t))); try { localStorage.setItem(TKEY, t); } catch (e) { } }
+    $$('.pv-tabs button', pv).forEach(b => b.addEventListener('click', () => { b.blur(); setTab(b.dataset.t); }));
+    let t0tab = 'notes'; try { t0tab = localStorage.getItem(TKEY) || 'notes'; } catch (e) { }
+    setTab(t0tab);
     const fr = $('#pv-if'), own = () => { try { return window.opener && !window.opener.closed ? window.opener : null; } catch (e) { return null; } };
     const tgt = () => own() || fr.contentWindow;
     const flat = []; slides.forEach((sl, s) => { for (let b = 0; b <= builds[s]; b++) flat.push(len(noteOf(s, b))); });
@@ -211,6 +222,7 @@ const DK = (function () {
       const last = s === slides.length - 1 && b === builds[s], ns = b < builds[s] ? s : s + 1, nb2 = b < builds[s] ? b + 1 : 0;
       $('#pv-nx').textContent = last ? '마지막입니다.' : (ns !== s ? `[${ns + 1}. ${titleOf(ns)}] ` : '') + noteOf(ns, nb2);
       if (own()) fr.contentWindow.postMessage({ deck: 'go', s, b }, '*');
+      gsend();
     }
     addEventListener('message', e => { const m = e.data; if (!m || m.deck !== 'state' || e.source !== tgt()) return; render(m.s, m.b); });
     const hello = first => { const o = own(); if (o) o.postMessage({ deck: 'hello', first: !!first }, '*'); };
@@ -223,6 +235,7 @@ const DK = (function () {
       else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace' || k === 'ArrowUp') c = e.shiftKey ? 'ps' : 'prev';
       else if (k === 'Home') c = 'first'; else if (k === 'End') c = 'last'; else if (k === 'r' || k === 'R') { t0 = 0; return; }
       else if (k === 'k' || k === 'K') c = 'kb';
+      else if (k === 'g' || k === 'G') { setTab(pv.classList.contains('tab-guide') ? 'notes' : 'guide'); return; }
       if (c) { e.preventDefault(); tgt().postMessage({ deck: 'cmd', k: c }, '*'); }
     });
   }
