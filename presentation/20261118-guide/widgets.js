@@ -18,6 +18,14 @@
     return w;
   }
 
+  // 2×2 DID를 네 평균으로 적는다: (처치집단 사후 − 사전) − (비교집단 사후 − 사전). 창과 나누는 시점은 비교 유형으로 정해진다.
+  function didParts(groups, p, T) {
+    const tg = groups[p.treat], cg = groups[p.ctrl], m = (y, a, b) => { let s = 0; for (let t = a; t < b; t++) s += y[t]; return s / (b - a); };
+    const lo = p.type === 'LvE' ? cg.g : 0, hi = p.type === 'EvL' ? cg.g : T, k = tg.g;
+    return { tPost: m(tg.y, k, hi), tPre: m(tg.y, lo, k), cPost: m(cg.y, k, hi), cPre: m(cg.y, lo, k) };
+  }
+  const didTxt = (q, fm) => `(${fm(q.tPost)} − ${fm(q.tPre)}) − (${fm(q.cPost)} − ${fm(q.cPre)})`;
+
   /* ---------- E와 L 반례 ---------- */
   function toyEL(host) {
     const st = { e2: 2, e3: 10, l3: 2 };
@@ -82,7 +90,7 @@
     host.innerHTML = `<p class="wt">계산기</p><p class="wh">TWFE 계수를 네 개의 2×2로 나누기 (U 미처치, k 2기 도입, l 4기 도입, 가상 수치)</p>
       <div class="ctrls"></div>
       <div class="wout"><svg class="wsvg" viewBox="0 0 340 230" role="img" aria-label="2×2 비교의 가중치와 DID"></svg><div class="res"></div></div>
-      <div class="tbl"><table><thead><tr><th>2×2 비교</th><th>사용 기간</th><th class="n">가중치</th><th class="n">DID</th><th class="n">처치집단의 참효과</th><th class="n">가중치 × DID</th></tr></thead><tbody></tbody></table></div>
+      <div class="tbl"><table><thead><tr><th>2×2 비교</th><th>사용 기간</th><th class="n">가중치</th><th class="n">DID = (처치 사후 − 사전) − (비교 사후 − 사전)</th><th class="n">처치집단의 참효과</th><th class="n">가중치 × DID</th></tr></thead><tbody></tbody></table></div>
       <p class="wnote">그림의 막대 하나가 2×2 하나다. 가로 폭이 가중치, 세로 높이가 그 2×2의 DID이므로 막대 면적이 계수에 더해지는 기여분이며 면적을 부호대로 더한 값이 TWFE 계수다. "처치집단의 참효과"는 그 2×2에서 처치집단이 사후 구간에 실제로 받은 평균효과다. k와 l은 각각 1단위다.</p>`;
     const C = host.querySelector('.ctrls');
     C.appendChild(seg('U의 단위 수', [0, 1, 2, 4, 10].map(v => [v, String(v)]), st.nU, v => { st.nU = v; draw(); }));
@@ -129,7 +137,7 @@
         <div class="eq" style="color:var(--muted)">VWCT는 미처치 잠재결과를 모두 0으로 두어 평행추세가 성립하므로 0이다.</div>`;
       const typ = { TvU: '<span class="tag u">미처치와 비교</span>', EvL: '<span class="tag ok">아직 미처치와 비교</span>', LvE: '<span class="tag bad">이미 처치된 단위와 비교</span>' };
       const per = p => p.type === 'TvU' ? '1-5기' : p.type === 'EvL' ? `1-${groups[p.ctrl].g}기` : `${groups[p.ctrl].g + 1}-5기`;
-      tb.innerHTML = parts.map(p => `<tr><td>${p.tn} 대 ${p.cn} ${typ[p.type]}</td><td>${per(p)}</td><td class="n">${frac(p.w)}</td><td class="n${p.est < 0 ? ' neg' : ''}">${f(p.est)}</td><td class="n">${f(p.att)}</td><td class="n${p.est < 0 ? ' neg' : ''}">${f(p.w * p.est, 3)}</td></tr>`).join('')
+      tb.innerHTML = parts.map(p => `<tr><td>${p.tn} 대 ${p.cn} ${typ[p.type]}</td><td>${per(p)}</td><td class="n">${frac(p.w)}</td><td class="n${p.est < 0 ? ' neg' : ''}">${f(p.est)}<span class="cx">${didTxt(didParts(groups, p, 5), x => f(x, Number.isInteger(x) ? 0 : 1))}</span></td><td class="n">${f(p.att)}</td><td class="n${p.est < 0 ? ' neg' : ''}">${f(p.w * p.est, 3)}</td></tr>`).join('')
         + `<tr><td><strong>합계</strong></td><td></td><td class="n">${f(bc.wsum, 2)}</td><td></td><td class="n">${f(vwatt)}</td><td class="n"><strong>${f(bc.sum, 3)}</strong></td></tr>`;
     }
     draw();
@@ -149,7 +157,7 @@
     host.innerHTML = `<p class="wt">계산기</p><p class="wh">원문 Sim 1-6을 잡음 없이 다시 계산하기 (σ 단위, 균형패널 단순화)</p>
       <div class="ctrls"></div><p class="sim-d" style="font-size:15px;margin:0 0 1rem"></p>
       <div class="wout"><svg class="wsvg" viewBox="0 0 340 220" role="img" aria-label="코호트별 처치효과 경로"></svg><div class="res"></div></div>
-      <div class="tbl"><table><thead><tr><th>2×2 비교</th><th class="n">가중치</th><th class="n">DID</th><th class="n">처치집단의 참효과</th><th class="n">차이</th></tr></thead><tbody></tbody></table></div>
+      <div class="tbl"><table><thead><tr><th>2×2 비교</th><th class="n">가중치</th><th class="n">DID = (처치 사후 − 사전) − (비교 사후 − 사전)</th><th class="n">처치집단의 참효과</th><th class="n">차이</th></tr></thead><tbody></tbody></table></div>
       <p class="wnote">각 코호트의 평균 경로만으로 계산한 기댓값이다. 원문은 Compustat 불균형 패널에 잡음을 넣은 모의자료 500개의 분포를 보여 주므로 원문 그림의 수치와 조금 다르다. 기업평균 ATT는 코호트별 사후 평균효과를 주 수로 가중한 값, 관측치평균 ATT는 사후 관측치 전체의 평균이다. "차이"가 0이 아닌 행이 편향의 출처다.</p>`;
     const C = host.querySelector('.ctrls');
     C.appendChild(seg('시뮬레이션', [1, 2, 3, 4, 5, 6].map(v => [v, 'Sim ' + v]), st.sim, v => { st.sim = v; draw(); }));
@@ -182,7 +190,7 @@
       tb.innerHTML = bc.parts.slice().sort((a, b) => order[a.type] - order[b.type] || a.treat - b.treat).map(p => {
         const g = groups[p.treat], post = p.type === 'EvL' ? [g.g, groups[p.ctrl].g] : [g.g, T], att = mean(g.y, post[0], post[1]);
         const d = p.est - att;
-        return `<tr><td>${lab(p.treat)} 대 ${lab(p.ctrl)} ${typ[p.type]}</td><td class="n">${f(p.w, 3)}</td><td class="n${p.est < 0 ? ' neg' : ''}">${f(p.est / sg, 3)}</td><td class="n">${f(att / sg, 3)}</td><td class="n${Math.abs(d) > 1e-6 ? ' neg' : ''}">${f(d / sg, 3)}</td></tr>`;
+        return `<tr><td>${lab(p.treat)} 대 ${lab(p.ctrl)} ${typ[p.type]}</td><td class="n">${f(p.w, 3)}</td><td class="n${p.est < 0 ? ' neg' : ''}">${f(p.est / sg, 3)}<span class="cx">${didTxt(didParts(groups, p, T), x => f(x / sg, 3))}</span></td><td class="n">${f(att / sg, 3)}</td><td class="n${Math.abs(d) > 1e-6 ? ' neg' : ''}">${f(d / sg, 3)}</td></tr>`;
       }).join('');
     }
     draw();

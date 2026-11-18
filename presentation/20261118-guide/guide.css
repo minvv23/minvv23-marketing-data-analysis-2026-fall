@@ -337,3 +337,17 @@ header.top .theme{margin:1rem 0 0}
 .lmap.s3 .lm-m b{visibility:visible}
 .lm-g{color:var(--muted)}
 .lm-mh{font-size:12px!important;color:var(--muted)!important;font-weight:600!important;white-space:nowrap}
+
+/* 칸 하나 따라가기 계산 패널 */
+.calcp .cp-h{font-weight:700;color:var(--ink);margin:0 0 .35rem}
+.calcp .cp-h span{font-weight:400;font-size:13px;color:var(--muted)}
+.calcp ol{margin:0;padding-left:1.4rem}
+.calcp li{margin:.2rem 0;padding:.1rem .4rem;border-radius:4px}
+.calcp li.on{background:var(--c1-soft);color:var(--ink)}
+.calcp li.later{opacity:.38}
+.calcp b{color:var(--ink)}
+.ptab .xh{color:var(--c1)}
+.ptab.v-Dtil td.c,.ptab.v-w td.c{min-width:5.6rem;height:3.1rem;line-height:1.25}
+.lm-x span{display:block;font-size:11px;color:var(--muted);font-weight:500;white-space:nowrap}
+.lmap .lm-long td.lm-x{line-height:1.25}
+td .cx{display:block;font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap}

@@ -121,7 +121,8 @@
   /* ---------- fwl-scatter (p1-fwl): 잔차 D̃를 만들고, 산점도의 기울기가 TWFE 계수임을 보인다 ---------- */
   GV.reg('fwl-scatter', host => {
     const W = 640, H = 390;
-    let tauE3 = 10, cur = 0, sl = null, drawLine = null;
+    let tauE3 = 10, cur = 0, sl = null, drawLine = null, sel = 'E2', paintSel = null, segW = null;
+    const Q = x => GV.frac(x), QP = x => x < -1e-12 ? `(${GV.frac(x)})` : GV.frac(x), cname = k => `${k[0]} ${+k[1] + 1}기`;
     // 칸: [단위, 시점]. E는 2기(인덱스 1), L은 3기(인덱스 2)에 도입
     const cells = [['E', 0], ['E', 1], ['E', 2], ['L', 0], ['L', 1], ['L', 2]];
     const Dm = { E: [0, 1, 1], L: [0, 0, 1] }, Di = { E: 2 / 3, L: 1 / 3 }, Dt = [0, 1 / 2, 1], Dbar = 1 / 2;
@@ -143,28 +144,35 @@
       init(svg, F) {
         sl = GV.slider(F.top, 'E 3기의 효과', { min: 0, max: 14, step: 1, value: 10, fmt: v => String(v) }, v => { tauE3 = v; if (drawLine) drawLine(true); });
         sl.input.disabled = true;
+        // 따라갈 칸 하나를 고른다(그림의 칸을 눌러도 된다). 아래 패널에 그 칸의 계산이 차례로 적힌다.
+        segW = GV.seg(F.top, '따라갈 칸', cells.map(([u, t]) => [u + t, `${u} ${t + 1}기`]), sel, v => { sel = v; if (paintSel) paintSel(cur); });
+        const calc = GV.h('div', { cls: 'pinfo calcp' }, F.out);
         // 격자
         const grid = s('g', {}, svg);
         [0, 1, 2].forEach(t => s('text', { x: gx(t), y: 42, 'text-anchor': 'middle', css: 'font-size:13px', text: (t + 1) + '기' }, grid));
         // 뒤 단계에서 채울 평균 자리(점선 칸)를 처음부터 보여 준다
         const slot = (x, y, w, h) => s('rect', { x, y, width: w, height: h, rx: 3, css: 'fill:none;stroke:var(--faint);stroke-width:1.2;stroke-dasharray:4 4' }, grid);
         s('text', { x: 535, y: 42, 'text-anchor': 'middle', css: 'font-size:13px', text: '단위 평균' }, grid);
-        ['E', 'L'].forEach(u => slot(480, gy(u) - 28, 110, 56));
-        [0, 1, 2].forEach(t => slot(gx(t) - 50, 252, 100, 46));
-        slot(480, 252, 110, 46);
+        const rowSlot = {}; ['E', 'L'].forEach(u => { rowSlot[u] = slot(480, gy(u) - 28, 110, 56); });
+        const colSlot = [0, 1, 2].map(t => slot(gx(t) - 50, 252, 100, 46));
+        const allSlot = slot(480, 252, 110, 46);
         s('text', { x: gx(0) - 60, y: 280, 'text-anchor': 'end', css: 'font-size:13px', text: '시점 평균' }, grid);
         ['E', 'L'].forEach(u => s('text', { x: 118, y: gy(u) + 6, 'text-anchor': 'end', css: `fill:${C(u === 'E' ? 'c1' : 'c2')};font-weight:800;font-size:15px`, text: u }, grid));
         const box = {}, val = {}, yv = {};
         cells.forEach(([u, t]) => {
           const k = u + t, tr = Dm[u][t] === 1, col = u === 'E' ? 'c1' : 'c2';
           box[k] = s('rect', { x: gx(t) - 50, y: gy(u) - 38, width: 100, height: 76, rx: 3, 'stroke-width': tr ? 2 : 0, css: `fill:${tr ? C(col + '-soft') : C('soft')};stroke:${C(col)}` }, grid);
-          val[k] = s('text', { x: gx(t), y: gy(u) + 8, 'text-anchor': 'middle', css: 'fill:var(--ink);font-weight:800;font-size:20px', text: String(Dm[u][t]) }, grid);
-          yv[k] = s('text', { x: gx(t) + 44, y: gy(u) - 21, 'text-anchor': 'end', css: 'fill:var(--muted);font-size:11.5px', text: 'Y ' + Yof(u, t) }, grid);
+          val[k] = s('text', { x: gx(t), y: gy(u) + 5, 'text-anchor': 'middle', css: 'fill:var(--ink);font-weight:800;font-size:20px;pointer-events:none', text: String(Dm[u][t]) }, grid);
+          yv[k] = s('text', { x: gx(t) + 44, y: gy(u) - 21, 'text-anchor': 'end', css: 'fill:var(--muted);font-size:11.5px;pointer-events:none', text: 'Y ' + Yof(u, t) }, grid);
+          box[k].style.cursor = 'pointer'; box[k].addEventListener('click', () => { if (cur > 3) return; sel = k; segW.querySelectorAll('button').forEach((bt, j) => bt.setAttribute('aria-pressed', String(cells[j][0] + cells[j][1] === k))); paintSel(cur); });
         });
         const rowm = ['E', 'L'].map(u => s('text', { x: 535, y: gy(u) + 7, 'text-anchor': 'middle', css: `fill:${C(u === 'E' ? 'c1' : 'c2')};font-weight:800;font-size:17px`, text: FR(Di[u]), opacity: 0 }, grid));
         const colm = [0, 1, 2].map(t => s('text', { x: gx(t), y: 281, 'text-anchor': 'middle', css: 'fill:var(--ink);font-weight:800;font-size:16px', text: FR(Dt[t]), opacity: 0 }, grid));
         const allm = s('text', { x: 535, y: 281, 'text-anchor': 'middle', css: 'fill:var(--ink);font-weight:800;font-size:15px', text: '전체 1/2', opacity: 0 }, grid);
         const note = s('text', { x: gx(2), y: 326, 'text-anchor': 'middle', css: 'fill:var(--bad);font-weight:700;font-size:13.5px', text: '예측 7/6이 1을 초과해 잔차가 음수', opacity: 0 }, grid);
+        // 칸마다 이 단계의 계산식(작은 글씨)과 선택한 칸의 테두리
+        const ex = {}; cells.forEach(([u, t]) => { ex[u + t] = s('text', { x: gx(t), y: gy(u) + 27, 'text-anchor': 'middle', css: 'fill:var(--muted);font-size:11.5px;font-weight:600;pointer-events:none', text: '' }, grid); });
+        const selR = s('rect', { x: 0, y: 0, width: 108, height: 84, rx: 6, css: 'fill:none;stroke:var(--ink);stroke-width:3;pointer-events:none' }, grid);
         const formula = s('text', { x: 345, y: 362, 'text-anchor': 'middle', css: 'fill:var(--muted);font-size:14px', text: '적합값 = 행 평균 + 열 평균 − 전체 평균,   D̃ = D − 적합값' }, grid);
         // 산점도
         const sc = s('g', { opacity: 0 }, svg);
@@ -180,20 +188,44 @@
           dl[k] = s('text', { x: gx(t), y: gy(u), css: `fill:${col};font-weight:700;font-size:12.5px`, text: `${u} ${t + 1}기`, opacity: 0 }, svg);
         });
         const ring = s('circle', { cx: sx(-1 / 6), cy: sy(10), r: 15, 'stroke-width': 2.5, css: 'fill:none;stroke:var(--bad)', opacity: 0 }, svg);
+        // 선택한 칸: 테두리, 사용한 평균 칸 강조, 계산 패널
+        const slotCss = on => `fill:none;stroke:${on ? 'var(--ink)' : 'var(--faint)'};stroke-width:${on ? 2.5 : 1.2};stroke-dasharray:${on ? 'none' : '4 4'}`;
+        paintSel = st => {
+          const u = sel[0], t = +sel[1];
+          to(selR, { x: gx(t) - 54, y: gy(u) - 42 }, { dur: 0 }); selR.style.display = st <= 3 ? '' : 'none';
+          rowSlot.E.setAttribute('style', slotCss(st >= 1 && st <= 3 && u === 'E')); rowSlot.L.setAttribute('style', slotCss(st >= 1 && st <= 3 && u === 'L'));
+          colSlot.forEach((r, j) => r.setAttribute('style', slotCss(st >= 2 && st <= 3 && j === t))); allSlot.setAttribute('style', slotCss(st >= 2 && st <= 3));
+          cells.forEach(([uu, tt]) => { const k = uu + tt, on = k === sel && st >= 4; to(dots[k], { r: on ? 11 : 8 }, { dur: 0 }); dots[k].style.stroke = on ? 'var(--ink)' : (uu === 'E' ? 'var(--c1)' : 'var(--c2)'); });
+          const d = Dm[u][t], r1 = step1(u, t), r2 = resid(u, t), fit = Di[u] + Dt[t] - Dbar, y = Yof(u, t), nm = cname(sel);
+          const L = (k, on, html) => `<li class="${on ? 'on' : ''}${k > st && st <= 3 ? ' later' : ''}">${html}</li>`;
+          let h = `<div class="cp-h">${nm} 칸의 계산 <span>(위의 단추나 그림의 칸을 누르면 다른 칸으로 바뀐다)</span></div><ol>`;
+          h += L(0, st === 0, `처치변수 D = <b>${d}</b> (${d ? '처치된 칸' : '처치되지 않은 칸'})`);
+          h += L(1, st === 1, `단위 평균 차감: ${d} − ${u}의 행 평균 ${Q(Di[u])} = <b>${Q(r1)}</b>`);
+          h += L(2, st === 2, `시점 평균 차감, 전체 평균 더하기: ${Q(r1)} − ${t + 1}기의 열 평균 ${Q(Dt[t])} + 전체 평균 ${Q(Dbar)} = <b>${Q(r2)}</b> = D̃`);
+          h += L(3, st === 3, `한 번에 적으면: D − 적합값 = ${d} − (${Q(Di[u])} + ${Q(Dt[t])} − ${Q(Dbar)}) = ${d} − ${QP(fit)} = <b>${Q(r2)}</b>${fit > 1 + 1e-9 ? ' (적합값이 1을 초과하므로 처치된 칸인데도 음수)' : ''}`);
+          if (st >= 4) {
+            let num = 0; cells.forEach(([uu, tt]) => { num += resid(uu, tt) * Yof(uu, tt); });
+            h += L(4, st === 4, `산점도의 점: 가로 D̃ = ${Q(r2)}, 세로 Y = ${GV.fmt(y, 0)}`);
+            h += L(5, st >= 5, `이 칸이 분자에 더하는 값 D̃ × Y = ${QP(r2)} × ${GV.fmt(y, 0)} = <b>${Q(r2 * y)}</b>. 여섯 칸을 더한 분자 ΣD̃Y = ${Q(num)}, 분모 ΣD̃² = 1/3, 기울기 = ${Q(num)} ÷ 1/3 = <b>${GV.fmt(num * 3, 2)}</b>`);
+          }
+          calc.innerHTML = h + '</ol>';
+        };
         drawLine = anim => {
           const o = { dur: anim ? 450 : 0 };
           const tw = ST.twfe([{ n: 1, g: 1, y: [0, 2, tauE3] }, { n: 1, g: 2, y: [0, 0, 2] }], 3), d = tw.delta;
           const ybar = (4 + tauE3) / 6;
           to(line, { y1: sy(ybar + d * -0.42), y2: sy(ybar + d * 0.42) }, o);
           to(dots.E2, { cy: sy(tauE3) }, o); to(dl.E2, { y: sy(tauE3) - 13 }, o); to(ring, { cy: sy(tauE3) }, o);
-          count(slope, d, 2, { pre: '기울기 = TWFE 계수 ' });
+          count(slope, d, 2, { pre: '기울기 = TWFE 계수 ' }); if (paintSel) paintSel(cur);
           slope.style.fill = d < 0 ? 'var(--bad)' : 'var(--ink)';
         };
         return (st, anim) => {
           cur = st; const o = { dur: anim ? 600 : 0 };
           sl.input.disabled = st !== 6;
           if (st !== 6 && tauE3 !== 10) { tauE3 = 10; sl.set(10); }
-          cells.forEach(([u, t]) => { const k = u + t; val[k].textContent = st === 0 ? String(Dm[u][t]) : st === 1 ? FR(step1(u, t)) : FR(resid(u, t)); });
+          cells.forEach(([u, t]) => { const k = u + t; val[k].textContent = st === 0 ? String(Dm[u][t]) : st === 1 ? FR(step1(u, t)) : FR(resid(u, t));
+            ex[k].textContent = st === 1 ? `${Dm[u][t]} − ${Q(Di[u])}` : st === 2 ? `${Q(step1(u, t))} − ${Q(Dt[t])} + ${Q(Dbar)}` : st === 3 ? `${Dm[u][t]} − 적합값 ${QP(Di[u] + Dt[t] - Dbar)}` : ''; });
+          paintSel(st);
           rowm.forEach(e => show(e, st >= 1 && st <= 3, o));
           colm.forEach(e => show(e, st >= 2 && st <= 3, o)); show(allm, st >= 2 && st <= 3, o);
           formula.style.fill = st >= 2 ? 'var(--ink)' : 'var(--muted)'; formula.style.fontWeight = st >= 2 ? '700' : '400';
@@ -523,8 +555,8 @@
         '세 가지 평균을 구한다. 오른쪽 여백은 행 평균 D̄ᵢ(그 단위가 처치된 기간의 비율), 아래 여백은 열 평균 D̄ₜ(그 시점에 처치된 단위의 비율), 오른쪽 아래는 전체 평균 D̄다. 다음 단계에서 이 셋으로 적합값 = 그 칸의 행 평균 + 그 칸의 열 평균 − 전체 평균을 계산한다.',
         '적합값을 계산한다. 각 칸에 그 칸이 속한 행의 평균(오른쪽 여백, 단위 색)과 열의 평균(아래 여백, 검정)을 더하고 전체 평균(오른쪽 아래, 회색)을 한 번 차감한다. 행 평균과 열 평균에는 모든 칸에 공통인 전체 처치 수준이 한 번씩 들어 있어 두 번 더해지므로 한 번 차감하는 것이다. 칸을 하나씩 짚으며 사용하는 평균 세 개를 강조한다.',
         '계산 결과가 적합값 D̂ = 그 칸의 행 평균 + 그 칸의 열 평균 − 전체 평균(D̄ᵢ + D̄ₜ − D̄)이다. 어느 단위인지와 어느 시점인지만으로 예측한 처치 정도이며 1을 초과하거나 0보다 작은 칸은 점선 테두리로 표시한다.',
-        '잔차 D̃ = D − D̂ = D − 행 평균 − 열 평균 + 전체 평균이다. 여백이 행 합과 열 합으로 바뀌며 모두 0이다. 이는 잔차가 모든 단위 더미, 시점 더미와 직교한다는 조건과 같다.',
-        '가중치 w = D̃ / ΣD̃²다. 처치된 칸(굵은 숫자)의 가중치를 더하면 1이고 붉은 칸은 음의 가중치를 받는 처치 칸이다.'
+        '잔차 D̃ = D − D̂ = D − 행 평균 − 열 평균 + 전체 평균이다. 칸마다 D − 적합값의 계산을 적었다. 여백이 행 합과 열 합으로 바뀌며 모두 0이다. 이는 잔차가 모든 단위 더미, 시점 더미와 직교한다는 조건과 같다.',
+        '가중치 w = D̃ / ΣD̃²다. 칸마다 그 칸의 잔차를 잔차 제곱합(모든 칸의 D̃²를 더한 값)으로 나눈 계산을 적었다. 처치된 칸(굵은 숫자)의 가중치를 더하면 1이고 붉은 칸은 음의 가중치를 받는 처치 칸이다.'
       ],
       init(svg, F) {
         const wrap = GV.h('div', { cls: 'ptwrap' }); svg.replaceWith(wrap);
@@ -537,8 +569,9 @@
           if (v === 'D' || v === 'mean') return String(M.D[i][t]);
           if (v === 'calc') return `<span class="x"><i class="xr">${FR(M.Di[i])}</i> + <i class="xc">${FR(M.Dt[t])}</i> − <i class="xg">${FR(M.Db)}</i></span><span class="xv">= ${FR(M.Dh[i][t])}</span>`;
           if (v === 'Dhat') return FR(M.Dh[i][t]);
-          if (v === 'Dtil') return FR(M.Dr[i][t]);
-          return isNaN(M.w[i][t]) ? '−' : FR(M.w[i][t]);
+          const P = x => x < -1e-12 ? `(${FR(x)})` : FR(x);
+          if (v === 'Dtil') return `<span class="x">${M.D[i][t]} − <i class="xh">${P(M.Dh[i][t])}</i></span><span class="xv">= ${FR(M.Dr[i][t])}</span>`;
+          return isNaN(M.w[i][t]) ? '−' : `<span class="x">${P(M.Dr[i][t])} ÷ ${FR(M.ss)}</span><span class="xv">= ${FR(M.w[i][t])}</span>`;
         }
         function summary() {
           const v = VIEW[view], S = M.S;
@@ -700,7 +733,7 @@
         h += '<div class="lm-long"><table><thead><tr><th>행</th><th>칸</th><th class="n">D</th><th class="n g2">E 더미</th><th class="n g2">L 더미</th><th class="n g2">1기 더미</th><th class="n g2">2기 더미</th><th class="n g2">3기 더미</th><th class="n g3">적합값 D̂</th><th class="n g3">잔차 D̃</th></tr></thead><tbody>';
         rows.forEach((r, k) => {
           const dum = [r.u === 'E', r.u === 'L', r.t === 0, r.t === 1, r.t === 2].map((on, j) => `<td class="n g2${on ? ' on ' + (j < 2 ? 'du' : 'dt') : ''}">${on ? 1 : 0}</td>`).join('');
-          h += `<tr data-r="${k}"><td class="n lm-no">${k + 1}</td><td class="lm-name" style="--cc:var(--${r.col});--cs:var(--${r.col}-soft)"><span class="${r.D ? 'tr' : ''}">${r.u} ${r.p}</span></td><td class="n g1"><b>${r.D}</b></td>${dum}<td class="n g3">${FR(r.h)}</td><td class="n g3${r.e < -1e-9 ? ' neg' : ''}">${FR(r.e)}</td></tr>`;
+          h += `<tr data-r="${k}"><td class="n lm-no">${k + 1}</td><td class="lm-name" style="--cc:var(--${r.col});--cs:var(--${r.col}-soft)"><span class="${r.D ? 'tr' : ''}">${r.u} ${r.p}</span></td><td class="n g1"><b>${r.D}</b></td>${dum}<td class="n g3 lm-x"><span>${FR(Di[r.i])} + ${FR(Dt[r.t])} − ${FR(Db)}</span>${FR(r.h)}</td><td class="n g3 lm-x${r.e < -1e-9 ? ' neg' : ''}"><span>${r.D} − ${r.h < 0 ? '(' + FR(r.h) + ')' : FR(r.h)}</span>${FR(r.e)}</td></tr>`;
         });
         h += '</tbody></table></div>';
         wrap.innerHTML = h;
