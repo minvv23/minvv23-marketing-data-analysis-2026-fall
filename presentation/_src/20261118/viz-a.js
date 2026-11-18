@@ -153,7 +153,11 @@
       const mk = (txt, size) => S('text', { x: x + cw / 2, y: yy + ch / 2 + 26, 'text-anchor': 'middle', 'font-size': size || 58, 'font-weight': 800, text: txt, o: 0 }, g);
       const L = [mk(String(D[i][t])), mk(f(pred[i][t])), mk(f(Dt[i][t])), mk(on ? f(w[i][t]) : '', 58), mk(calc[i][t] || '', 29)];
       const tag = S('text', { x: x + 12, y: yy + 26, cls: 'lbs', text: '', o: 1 }, g);
-      cells.push({ i, t, on, r, L, tag, g });
+      // 2단계(적합값)와 3단계(잔차)에서 큰 숫자 위에 그 칸의 계산식을 적는다
+      const pq = v => v < 0 ? '(' + f(v) + ')' : f(v);
+      const ex = [S('text', { x: x + cw / 2, y: yy + 54, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 600, fill: C.muted, text: `${f(rm[i])} + ${f(cm[t])} − ${f(gm)}`, o: 0 }, g),
+        S('text', { x: x + cw / 2, y: yy + 54, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 600, fill: C.muted, text: `${D[i][t]} − ${pq(pred[i][t])}`, o: 0 }, g)];
+      cells.push({ i, t, on, r, L, tag, g, ex });
     }
     // 여백의 평균들
     const mar = S('g', { o: 0 }, v);
@@ -178,6 +182,7 @@
         tw(c.g, { o: (st >= 4 && !c.on) ? .35 : 1 }, { dur: 400 });
         const neg = (st === 3 && Dt[c.i][c.t] < 0) || (st >= 4 && c.on && w[c.i][c.t] < 0);
         c.L.forEach(tx => tx.setAttribute('fill', neg ? C.bad : C.ink));
+        show(c.ex[0], st === 2, { dur: 380, delay: st === 2 ? 260 : 0 }); show(c.ex[1], st === 3, { dur: 380, delay: st === 3 ? 260 : 0 });
       });
       show(mar, st === 2 || st === 3, { delay: st === 2 ? 200 : 0 }); show(flag, st === 2, { delay: 500 });
     };

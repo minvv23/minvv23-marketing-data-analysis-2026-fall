@@ -114,7 +114,7 @@
     <p class="nota"><b>읽는 법.</b> 칸은 집단×시점이고 굵은 테두리가 처치된 칸이다. 큰 숫자는 단계마다 바뀌고 오른쪽 위 작은 숫자는 종속변수 Y다.</p>
     <ul class="steps">
       <li data-n="01">처치변수 D는 E의 2, 3기와 L의 3기에서 1이다.</li>
-      <li data-n="02">고정효과만으로 D를 맞춘 적합값은 단위 평균 + 시점 평균 − 전체 평균이다. E의 3기는 <span class="nw">2/3 + 1 − 1/2 = 7/6으로</span> 1을 넘는다.</li>
+      <li data-n="02">고정효과만으로 D를 맞춘 적합값은 그 칸의 단위 평균(행) + 시점 평균(열) − 전체 평균이다. E의 3기는 <span class="nw">2/3 + 1 − 1/2 = 7/6으로</span> 1을 넘는다.</li>
       <li data-n="03">D는 1을 넘을 수 없으므로 잔차 D̃(D − 적합값)는 실제로 처치된 E의 3기에서 <span class="kb">−1/6</span>이 된다. 회귀는 이 칸을 비교집단 쪽 관측처럼 사용한다.</li>
       <li data-n="04">칸별 가중치는 D̃를 ΣD̃²으로 나눈 값이다. 처치된 세 칸은 1, <span class="kb">−1/2</span>, 1/2로 합이 1이지만 효과가 가장 큰 칸(10)이 음의 가중치를 받는다.</li>
       <li data-n="05">그래서 계수는 <span class="nw">1 × 2 − 1/2 × 10 + 1/2 × 2 = <span class="kb">−2</span>다.</span> 2×2 비교의 가중치(1/2, 1/2)는 양수였지만 효과 칸별로 풀면 음수가 나온다.</li>
@@ -122,7 +122,8 @@
   </div>
   <div class="viz" data-viz="wt">
     <div class="ov swap eq" style="top:596px">
-      <div data-on="0-2"><tex d>\hat\delta=\frac{\sum_{i,t}\tilde D_{it}\,Y_{it}}{\sum_{i,t}\tilde D_{it}^{2}},\qquad \tilde D_{it}=D_{it}-\bar D_i-\bar D_t+\bar D</tex></div>
+      <div data-on="0-1"><tex d>\hat\delta=\frac{\sum_{i,t}\tilde D_{it}\,Y_{it}}{\sum_{i,t}\tilde D_{it}^{2}},\qquad \tilde D_{it}=D_{it}-\bar D_i-\bar D_t+\bar D</tex></div>
+      <div data-on="2"><tex d>\hat D_{E3}=\underbrace{\tfrac23}_{\text{E의 단위 평균}}+\underbrace{1}_{\text{3기의 시점 평균}}-\underbrace{\tfrac12}_{\text{전체 평균}}=\htmlClass{t-bad}{\tfrac76}</tex></div>
       <div data-on="3"><tex d>\tilde D_{E3}=1-\Big(\tfrac23+1-\tfrac12\Big)=\htmlClass{t-bad}{-\tfrac16}</tex></div>
       <div data-on="4"><tex d>\hat\delta=\sum_{D_{it}=1} w_{it}\,\tau_{it},\qquad w_{it}=\frac{\tilde D_{it}}{\sum\tilde D^{2}},\qquad \sum_{D_{it}=1} w_{it}=1</tex></div>
       <div data-on="5"><tex d>\hat\delta=\underbrace{1\cdot 2}_{E,\,2\text{기}}\;\htmlClass{t-bad}{-\;\underbrace{\tfrac12\cdot 10}_{E,\,3\text{기}}}\;+\;\underbrace{\tfrac12\cdot 2}_{L,\,3\text{기}}=\htmlClass{t-bad}{-2}</tex></div>
