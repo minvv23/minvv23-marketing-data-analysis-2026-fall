@@ -384,7 +384,14 @@
       [[I, 'u'], [gk, 'c1'], [gl, 'c2']].forEach(([g, c], r) => { for (let t = 0; t < T; t++) s('rect', { x: 92 + t * sw + 1, y: 32 + r * 24, width: sw - 2, height: 18, css: `fill:${t >= g ? C(c) : C('soft')}` }, strip); });
       s('text', { x: 92, y: 118, css: 'font-size:12px', text: `${T}기 관측. 색칠된 칸이 처치된 기간` }, strip);
       slide('k', (T - gk) / T, anim); slide('l', (T - gl) / T, anim);
-      vcalc.innerHTML = `<div class="vc-top">곡선은 0과 1만 갖는 변수의 분산 공식 D̄(1 − D̄)를 그대로 그린 그래프다. 두 집단의 분산을 직접 계산하면 언제나 이 공식과 같은 값이 나오므로 점이 곡선 위에 놓이고 관측 기간이 바뀌어 처치 비율이 바뀌면 같은 곡선을 따라 이동한다.</div><div class="vc-row">${varCalc('k', 'c1', T, gk)}${varCalc('l', 'c2', T, gl)}</div>`;
+      vcalc.innerHTML = `<div class="vc-top">곡선은 0과 1만 갖는 변수의 분산 공식 D̄(1 − D̄)를 그대로 그린 그래프다. 두 집단의 분산을 직접 계산하면 언제나 이 공식과 같은 값이 나오므로 점이 곡선 위에 놓이고 관측 기간이 바뀌어 처치 비율이 바뀌면 같은 곡선을 따라 이동한다.</div><div class="vc-row">${varCalc('k', 'c1', T, gk)}${varCalc('l', 'c2', T, gl)}</div>` + (() => {
+        const wk = bc.parts.filter(q => q.treat === 1).reduce((a, q) => a + q.w, 0), wl = 1 - wk, nk = T - gk, nl = T - gl, f3 = x => GV.fmt(x, 3);
+        return `<div class="vc-avg"><div class="vc-h">코호트를 분산으로 가중한 평균 (효과 k = 4, l = 2)</div>
+          <div>TWFE가 k에 준 가중치 = k 대 U + k 대 l = <b>${f3(wk)}</b>, l에 준 가중치 = l 대 U + l 대 k = <b>${f3(wl)}</b></div>
+          <div>TWFE 계수 = ${f3(wk)} × 4 + ${f3(wl)} × 2 = <b>${GV.fmt(4 * wk + 2 * wl, 2)}</b></div>
+          <div>단위 평균 ATT = 1/2 × 4 + 1/2 × 2 = <b>3</b></div>
+          <div>관측치 평균 ATT = (${nk}칸 × 4 + ${nl}칸 × 2) ÷ ${nk + nl}칸 = <b>${GV.fmt((4 * nk + 2 * nl) / (nk + nl), 2)}</b></div>
+          <div class="vc-note">처치된 칸은 k가 ${nk}개, l이 ${nl}개인데 TWFE의 가중치는 처치 비율이 0.5에 가까워 처치변수가 더 많이 움직이는 집단에 편중된다.</div></div>`; })();
       labs.forEach((lb, i) => { const p = bc.parts.find(q => q.type === lb[0] && q.treat === lb[1]); to(bars[i].r, { width: Math.max(1, bw(p.w)) }, o); to(bars[i].t, { x: bx0 + bw(p.w) + 6 }, o); GV.count(bars[i].t, p.w, 3, { dur: anim ? 700 : 0 }); });
       to(mk, { cx: nx(bc.delta) }, o); to(ml, { x: nx(bc.delta) }, o); GV.count(ml, bc.delta, 2, { pre: 'TWFE 계수 ', dur: anim ? 700 : 0 });
     }

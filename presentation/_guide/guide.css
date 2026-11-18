@@ -355,3 +355,5 @@ td .cx{display:block;font-size:12px;color:var(--muted);font-weight:500;white-spa
 .vcalc .vc-d{display:flex;gap:3px;margin:.2rem 0 .35rem}
 .vcalc .vc-d i{font-style:normal;width:1.5rem;height:1.5rem;display:grid;place-items:center;border-radius:3px;background:var(--bg);border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--muted)}
 .vcalc .vc-d i.on{background:var(--cc);border-color:var(--cc);color:var(--bg)}
+.vcalc .vc-avg{margin-top:.8rem;padding-top:.6rem;border-top:1px dashed var(--line)}
+.vcalc .vc-note{color:var(--muted);font-size:13.5px;margin-top:.25rem}
