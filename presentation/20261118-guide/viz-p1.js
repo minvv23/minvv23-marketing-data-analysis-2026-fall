@@ -321,6 +321,18 @@
       note: '네 2×2의 DID는 세 경우 모두 4, 4, 2, 2로 같다. 달라지는 것은 처치 비율 D̄와 그에 따른 가중치뿐이다. 계수는 덱의 계산 코어(stats.js)의 Goodman-Bacon 분해로 계산한 값이다.' });
     GV.seg(F.top, '관측 기간', [['base', '처음 5기'], ['post', '이후 5기 추가'], ['pre', '이전 5기 추가']], st.k, v => { st.k = v; draw(true); });
     const svg = F.svg;
+    const vcalc = GV.h('div', { cls: 'pinfo vcalc' }, F.out);
+    const QF = x => GV.frac(x, 400);
+    // 집단 하나의 D 배열과 분산 계산: 0인 칸과 1인 칸이 평균에서 떨어진 거리의 제곱을 평균한다
+    function varCalc(name, col, T, g) {
+      const n1 = T - g, n0 = g, p = n1 / T, cells = Array.from({ length: T }, (_, t) => t >= g ? 1 : 0);
+      return `<div class="vc"><div class="vc-h" style="color:var(--${col})">${name}: ${T}기 가운데 ${n1}기 처치</div>
+        <div class="vc-d">${cells.map(d => `<i class="${d ? 'on' : ''}" style="--cc:var(--${col})">${d}</i>`).join('')}</div>
+        <div>처치 비율 D̄ = ${n1}/${T}${QF(p) !== n1 + '/' + T ? ' = ' + QF(p) : ''}</div>
+        <div>분산 = [${n0} × (0 − ${QF(p)})² + ${n1} × (1 − ${QF(p)})²] ÷ ${T}</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;= [${n0} × ${QF(p * p)} + ${n1} × ${QF((1 - p) * (1 - p))}] ÷ ${T} = <b>${QF(p * (1 - p))}</b></div>
+        <div>D̄(1 − D̄) = ${QF(p)} × ${QF(1 - p)} = <b>${QF(p * (1 - p))}</b> (곡선 위의 점, ${GV.fmt(p * (1 - p), 2)})</div></div>`;
+    }
     // 위: 관측 기간 띠
     const strip = s('g', {}, svg);
     const rowsLab = [['U', 'u'], ['k', 'c1'], ['l', 'c2']];
@@ -372,6 +384,7 @@
       [[I, 'u'], [gk, 'c1'], [gl, 'c2']].forEach(([g, c], r) => { for (let t = 0; t < T; t++) s('rect', { x: 92 + t * sw + 1, y: 32 + r * 24, width: sw - 2, height: 18, css: `fill:${t >= g ? C(c) : C('soft')}` }, strip); });
       s('text', { x: 92, y: 118, css: 'font-size:12px', text: `${T}기 관측. 색칠된 칸이 처치된 기간` }, strip);
       slide('k', (T - gk) / T, anim); slide('l', (T - gl) / T, anim);
+      vcalc.innerHTML = `<div class="vc-top">곡선은 0과 1만 갖는 변수의 분산 공식 D̄(1 − D̄)를 그대로 그린 그래프다. 두 집단의 분산을 직접 계산하면 언제나 이 공식과 같은 값이 나오므로 점이 곡선 위에 놓이고 관측 기간이 바뀌어 처치 비율이 바뀌면 같은 곡선을 따라 이동한다.</div><div class="vc-row">${varCalc('k', 'c1', T, gk)}${varCalc('l', 'c2', T, gl)}</div>`;
       labs.forEach((lb, i) => { const p = bc.parts.find(q => q.type === lb[0] && q.treat === lb[1]); to(bars[i].r, { width: Math.max(1, bw(p.w)) }, o); to(bars[i].t, { x: bx0 + bw(p.w) + 6 }, o); GV.count(bars[i].t, p.w, 3, { dur: anim ? 700 : 0 }); });
       to(mk, { cx: nx(bc.delta) }, o); to(ml, { x: nx(bc.delta) }, o); GV.count(ml, bc.delta, 2, { pre: 'TWFE 계수 ', dur: anim ? 700 : 0 });
     }

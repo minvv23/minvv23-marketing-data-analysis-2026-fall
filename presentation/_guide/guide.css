@@ -348,3 +348,10 @@ header.top .theme{margin:1rem 0 0}
 .lm-x span{display:block;font-size:11px;color:var(--muted);font-weight:500;white-space:nowrap}
 .lmap .lm-long td.lm-x{line-height:1.25}
 td .cx{display:block;font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap}
+/* weights-curve 분산 계산 패널 */
+.vcalc .vc-top{margin:0 0 .6rem;color:var(--body)}
+.vcalc .vc-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.6rem 1.2rem}
+.vcalc .vc-h{font-weight:800;margin-bottom:.25rem}
+.vcalc .vc-d{display:flex;gap:3px;margin:.2rem 0 .35rem}
+.vcalc .vc-d i{font-style:normal;width:1.5rem;height:1.5rem;display:grid;place-items:center;border-radius:3px;background:var(--bg);border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--muted)}
+.vcalc .vc-d i.on{background:var(--cc);border-color:var(--cc);color:var(--bg)}
