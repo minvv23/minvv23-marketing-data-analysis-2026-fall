@@ -315,11 +315,14 @@
 
   /* ---------- weights-curve (p1-weights): 관측 기간만 바꾸면 가중치와 계수가 달라진다 (덱 10장) ---------- */
   GV.reg('weights-curve', host => {
-    const W = 660, H = 400, cfg = { base: [5, 1, 3], post: [10, 1, 3], pre: [10, 6, 8] };
-    const st = { k: 'base' };
+    const W = 660, H = 400;
+    const st = { k: 'base', gap: 2 };
+    // 관측 기간과 l의 도입 간격으로 (기간 수, k의 도입 칸, l의 도입 칸)을 정한다. k는 처음 5기 기준 2기에 도입한다.
+    const cfgOf = () => ({ base: [5, 1, 1 + st.gap], post: [10, 1, 1 + st.gap], pre: [10, 6, 6 + st.gap] })[st.k];
     const F = GV.frame(host, { kind: '도식', title: '관측 기간만 바꾸는 실험 (U, k, l 각 1단위, 효과 k = 4, l = 2로 일정, 가상 수치)', w: W, h: H, controls: true,
       note: '네 2×2의 DID는 세 경우 모두 4, 4, 2, 2로 같다. 달라지는 것은 처치 비율 D̄와 그에 따른 가중치뿐이다. 계수는 덱의 계산 코어(stats.js)의 Goodman-Bacon 분해로 계산한 값이다.' });
     GV.seg(F.top, '관측 기간', [['base', '처음 5기'], ['post', '이후 5기 추가'], ['pre', '이전 5기 추가']], st.k, v => { st.k = v; draw(true); });
+    GV.seg(F.top, 'l의 도입 간격', [[1, 'k보다 1기 늦게'], [2, '2기 늦게 (기본)'], [3, '3기 늦게']], st.gap, v => { st.gap = v; draw(true); });
     const svg = F.svg;
     const vcalc = GV.h('div', { cls: 'pinfo vcalc' }, F.out);
     const QF = x => GV.frac(x, 400);
@@ -376,7 +379,7 @@
     const ml = s('text', { x: nx(2.75), y: 312, 'text-anchor': 'middle', css: 'fill:var(--ink);font-weight:800;font-size:15px', text: '' }, svg);
     function draw(anim) {
       const o = { dur: anim ? 700 : 0 };
-      const [T, gk, gl] = cfg[st.k];
+      const [T, gk, gl] = cfgOf();
       const k = Array.from({ length: T }, (_, t) => t >= gk ? 4 : 0), l = Array.from({ length: T }, (_, t) => t >= gl ? 2 : 0);
       const bc = ST.bacon([{ n: 1, g: I, y: new Array(T).fill(0) }, { n: 1, g: gk, y: k }, { n: 1, g: gl, y: l }], T);
       // 띠
@@ -391,7 +394,21 @@
           <div>TWFE 계수 = ${f3(wk)} × 4 + ${f3(wl)} × 2 = <b>${GV.fmt(4 * wk + 2 * wl, 2)}</b></div>
           <div>단위 평균 ATT = 1/2 × 4 + 1/2 × 2 = <b>3</b></div>
           <div>관측치 평균 ATT = (${nk}칸 × 4 + ${nl}칸 × 2) ÷ ${nk + nl}칸 = <b>${GV.fmt((4 * nk + 2 * nl) / (nk + nl), 2)}</b></div>
-          <div class="vc-note">처치된 칸은 k가 ${nk}개, l이 ${nl}개인데 TWFE의 가중치는 처치 비율이 0.5에 가까워 처치변수가 더 많이 움직이는 집단에 편중된다.</div></div>`; })();
+          <div class="vc-note">${Math.abs(wk - wl) < 1e-9 ? `두 집단의 처치 비율 ${GV.fmt(nk / T, 1)}과 ${GV.fmt(nl / T, 1)}이 0.5에서 같은 거리에 있어 처치변수의 분산이 같으므로 처치된 칸의 수(${nk}개와 ${nl}개)와 무관하게 가중치가 같다.` : `처치된 칸은 k가 ${nk}개, l이 ${nl}개인데 TWFE의 가중치는 처치 비율이 0.5에 가까워 처치변수가 더 많이 움직이는 집단에 편중된다.`}</div></div>`; })() + (() => {
+        // Goodman-Bacon 가중치의 세 요인: (부분표본 크기)² × 두 집단의 균형 × 그 구간에서 움직이는 D의 처치 비율 s(1 − s)
+        const Dk = (T - gk) / T, Dl = (T - gl) / T, n = 1 / 3, F2 = x => GV.frac(x, 400), f3 = x => GV.fmt(x, 3);
+        const rows = [
+          ['k 대 U', `1-${T}기`, 'k', Dk, (2 * n) ** 2],
+          ['l 대 U', `1-${T}기`, 'l', Dl, (2 * n) ** 2],
+          ['k 대 l', `1-${gl}기 (l 도입 전)`, 'k', (Dk - Dl) / (1 - Dl), (2 * n * (1 - Dl)) ** 2],
+          ['l 대 k', `${gk + 1}-${T}기 (k 도입 후)`, 'l', Dl / Dk, (2 * n * Dk) ** 2]];
+        const prod = rows.map(r => r[4] * 0.25 * r[3] * (1 - r[3])), sum = prod.reduce((a, b) => a + b, 0);
+        const order = ['TvU-1', 'TvU-2', 'EvL-1', 'LvE-2'], wst = order.map(o => { const [ty, tr] = o.split('-'); const q = bc.parts.find(p => p.type === ty && p.treat === +tr); return q ? q.w : NaN; });
+        return `<div class="vc-avg"><div class="vc-h">2×2마다 처치변수가 움직이는 정도와 가중치</div>
+          <div class="tbl"><table class="vc-t"><thead><tr><th>2×2</th><th>사용 구간</th><th class="n">움직이는 D의 처치 비율 s</th><th class="n">s(1 − s)</th><th class="n">(부분표본 크기)²</th><th class="n">집단 균형</th><th class="n">곱</th><th class="n">가중치 = 곱 ÷ 합</th></tr></thead><tbody>
+          ${rows.map((r, i) => `<tr><td>${r[0]}</td><td>${r[1]}</td><td class="n">${r[2]}: ${F2(r[3])}</td><td class="n">${F2(r[3] * (1 - r[3]))}</td><td class="n">${F2(r[4])}</td><td class="n">1/4</td><td class="n">${f3(prod[i])}</td><td class="n"><b>${f3(prod[i] / sum)}</b></td></tr>`).join('')}
+          </tbody></table></div>
+          <div class="vc-note">U와의 비교에서 s는 관측 기간 전체에서 그 코호트가 처치된 비율이다. k 대 l의 s는 (두 도입 시점의 간격 ${gl - gk}기) ÷ (관측 시작부터 l 도입까지 ${gl}기), l 대 k의 s는 (l 도입부터 끝까지 ${T - gl}기) ÷ (k 도입부터 끝까지 ${T - gk}기)다. 계산 코어의 가중치와 비교하면 ${wst.map(f3).join(', ')}로 같다.</div></div>`; })();
       labs.forEach((lb, i) => { const p = bc.parts.find(q => q.type === lb[0] && q.treat === lb[1]); to(bars[i].r, { width: Math.max(1, bw(p.w)) }, o); to(bars[i].t, { x: bx0 + bw(p.w) + 6 }, o); GV.count(bars[i].t, p.w, 3, { dur: anim ? 700 : 0 }); });
       to(mk, { cx: nx(bc.delta) }, o); to(ml, { x: nx(bc.delta) }, o); GV.count(ml, bc.delta, 2, { pre: 'TWFE 계수 ', dur: anim ? 700 : 0 });
     }
