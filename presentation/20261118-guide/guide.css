@@ -374,3 +374,14 @@ html.pv #p4>*:not(section.sub),html.pv #p4>section.sub:not(.pvon),html.pv #p4 se
 html.pv .widget[data-w="slide"]{display:none}
 html.pv tr.pvcur>td{background:var(--soft);color:var(--ink)}
 html.pv tr.pvcur>td:first-child{box-shadow:inset 3px 0 0 var(--c1)}
+
+/* 4부 각 장의 단계별 자세한 해설 (덱 expl-*.md에서 빌드가 넣는다) */
+details.stepx{margin:1.25rem 0 1.5rem;border:1px solid var(--line);border-radius:8px;padding:.55rem 1rem .8rem;background:var(--bg)}
+details.stepx>summary{font-weight:700;color:var(--ink);cursor:pointer;padding:.2rem 0}
+details.stepx>summary span{font-weight:500;font-size:13px;color:var(--muted);margin-left:.4rem}
+details.stepx dl{margin:.4rem 0 0}
+details.stepx dt{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted);margin:1rem 0 .15rem}
+details.stepx dd{margin:0;line-height:1.75;color:var(--body);text-wrap:pretty}
+details.stepx dd strong{color:var(--ink)}
+html.pv details.stepx dt.pvcur{color:var(--c1)}
+html.pv details.stepx dd.pvcur{color:var(--ink);box-shadow:inset 3px 0 0 var(--c1);padding-left:.7rem}

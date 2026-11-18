@@ -91,6 +91,25 @@ body = body.replace(/<a class="deck"([^>]*)>/g, (m, attrs) => {
 
 // ---------- 4부 슬라이드 미리보기: 장 소절마다 제목 다음 첫 문단 뒤에 넣는다 ----------
 body = body.replace(/(<section class="sub" id="p4-s(\d+)"[^>]*>\s*<h3>[\s\S]*?<\/h3>[\s\S]*?<\/p>)/g, (m, head, n) => `${head}\n<div class="widget" data-w="slide" data-s="${n}"></div>`);
+// 단계별 자세한 해설: 덱 원본의 expl-*.md("# s-id" 아래 "N> 해설")를 장 번호로 맞춰 각 4부 절의 단계 표 뒤에 넣는다. 발표자 화면 대본 아래의 해설과 같은 글이다.
+const deckIds = fs.readdirSync(SRC).filter(n => /^slides.*\.html$/.test(n)).sort().map(n => fs.readFileSync(path.join(SRC, n), 'utf8')).join('\n')
+  .match(/<section class="slide[^"]*" id="s-[a-z0-9]+"/g).map(x => x.match(/id="(s-[a-z0-9]+)"/)[1]);
+const stepx = {}; for (const f of fs.readdirSync(SRC).filter(n => /^expl-.*\.md$/.test(n)).sort()) { let cur = null;
+  for (const line of fs.readFileSync(path.join(SRC, f), 'utf8').replace(/<!--[\s\S]*?-->/g, '').split('\n')) {
+    const h = line.match(/^#\s+(s-[a-z0-9]+)\s*$/), m = line.match(/^(\d+)>\s*(.*)$/);
+    if (h) cur = stepx[h[1]] = stepx[h[1]] || []; else if (m && cur) cur[+m[1]] = m[2].trim();
+  } }
+const exEsc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+let nStepx = 0;
+body = body.replace(/<section class="sub" id="p4-s(\d+)"[^>]*>[\s\S]*?(?=<\/section>)/g, (sec, n) => {
+  const a = stepx[deckIds[+n - 1]]; if (!a || !a.some(Boolean)) return sec;
+  nStepx += a.filter(Boolean).length;
+  const block = `\n<details class="stepx" open><summary>단계별 자세한 해설 <span>발표자 화면의 대본 아래 해설과 같은 글</span></summary><dl>` +
+    a.map((t, b) => t ? `<dt data-b="${b}">${b === 0 ? '시작 (0단계)' : b + '단계'}</dt><dd data-b="${b}">${exEsc(t)}</dd>` : '').join('') + `</dl></details>\n`;
+  const i = sec.search(/<thead><tr><th>단계<\/th>/);
+  if (i >= 0) { const j = sec.indexOf('</table></div>', i); if (j >= 0) return sec.slice(0, j + 14) + block + sec.slice(j + 14); }
+  return sec + block;
+});
 
 // ---------- 장 번호 ----------
 body = body.replace(/<section class="part" id="(p\d)"([^>]*)>\s*<h2>/g, (m, id, rest) => {
@@ -152,6 +171,7 @@ const pvJS = `(function () {
       var th = t.querySelector('thead th'); if (!th || th.textContent.trim() !== '단계') return;
       t.querySelectorAll('tbody tr').forEach(function (tr) { var c = tr.firstElementChild; tr.classList.toggle('pvcur', !!c && c.textContent.trim() === String(b)); });
     });
+    sec.querySelectorAll('.stepx [data-b]').forEach(function (x) { x.classList.toggle('pvcur', x.getAttribute('data-b') === String(b)); });
   }
   addEventListener('message', function (e) { var m = e.data; if (m && m.pv === 'show') show(+m.n, +m.b); });
   document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a) return; e.preventDefault(); window.open(location.pathname + a.getAttribute('href'), '_blank', 'noopener'); }, true);
@@ -266,7 +286,7 @@ for (const n of SCRIPTS) fs.copyFileSync(path.join(['stats.js', 'simcore.js'].in
 
 const plain = body.replace(/<span class="katex[\s\S]*?<\/span><\/span><\/span>/g, '').replace(/<[^>]+>/g, ' ');
 console.log(JSON.stringify({
-  out: path.relative(WEB, OUT), missing, tex: nTex, texErr, figErr, figs: figs.size,
+  out: path.relative(WEB, OUT), missing, stepx: nStepx, tex: nTex, texErr, figErr, figs: figs.size,
   gloss: Object.keys(gloss).length, glossDup, glossMissing, derivs: (body.match(/<div class="deriv"/g) || []).length,
   sections: toc.map(p => `${p.id}:${p.subs.length}`).join(' '),
   hangul: (plain.match(/[가-힣]/g) || []).length, kb: Math.round(Buffer.byteLength(html) / 1024)

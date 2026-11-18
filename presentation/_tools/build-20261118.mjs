@@ -30,6 +30,14 @@ const secs = [...slides.matchAll(/<section class="slide[^"]*" id="(s-[a-z0-9]+)"
   return { id: m[1], builds: +m[2], title: h1 }; });
 for (const sc of secs) { const a = notes[sc.id] || []; for (let b = 0; b <= sc.builds; b++) if (!a[b]) throw new Error(`대본 없음: ${sc.id} ${b}단계`); if (a.length > sc.builds + 1) throw new Error(`대본이 단계보다 많음: ${sc.id}`); }
 for (const id in notes) if (!secs.find(x => x.id === id)) throw new Error(`대본의 장 id가 덱에 없음: ${id}`);
+// 발표자용 단계별 해설: expl-*.md의 "# s-id" 아래 "N> 해설" 한 줄씩. 발표 시간 계산에는 넣지 않는다. 빠진 단계는 경고만 한다.
+const expl = {}; for (const f of list(/^expl-.*\.md$/)) { let cur = null;
+  for (const line of read(f).replace(/<!--[\s\S]*?-->/g, '').split('\n')) {
+    const h = line.match(/^#\s+(s-[a-z0-9]+)\s*$/), m = line.match(/^(\d+)>\s*(.*)$/);
+    if (h) { if (!secs.find(x => x.id === h[1])) throw new Error(`해설의 장 id가 덱에 없음: ${h[1]} (${f})`); cur = expl[h[1]] = expl[h[1]] || []; }
+    else if (m && cur) cur[+m[1]] = m[2].trim();
+  } }
+const explMiss = []; for (const sc of secs) { const a = expl[sc.id] || []; if (a.length > sc.builds + 1) throw new Error(`해설이 단계보다 많음: ${sc.id}`); for (let b = 0; b <= sc.builds; b++) if (!a[b]) explMiss.push(`${sc.id}:${b}`); }
 
 let nTex = 0;
 slides = slides.replace(/<tex( d)?>([\s\S]*?)<\/tex>/g, (_, d, t) => { nTex++; return render(t.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&'), !!d); });
@@ -39,7 +47,7 @@ const img = s => s.replace(/src="img\/([^"]+)"/g, (_, n) => {
   return `src="data:image/${path.extname(n).slice(1)};base64,${b.toString('base64')}"`;
 });
 slides = img(slides);
-js = `/* ===== 대본 (notes.md) ===== */\nconst DECK_NOTES = ${JSON.stringify(notes).replace(/</g, '\\u003c')};\n` + js;
+js = `/* ===== 대본 (notes.md) ===== */\nconst DECK_NOTES = ${JSON.stringify(notes).replace(/</g, '\\u003c')};\n/* ===== 단계별 해설 (expl-*.md) ===== */\nconst DECK_EXPL = ${JSON.stringify(expl).replace(/</g, '\\u003c')};\n` + js;
 if (/<\/script/i.test(js)) throw new Error('JS 안에 </script 문자열이 있음');
 
 const html = read('index.html').replace('/*CSS*/', () => css).replace('<!--SLIDES-->', () => slides).replace('/*JS*/', () => js);
@@ -50,8 +58,9 @@ fs.writeFileSync(out, html);
   let md = `# 20261118 Staggered DID 발표 대본\n\n> 이 파일은 빌드가 만든다. 고칠 때는 \`_src/20261118/notes.md\`를 고치고 \`node presentation/_tools/build-20261118.mjs\`를 실행한다.\n> 슬라이드: [20261118-presentation.html](20261118-presentation.html). 대본 전체 분량은 약 ${Math.round(tot / CPM)}분이다 (1분에 ${CPM}자로 계산, 공백 제외 ${tot.toLocaleString('en-US')}자).\n\n`;
   md += `## 덱에서 보는 법\n\n- **N**: 지금 단계의 대본을 화면 아래에 띄우거나 숨긴다. 혼자 읽거나 연습할 때 쓴다.\n- **P**: 발표자 화면을 새 창으로 연다. 그 창을 노트북 화면에 두고 슬라이드 창을 프로젝터로 옮긴다. 어느 창에서 넘겨도 두 창이 함께 넘어간다.\n- 발표자 화면에는 현재 장의 대본(지금 단계 강조), 다음에 말할 내용, 현재 화면, 경과 시간, 남은 대본 분량이 나온다. 시간은 처음 넘길 때부터 잰다. R 키나 시간을 누르면 0으로 돌아간다.\n- 주소 끝에 \`?presenter\`를 붙여 발표자 화면만 따로 열 수도 있다. 이때는 그 창 안의 작은 화면만 넘어간다.\n- 팝업이 차단되면 주소창의 팝업 허용을 누른다.\n\n`;
   const no = id => { const i = secs.findIndex(x => x.id === id); if (i < 0) throw new Error('장 없음: ' + id); return i + 1; };
-  md += `## 장별 분량\n\n| 장 | 제목 | 단계 | 분량 |\n|---:|---|---:|---:|\n` + secs.map((sc, i) => `| ${i + 1} | ${sc.title} | ${sc.builds} | ${mins(notes[sc.id].reduce((x, t) => x + len(t), 0))}분 |`).join('\n') + `\n\n시간이 부족하면 FWL 산점도(${no('s-fwl')}), 가중치의 성질(${no('s-gbw')}), 편향이 생기는 칸(${no('s-bias')}), 2×2 비교 하나씩 보기(${no('s-badcmp')}), Sun-Abraham 분해와 칸 하나 실험(${no('s-sa')}-${no('s-sacell')}), 구간 묶음과 정규화(${no('s-esbin')}), 세 대안의 비교(${no('s-comp')}), 논문 이후(${no('s-after')})를 건너뛰어도 앞뒤가 이어진다. 붙여 적은 두 장은 뒤 장이 앞 장을 받아 시작하므로 함께 건너뛴다. 사건연구 회귀의 구조(${no('s-esd')})는 다음 장이 이 장을 받아 시작하므로 건너뛰지 않는다. 건너뛸 때는 Shift와 오른쪽 화살표를 쓴다. 장마다 오른쪽 위의 \"핵심\", \"헷갈리기 쉬운 점\" 단추(또는 K 키)는 독해가이드의 같은 상자를 카드로 띄운다.\n\n---\n\n`;
-  md += secs.map((sc, i) => `## ${i + 1}. ${sc.title}\n\n` + notes[sc.id].map((t, b) => `- **${b === 0 ? '시작' : b + '단계'}.** ${t}`).join('\n')).join('\n\n') + '\n';
+  md += `## 장별 분량\n\n| 장 | 제목 | 단계 | 분량 |\n|---:|---|---:|---:|\n` + secs.map((sc, i) => `| ${i + 1} | ${sc.title} | ${sc.builds} | ${mins(notes[sc.id].reduce((x, t) => x + len(t), 0))}분 |`).join('\n') + `\n\n시간이 부족하면 FWL 산점도(${no('s-fwl')}), 가중치의 성질(${no('s-gbw')}), 2×2 비교 하나씩 보기(${no('s-badcmp')}), Sun-Abraham 분해와 칸 하나 실험(${no('s-sa')}-${no('s-sacell')}), 구간 묶음과 정규화(${no('s-esbin')}), 세 대안의 비교(${no('s-comp')}), 논문 이후(${no('s-after')})를 건너뛰어도 앞뒤가 이어진다. 붙여 적은 두 장은 뒤 장이 앞 장을 받아 시작하므로 함께 건너뛴다. 사건연구 회귀의 구조(${no('s-esd')})는 다음 장이 이 장을 받아 시작하므로 건너뛰지 않는다. 건너뛸 때는 Shift와 오른쪽 화살표를 쓴다. 장마다 오른쪽 위의 \"핵심\", \"헷갈리기 쉬운 점\" 단추(또는 K 키)는 독해가이드의 같은 상자를 카드로 띄운다.\n\n---\n\n`;
+  md += secs.map((sc, i) => `## ${i + 1}. ${sc.title}\n\n` + notes[sc.id].map((t, b) => `- **${b === 0 ? '시작' : b + '단계'}.** ${t}` + ((expl[sc.id] || [])[b] ? `\n  - *해설.* ${expl[sc.id][b]}` : '')).join('\n')).join('\n\n') + '\n';
   fs.writeFileSync(path.join(here, '../20261118_발표대본.md'), md);
-  console.log(`대본: ${Object.values(notes).reduce((a, x) => a + x.length, 0)}꼭지, 약 ${Math.round(tot / CPM)}분`); }
+  console.log(`대본: ${Object.values(notes).reduce((a, x) => a + x.length, 0)}꼭지, 약 ${Math.round(tot / CPM)}분`);
+  console.log(`해설: ${Object.values(expl).reduce((a, x) => a + x.filter(Boolean).length, 0)}꼭지, 빠진 단계 ${explMiss.length}개${explMiss.length ? ' (' + explMiss.slice(0, 8).join(' ') + (explMiss.length > 8 ? ' …' : '') + ')' : ''}`); }
 console.log(`빌드: ${path.basename(out)} ${(html.length / 1024).toFixed(0)}KB, 수식 ${nTex}개, 슬라이드 ${(slides.match(/<section /g) || []).length}장`);

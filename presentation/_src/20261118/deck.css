@@ -205,3 +205,11 @@ body.presenter #pv{display:flex;flex-direction:column;position:fixed;inset:0;col
 #pv.tab-guide #pv-list{display:none}
 #pv.tab-guide #pv-guide{display:block;flex:1;min-height:0}
 #pv-guide iframe{width:100%;height:100%;border:0;background:#16161a;color-scheme:dark}
+
+/* 발표자 화면: 대본 꼭지 아래의 단계별 해설 (expl-*.md). 발표 시간 계산에는 들어가지 않는다 */
+#pv-list li .pv-ex{font-size:17px;line-height:1.7;color:#8d8e96;margin-top:10px;padding:10px 0 2px 14px;border-left:2px solid #3a3b42;text-wrap:pretty}
+#pv-list li .pv-ex b{display:block;font-size:12.5px;letter-spacing:.12em;color:#6f7078;margin-bottom:2px}
+#pv-list li .pv-ex strong{color:#c9cad0;font-weight:700}
+#pv-list li.cur .pv-ex{color:#c9cad0;border-left-color:#8d8e96}
+#pv-list li.cur .pv-ex b{color:#9c9ea7}
+#pv-list li.cur .pv-ex strong{color:#fff}

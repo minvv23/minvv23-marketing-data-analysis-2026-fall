@@ -120,7 +120,10 @@ const DK = (function () {
   /* ---------- 대본, 발표자 화면 ----------
      대본은 빌드가 넣는 DECK_NOTES = {장 id: [0단계, 1단계, ...]}. N 키는 무대 아래에 대본을 띄우고, P 키는 발표자 화면(?presenter)을 새 창으로 연다.
      창 사이에는 postMessage로 {deck:'state'|'go'|'cmd'|'hello'}를 주고받는다 (file:// 에서도 동작). */
-  const NOTES = (typeof DECK_NOTES !== 'undefined') ? DECK_NOTES : {};
+  const NOTES = (typeof DECK_NOTES !== 'undefined') ? DECK_NOTES : {}, EXPL = (typeof DECK_EXPL !== 'undefined') ? DECK_EXPL : {};
+  const explOf = (s, b) => { const a = slides[s] && EXPL[slides[s].id]; return (a && a[b]) || ''; };
+  const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const exHTML = t => t ? `<div class="pv-ex"><b>해설</b>${esc(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')}</div>` : '';
   const GUIDE = '20261118-guide/index.html';   // 발표자 화면의 장 해설이 띄우는 독해가이드
   const QS = new URLSearchParams(location.search), PRES = QS.has('presenter'), EMBED = QS.has('embed'), BASE = location.href.split(/[?#]/)[0];
   let pw = null;
@@ -212,7 +215,7 @@ const DK = (function () {
       if (s !== cur[0]) { const kx = $('.kbx', slides[s]);
         $('#pv-kb').innerHTML = kx ? $$('aside', kx).map(a => `<div class="pv-kbi ${a.dataset.k === '핵심' ? 'key' : 'warn'}"><b>${a.dataset.k}</b>${a.innerHTML}</div>`).join('') : '';
         $('#pv-title').textContent = `${s + 1}. ${titleOf(s)}`;
-        $('#pv-list').innerHTML = Array.from({ length: builds[s] + 1 }, (_, k) => `<li data-k="${k === 0 ? '시작' : k}">${noteOf(s, k).replace(/&/g, '&amp;').replace(/</g, '&lt;') || '(대본 없음)'}</li>`).join(''); }
+        $('#pv-list').innerHTML = Array.from({ length: builds[s] + 1 }, (_, k) => `<li data-k="${k === 0 ? '시작' : k}"><div class="pv-sc">${esc(noteOf(s, k)) || '(대본 없음)'}</div>${exHTML(explOf(s, k))}</li>`).join(''); }
       cur = [s, b];
       $$('#pv-list li').forEach((li, k) => { li.classList.toggle('cur', k === b); li.classList.toggle('past', k < b); });
       const li = $$('#pv-list li')[b]; if (li) li.scrollIntoView({ block: 'center', behavior: 'smooth' });

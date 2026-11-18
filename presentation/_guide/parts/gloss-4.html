@@ -31,7 +31,7 @@
 <dd><p>서로 다른 도입 시점(코호트)의 개수다. 단위별 도입 시점 <tex>G_i</tex>와 같은 글자이지만 여기서는 개수를 가리킨다.</p><span class="ex">덱 10장 행렬: 6. U, k, l 예제: 2.</span></dd>
 
 <dt data-k="qMu"><tex>\mu_\ell</tex> 사건연구 계수</dt>
-<dd><p>상대시점 <tex>\ell</tex>의 더미 <tex>D^{\ell}_{it}</tex>에 붙는 계수이며 기준기간(덱에서는 −1기) 대비 차이로 읽는다. 모자 기호가 붙은 <tex>\hat\mu_\ell</tex>은 자료로 추정한 값이다.</p><span class="ex">덱 18장: 기준 −1기를 제외한 12개 계수.</span></dd>
+<dd><p>상대시점 <tex>\ell</tex>의 더미 <tex>D^{\ell}_{it}</tex>에 붙는 계수이며 기준기간(덱에서는 −1기) 대비 차이로 읽는다. 모자 기호가 붙은 <tex>\hat\mu_\ell</tex>은 자료로 추정한 값이다.</p><span class="ex">덱 17장: 기준 −1기를 제외한 12개 계수.</span></dd>
 
 <dt data-k="qDl"><tex>D^{\ell}_{it}</tex> 상대시점 더미</dt>
 <dd><p>단위 <tex>i</tex>가 <tex>t</tex>기에 상대시점 <tex>\ell</tex>에 있으면 1, 아니면 0인 열이다. 같은 열이 서로 다른 코호트의 서로 다른 달력 연도에서 1이 된다. 묶음 더미는 여러 상대시점에서 함께 1이다.</p><span class="ex">예: <tex>D^{+3}</tex>는 1989년 코호트의 1992년, 1998년 코호트의 2001년, 2007년 코호트의 2010년에 1.</span></dd>
@@ -40,46 +40,46 @@
 <dd><p>−1기를 제외한 모든 상대시점 더미와 계수의 곱을 더한다. −1기를 제외해야 더미들과 단위 고정효과 사이의 완전공선성이 해소된다.</p></dd>
 
 <dt data-k="qBeta"><tex>\hat\beta_{-3}</tex> −3기 사건연구 계수</dt>
-<dd><p>덱 19장 화면이 사용한 글자다. 18장의 <tex>\hat\mu_{-3}</tex>와 같은 계수이며 도입 3년 전과 기준기간(−1기)의 차이를 추정한다. 사전추세가 없으면 참값은 0이다.</p><span class="ex">덱의 재계산(사전추세 없는 자료): 0.084σ.</span></dd>
+<dd><p>덱 18장 화면이 사용한 글자다. 17장의 <tex>\hat\mu_{-3}</tex>와 같은 계수이며 도입 3년 전과 기준기간(−1기)의 차이를 추정한다. 사전추세가 없으면 참값은 0이다.</p><span class="ex">덱의 재계산(사전추세 없는 자료): 0.084σ.</span></dd>
 
 <dt data-k="qTauG"><tex>\tau^{t}_{g}</tex> 코호트의 연도별 효과</dt>
 <dd><p>위 첨자는 달력 연도, 아래 첨자는 코호트의 도입 연도 끝 두 자리다. <tex>g</tex>년 코호트가 <tex>t</tex>년에 받은 처치효과를 가리킨다.</p><span class="ex">예: <tex>\tau^{1997}_{89}</tex>는 1989년 코호트의 1997년(도입 8년차) 효과.</span></dd>
 
 <dt data-k="qWl"><tex>w^{\ell}_{g,\ell'}</tex> Sun-Abraham 가중치</dt>
-<dd><p>상대시점 <tex>\ell</tex>의 사건연구 계수가 코호트 <tex>g</tex>의 도입 <tex>\ell'</tex>년차 효과에 부여하는 비중이다. <tex>\ell' = \ell</tex>인 칸들의 합은 1이고 다른 구간은 구간마다 합이 0이다. 회귀식의 구조만으로 정해진다 (원문 식 14).</p><span class="ex">덱 20장 +3기 계수: 1989년 코호트 8년차 +0.18, 12년차 −0.18.</span></dd>
+<dd><p>상대시점 <tex>\ell</tex>의 사건연구 계수가 코호트 <tex>g</tex>의 도입 <tex>\ell'</tex>년차 효과에 부여하는 비중이다. <tex>\ell' = \ell</tex>인 칸들의 합은 1이고 다른 구간은 구간마다 합이 0이다. 회귀식의 구조만으로 정해진다 (원문 식 14).</p><span class="ex">덱 19장 +3기 계수: 1989년 코호트 8년차 +0.18, 12년차 −0.18.</span></dd>
 
 <dt data-k="qCatt"><tex>\mathrm{CATT}_{g,\ell}</tex> 코호트별 상대시점 효과</dt>
 <dd><p>cohort-specific ATT. 코호트 <tex>g</tex>의 도입 <tex>\ell</tex>년차 평균처치효과다. 칸별 효과 <tex>ATT(g, t)</tex>를 달력 연도 대신 상대시점으로 색인한 것과 같다.</p></dd>
 
 <dt data-k="qAtt"><tex>ATT(g, t)</tex> 코호트-시점별 평균처치효과</dt>
-<dd><p><tex>g</tex>기에 도입한 코호트가 <tex>t</tex>기에 받은 평균처치효과다. Callaway-Sant'Anna 추정량은 이 값을 칸마다 2×2로 구한 뒤 연구자가 정한 방식으로 평균한다.</p><span class="ex">덱 23장 예: ATT(k, 2기) = 1, ATT(l, 5기) = 3.</span></dd>
+<dd><p><tex>g</tex>기에 도입한 코호트가 <tex>t</tex>기에 받은 평균처치효과다. Callaway-Sant'Anna 추정량은 이 값을 칸마다 2×2로 구한 뒤 연구자가 정한 방식으로 평균한다.</p><span class="ex">덱 22장 예: ATT(k, 2기) = 1, ATT(l, 5기) = 3.</span></dd>
 
 <dt data-k="qYbar"><tex>\bar Y_{g,t}</tex> 코호트의 시점별 평균 결과</dt>
 <dd><p>코호트 <tex>g</tex>에 속한 단위들의 <tex>t</tex>기 종속변수 평균이다. <tex>\bar Y_{g,g-1}</tex>은 도입 직전 해의 평균이며 CS의 사후 칸은 모두 이 값을 기준으로 삼는다.</p></dd>
 
 <dt data-k="qYC"><tex>\bar Y_{C,t}</tex> 비교집단의 시점별 평균 결과</dt>
-<dd><p>비교집단 <tex>C</tex>에 속한 단위들의 <tex>t</tex>기 종속변수 평균이다. <tex>C</tex>는 <tex>t</tex>기까지 처치받지 않은 단위(아직 미처치나 미처치)로만 구성한다.</p><span class="ex">덱 23장: ATT(k, 3기)는 U와 l, ATT(k, 4기)는 U만.</span></dd>
+<dd><p>비교집단 <tex>C</tex>에 속한 단위들의 <tex>t</tex>기 종속변수 평균이다. <tex>C</tex>는 <tex>t</tex>기까지 처치받지 않은 단위(아직 미처치나 미처치)로만 구성한다.</p><span class="ex">덱 22장: ATT(k, 3기)는 U와 l, ATT(k, 4기)는 U만.</span></dd>
 
 <dt data-k="qStk"><tex>\hat\delta^{\text{stack}}</tex> stacked 계수</dt>
-<dd><p>사건별 자료를 쌓고 자료별 고정효과를 넣어 추정한 TWFE 계수다. 자료별 DID를 <tex>\omega_s</tex>로 가중평균한 값과 같다.</p><span class="ex">덱 24장 예: 122/31 ≈ 3.94.</span></dd>
+<dd><p>사건별 자료를 쌓고 자료별 고정효과를 넣어 추정한 TWFE 계수다. 자료별 DID를 <tex>\omega_s</tex>로 가중평균한 값과 같다.</p><span class="ex">덱 23장 예: 122/31 ≈ 3.94.</span></dd>
 
 <dt data-k="qDs"><tex>\hat\delta_s</tex> 사건 자료 s의 계수</dt>
-<dd><p>사건 자료 <tex>s</tex> 하나만으로 추정한 TWFE 계수다. 그 자료에는 이미 처치된 단위가 없으므로 정상적인 DID다.</p><span class="ex">덱 24장 예: k 자료 2, l 자료 6.</span></dd>
+<dd><p>사건 자료 <tex>s</tex> 하나만으로 추정한 TWFE 계수다. 그 자료에는 이미 처치된 단위가 없으므로 정상적인 DID다.</p><span class="ex">덱 23장 예: k 자료 2, l 자료 6.</span></dd>
 
 <dt data-k="qOm"><tex>\omega_s</tex> 사건 자료의 가중치</dt>
-<dd><p>사건 자료 <tex>s</tex> 안에서 고정효과를 제거한 처치변수의 제곱합 <tex>\sum \tilde D^2</tex>이다. 처치 단위 비율과 사후 기간 비율이 1/2에 가까울수록, 관측치가 많을수록 크다. 처치 단위 수와는 비례하지 않는다.</p><span class="ex">덱 24장 예: k 자료 8/15, l 자료 1/2, 비율 16 : 15.</span></dd>
+<dd><p>사건 자료 <tex>s</tex> 안에서 고정효과를 제거한 처치변수의 제곱합 <tex>\sum \tilde D^2</tex>이다. 처치 단위 비율과 사후 기간 비율이 1/2에 가까울수록, 관측치가 많을수록 크다. 처치 단위 수와는 비례하지 않는다.</p><span class="ex">덱 23장 예: k 자료 8/15, l 자료 1/2, 비율 16 : 15.</span></dd>
 
 <dt data-k="qNs"><tex>N_s</tex> 사건 자료의 단위 수</dt>
-<dd><p>사건 자료 <tex>s</tex>에 들어간 처치 단위와 비교 단위의 합이다.</p><span class="ex">덱 24장 예: k 자료 5, l 자료 4.</span></dd>
+<dd><p>사건 자료 <tex>s</tex>에 들어간 처치 단위와 비교 단위의 합이다.</p><span class="ex">덱 23장 예: k 자료 5, l 자료 4.</span></dd>
 
 <dt data-k="qTs"><tex>T_s</tex> 사건 자료의 시점 수</dt>
-<dd><p>사건창의 길이, 곧 사건 자료 <tex>s</tex>에 들어간 시점의 개수다.</p><span class="ex">덱 24장 예: 두 자료 모두 3.</span></dd>
+<dd><p>사건창의 길이, 곧 사건 자료 <tex>s</tex>에 들어간 시점의 개수다.</p><span class="ex">덱 23장 예: 두 자료 모두 3.</span></dd>
 
 <dt data-k="qP"><tex>p_s</tex> 처치 단위 비율</dt>
-<dd><p>사건 자료 <tex>s</tex>의 단위 가운데 처치 단위의 비율이다. <tex>p_s(1 - p_s)</tex>는 단위 차원에서 처치 여부의 분산이며 <tex>p_s = 1/2</tex>일 때 가장 크다.</p><span class="ex">덱 24장 예: k 자료 1/5, l 자료 3/4.</span></dd>
+<dd><p>사건 자료 <tex>s</tex>의 단위 가운데 처치 단위의 비율이다. <tex>p_s(1 - p_s)</tex>는 단위 차원에서 처치 여부의 분산이며 <tex>p_s = 1/2</tex>일 때 가장 크다.</p><span class="ex">덱 23장 예: k 자료 1/5, l 자료 3/4.</span></dd>
 
 <dt data-k="qQ"><tex>q_s</tex> 사후 기간 비율</dt>
-<dd><p>사건 자료 <tex>s</tex>의 시점 가운데 도입 후 시점의 비율이다. <tex>q_s(1 - q_s)</tex>는 시간 차원의 분산이다.</p><span class="ex">덱 24장 예: 두 자료 모두 2/3.</span></dd>
+<dd><p>사건 자료 <tex>s</tex>의 시점 가운데 도입 후 시점의 비율이다. <tex>q_s(1 - q_s)</tex>는 시간 차원의 분산이다.</p><span class="ex">덱 23장 예: 두 자료 모두 2/3.</span></dd>
 
 <dt data-k="qAtdd"><tex>ATT(a \mid b)</tex> 연속형 처치의 효과</dt>
 <dd><p>처치량 <tex>b</tex>를 실제로 받은 단위들에 처치량 <tex>a</tex>가 처치량 0 대비 미치는 평균효과다. <tex>ATT(d \mid d)</tex>는 각 단위가 실제로 받은 처치량의 효과다 (Callaway, Goodman-Bacon, Sant'Anna).</p></dd>
